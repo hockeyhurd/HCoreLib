@@ -1,5 +1,13 @@
 package com.hockeyhurd.util;
 
+/**
+ * Example class, used directly for this core mode.
+ * DO NOT: change this!
+ * DO Not: use this!
+ * DO: Make your own reference class
+ * WELCOMED: to copy this layout as an example.
+ * @author Nick
+ */
 public class LibReference extends AbstractReference {
 
 	/** Current build number. */

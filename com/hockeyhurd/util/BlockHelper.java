@@ -156,4 +156,12 @@ public class BlockHelper {
 	public void setBlock(Vector4Helper<Integer> vec, Block block) {
 		setBlock(vec, block, 0);
 	}
+	
+	public void setBlockToAir(int x, int y, int z) {
+		world.setBlockToAir(x, y, z);
+	}
+	
+	public void setBlockToAir(Vector4Helper<Integer> vec) {
+		setBlockToAir(vec.getX(), vec.getY(), vec.getZ());
+	}
 }
