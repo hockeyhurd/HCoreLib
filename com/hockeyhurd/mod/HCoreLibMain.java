@@ -1,5 +1,8 @@
 package com.hockeyhurd.mod;
 
+import net.minecraft.creativetab.CreativeTabs;
+
+import com.hockeyhurd.creativetab.ModCreativeTab;
 import com.hockeyhurd.math.TimeLapse;
 import com.hockeyhurd.util.LibReference;
 import com.hockeyhurd.util.LogHelper;
@@ -21,6 +24,9 @@ public class HCoreLibMain {
 	@Instance(LibReference.MOD_NAME)
 	public static HCoreLibMain instance;
 	public static final String modID = LibReference.MOD_NAME;
+	public static final String assetDir = "hcorelib:";
+	
+	public static CreativeTabs myCreativeTab = new ModCreativeTab(CreativeTabs.getNextID(), "HCoreLib");
 	
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
