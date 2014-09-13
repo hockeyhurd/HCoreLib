@@ -34,7 +34,7 @@ public class HCoreLibMain {
 	public void init(FMLInitializationEvent event) {
 		LogHelper.info("Init started, looking for config info!");
 		TimeLapse tl = new TimeLapse();
-		
+
 		LogHelper.info("Init finished succesfully after", tl.getEffectiveTimeSince(), "ms!");
 	}
 	

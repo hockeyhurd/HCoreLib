@@ -11,6 +11,9 @@ public abstract class AbstractReference {
 	/** Current mod name. */
 	public static String MOD_NAME;
 	
+	/** Not required but is available. NOTE: if not using it, set to null! */
+	public static String MOD_URL;
+	
 	/**
 	 * To use this class referencing, simple extend this class with your own and plug-in your own values.
 	 * NOTE: Class is mostly provided as a framework for this type of localized management.
