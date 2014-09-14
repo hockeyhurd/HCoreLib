@@ -11,7 +11,7 @@ package com.hockeyhurd.util;
 public class LibReference extends AbstractReference {
 
 	/** Current build number. */
-	public static final short BUILD = 1;
+	public static final short BUILD = 2;
 	
 	/** Current version with included build number. */
 	public static final String VERSION = "v1.1." + BUILD;

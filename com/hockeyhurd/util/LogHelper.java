@@ -2,13 +2,22 @@ package com.hockeyhurd.util;
 
 import org.apache.logging.log4j.Level;
 
-import com.hockeyhurd.mod.HCoreLibMain;
-
 import cpw.mods.fml.common.FMLLog;
 
 public class LogHelper {
 
+	private static String mod_name;
+	
 	public LogHelper() {
+	}
+	
+	public static void init(Class<? extends AbstractReference> reference) {
+		try {
+			mod_name = reference.getDeclaredField("MOD_NAME").get(reference).toString();
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		};
 	}
 	
 	/**
@@ -17,7 +26,7 @@ public class LogHelper {
 	 * @param object = object to print
 	 */
 	public static void log(Level logLevel, Object object) {
-		FMLLog.log(HCoreLibMain.modID, logLevel, String.valueOf(object));
+		FMLLog.log(mod_name, logLevel, String.valueOf(object));
 	}
 
 	/**

@@ -30,6 +30,8 @@ public class HCoreLibMain {
 	
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
+		LogHelper.init(LibReference.class);
+		
 		LogHelper.info("Pre-init started, looking for config info!");
 		TimeLapse tl = new TimeLapse();
 		
