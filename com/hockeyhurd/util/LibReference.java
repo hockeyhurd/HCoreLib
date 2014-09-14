@@ -20,7 +20,7 @@ public class LibReference extends AbstractReference {
 	public static final String MOD_NAME = "HCoreLib";
 	
 	/** Not required but is available. NOTE: if not using it, set to null! */
-	public static final String MOD_URL = "http://75.68.113.97:8080/downloads/versions/HCoreLib-1.1.";
+	public static final String MOD_URL = "http://75.68.113.97:8080/downloads/" + MOD_NAME.toLowerCase() + "/versions/HCoreLib-1.1.";
 	
 	public LibReference() {
 	}
