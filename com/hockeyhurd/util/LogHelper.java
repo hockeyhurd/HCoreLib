@@ -6,12 +6,9 @@ import cpw.mods.fml.common.FMLLog;
 
 public class LogHelper {
 
-	private static String mod_name;
+	private String mod_name;
 	
-	public LogHelper() {
-	}
-	
-	public static void init(Class<? extends AbstractReference> reference) {
+	public LogHelper(Class<? extends AbstractReference> reference) {
 		try {
 			mod_name = reference.getDeclaredField("MOD_NAME").get(reference).toString();
 		}
@@ -25,7 +22,7 @@ public class LogHelper {
 	 * @param logLevel = level of logging
 	 * @param object = object to print
 	 */
-	public static void log(Level logLevel, Object object) {
+	public void log(Level logLevel, Object object) {
 		FMLLog.log(mod_name, logLevel, String.valueOf(object));
 	}
 
@@ -34,7 +31,7 @@ public class LogHelper {
 	 * @param level = level of logging
 	 * @param objects = object array to print
 	 */
-	public static void log(Level level, Object... objects) {
+	public void log(Level level, Object... objects) {
 		String text = "";
 		for (Object obj : objects) {
 			text += String.valueOf(obj) + " ";
@@ -47,7 +44,7 @@ public class LogHelper {
 	 * Simple static method for providing info through an object.
 	 * @param object = object to print
 	 */
-	public static void info(Object object) {
+	public void info(Object object) {
 		log(Level.INFO, object);
 	}
 	
@@ -56,7 +53,7 @@ public class LogHelper {
 	 * Simple static method for providing info through an object array.
 	 * @param objects = object array to print.
 	 */
-	public static void info(Object... objects) {
+	public void info(Object... objects) {
 		log(Level.INFO, objects);
 	}
 	
@@ -64,7 +61,7 @@ public class LogHelper {
 	 * Simple static method for providing a warning through an object.
 	 * @param object = object to print
 	 */
-	public static void warn(Object object) {
+	public void warn(Object object) {
 		log(Level.WARN, object);
 	}
 	
@@ -72,7 +69,7 @@ public class LogHelper {
 	 * Simple static method for providing a warning through an object array.
 	 * @param objects = object array to print
 	 */
-	public static void warn(Object... objects) {
+	public void warn(Object... objects) {
 		log(Level.WARN, objects);
 	}
 	
@@ -80,7 +77,7 @@ public class LogHelper {
 	 * Simple static method for providing a severe-warning through an object.
 	 * @param object = object to print
 	 */
-	public static void severe(Object object) {
+	public void severe(Object object) {
 		log(Level.ERROR, object);
 	}
 	
@@ -88,7 +85,7 @@ public class LogHelper {
 	 * Simple static method for providing a severe-warning through an object array.
 	 * @param objects = object array to print
 	 */
-	public static void severe(Object... objects) {
+	public void severe(Object... objects) {
 		log(Level.ERROR, objects);
 	}
 

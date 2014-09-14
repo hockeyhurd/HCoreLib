@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import com.hockeyhurd.mod.HCoreLibMain;
+
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -26,7 +28,7 @@ public class ChunkHelper {
 	public void searchChunk(Block blockToFind) {
 		// Make sure I didn't derp up anything and the block to be searched for is an actual block.
 		if (blockToFind == null || !bh.blockListContains(blockToFind)) {
-			LogHelper.severe("Block to find is not a block!");
+			HCoreLibMain.lh.severe("Block to find is not a block!");
 			return;
 		}
 		int xPos = (int) player.posX;

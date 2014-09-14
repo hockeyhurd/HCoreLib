@@ -1,5 +1,7 @@
 package com.hockeyhurd.util;
 
+import com.hockeyhurd.mod.HCoreLibMain;
+
 public class TimerHelper {
 
 	public final int resetVal;
@@ -13,7 +15,7 @@ public class TimerHelper {
 			this.buffer = buffer;
 		}
 		else {
-			LogHelper.warn("Constructor value is less than 0! Defaulting timer to 20 ticks or 1 second with no buffer!");
+			HCoreLibMain.lh.warn("Constructor value is less than 0! Defaulting timer to 20 ticks or 1 second with no buffer!");
 			this.resetVal = this.tick = 20;
 			this.buffer = 0;
 		}

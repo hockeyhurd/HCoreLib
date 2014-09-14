@@ -4,6 +4,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.HashMap;
 
+import com.hockeyhurd.mod.HCoreLibMain;
 import com.hockeyhurd.util.AbstractReference;
 import com.hockeyhurd.util.LogHelper;
 
@@ -130,8 +131,8 @@ public class UpdateHandler {
 		}
 		catch (Exception e) {
 			// e.printStackTrace();
-			LogHelper.warn("Could not find requested url!", urlCheck);
-			LogHelper.warn("Update server must be down or this build has not yet been released properly!");
+			HCoreLibMain.lh.warn("Could not find requested url!", urlCheck);
+			HCoreLibMain.lh.warn("Update server must be down or this build has not yet been released properly!");
 			return false;
 		}
 	}

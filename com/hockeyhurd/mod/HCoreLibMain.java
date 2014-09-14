@@ -23,6 +23,7 @@ public class HCoreLibMain {
 	
 	@Instance(LibReference.MOD_NAME)
 	public static HCoreLibMain instance;
+	public static LogHelper lh;
 	public static final String modID = LibReference.MOD_NAME;
 	public static final String assetDir = "hcorelib:";
 	
@@ -30,28 +31,28 @@ public class HCoreLibMain {
 	
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
-		LogHelper.init(LibReference.class);
+		lh = new LogHelper(LibReference.class);
 		
-		LogHelper.info("Pre-init started, looking for config info!");
+		lh.info("Pre-init started, looking for config info!");
 		TimeLapse tl = new TimeLapse();
 		
-		LogHelper.info("Pre-init finished succesfully after", tl.getEffectiveTimeSince(), "ms!");
+		lh.info("Pre-init finished succesfully after", tl.getEffectiveTimeSince(), "ms!");
 	}
 	
 	@EventHandler
 	public void init(FMLInitializationEvent event) {
-		LogHelper.info("Init started, looking for config info!");
+		lh.info("Init started, looking for config info!");
 		TimeLapse tl = new TimeLapse();
 
-		LogHelper.info("Init finished succesfully after", tl.getEffectiveTimeSince(), "ms!");
+		lh.info("Init finished succesfully after", tl.getEffectiveTimeSince(), "ms!");
 	}
 	
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent event) {
-		LogHelper.info("Post-init started, looking for config info!");
+		lh.info("Post-init started, looking for config info!");
 		TimeLapse tl = new TimeLapse();
 		
-		LogHelper.info("Post-init finished succesfully after", tl.getEffectiveTimeSince(), "ms!");
+		lh.info("Post-init finished succesfully after", tl.getEffectiveTimeSince(), "ms!");
 	}
 	
 	public HCoreLibMain() {
