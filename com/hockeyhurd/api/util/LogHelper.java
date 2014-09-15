@@ -1,4 +1,4 @@
-package com.hockeyhurd.util;
+package com.hockeyhurd.api.util;
 
 import org.apache.logging.log4j.Level;
 

@@ -5,7 +5,7 @@
  *  figure out What Am I Looking At? :)
  */
 
-package com.hockeyhurd.util;
+package com.hockeyhurd.api.util;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +21,7 @@ import net.minecraft.util.MovingObjectPosition.MovingObjectType;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
-import com.hockeyhurd.math.Vector4Helper;
+import com.hockeyhurd.api.math.Vector4Helper;
 
 /**
  * Partially re-written and should be slightly more modular.

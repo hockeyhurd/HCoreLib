@@ -1,12 +1,11 @@
-package com.hockeyhurd.handler;
+package com.hockeyhurd.api.handler;
 
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.HashMap;
 
+import com.hockeyhurd.api.util.AbstractReference;
 import com.hockeyhurd.mod.HCoreLibMain;
-import com.hockeyhurd.util.AbstractReference;
-import com.hockeyhurd.util.LogHelper;
 
 public class UpdateHandler {
 

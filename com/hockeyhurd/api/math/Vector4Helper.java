@@ -1,4 +1,4 @@
-package com.hockeyhurd.math;
+package com.hockeyhurd.api.math;
 
 public class Vector4Helper<N> {
 

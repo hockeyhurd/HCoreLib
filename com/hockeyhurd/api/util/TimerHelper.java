@@ -1,4 +1,4 @@
-package com.hockeyhurd.util;
+package com.hockeyhurd.api.util;
 
 import com.hockeyhurd.mod.HCoreLibMain;
 

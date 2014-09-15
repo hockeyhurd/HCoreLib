@@ -1,16 +1,16 @@
-package com.hockeyhurd.util;
+package com.hockeyhurd.api.util;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
-import com.hockeyhurd.mod.HCoreLibMain;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
+
+import com.hockeyhurd.mod.HCoreLibMain;
 
 public class ChunkHelper {
 

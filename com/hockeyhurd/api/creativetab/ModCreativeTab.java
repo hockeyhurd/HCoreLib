@@ -1,4 +1,4 @@
-package com.hockeyhurd.creativetab;
+package com.hockeyhurd.api.creativetab;
 
 public class ModCreativeTab extends AbstractCreativeTab {
 

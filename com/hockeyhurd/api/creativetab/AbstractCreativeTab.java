@@ -1,4 +1,4 @@
-package com.hockeyhurd.creativetab;
+package com.hockeyhurd.api.creativetab;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;

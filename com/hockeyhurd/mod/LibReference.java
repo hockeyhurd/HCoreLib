@@ -1,4 +1,6 @@
-package com.hockeyhurd.util;
+package com.hockeyhurd.mod;
+
+import com.hockeyhurd.api.util.AbstractReference;
 
 /**
  * Example class, used directly for this core mode.
@@ -11,7 +13,7 @@ package com.hockeyhurd.util;
 public class LibReference extends AbstractReference {
 
 	/** Current build number. */
-	public static final short BUILD = 2;
+	public static final short BUILD = 3;
 	
 	/** Current version with included build number. */
 	public static final String VERSION = "v1.1." + BUILD;

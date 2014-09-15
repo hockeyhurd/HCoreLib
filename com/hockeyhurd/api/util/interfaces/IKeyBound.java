@@ -1,4 +1,4 @@
-package com.hockeyhurd.util.interfaces;
+package com.hockeyhurd.api.util.interfaces;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;

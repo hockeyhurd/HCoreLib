@@ -1,4 +1,4 @@
-package com.hockeyhurd.util;
+package com.hockeyhurd.api.util;
 
 public abstract class AbstractReference {
 

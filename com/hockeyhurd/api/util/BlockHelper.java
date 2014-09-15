@@ -1,4 +1,4 @@
-package com.hockeyhurd.util;
+package com.hockeyhurd.api.util;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -6,7 +6,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 
-import com.hockeyhurd.math.Vector4Helper;
+import com.hockeyhurd.api.math.Vector4Helper;
 import com.hockeyhurd.mod.HCoreLibMain;
 
 public class BlockHelper {

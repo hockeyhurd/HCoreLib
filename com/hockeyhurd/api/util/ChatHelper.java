@@ -1,4 +1,4 @@
-package com.hockeyhurd.util;
+package com.hockeyhurd.api.util;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.event.ClickEvent;

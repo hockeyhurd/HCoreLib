@@ -1,4 +1,4 @@
-package com.hockeyhurd.block;
+package com.hockeyhurd.api.block;
 
 import java.util.Random;
 
