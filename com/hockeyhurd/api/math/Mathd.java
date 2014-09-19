@@ -182,5 +182,34 @@ public class Mathd {
 		return value >= 0.0d ? value : value * -1;
 	}
 	
+	/**
+	 * Simple method for rounding quickly to nearest hundredths place.
+	 * @param value = input raw value
+	 * @return new value to nearest hundredth.
+	 */
+	public static double round(double value) {
+		return Math.round(value * 100.0) / 100.0;
+	}
+	
+	/**
+	 * Simple method for rounding to nearest specified decimal place. NOTE: must be >= 1!
+	 * @param value = value to round
+	 * @param decPlaces = number of decimal places to round to (default: 1).
+	 * @return rounded number to defined decimal place.
+	 */
+	public static double round(double value, int decPlaces) {
+		if (decPlaces < 1) decPlaces = 1;
+		
+		String valString = "1";
+		for (int i = 0; i < decPlaces; i++) {
+			valString += "0";
+		}
+		valString += ".0";
+		
+		double val = Double.parseDouble(valString);
+		double ret = Math.round(value * val) / val;
+		return ret;
+	}
+	
 }
 
