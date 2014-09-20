@@ -17,18 +17,16 @@ public class CommonProxy {
 	}
 	
 	public void init() {
+		registerMCForgeEventHandlers();
 	}
-
-	protected void registerUpdateChecker() {
+	
+	protected void registerMCForgeEventHandlers() {
 		updateHandler = new UpdateHandler(LibReference.class);
 		updateHandler.check();
 		updateMap = updateHandler.getMap();
 		updateFlag = updateHandler.getUpToDate();
-
+		
 		MinecraftForge.EVENT_BUS.register(new NotifyPlayerOnJoinHandler(updateHandler, updateMap, LibReference.class, updateFlag));
-	}
-	
-	protected void registerMCForgeEventHandlers() {
 	}
 	
 }
