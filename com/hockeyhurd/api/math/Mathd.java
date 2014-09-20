@@ -43,7 +43,7 @@ public class Mathd {
 	 * @param radians = radians input
 	 * @return absoulute value of secant(radians).
 	 */
-	public static double asec(double radians) {
+	public static double absSec(double radians) {
 		return abs(1.0d / cos(radians));
 	}
 	
@@ -61,7 +61,7 @@ public class Mathd {
 	 * @param radians = radians input
 	 * @return absoulute value of cosecant(radians).
 	 */
-	public static double acsc(double radians) {
+	public static double absCsc(double radians) {
 		return abs(1.0d / sin(radians));
 	}
 	
@@ -79,7 +79,7 @@ public class Mathd {
 	 * @param radians = radians input
 	 * @return absoulute value of contangent(radians)
 	 */
-	public static double acoTan(double radians) {
+	public static double absCoTan(double radians) {
 		return abs(cos(radians) / sin(radians));
 	}
 	
@@ -97,7 +97,7 @@ public class Mathd {
 	 * @param radians = radians input
 	 * @return Absolute value cos of angle
 	 */
-	public static double acos(double radians) {
+	public static double absCos(double radians) {
 		return abs(cos(radians));
 	}
 	
@@ -115,8 +115,8 @@ public class Mathd {
 	 * @param radians = radians input
 	 * @return Absolute value of cosine^-1 of angle
 	 */
-	public static double acosInv(double radians) {
-		return Math.pow(acos(radians), -1);
+	public static double absCosInv(double radians) {
+		return Math.pow(absCos(radians), -1);
 	}
 	
 	/**
@@ -133,7 +133,7 @@ public class Mathd {
 	 * @param radians = radians input
 	 * @return Absolute value sin of angle
 	 */
-	public static double asin(double radians) {
+	public static double absSin(double radians) {
 		return abs(sin(radians));
 	}
 	
@@ -151,8 +151,8 @@ public class Mathd {
 	 * @param radians = radians input
 	 * @return Absolute value of sine^-1 of angle
 	 */
-	public static double asinInv(double radians) {
-		return Math.pow(asin(radians), -1);
+	public static double absSinInv(double radians) {
+		return Math.pow(absSin(radians), -1);
 	}
 	
 	/**
@@ -169,7 +169,7 @@ public class Mathd {
 	 * @param radians = radians input
 	 * @return Absolute value tan of angle
 	 */
-	public static double atan(double radians) {
+	public static double absTan(double radians) {
 		return abs(tan(radians));
 	}
 	
