@@ -35,7 +35,6 @@ public class UpdateHandler {
 		
 		this.currentBuild = val;
 		this.url = vUrl;
-		System.err.println(this.url);
 	}
 
 	/**

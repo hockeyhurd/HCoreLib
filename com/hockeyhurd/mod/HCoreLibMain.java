@@ -30,26 +30,32 @@ public class HCoreLibMain {
 	
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
+		TimeLapse tl = new TimeLapse();
 		lh = new LogHelper(LibReference.class);
 		
 		lh.info("Pre-init started, looking for config info!");
-		TimeLapse tl = new TimeLapse();
 		
 		lh.info("Pre-init finished succesfully after", tl.getEffectiveTimeSince(), "ms!");
 	}
 	
 	@EventHandler
 	public void init(FMLInitializationEvent event) {
-		lh.info("Init started, looking for config info!");
 		TimeLapse tl = new TimeLapse();
+		lh.info("Init started, looking for config info!");
 
+		proxy.init();
+		
 		lh.info("Init finished succesfully after", tl.getEffectiveTimeSince(), "ms!");
 	}
 	
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent event) {
-		lh.info("Post-init started, looking for config info!");
 		TimeLapse tl = new TimeLapse();
+		lh.info("Post-init started, looking for config info!");
+		
+		proxy.registerUpdateChecker();
+		if (!proxy.updateFlag) lh.warn("Found an update!");
+		else lh.info("Everything is up to date!");
 		
 		lh.info("Post-init finished succesfully after", tl.getEffectiveTimeSince(), "ms!");
 	}
