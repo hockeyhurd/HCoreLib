@@ -53,7 +53,7 @@ public class HCoreLibMain {
 		TimeLapse tl = new TimeLapse();
 		lh.info("Post-init started, looking for config info!");
 		
-		// proxy.registerUpdateChecker();
+		proxy.registerUpdateHandler();
 		if (!proxy.updateFlag) lh.warn("Found an update!");
 		else lh.info("Everything is up to date!");
 		

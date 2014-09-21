@@ -21,6 +21,9 @@ public class CommonProxy {
 	}
 	
 	protected void registerMCForgeEventHandlers() {
+	}
+	
+	public void registerUpdateHandler() {
 		updateHandler = new UpdateHandler(LibReference.class);
 		updateHandler.check();
 		updateMap = updateHandler.getMap();
