@@ -8,6 +8,7 @@ import com.hockeyhurd.api.creativetab.ModCreativeTab;
 import com.hockeyhurd.api.math.TimeLapse;
 import com.hockeyhurd.api.util.LogHelper;
 import com.hockeyhurd.mod.block.BlockWhiteHidden;
+import com.hockeyhurd.mod.handler.ConfigHandler;
 
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -29,6 +30,7 @@ public class HCoreLibMain {
 	public static final String modID = LibReference.MOD_NAME;
 	public static final String assetDir = "hcorelib:";
 	
+	public static ConfigHandler configHandler;
 	public static CreativeTabs myCreativeTab = new ModCreativeTab(CreativeTabs.getNextID(), "HCoreLib");
 	
 	public static Block white;
@@ -39,6 +41,9 @@ public class HCoreLibMain {
 		lh = new LogHelper(LibReference.class);
 		
 		lh.info("Pre-init started, looking for config info!");
+		configHandler = new ConfigHandler(event, LibReference.class);
+		configHandler.handleConfiguration();
+		lh.info("Config info handled successfully! Applying changes now!");
 		
 		lh.info("Pre-init finished succesfully after", tl.getEffectiveTimeSince(), "ms!");
 	}
@@ -63,9 +68,14 @@ public class HCoreLibMain {
 		TimeLapse tl = new TimeLapse();
 		lh.info("Post-init started, looking for config info!");
 		
-		proxy.registerUpdateHandler();
-		if (!proxy.updateFlag) lh.warn("Found an update!");
-		else lh.info("Everything is up to date!");
+		if (configHandler.allowUpdating()) {
+			lh.info("Checking for updates!");
+			proxy.registerUpdateHandler();
+			if (!proxy.updateFlag) lh.warn("Found an update!");
+			else lh.info("Everything is up to date!");
+		}
+		
+		else lh.warn("Skipping checking for updates. WARNING: bugs may exist!");
 		
 		lh.info("Post-init finished succesfully after", tl.getEffectiveTimeSince(), "ms!");
 	}

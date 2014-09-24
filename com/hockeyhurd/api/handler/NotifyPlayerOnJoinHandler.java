@@ -30,6 +30,7 @@ public class NotifyPlayerOnJoinHandler {
 	private HashMap<Short, String> map;
 	private boolean updateFlag;
 	private boolean maskUrl;
+	private boolean allowUpdateCheck;
 	private String name;
 	
 	/**
@@ -40,11 +41,12 @@ public class NotifyPlayerOnJoinHandler {
 	 * @param updateFlag = your created stored updateFlag boolean var obtained by calling myUpdateHandlerInstance.getUpToDate().
 	 * @param maskUrl = Whether you wish to hide the url in the chat, NOTE: doesn't change what the user sees when prompted to open.
 	 */
-	public NotifyPlayerOnJoinHandler(UpdateHandler instance, HashMap<Short, String> map, Class<? extends AbstractReference> referenceClass, boolean updateFlag, boolean maskUrl) {
+	public NotifyPlayerOnJoinHandler(UpdateHandler instance, HashMap<Short, String> map, Class<? extends AbstractReference> referenceClass, boolean updateFlag, boolean maskUrl, boolean allowUpdateCheck) {
 		this.instance = instance;
 		this.map = map;
 		this.updateFlag = updateFlag;
 		this.maskUrl = maskUrl;
+		this.allowUpdateCheck = allowUpdateCheck;
 		
 		try {
 			this.name = referenceClass.getDeclaredField("MOD_NAME").get(referenceClass).toString();
@@ -60,7 +62,7 @@ public class NotifyPlayerOnJoinHandler {
 	 */
 	@SubscribeEvent
 	public void onPlayerJoin(EntityJoinWorldEvent event) {
-		if (!(event.entity instanceof EntityPlayerMP)) return;
+		if (!(event.entity instanceof EntityPlayerMP) || !allowUpdateCheck) return;
 		else {
 			EntityPlayerMP player = (EntityPlayerMP) event.entity;
 			if (!updateFlag) {

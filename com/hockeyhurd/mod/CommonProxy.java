@@ -36,7 +36,7 @@ public class CommonProxy {
 		updateMap = updateHandler.getMap();
 		updateFlag = updateHandler.getUpToDate();
 		
-		MinecraftForge.EVENT_BUS.register(new NotifyPlayerOnJoinHandler(updateHandler, updateMap, LibReference.class, updateFlag, true));
+		MinecraftForge.EVENT_BUS.register(new NotifyPlayerOnJoinHandler(updateHandler, updateMap, LibReference.class, updateFlag, true, HCoreLibMain.configHandler.allowUpdating()));
 	}
 	
 }
