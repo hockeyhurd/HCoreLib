@@ -41,13 +41,13 @@ public class ChatHelper {
 		return comp;
 	} 
 	
-	public IChatComponent compURL(String msg, String url) {
-		return compURL(msg, url, this.color);
+	public IChatComponent compURL(String msg, String url, boolean maskUrl) {
+		return compURL(msg, url, this.color, maskUrl);
 	}
 	
-	public IChatComponent compURL(String msg, String url, EnumChatFormatting color) {
+	public IChatComponent compURL(String msg, String url, EnumChatFormatting color, boolean maskUrl) {
 		setColor(color);
-		ChatComponentTranslation comp = new ChatComponentTranslation(msg + " " + url, new Object[0]);
+		ChatComponentTranslation comp = new ChatComponentTranslation(msg + " " + (maskUrl ? "<here>" : url), new Object[0]);
 		comp.getChatStyle().setChatClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, url));
 		comp.getChatStyle().setColor(color);
 		return comp;

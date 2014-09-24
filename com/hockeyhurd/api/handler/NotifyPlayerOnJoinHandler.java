@@ -29,6 +29,7 @@ public class NotifyPlayerOnJoinHandler {
 	private UpdateHandler instance;
 	private HashMap<Short, String> map;
 	private boolean updateFlag;
+	private boolean maskUrl;
 	private String name;
 	
 	/**
@@ -37,11 +38,13 @@ public class NotifyPlayerOnJoinHandler {
 	 * @param map = map created by calling myUpdateHandlerInstance.check() followed by myUpdateHandlerInstance.getMap().
 	 * @param referenceClass = a reference to your created ReferenceClass.class that extends AbstractReference class and followed its directions.
 	 * @param updateFlag = your created stored updateFlag boolean var obtained by calling myUpdateHandlerInstance.getUpToDate().
+	 * @param maskUrl = Whether you wish to hide the url in the chat, NOTE: doesn't change what the user sees when prompted to open.
 	 */
-	public NotifyPlayerOnJoinHandler(UpdateHandler instance, HashMap<Short, String> map, Class<? extends AbstractReference> referenceClass, boolean updateFlag) {
+	public NotifyPlayerOnJoinHandler(UpdateHandler instance, HashMap<Short, String> map, Class<? extends AbstractReference> referenceClass, boolean updateFlag, boolean maskUrl) {
 		this.instance = instance;
 		this.map = map;
 		this.updateFlag = updateFlag;
+		this.maskUrl = maskUrl;
 		
 		try {
 			this.name = referenceClass.getDeclaredField("MOD_NAME").get(referenceClass).toString();
@@ -76,8 +79,7 @@ public class NotifyPlayerOnJoinHandler {
 				// Output info to joining player.
 				ChatHelper helper = new ChatHelper();
 				player.addChatComponentMessage(helper.comp("[" + name + "] Found an update! Latest build: " + build));
-				player.addChatComponentMessage(helper.compURL("You can get this at:", url));
-				// player.addChatComponentMessage(helper.compURL("You can get this at:", "http://goo.gl/nYTUfU"));
+				player.addChatComponentMessage(helper.compURL("You can get this at:", url, this.maskUrl));
 			}
 		}
 	}
