@@ -1,10 +1,13 @@
 package com.hockeyhurd.mod;
 
+import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
 
 import com.hockeyhurd.api.creativetab.ModCreativeTab;
 import com.hockeyhurd.api.math.TimeLapse;
 import com.hockeyhurd.api.util.LogHelper;
+import com.hockeyhurd.mod.block.BlockWhiteHidden;
 
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -28,6 +31,8 @@ public class HCoreLibMain {
 	
 	public static CreativeTabs myCreativeTab = new ModCreativeTab(CreativeTabs.getNextID(), "HCoreLib");
 	
+	public static Block white;
+	
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
 		TimeLapse tl = new TimeLapse();
@@ -43,9 +48,14 @@ public class HCoreLibMain {
 		TimeLapse tl = new TimeLapse();
 		lh.info("Init started, looking for config info!");
 
+		loadObj();
 		proxy.init();
 		
 		lh.info("Init finished succesfully after", tl.getEffectiveTimeSince(), "ms!");
+	}
+	
+	private void loadObj() {
+		white = new BlockWhiteHidden(Material.rock, "HiddenWhite");
 	}
 	
 	@EventHandler

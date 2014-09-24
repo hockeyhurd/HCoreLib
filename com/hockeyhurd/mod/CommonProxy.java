@@ -7,6 +7,8 @@ import net.minecraftforge.common.MinecraftForge;
 import com.hockeyhurd.api.handler.NotifyPlayerOnJoinHandler;
 import com.hockeyhurd.api.handler.UpdateHandler;
 
+import cpw.mods.fml.common.registry.GameRegistry;
+
 public class CommonProxy {
 
 	protected UpdateHandler updateHandler;
@@ -18,9 +20,14 @@ public class CommonProxy {
 	
 	public void init() {
 		registerMCForgeEventHandlers();
+		registerBlocks();
 	}
 	
 	protected void registerMCForgeEventHandlers() {
+	}
+	
+	protected void registerBlocks() {
+		GameRegistry.registerBlock(HCoreLibMain.white, "HiddenWhite");
 	}
 	
 	public void registerUpdateHandler() {
