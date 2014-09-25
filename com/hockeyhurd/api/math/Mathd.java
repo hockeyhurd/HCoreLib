@@ -211,5 +211,25 @@ public class Mathd {
 		return ret;
 	}
 	
+	/**
+	 * Function used to exponentiate any value to any exponent.
+	 * @param value = value to raise to power.
+	 * @param exp = exponent value or power to raise to.
+	 * @return value raised to exponent.
+	 */
+	public static double pow(double value, int exp) {
+		if (exp == 0) return 1;
+		else if (exp == 1) return value;
+		else if (exp == -1) return 1d / value; 
+		
+		final double copyVal = value;
+		final int offset = exp < -1 ? 1 : -1;
+		for (int i = 0; i < (int) Math.abs(exp) + offset; i++) {
+			value *= exp < -1 ? (double) (1 / copyVal) : copyVal;
+		}
+		
+		return value;
+	}
+	
 }
 
