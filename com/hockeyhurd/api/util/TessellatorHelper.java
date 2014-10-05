@@ -8,6 +8,8 @@ import net.minecraftforge.client.IItemRenderer.ItemRenderType;
 
 import org.lwjgl.opengl.GL11;
 
+import com.hockeyhurd.mod.HCoreLibMain;
+
 /**
  * Class used as helper for various tessllations with generic methods often used
  * with lwjgl based graphical renderings. 
@@ -18,7 +20,7 @@ import org.lwjgl.opengl.GL11;
 public class TessellatorHelper {
 
 	private IIcon icon;
-	private final Tessellator tess = Tessellator.instance;
+	private final Tessellator tess;
 	private boolean testFlagColour = false;
 	
 	/**
@@ -27,6 +29,7 @@ public class TessellatorHelper {
 	 */
 	public TessellatorHelper(IIcon icon) {
 		this.icon = icon;
+		tess = Tessellator.instance;
 	}
 	
 	/**
@@ -42,7 +45,7 @@ public class TessellatorHelper {
 	public void drawCuboid(float x, float y, float z, double scale) {
 		// change the passed integer coordinates into double precision floats, and set the height on the y axis
 		double xx = (double) x;
-		double yy = (double) y + 0.1d;
+		double yy = (double) y + 0.075d;
 		double zz = (double) z;
 
 		// this is the scale of the squares, in blocks
@@ -71,6 +74,8 @@ public class TessellatorHelper {
 		 * tess.addVertexWithUV(uuMax, yy + 0.0D, vvMin, minU, maxV); tess.addVertexWithUV(uuMin, yy + 0.0D, vvMax, maxY, maxV); tess.addVertexWithUV(uuMin, yy + (double) scale, vvMax, maxY, minV);
 		 */
 
+		tess.setColorOpaque(0, 127, 255);
+		// tess.setNormal(0.0F, 1.0F, 0.0F);
 		// -zz
 		tess.addVertexWithUV(xxMin, yy + scale_copy, zzMax, minU, minV);
 		tess.addVertexWithUV(xxMin, yy + 0.0D, zzMax, minU, maxV);

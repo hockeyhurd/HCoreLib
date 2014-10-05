@@ -9,5 +9,5 @@ public class BlockWhiteHidden extends AbstractHiddenBlock {
 	public BlockWhiteHidden(Material material, String name) {
 		super(material, name);
 	}
-
+	
 }

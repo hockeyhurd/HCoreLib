@@ -55,6 +55,7 @@ public class HCoreLibMain {
 
 		loadObj();
 		proxy.init();
+		proxy.registerRenderInformation();
 		
 		lh.info("Init finished succesfully after", tl.getEffectiveTimeSince(), "ms!");
 	}

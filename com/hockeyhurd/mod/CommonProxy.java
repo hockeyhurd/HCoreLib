@@ -18,6 +18,9 @@ public class CommonProxy {
 	public CommonProxy() {
 	}
 	
+	public void registerRenderInformation() {
+	}
+	
 	public void init() {
 		registerMCForgeEventHandlers();
 		registerBlocks();

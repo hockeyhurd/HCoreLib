@@ -7,6 +7,7 @@ import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 
 import com.hockeyhurd.api.util.TessellatorHelper;
+import com.hockeyhurd.mod.ClientProxy;
 
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 import cpw.mods.fml.relauncher.Side;
@@ -32,8 +33,8 @@ public abstract class AbstractBlockRenderer implements ISimpleBlockRenderingHand
 	}
 
 	public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId, RenderBlocks renderer) {
-		if (renderPass == 0) drawCuboid(x, y, z);
-		else renderer.renderStandardBlock(Blocks.glass, x, y, z);
+		if (ClientProxy.renderPass == 0) drawCuboid(x, y, z);
+		else renderer.renderStandardBlock(block, x, y, z);
 		return true;
 	}
 
@@ -42,11 +43,11 @@ public abstract class AbstractBlockRenderer implements ISimpleBlockRenderingHand
 	}
 
 	public boolean shouldRender3DInInventory(int modelId) {
-		return false;
+		return true;
 	}
 
 	public int getRenderId() {
-		return 0;
+		return renderID;
 	}
 
 }
