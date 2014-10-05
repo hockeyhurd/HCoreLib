@@ -39,7 +39,7 @@ public class TessellatorHelper {
 	 * @param z = position z.
 	 * @param scale = scale of block inside (defaults to 0.9d if invalid).
 	 */
-	public void drawCuboid(Block block, float x, float y, float z, double scale) {
+	public void drawCuboid(float x, float y, float z, double scale) {
 		// change the passed integer coordinates into double precision floats, and set the height on the y axis
 		double xx = (double) x;
 		double yy = (double) y + 0.1d;

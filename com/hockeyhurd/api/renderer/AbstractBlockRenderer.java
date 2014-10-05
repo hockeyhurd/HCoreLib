@@ -32,13 +32,13 @@ public abstract class AbstractBlockRenderer implements ISimpleBlockRenderingHand
 	}
 
 	public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId, RenderBlocks renderer) {
-		if (renderPass == 0) drawCuboid(block, x, y, z);
+		if (renderPass == 0) drawCuboid(x, y, z);
 		else renderer.renderStandardBlock(Blocks.glass, x, y, z);
 		return true;
 	}
 
-	public void drawCuboid(Block block, int x, int y, int z) {
-		tess.drawCuboid(block, x, y, z, scale);
+	public void drawCuboid(int x, int y, int z) {
+		tess.drawCuboid(x, y, z, scale);
 	}
 
 	public boolean shouldRender3DInInventory(int modelId) {
