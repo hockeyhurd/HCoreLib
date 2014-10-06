@@ -4,6 +4,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraftforge.client.MinecraftForgeClient;
 
+import com.hockeyhurd.api.renderer.Color4i;
 import com.hockeyhurd.mod.block.renderer.WhiteBlockRenderer;
 import com.hockeyhurd.mod.item.ItemRendererHiddenWhite;
 
@@ -28,7 +29,7 @@ public class ClientProxy extends CommonProxy {
 		// HCoreLibMain.white.getBlockTextureFromSide(0)
 		// Blocks.diamond_block.getBlockTextureFromSide(0)
 		hiddenBlockRenderType = RenderingRegistry.getNextAvailableRenderId(); 
-		RenderingRegistry.registerBlockHandler(new WhiteBlockRenderer(hiddenBlockRenderType, renderPass, Blocks.diamond_block.getBlockTextureFromSide(0)));
+		RenderingRegistry.registerBlockHandler(new WhiteBlockRenderer(hiddenBlockRenderType, Blocks.diamond_block.getBlockTextureFromSide(0), new Color4i(0, 127, 255)));
 		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(HCoreLibMain.white), new ItemRendererHiddenWhite(HCoreLibMain.white.getBlockTextureFromSide(0)));
 	}
 	

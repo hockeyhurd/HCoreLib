@@ -8,6 +8,7 @@ import net.minecraftforge.client.IItemRenderer.ItemRenderType;
 
 import org.lwjgl.opengl.GL11;
 
+import com.hockeyhurd.api.renderer.Color4i;
 import com.hockeyhurd.mod.HCoreLibMain;
 
 /**
@@ -41,8 +42,9 @@ public class TessellatorHelper {
 	 * @param y = position y.
 	 * @param z = position z.
 	 * @param scale = scale of block inside (defaults to 0.9d if invalid).
+	 * @param color 
 	 */
-	public void drawCuboid(float x, float y, float z, double scale) {
+	public void drawCuboid(float x, float y, float z, double scale, Color4i color) {
 		// change the passed integer coordinates into double precision floats, and set the height on the y axis
 		double xx = (double) x;
 		double yy = (double) y + 0.075d;
@@ -74,7 +76,7 @@ public class TessellatorHelper {
 		 * tess.addVertexWithUV(uuMax, yy + 0.0D, vvMin, minU, maxV); tess.addVertexWithUV(uuMin, yy + 0.0D, vvMax, maxY, maxV); tess.addVertexWithUV(uuMin, yy + (double) scale, vvMax, maxY, minV);
 		 */
 
-		tess.setColorOpaque(0, 127, 255);
+		if (color != null) tess.setColorOpaque((int) color.getR(), (int)color.getG(), (int)color.getB());
 		// tess.setNormal(0.0F, 1.0F, 0.0F);
 		// -zz
 		tess.addVertexWithUV(xxMin, yy + scale_copy, zzMax, minU, minV);

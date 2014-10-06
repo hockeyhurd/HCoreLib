@@ -8,12 +8,12 @@ import com.hockeyhurd.api.util.AbstractReference;
  * DO Not: use this!
  * DO: Make your own reference class
  * WELCOMED: to copy this layout as an example.
- * @author Nick
+ * @author hockeyhurd
  */
 public class LibReference extends AbstractReference {
 
 	/** Current build number. */
-	public static final short BUILD = 8;
+	public static final short BUILD = 9;
 	
 	/** Current version with included build number. */
 	public static final String VERSION = "v1.1." + BUILD;

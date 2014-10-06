@@ -17,14 +17,15 @@ import cpw.mods.fml.relauncher.SideOnly;
 public abstract class AbstractBlockRenderer implements ISimpleBlockRenderingHandler {
 
 	protected double scale = 0.9d;
-	protected int renderID, renderPass;
+	protected int renderID;
 	protected IIcon icon;
+	private Color4i color;
 	protected TessellatorHelper tess;
 	
-	public AbstractBlockRenderer(int renderID, int renderPass, IIcon icon) {
+	public AbstractBlockRenderer(int renderID, IIcon icon, Color4i color) {
 		this.renderID = renderID;
-		this.renderPass = renderPass;
 		this.icon = icon;
+		this.color = color;
 		
 		tess = new TessellatorHelper(icon);
 	}
@@ -39,7 +40,7 @@ public abstract class AbstractBlockRenderer implements ISimpleBlockRenderingHand
 	}
 
 	public void drawCuboid(int x, int y, int z) {
-		tess.drawCuboid(x, y, z, scale);
+		tess.drawCuboid(x, y, z, scale, color);
 	}
 
 	public boolean shouldRender3DInInventory(int modelId) {
