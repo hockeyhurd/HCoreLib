@@ -1,5 +1,11 @@
 package com.hockeyhurd.api.renderer;
 
+/**
+ * Color class used to store color based pixel data.
+ * 
+ * @author hockeyhurd
+ * @version Oct 18, 2014
+ */
 public class Color4i {
 
 	private int r, g, b, a;

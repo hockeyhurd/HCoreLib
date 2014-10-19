@@ -1,20 +1,50 @@
 package com.hockeyhurd.api.math;
 
+/**
+ * Class used to store world co-ordinate data by specified number.
+ * 
+ * @author hockeyhurd
+ * @version Oct 18, 2014
+ */
 public class Vector4Helper<N> {
 
-	private N x, y, z;
+	// Local vars
+	public N x, y, z;
 	private int sideHit;
 	
+	/** Identity function used for setting a vector to its 'zero'. */
 	public static Vector4Helper zero = new Vector4Helper();
 	
+	/**
+	 * Constructor creates new instance of this class with default 
+	 * co-ordinate value of (0, 0, 0, -1).
+	 */
 	public Vector4Helper() {
 		this((N) (Number) 0, (N) (Number) 0, (N) (Number) 0, -1);
 	}
 	
+	/**
+	 * Alternative constructor creates new instance of this class
+	 * through setting to (x, y, z, -1).
+	 * 
+	 * @param x = xPos
+	 * @param y = yPos
+	 * @param z = zPos
+	 */
 	public Vector4Helper(N x, N y, N z) {
 		this(x, y, z, -1);
 	}
 	
+	/**
+	 * Alternative constructor creates new instance of this class
+	 * through setting to (x, y, z, val).
+	 * 
+	 * @param x = xPos
+	 * @param y = yPos
+	 * @param z = zPos
+	 * @param sideHit = Mainly used for storing sides of blocks however 
+	 * 	be re-purposed if desired.
+	 */
 	public Vector4Helper(N x, N y, N z, int sideHit) {
 		this.x = x;
 		this.y = y;
@@ -22,36 +52,17 @@ public class Vector4Helper<N> {
 		this.sideHit = sideHit;
 	}
 	
+	/**
+	 * Determines whether has a value for sideHit of 4th value.
+	 * 
+	 * @return
+	 */
 	public boolean hasSideHit() {
 		return this.sideHit > -1 ? true : false;
 	}
 	
-	public void setX(N x) {
-		this.x = x;
-	}
-	
-	public void setY(N y) {
-		this.y = y;
-	}
-	
-	public void setZ(N z) {
-		this.z = z;
-	}
-	
 	public void setSideHit(int sideHit) {
 		this.sideHit = sideHit;
-	}
-	
-	public N getX() {
-		return this.x;
-	}
-	
-	public N getY() {
-		return this.y;
-	}
-	
-	public N getZ() {
-		return this.z;
 	}
 	
 	public int getSideHit() {
@@ -59,37 +70,37 @@ public class Vector4Helper<N> {
 	}
 	
 	public Vector4Helper<N> add(Vector4Helper<N> vec, boolean changeSideHit) {
-		float xx = ((Number)this.getX()).floatValue() + ((Number) vec.getX()).floatValue();
-		float yy = ((Number)this.getY()).floatValue() + ((Number) vec.getY()).floatValue();
-		float zz = ((Number)this.getZ()).floatValue() + ((Number) vec.getZ()).floatValue();
+		float xx = ((Number)this.x).floatValue() + ((Number) vec.x).floatValue();
+		float yy = ((Number)this.y).floatValue() + ((Number) vec.y).floatValue();
+		float zz = ((Number)this.z).floatValue() + ((Number) vec.z).floatValue();
 		
-		setX((N) (Number) xx);
-		setY((N) (Number) yy);
-		setZ((N) (Number) zz);
+		this.x = (N) (Number) xx;
+		this.y = (N) (Number) yy;
+		this.z = (N) (Number) zz;
 		
 		return this;
 	}
 	
 	public Vector4Helper<N> subtract(Vector4Helper<N> vec, boolean changeSideHit) {
-		float xx = ((Number)this.getX()).floatValue() - ((Number) vec.getX()).floatValue();
-		float yy = ((Number)this.getY()).floatValue() - ((Number) vec.getY()).floatValue();
-		float zz = ((Number)this.getZ()).floatValue() - ((Number) vec.getZ()).floatValue();
+		float xx = ((Number)this.x).floatValue() - ((Number) vec.x).floatValue();
+		float yy = ((Number)this.y).floatValue() - ((Number) vec.y).floatValue();
+		float zz = ((Number)this.z).floatValue() - ((Number) vec.z).floatValue();
 		
-		setX((N) (Number) xx);
-		setY((N) (Number) yy);
-		setZ((N) (Number) zz);
+		this.x = (N) (Number) xx;
+		this.y = (N) (Number) yy;
+		this.z = (N) (Number) zz;
 		
 		return this;
 	}
 	
 	public Vector4Helper<N> getDifference(Vector4Helper<N> vec1, Vector4Helper<N> vec2) {
-		float xx0 = toNumber(vec1.getX()).floatValue();
-		float yy0 = toNumber(vec1.getY()).floatValue();
-		float zz0 = toNumber(vec1.getZ()).floatValue();
+		float xx0 = toNumber(vec1.x).floatValue();
+		float yy0 = toNumber(vec1.y).floatValue();
+		float zz0 = toNumber(vec1.z).floatValue();
 		
-		float xx1 = toNumber(vec2.getX()).floatValue();
-		float yy1 = toNumber(vec2.getY()).floatValue();
-		float zz1 = toNumber(vec2.getZ()).floatValue();
+		float xx1 = toNumber(vec2.x).floatValue();
+		float yy1 = toNumber(vec2.y).floatValue();
+		float zz1 = toNumber(vec2.z).floatValue();
 		
 		float xTot = xx0 - xx1;
 		float yTot = yy0 - yy1;
@@ -130,7 +141,7 @@ public class Vector4Helper<N> {
 	public boolean equals(Object object) {
 		if (!(object instanceof Vector4Helper)) return false;
 		Vector4Helper vec = (Vector4Helper) object;
-		if (vec.getX() == this.getX() && vec.y == this.getY() && vec.getZ() == this.getZ()) return true;
+		if (vec.x == this.x && vec.y == this.y && vec.z == this.z) return true;
 		return false;
 	}
 	

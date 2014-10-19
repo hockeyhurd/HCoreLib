@@ -48,7 +48,7 @@ public class BlockHelper {
 	}
 	
 	public Block getBlock(Vector4Helper<Integer> vec) {
-		return getBlock(vec.getX(), vec.getY(), vec.getZ());
+		return getBlock(vec.x, vec.y, vec.z);
 	}
 	
 	public Block getBlockFromID(int id) {
@@ -60,11 +60,11 @@ public class BlockHelper {
 	}
 	
 	public boolean canMineBlock(Vector4Helper<Integer> vec) {
-		return canMineBlock(vec.getX(), vec.getY(), vec.getZ());
+		return canMineBlock(vec.x, vec.y, vec.z);
 	}
 	
 	public boolean canMineBlock(EntityPlayer player, Vector4Helper<Integer> vec) {
-		return canMineBlock(player, vec.getX(), vec.getY(), vec.getZ());
+		return canMineBlock(player, vec.x, vec.y, vec.z);
 	}
 	
 	public boolean canMineBlock(EntityPlayer player, int x, int y, int z) {
@@ -76,7 +76,7 @@ public class BlockHelper {
 	}
 	
 	public boolean blockExists(Vector4Helper<Integer> vec) {
-		return blockExists(vec.getX(), vec.getY(), vec.getZ());
+		return blockExists(vec.x, vec.y, vec.z);
 	}
 	
 	public int getBlockMetaData(int x, int y, int z) {
@@ -84,7 +84,7 @@ public class BlockHelper {
 	}
 	
 	public int getBlockMetaData(Vector4Helper<Integer> vec) {
-		return getBlockMetaData(vec.getX(), vec.getY(), vec.getZ());
+		return getBlockMetaData(vec.x, vec.y, vec.z);
 	}
 	
 	// Returns the block's material
@@ -93,7 +93,7 @@ public class BlockHelper {
 	}
 	
 	public Material getBlockMaterial(Vector4Helper<Integer> vec) {
-		return getBlockMaterial(vec.getX(), vec.getY(), vec.getZ());
+		return getBlockMaterial(vec.x, vec.y, vec.z);
 	}
 	
 	// Set to depreciated until further tested, however is likely it works.
@@ -130,7 +130,7 @@ public class BlockHelper {
 	}
 	
 	public void destroyBlock(Vector4Helper<Integer> vec, boolean drop) {
-		destroyBlock(vec.getX(), vec.getY(), vec.getZ(), drop);
+		destroyBlock(vec.x, vec.y, vec.z, drop);
 	}
 	
 	public void destroyBlock(Vector4Helper vec) {
@@ -151,7 +151,7 @@ public class BlockHelper {
 	}
 	
 	public void setBlock(Vector4Helper<Integer> vec, Block block, int metaData) {
-		setBlock(vec.getX(), vec.getY(), vec.getZ(), block, metaData);
+		setBlock(vec.x, vec.y, vec.z, block, metaData);
 	}
 	
 	public void setBlock(Vector4Helper<Integer> vec, Block block) {
@@ -163,6 +163,6 @@ public class BlockHelper {
 	}
 	
 	public void setBlockToAir(Vector4Helper<Integer> vec) {
-		setBlockToAir(vec.getX(), vec.getY(), vec.getZ());
+		setBlockToAir(vec.x, vec.y, vec.z);
 	}
 }

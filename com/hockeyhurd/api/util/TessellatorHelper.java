@@ -1,6 +1,5 @@
 package com.hockeyhurd.api.util;
 
-import net.minecraft.block.Block;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
@@ -9,7 +8,6 @@ import net.minecraftforge.client.IItemRenderer.ItemRenderType;
 import org.lwjgl.opengl.GL11;
 
 import com.hockeyhurd.api.renderer.Color4i;
-import com.hockeyhurd.mod.HCoreLibMain;
 
 /**
  * Class used as helper for various tessllations with generic methods often used
@@ -205,3 +203,4 @@ public class TessellatorHelper {
 	}
 
 }
+

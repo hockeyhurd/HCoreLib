@@ -23,13 +23,8 @@ public class ClientProxy extends CommonProxy {
 	}
 
 	private void registerSpecialRenderers() {
-		// ClientRegistry.bindTileEntitySpecialRenderer(TileEntityGlowChest.class, new TileEntityGlowChestRenderer());
-		// MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(glowChest), new ItemRendererGlowChest());
-		
-		// HCoreLibMain.white.getBlockTextureFromSide(0)
-		// Blocks.diamond_block.getBlockTextureFromSide(0)
 		hiddenBlockRenderType = RenderingRegistry.getNextAvailableRenderId(); 
-		RenderingRegistry.registerBlockHandler(new WhiteBlockRenderer(hiddenBlockRenderType, Blocks.diamond_block.getBlockTextureFromSide(0), new Color4i(0, 127, 255)));
+		RenderingRegistry.registerBlockHandler(new WhiteBlockRenderer(hiddenBlockRenderType, Blocks.gold_block.getBlockTextureFromSide(0), new Color4i(0, 127, 255)));
 		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(HCoreLibMain.white), new ItemRendererHiddenWhite(HCoreLibMain.white.getBlockTextureFromSide(0)));
 	}
 	
