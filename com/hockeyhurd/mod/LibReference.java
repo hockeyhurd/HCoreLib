@@ -13,7 +13,7 @@ import com.hockeyhurd.api.util.AbstractReference;
 public class LibReference extends AbstractReference {
 
 	/** Current build number. */
-	public static final short BUILD = 11;
+	public static final short BUILD = 12;
 	
 	/** Current version with included build number. */
 	public static final String VERSION = "v1.1." + BUILD;
@@ -22,7 +22,8 @@ public class LibReference extends AbstractReference {
 	public static final String MOD_NAME = "HCoreLib";
 	
 	/** Not required but is available. NOTE: if not using it, set to null! */
-	public static final String MOD_URL = "http://75.68.113.97:8080/downloads/" + MOD_NAME.toLowerCase() + "/versions/HCoreLib-1.1.";
+	// public static final String MOD_URL = "http://75.68.113.97:8080/downloads/" + MOD_NAME.toLowerCase() + "/versions/HCoreLib-1.1.";
+	public static final String MOD_URL = "https://dl.dropboxusercontent.com/u/276611945/Minecraft/mods/" + MOD_NAME.toLowerCase() + "/versions/HCoreLib-1.1.";
 	
 	private LibReference() {
 	}

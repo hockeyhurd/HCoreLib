@@ -6,23 +6,19 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.item.Item;
-
-import com.hockeyhurd.mod.HCoreLibMain;
-
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class AbstractBlockOre extends Block {
+public abstract class AbstractBlockOre extends Block {
 
 	protected final float hardness = 5.0f;
 	protected String fileName;
 	
-	public AbstractBlockOre(Material material, String name) {
+	public AbstractBlockOre(Material material, String assetDir, String name) {
 		super(material);
 		this.setBlockName(name);
 		this.setHardness(this.hardness);
-		this.setCreativeTab(HCoreLibMain.myCreativeTab);
-		this.fileName = HCoreLibMain.assetDir + name;
+		this.fileName = name;
 	}
 	
 	@SideOnly(Side.CLIENT)
