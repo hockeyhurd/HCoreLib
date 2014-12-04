@@ -122,7 +122,7 @@ public class Waila {
 	 * @param handler boolean flag
 	 */
 	public void finder(boolean handler) {
-		if (stack.getItemDamage() >= 0) {
+		// if (stack.getItemDamage() >= 0) {
 			float f = 1.0F;
 
 			// Get the avgCurrent rotational pitch (left, right)
@@ -198,15 +198,15 @@ public class Waila {
 				int sideHit = movingObjectPos.sideHit;
 				// print("Side: " + sideHit);
 
-				if (handler) placeBlockHandler(world, xx, yy, zz, sideHit);
+				if (handler && stack != null) placeBlockHandler(world, xx, yy, zz, sideHit);
 				else {
 					setSideHit(sideHit);
 					setVector3i(xx, yy, zz, sideHit);
 				}
 			}
 
-			stack.setItemDamage(0);
-		}
+			// stack.setItemDamage(0);
+		// }
 		return;
 	}
 

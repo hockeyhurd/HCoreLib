@@ -2,9 +2,10 @@ package com.hockeyhurd.api.renderer;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
-import net.minecraft.init.Blocks;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
+
+import org.lwjgl.opengl.GL11;
 
 import com.hockeyhurd.api.util.TessellatorHelper;
 import com.hockeyhurd.mod.ClientProxy;
@@ -40,7 +41,12 @@ public abstract class AbstractBlockRenderer implements ISimpleBlockRenderingHand
 	}
 
 	public void drawCuboid(int x, int y, int z) {
+		GL11.glPushMatrix();
+		GL11.glTranslatef(x, y, z);
+		
 		tess.drawCuboid(x, y, z, scale, color);
+		
+		GL11.glPopMatrix();
 	}
 
 	public boolean shouldRender3DInInventory(int modelId) {
