@@ -11,10 +11,10 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 
 public abstract class AbstractConfigHandler {
 
-	private FMLPreInitializationEvent event;
-	private Configuration config;
-	private final String PATH;
-	private String modID;
+	protected FMLPreInitializationEvent event;
+	protected Configuration config;
+	protected final String PATH;
+	protected String modID;
 	
 	/**
 	 * Abstract constructor used to initialize configs, paths, and mod related identification.
@@ -37,6 +37,35 @@ public abstract class AbstractConfigHandler {
 		this.config = new Configuration(new File(PATH + event.getSuggestedConfigurationFile().getName()));
 		this.config.load();
 		this.config.save();
+	}
+	
+	/**
+	 * Allows for more than one config. 
+	 * <br><bold>NOTE:</bold> This should not be used for default config but rather additional configs.
+	 * @param path = path of file.
+	 * @param name = name of file with extension. ex: "wrenchables.cfg".
+	 */
+	public AbstractConfigHandler(FMLPreInitializationEvent event, Class<? extends AbstractReference> classRef, String name) {
+		this.event = event;
+		
+		try {
+			this.modID = classRef.getDeclaredField("MOD_NAME").get(classRef).toString();
+		}
+		catch (Exception e) {
+			HCoreLibMain.lh.severe("Could not find MOD_NAME! Please make sure you have an appropriate reference class!");
+			this.PATH = null;
+			return;
+		}
+		
+		this.PATH = event.getModConfigurationDirectory() + File.separator + modID + File.separator;
+		this.config = new Configuration(new File(this.PATH + name));
+		
+		if (this.config != null) {
+			this.config.load();
+			this.config.save();
+		}
+		
+		else HCoreLibMain.lh.severe("Error generation config at path:\t" + (this.PATH + name));
 	}
 	
 	/**
