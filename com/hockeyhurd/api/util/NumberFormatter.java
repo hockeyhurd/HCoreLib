@@ -28,8 +28,8 @@ public class NumberFormatter {
 	 * @param num = number to format
 	 * @return formatted number as string.
 	 */ 
-	public static String format(Number num) {
-		return FORMAT.format(String.valueOf(num));
+	public static String format(Object o) {
+		return FORMAT.format(o);
 	}
 	
 }
