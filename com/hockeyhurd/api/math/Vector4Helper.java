@@ -138,6 +138,12 @@ public class Vector4Helper<N> {
 		return this;
 	}
 	
+	@Override
+	public String toString() {
+		return "(" + this.x + ", " + this.y + ", " + this.z + ")";
+	}
+	
+	@Override
 	public boolean equals(Object object) {
 		if (!(object instanceof Vector4Helper)) return false;
 		Vector4Helper vec = (Vector4Helper) object;

@@ -19,7 +19,7 @@ import com.hockeyhurd.api.renderer.Color4i;
 public class TessellatorHelper {
 
 	private IIcon icon;
-	private final Tessellator tess;
+	public final Tessellator tess;
 	private boolean testFlagColour = false;
 	
 	/**
