@@ -7,11 +7,14 @@ import net.minecraftforge.client.IItemRenderer.ItemRenderType;
 
 import org.lwjgl.opengl.GL11;
 
+import com.hockeyhurd.api.math.Vector4Helper;
 import com.hockeyhurd.api.renderer.Color4i;
 
 /**
  * Class used as helper for various tessllations with generic methods often used
  * with lwjgl based graphical renderings. 
+ * <br><bold>NOTE: </bold>There is no need to create own Tessellator instance as I provide this constant.
+ * <br>@see {@link com.hockeyhurd.api.util.TessellatorHelper#tess}
  * 
  * @author hockeyhurd
  * @version Oct 2, 2014
@@ -200,6 +203,366 @@ public class TessellatorHelper {
 		tess.draw();
 		
 		if (mustTranslate) GL11.glTranslatef(0.5F, 0.5F, 0.5F);
+	}
+	
+	/**
+	 * Draws icon along z- side of typical block.
+	 * 
+	 * @param minVec = minimum vector coordinate to draw.
+	 * @param maxVec = maximum vector coordinate to draw.
+	 * @param renderInside = flag whether to also draw inside.
+	 */
+	public void drawZNeg(Vector4Helper<Float> minVec, Vector4Helper<Float> maxVec, boolean renderInside) {
+		drawZNeg(this.icon, minVec, maxVec, renderInside);
+	}
+	
+	/**
+	 * Draws icon along z- side of typical block.
+	 * 
+	 * @param icon = icon to draw.
+	 * @param minVec = minimum vector coordinate to draw.
+	 * @param maxVec = maximum vector coordinate to draw.
+	 * @param renderInside = flag whether to also draw inside.
+	 */
+	public void drawZNeg(IIcon icon, Vector4Helper<Float> minVec, Vector4Helper<Float> maxVec, boolean renderInside) {
+		tess.setNormal(0.0f, 0.0f, -1.0f);
+		tess.addVertexWithUV(maxVec.x, maxVec.y, minVec.z, icon.getMaxU(), icon.getMinV());
+		tess.addVertexWithUV(maxVec.x, minVec.y, minVec.z, icon.getMaxU(), icon.getMaxV());
+		tess.addVertexWithUV(minVec.x, minVec.y, minVec.z, icon.getMinU(), icon.getMaxV());
+		tess.addVertexWithUV(minVec.x, maxVec.y, minVec.z, icon.getMinU(), icon.getMinV());
+		
+		if (renderInside) {
+			tess.addVertexWithUV(minVec.x, maxVec.y, minVec.z, icon.getMinU(), icon.getMinV());
+			tess.addVertexWithUV(minVec.x, minVec.y, minVec.z, icon.getMinU(), icon.getMaxV());
+			tess.addVertexWithUV(maxVec.x, minVec.y, minVec.z, icon.getMaxU(), icon.getMaxV());
+			tess.addVertexWithUV(maxVec.x, maxVec.y, minVec.z, icon.getMaxU(), icon.getMinV());
+		}
+	}
+
+	/**
+	 * Draws icon along z- (can be unspecified icon should coordinates be provided).
+	 * 
+	 * @param minVec = minimum vector coordinate to draw.
+	 * @param maxVec = maximum vector coordinate to draw.
+	 * @param min = minimum point to draw from.
+	 * @param max = maximum point to draw from.
+	 * @param difU = difference of du.
+	 * @param difV = difference of dv.
+	 * @param renderInside = flag whether inside should also be rendered.
+	 */
+	public void drawZNeg(Vector4Helper<Float> minVec, Vector4Helper<Float> maxVec, float min, float max, float difU, float difV, boolean renderInside) {
+		tess.setNormal(0.0f, 0.0f, -1.0f);
+		tess.addVertexWithUV(minVec.x, maxVec.y, maxVec.z, min - difU, min - difV);
+		tess.addVertexWithUV(minVec.x, minVec.y, maxVec.z, min - difU, max - difV);
+		tess.addVertexWithUV(maxVec.x, minVec.y, maxVec.z, max - difU, max - difV);
+		tess.addVertexWithUV(maxVec.x, maxVec.y, maxVec.z, max - difU, min - difV);
+
+		if (renderInside) {
+			tess.addVertexWithUV(maxVec.x, maxVec.y, maxVec.z, max - difU, min - difV);
+			tess.addVertexWithUV(maxVec.x, minVec.y, maxVec.z, max - difU, max - difV);
+			tess.addVertexWithUV(minVec.x, minVec.y, maxVec.z, min - difU, max - difV);
+			tess.addVertexWithUV(minVec.x, maxVec.y, maxVec.z, min - difU, min - difV);
+		}
+	}
+	
+	/**
+	 * Draws icon along z+ side of typical block.
+	 * 
+	 * @param minVec = minimum vector coordinate to draw.
+	 * @param maxVec = maximum vector coordinate to draw.
+	 * @param renderInside = flag whether to also draw inside.
+	 */
+	public void drawZPos(Vector4Helper<Float> minVec, Vector4Helper<Float> maxVec, boolean renderInside) {
+		drawZPos(this.icon, minVec, maxVec, renderInside);
+	}
+	
+	/**
+	 * Draws icon along z+ side of typical block.
+	 * 
+	 * @param icon = icon to draw.
+	 * @param minVec = minimum vector coordinate to draw.
+	 * @param maxVec = maximum vector coordinate to draw.
+	 * @param renderInside = flag whether to also draw inside.
+	 */
+	public void drawZPos(IIcon icon, Vector4Helper<Float> minVec, Vector4Helper<Float> maxVec, boolean renderInside) {
+		tess.setNormal(0.0f, 0.0f, 1.0f);
+		tess.addVertexWithUV(minVec.x, maxVec.y, maxVec.z, icon.getMinU(), icon.getMinV());
+		tess.addVertexWithUV(minVec.x, minVec.y, maxVec.z, icon.getMinU(), icon.getMaxV());
+		tess.addVertexWithUV(maxVec.x, minVec.y, maxVec.z, icon.getMaxU(), icon.getMaxV());
+		tess.addVertexWithUV(maxVec.x, maxVec.y, maxVec.z, icon.getMaxU(), icon.getMinV());
+		
+		if (renderInside) {
+			tess.addVertexWithUV(maxVec.x, maxVec.y, maxVec.z, icon.getMaxU(), icon.getMinV());
+			tess.addVertexWithUV(maxVec.x, minVec.y, maxVec.z, icon.getMaxU(), icon.getMaxV());
+			tess.addVertexWithUV(minVec.x, minVec.y, maxVec.z, icon.getMinU(), icon.getMaxV());
+			tess.addVertexWithUV(minVec.x, maxVec.y, maxVec.z, icon.getMinU(), icon.getMinV());
+		}
+	}
+
+	/**
+	 * Draws icon along z+ (can be unspecified icon should coordinates be provided).
+	 * 
+	 * @param minVec = minimum vector coordinate to draw.
+	 * @param maxVec = maximum vector coordinate to draw.
+	 * @param min = minimum point to draw from.
+	 * @param max = maximum point to draw from.
+	 * @param difU = difference of du.
+	 * @param difV = difference of dv.
+	 * @param renderInside = flag whether inside should also be rendered.
+	 */
+	public void drawZPos(Vector4Helper<Float> minVec, Vector4Helper<Float> maxVec, float min, float max, float difU, float difV, boolean renderInside) {
+		tess.setNormal(0.0f, 0.0f, 1.0f);
+		tess.addVertexWithUV(maxVec.x, maxVec.y, minVec.z, min - difU, min - difV);
+		tess.addVertexWithUV(maxVec.x, minVec.y, minVec.z, min - difU, max - difV);
+		tess.addVertexWithUV(minVec.x, minVec.y, minVec.z, max - difU, max - difV);
+		tess.addVertexWithUV(minVec.x, maxVec.y, minVec.z, max - difU, min - difV);
+
+		if (renderInside) {
+			tess.addVertexWithUV(minVec.x, maxVec.y, minVec.z, max - difU, min - difV);
+			tess.addVertexWithUV(minVec.x, minVec.y, minVec.z, max - difU, max - difV);
+			tess.addVertexWithUV(maxVec.x, minVec.y, minVec.z, min - difU, max - difV);
+			tess.addVertexWithUV(maxVec.x, maxVec.y, minVec.z, min - difU, min - difV);
+		}
+	}
+	
+	/**
+	 * Draws icon along x- side of typical block.
+	 * 
+	 * @param minVec = minimum vector coordinate to draw.
+	 * @param maxVec = maximum vector coordinate to draw.
+	 * @param renderInside = flag whether to also draw inside.
+	 */
+	public void drawXNeg(Vector4Helper<Float> minVec, Vector4Helper<Float> maxVec, boolean renderInside) {
+		drawXNeg(this.icon, minVec, maxVec, renderInside);
+	}
+	
+	/**
+	 * Draws icon along x- side of typical block.
+	 * 
+	 * @param icon = icon to draw.
+	 * @param minVec = minimum vector coordinate to draw.
+	 * @param maxVec = maximum vector coordinate to draw.
+	 * @param renderInside = flag whether to also draw inside.
+	 */
+	public void drawXNeg(IIcon icon, Vector4Helper<Float> minVec, Vector4Helper<Float> maxVec, boolean renderInside) {
+		tess.setNormal(-1.0f, 0.0f, 0.0f);
+		tess.addVertexWithUV(minVec.x, maxVec.y, minVec.z, icon.getMaxU(), icon.getMinV());
+		tess.addVertexWithUV(minVec.x, minVec.y, minVec.z, icon.getMaxU(), icon.getMaxV());
+		tess.addVertexWithUV(minVec.x, minVec.y, maxVec.z, icon.getMinU(), icon.getMaxV());
+		tess.addVertexWithUV(minVec.x, maxVec.y, maxVec.z, icon.getMinU(), icon.getMinV());
+		
+		if (renderInside) {
+			tess.addVertexWithUV(minVec.x, maxVec.y, maxVec.z, icon.getMinU(), icon.getMinV());
+			tess.addVertexWithUV(minVec.x, minVec.y, maxVec.z, icon.getMinU(), icon.getMaxV());
+			tess.addVertexWithUV(minVec.x, minVec.y, minVec.z, icon.getMaxU(), icon.getMaxV());
+			tess.addVertexWithUV(minVec.x, maxVec.y, minVec.z, icon.getMaxU(), icon.getMinV());
+		}
+	}
+
+	/**
+	 * Draws icon along x- (can be unspecified icon should coordinates be provided).
+	 * 
+	 * @param minVec = minimum vector coordinate to draw.
+	 * @param maxVec = maximum vector coordinate to draw.
+	 * @param min = minimum point to draw from.
+	 * @param max = maximum point to draw from.
+	 * @param difU = difference of du.
+	 * @param difV = difference of dv.
+	 * @param renderInside = flag whether inside should also be rendered.
+	 */
+	public void drawXNeg(Vector4Helper<Float> minVec, Vector4Helper<Float> maxVec, float min, float max, float difU, float difV, boolean renderInside) {
+		tess.setNormal(-1.0f, 0.0f, 0.0f);
+		tess.addVertexWithUV(minVec.x, maxVec.y, minVec.z, min - difU, min - difV);
+		tess.addVertexWithUV(minVec.x, minVec.y, minVec.z, min - difU, max - difV);
+		tess.addVertexWithUV(minVec.x, minVec.y, maxVec.z, max - difU, max - difV);
+		tess.addVertexWithUV(minVec.x, maxVec.y, maxVec.z, max - difU, min - difV);
+
+		if (renderInside) {
+			tess.addVertexWithUV(minVec.x, maxVec.y, maxVec.z, max - difU, min - difV);
+			tess.addVertexWithUV(minVec.x, minVec.y, maxVec.z, max - difU, max - difV);
+			tess.addVertexWithUV(minVec.x, minVec.y, minVec.z, min - difU, max - difV);
+			tess.addVertexWithUV(minVec.x, maxVec.y, minVec.z, min - difU, min - difV);
+		}
+	}
+
+	/**
+	 * Draws icon along x+ side of typical block.
+	 * 
+	 * @param minVec = minimum vector coordinate to draw.
+	 * @param maxVec = maximum vector coordinate to draw.
+	 * @param renderInside = flag whether to also draw inside.
+	 */
+	public void drawXPos(Vector4Helper<Float> minVec, Vector4Helper<Float> maxVec, boolean renderInside) {
+		drawXPos(this.icon, minVec, maxVec, renderInside);
+	}
+	
+	/**
+	 * Draws icon along x+ side of typical block.
+	 * 
+	 * @param icon = icon to draw.
+	 * @param minVec = minimum vector coordinate to draw.
+	 * @param maxVec = maximum vector coordinate to draw.
+	 * @param renderInside = flag whether to also draw inside.
+	 */
+	public void drawXPos(IIcon icon, Vector4Helper<Float> minVec, Vector4Helper<Float> maxVec, boolean renderInside) {
+		tess.setNormal(1.0f, 0.0f, 0.0f);
+		tess.addVertexWithUV(maxVec.x, maxVec.y, maxVec.z, icon.getMinU(), icon.getMinV());
+		tess.addVertexWithUV(maxVec.x, minVec.y, maxVec.z, icon.getMinU(), icon.getMaxV());
+		tess.addVertexWithUV(maxVec.x, minVec.y, minVec.z, icon.getMaxU(), icon.getMaxV());
+		tess.addVertexWithUV(maxVec.x, maxVec.y, minVec.z, icon.getMaxU(), icon.getMinV());
+		
+		if (renderInside) {
+			tess.addVertexWithUV(maxVec.x, maxVec.y, minVec.z, icon.getMaxU(), icon.getMinV());
+			tess.addVertexWithUV(maxVec.x, minVec.y, minVec.z, icon.getMaxU(), icon.getMaxV());
+			tess.addVertexWithUV(maxVec.x, minVec.y, maxVec.z, icon.getMinU(), icon.getMaxV());
+			tess.addVertexWithUV(maxVec.x, maxVec.y, maxVec.z, icon.getMinU(), icon.getMinV());
+		}
+	}
+	
+	/**
+	 * Draws icon along x+ (can be unspecified icon should coordinates be provided).
+	 * 
+	 * @param minVec = minimum vector coordinate to draw.
+	 * @param maxVec = maximum vector coordinate to draw.
+	 * @param min = minimum point to draw from.
+	 * @param max = maximum point to draw from.
+	 * @param difU = difference of du.
+	 * @param difV = difference of dv.
+	 * @param renderInside = flag whether inside should also be rendered.
+	 */
+	public void drawXPos(Vector4Helper<Float> minVec, Vector4Helper<Float> maxVec, float min, float max, float difU, float difV, boolean renderInside) {
+		tess.setNormal(1.0f, 0.0f, 0.0f);
+		tess.addVertexWithUV(maxVec.x, maxVec.y, maxVec.z, max - difU, min - difV);
+		tess.addVertexWithUV(maxVec.x, minVec.y, maxVec.z, max - difU, max - difV);
+		tess.addVertexWithUV(maxVec.x, minVec.y, minVec.z, min - difU, max - difV);
+		tess.addVertexWithUV(maxVec.x, maxVec.y, minVec.z, min - difU, min - difV);
+
+		if (renderInside) {
+			tess.addVertexWithUV(maxVec.x, maxVec.y, minVec.z, min - difU, min - difV);
+			tess.addVertexWithUV(maxVec.x, minVec.y, minVec.z, min - difU, max - difV);
+			tess.addVertexWithUV(maxVec.x, minVec.y, maxVec.z, max - difU, max - difV);
+			tess.addVertexWithUV(maxVec.x, maxVec.y, maxVec.z, max - difU, min - difV);
+		}
+	}
+	
+	/**
+	 * Draws icon along y- side of typical block.
+	 * 
+	 * @param minVec = minimum vector coordinate to draw.
+	 * @param maxVec = maximum vector coordinate to draw.
+	 * @param renderInside = flag whether to also draw inside.
+	 */
+	public void drawYNeg(Vector4Helper<Float> minVec, Vector4Helper<Float> maxVec, boolean renderInside) {
+		drawYNeg(this.icon, minVec, maxVec, renderInside);
+	}
+	
+	/**
+	 * Draws icon along y- side of typical block.
+	 * 
+	 * @param icon = icon to draw.
+	 * @param minVec = minimum vector coordinate to draw.
+	 * @param maxVec = maximum vector coordinate to draw.
+	 * @param renderInside = flag whether to also draw inside.
+	 */
+	public void drawYNeg(IIcon icon, Vector4Helper<Float> minVec, Vector4Helper<Float> maxVec, boolean renderInside) {
+		tess.setNormal(0.0f, -1.0f, 0.0f);
+		tess.addVertexWithUV(maxVec.x, minVec.y, minVec.z, icon.getMinU(), icon.getMinV());
+		tess.addVertexWithUV(maxVec.x, minVec.y, maxVec.z, icon.getMinU(), icon.getMaxV());
+		tess.addVertexWithUV(minVec.x, minVec.y, maxVec.z, icon.getMaxU(), icon.getMaxV());
+		tess.addVertexWithUV(minVec.x, minVec.y, minVec.z, icon.getMaxU(), icon.getMinV());
+		
+		if (renderInside) {
+			tess.addVertexWithUV(minVec.x, minVec.y, minVec.z, icon.getMaxU(), icon.getMinV());
+			tess.addVertexWithUV(minVec.x, minVec.y, maxVec.z, icon.getMaxU(), icon.getMaxV());
+			tess.addVertexWithUV(maxVec.x, minVec.y, maxVec.z, icon.getMinU(), icon.getMaxV());
+			tess.addVertexWithUV(maxVec.x, minVec.y, minVec.z, icon.getMinU(), icon.getMinV());
+		}
+	}
+
+	/**
+	 * Draws icon along y- (can be unspecified icon should coordinates be provided).
+	 * 
+	 * @param minVec = minimum vector coordinate to draw.
+	 * @param maxVec = maximum vector coordinate to draw.
+	 * @param min = minimum point to draw from.
+	 * @param max = maximum point to draw from.
+	 * @param difU = difference of du.
+	 * @param difV = difference of dv.
+	 * @param renderInside = flag whether inside should also be rendered.
+	 */
+	public void drawYNeg(Vector4Helper<Float> minVec, Vector4Helper<Float> maxVec, float min, float max, float difU, float difV, boolean renderInside) {
+		tess.setNormal(0.0f, -1.0f, 0.0f);
+		tess.addVertexWithUV(maxVec.x, minVec.y - 0.01d, minVec.z, max - difU, min - difV);
+		tess.addVertexWithUV(maxVec.x, minVec.y - 0.01d, maxVec.z, max - difU, max - difV);
+		tess.addVertexWithUV(minVec.x, minVec.y - 0.01d, maxVec.z, min - difU, max - difV);
+		tess.addVertexWithUV(minVec.x, minVec.y - 0.01d, minVec.z, min - difU, min - difV);
+
+		if (renderInside) {
+			tess.addVertexWithUV(minVec.x, minVec.y - 0.01d, minVec.z, min - difU, min - difV);
+			tess.addVertexWithUV(minVec.x, minVec.y - 0.01d, maxVec.z, min - difU, max - difV);
+			tess.addVertexWithUV(maxVec.x, minVec.y - 0.01d, maxVec.z, max - difU, max - difV);
+			tess.addVertexWithUV(maxVec.x, minVec.y - 0.01d, minVec.z, max - difU, min - difV);
+		}
+	}
+	
+	/**
+	 * Draws icon along y+ side of typical block.
+	 * 
+	 * @param minVec = minimum vector coordinate to draw.
+	 * @param maxVec = maximum vector coordinate to draw.
+	 * @param renderInside = flag whether to also draw inside.
+	 */
+	public void drawYPos(Vector4Helper<Float> minVec, Vector4Helper<Float> maxVec, boolean renderInside) {
+		drawYPos(this.icon, minVec, maxVec, renderInside);
+	}
+	
+	/**
+	 * Draws icon along y+ side of typical block.
+	 * 
+	 * @param icon = icon to draw.
+	 * @param minVec = minimum vector coordinate to draw.
+	 * @param maxVec = maximum vector coordinate to draw.
+	 * @param renderInside = flag whether to also draw inside.
+	 */
+	public void drawYPos(IIcon icon, Vector4Helper<Float> minVec, Vector4Helper<Float> maxVec, boolean renderInside) {
+		tess.setNormal(0.0f, 1.0f, 0.0f);
+		tess.addVertexWithUV(minVec.x, maxVec.y, minVec.z, icon.getMaxU(), icon.getMinV());
+		tess.addVertexWithUV(minVec.x, maxVec.y, maxVec.z, icon.getMaxU(), icon.getMaxV());
+		tess.addVertexWithUV(maxVec.x, maxVec.y, maxVec.z, icon.getMinU(), icon.getMaxV());
+		tess.addVertexWithUV(maxVec.x, maxVec.y, minVec.z, icon.getMinU(), icon.getMinV());
+		
+		if (renderInside) {
+			tess.addVertexWithUV(maxVec.x, maxVec.y, minVec.z, icon.getMinU(), icon.getMinV());
+			tess.addVertexWithUV(maxVec.x, maxVec.y, maxVec.z, icon.getMinU(), icon.getMaxV());
+			tess.addVertexWithUV(minVec.x, maxVec.y, maxVec.z, icon.getMaxU(), icon.getMaxV());
+			tess.addVertexWithUV(minVec.x, maxVec.y, minVec.z, icon.getMaxU(), icon.getMinV());
+		}
+	}
+
+	/**
+	 * Draws icon along y+ (can be unspecified icon should coordinates be provided).
+	 * 
+	 * @param minVec = minimum vector coordinate to draw.
+	 * @param maxVec = maximum vector coordinate to draw.
+	 * @param min = minimum point to draw from.
+	 * @param max = maximum point to draw from.
+	 * @param difU = difference of du.
+	 * @param difV = difference of dv.
+	 * @param renderInside = flag whether inside should also be rendered.
+	 */
+	public void drawYPos(Vector4Helper<Float> minVec, Vector4Helper<Float> maxVec, float min, float max, float difU, float difV, boolean renderInside) {
+		tess.setNormal(0.0f, 1.0f, 0.0f);
+		tess.addVertexWithUV(minVec.x, maxVec.y - 0.01d, minVec.z, min - difU, min - difV);
+		tess.addVertexWithUV(minVec.x, maxVec.y - 0.01d, maxVec.z, min - difU, max - difV);
+		tess.addVertexWithUV(maxVec.x, maxVec.y - 0.01d, maxVec.z, max - difU, max - difV);
+		tess.addVertexWithUV(maxVec.x, maxVec.y - 0.01d, minVec.z, max - difU, min - difV);
+
+		if (renderInside) {
+			tess.addVertexWithUV(maxVec.x, maxVec.y - 0.01d, minVec.z, max - difU, min - difV);
+			tess.addVertexWithUV(maxVec.x, maxVec.y - 0.01d, maxVec.z, max - difU, max - difV);
+			tess.addVertexWithUV(minVec.x, maxVec.y - 0.01d, maxVec.z, min - difU, max - difV);
+			tess.addVertexWithUV(minVec.x, maxVec.y - 0.01d, minVec.z, min - difU, min - difV);
+		}
 	}
 
 }
