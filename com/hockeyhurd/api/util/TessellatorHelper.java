@@ -126,6 +126,10 @@ public class TessellatorHelper {
 	 * @param generalizeNormals = true set all sides as normals, else individual.
 	 */
 	public void renderItem(ItemRenderType type, ItemStack item, boolean generalizeNormals) {
+		
+		GL11.glDisable(GL11.GL_LIGHTING);
+		GL11.glEnable(GL11.GL_BLEND);
+		
 		tess.startDrawingQuads();
 
 		// adjust rendering space to match what caller expects
@@ -201,6 +205,9 @@ public class TessellatorHelper {
 		tess.addVertexWithUV(1.0, 0.0, 0.0, (double) icon.getMinU(), (double) icon.getMinV());
 		tess.addVertexWithUV(1.0, 0.0, 1.0, (double) icon.getMinU(), (double) icon.getMaxV());
 		tess.draw();
+
+		GL11.glDisable(GL11.GL_BLEND);
+		GL11.glEnable(GL11.GL_LIGHTING);
 		
 		if (mustTranslate) GL11.glTranslatef(0.5F, 0.5F, 0.5F);
 	}

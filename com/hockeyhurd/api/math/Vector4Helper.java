@@ -55,7 +55,7 @@ public class Vector4Helper<N> {
 	/**
 	 * Determines whether has a value for sideHit of 4th value.
 	 * 
-	 * @return
+	 * @return true if has side hit else returns false.
 	 */
 	public boolean hasSideHit() {
 		return this.sideHit > -1 ? true : false;
@@ -143,11 +143,15 @@ public class Vector4Helper<N> {
 		return "(" + this.x + ", " + this.y + ", " + this.z + ")";
 	}
 	
+	public boolean equals(Object object, boolean includeSide) {
+		return equals(object) && object instanceof Vector4Helper && ((Vector4Helper) object).sideHit == this.sideHit;
+	}
+	
 	@Override
 	public boolean equals(Object object) {
 		if (!(object instanceof Vector4Helper)) return false;
 		Vector4Helper vec = (Vector4Helper) object;
-		if (vec.x == this.x && vec.y == this.y && vec.z == this.z) return true;
+		if (vec.x.equals(this.x) && vec.y.equals(this.y) && vec.z.equals(this.z)) return true;
 		return false;
 	}
 	
