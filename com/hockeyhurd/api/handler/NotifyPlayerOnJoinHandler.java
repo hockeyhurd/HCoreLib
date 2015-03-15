@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.Map.Entry;
 
 import net.minecraft.entity.player.EntityPlayerMP;
+import static net.minecraft.util.EnumChatFormatting.*;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 
 import com.hockeyhurd.api.util.AbstractReference;
@@ -80,8 +81,8 @@ public class NotifyPlayerOnJoinHandler {
 				
 				// Output info to joining player.
 				ChatHelper helper = new ChatHelper();
-				player.addChatComponentMessage(helper.comp("[" + name + "] Found an update! Latest build: " + build));
-				player.addChatComponentMessage(helper.compURL("You can get this at:", url, this.maskUrl));
+				player.addChatComponentMessage(helper.comp(GREEN + "[" + name + "] " + GRAY + "Found an update! Latest build: " + build));
+				player.addChatComponentMessage(helper.compURL(GRAY + "You can get this at:" + WHITE, url, this.maskUrl));
 			}
 		}
 	}

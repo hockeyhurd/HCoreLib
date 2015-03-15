@@ -19,10 +19,13 @@ public class BlockHelper {
 		this.player = player;
 	}
 	
+	public BlockHelper(World world) {
+		this(world, null);
+	}
+	
 	// Only use this constructor if there is no need with world or player interaction! i.e. block parameters.
 	@Deprecated
 	public BlockHelper() {
-		
 	}
 	
 	public void setWorld(World world) {

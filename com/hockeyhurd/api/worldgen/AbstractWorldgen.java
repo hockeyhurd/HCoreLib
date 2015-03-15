@@ -74,6 +74,9 @@ public class AbstractWorldgen implements IWorldGenerator {
 			case 1 :
 				generateEnd(world, random, chunkX * CHUNK_SIZE, chunkZ * CHUNK_SIZE);
 				break;
+			default:
+				generateOverworld(world, random, chunkX * CHUNK_SIZE, chunkZ * CHUNK_SIZE);
+				break;
 		}
 	}
 
