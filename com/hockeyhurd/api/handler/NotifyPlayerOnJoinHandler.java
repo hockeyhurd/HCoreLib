@@ -11,6 +11,7 @@ import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import com.hockeyhurd.api.util.AbstractReference;
 import com.hockeyhurd.api.util.ChatHelper;
 import com.hockeyhurd.mod.HCoreLibMain;
+import com.hockeyhurd.mod.LibReference;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
@@ -28,7 +29,7 @@ import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 public class NotifyPlayerOnJoinHandler {
 
 	private UpdateHandler instance;
-	private HashMap<Short, String> map;
+	private HashMap<String, String> map;
 	private boolean updateFlag;
 	private boolean maskUrl;
 	private boolean allowUpdateCheck;
@@ -42,7 +43,7 @@ public class NotifyPlayerOnJoinHandler {
 	 * @param updateFlag = your created stored updateFlag boolean var obtained by calling myUpdateHandlerInstance.getUpToDate().
 	 * @param maskUrl = Whether you wish to hide the url in the chat, NOTE: doesn't change what the user sees when prompted to open.
 	 */
-	public NotifyPlayerOnJoinHandler(UpdateHandler instance, HashMap<Short, String> map, Class<? extends AbstractReference> referenceClass, boolean updateFlag, boolean maskUrl, boolean allowUpdateCheck) {
+	public NotifyPlayerOnJoinHandler(UpdateHandler instance, HashMap<String, String> map, Class<? extends AbstractReference> referenceClass, boolean updateFlag, boolean maskUrl, boolean allowUpdateCheck) {
 		this.instance = instance;
 		this.map = map;
 		this.updateFlag = updateFlag;
@@ -67,13 +68,13 @@ public class NotifyPlayerOnJoinHandler {
 		else {
 			EntityPlayerMP player = (EntityPlayerMP) event.entity;
 			if (!updateFlag) {
-				short build = -1;
+				String build = "";
 				String url = "";
 				
 				Iterator iter = map.entrySet().iterator();
 				// Grabbing the first index of entry's keys and values and store this data.
 				while (iter.hasNext()) {
-					Entry<Short, String> current = (Entry<Short, String>) iter.next();
+					Entry<String, String> current = (Entry<String, String>) iter.next();
 					build = current.getKey();
 					url = current.getValue();
 					break;

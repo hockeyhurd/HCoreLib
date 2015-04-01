@@ -1,16 +1,21 @@
 package com.hockeyhurd.api.handler;
 
+import java.io.IOException;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
+import java.util.Scanner;
 
 import com.hockeyhurd.api.util.AbstractReference;
 import com.hockeyhurd.mod.HCoreLibMain;
 
 public class UpdateHandler {
 
-	private final short currentBuild; //  = LibReference.BUILD;
-	private short latestBuild;
+	private final short currentBuildNumber;
+	private final String modName;
+	private final String currentBuild; //  = LibReference.BUILD;
+	private String latestBuild;
 	private boolean upToDate = true;
 	
 	// NOTE: Just add build number + .jar
@@ -22,10 +27,14 @@ public class UpdateHandler {
 	 * @param reference = created reference class that extends AbstractReference.
 	 */
 	public UpdateHandler(Class<? extends AbstractReference> reference) {
-		short val = -1;
+		short currentVal = -1;
+		String modName = "";
+		String val = "";
 		String vUrl = "";
 		try {
-			val = reference.getDeclaredField("BUILD").getShort(reference);
+			currentVal = reference.getDeclaredField("BUILD").getShort(reference);
+			modName = reference.getDeclaredField("MOD_NAME").get(reference).toString();
+			val = reference.getDeclaredField("VERSION").get(reference).toString();
 			vUrl = reference.getDeclaredField("MOD_URL").get(reference).toString();
 		}
 		
@@ -33,6 +42,8 @@ public class UpdateHandler {
 			e.printStackTrace();
 		}
 		
+		this.currentBuildNumber = currentVal;
+		this.modName = modName;
 		this.currentBuild = val;
 		this.url = vUrl;
 	}
@@ -41,31 +52,47 @@ public class UpdateHandler {
 	 * Call this method to check for updates.
 	 */
 	public void check() {
-		short copyBuild = currentBuild;
-		String lastUrl;
-		String copyUrl = lastUrl = url;
-		copyUrl += copyBuild + ".jar";
-		
-		if (!exists(copyUrl)) {
-			upToDate = true;
-			this.latestBuild = copyBuild;
-			this.latestUrl = "dev_build";
-			return;
-		}
-		
-		// Loop while there are still more 'updates found'
-		while (exists(copyUrl)) {
-			copyUrl = lastUrl;
-			copyUrl += ++copyBuild + ".jar";
-		}
-		
-		copyUrl = lastUrl;
-		copyUrl += --copyBuild + ".jar";
+		if (exists(this.url)) {
+			URL link = null;
+			
+			try {
+				link = new URL(this.url);
+			}
+			
+			catch (MalformedURLException e) {
+				e.printStackTrace();
+				HCoreLibMain.lh.warn("URL:", this.url, "doesn't exist!");
+			}
+			
+			if (link == null) {
+				this.upToDate = true;
+				return;
+			}
+			
+			try {
+				Scanner sc = new Scanner(link.openStream());
 
-		// Make sure the 'latest update' is not fake and if not, report 'not up to date'.
-		if (copyBuild > currentBuild && exists(copyUrl)) upToDate = false;
-		this.latestBuild = copyBuild;
-		this.latestUrl = copyUrl;
+				this.latestBuild = sc.next();
+				
+				short latestNumber = Short.parseShort(this.latestBuild.substring(this.latestBuild.lastIndexOf('.') + 1, this.latestBuild.length()));
+				
+				if (this.currentBuildNumber < latestNumber) {
+					this.upToDate = false;
+					this.latestUrl = getAppropriateUrl();
+				}
+				
+				sc.close();
+			}
+			catch (IOException e) {
+				e.printStackTrace();
+				HCoreLibMain.lh.warn("Error reading file! Please ensure data in file is valid!");
+			}
+		}
+		
+		else {
+			HCoreLibMain.lh.warn("Error url doesn't exist!");
+			this.upToDate = true;
+		}
 	}
 	
 	/**
@@ -78,7 +105,7 @@ public class UpdateHandler {
 	/**
 	 * @return latest build value.
 	 */
-	public short getLatestBuild() {
+	public String getLatestBuild() {
 		return latestBuild;
 	}
 	
@@ -92,8 +119,8 @@ public class UpdateHandler {
 	/**
 	 * @return gets mapping from key: build_version, value: download_link_url.
 	 */
-	public HashMap<Short,String> getMap() {
-		HashMap<Short, String> ent = new HashMap<Short, String>();
+	public HashMap<String,String> getMap() {
+		HashMap<String, String> ent = new HashMap<String, String>();
 		ent.put(getLatestBuild(), getLatestURL());
 		return ent;
 	}
@@ -133,6 +160,15 @@ public class UpdateHandler {
 			HCoreLibMain.lh.warn("Update server must be down or this build has not yet been released properly!");
 			return false;
 		}
+	}
+	
+	/**
+	 * Gets the appropriate latest url.
+	 * 
+	 * @return latest url.
+	 */
+	private String getAppropriateUrl() {
+		return this.url.substring(0, this.url.lastIndexOf('/')) + "/versions/" + this.modName + "-" + (this.latestBuild.substring(1, this.latestBuild.length())) + ".jar";
 	}
 
 }
