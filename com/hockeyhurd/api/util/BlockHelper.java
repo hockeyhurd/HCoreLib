@@ -6,7 +6,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 
-import com.hockeyhurd.api.math.Vector4Helper;
+import com.hockeyhurd.api.math.Vector4;
 import com.hockeyhurd.mod.HCoreLibMain;
 
 public class BlockHelper {
@@ -50,7 +50,7 @@ public class BlockHelper {
 		return world.getBlock(x, y, z);
 	}
 	
-	public Block getBlock(Vector4Helper<Integer> vec) {
+	public Block getBlock(Vector4<Integer> vec) {
 		return getBlock(vec.x, vec.y, vec.z);
 	}
 	
@@ -62,11 +62,11 @@ public class BlockHelper {
 		return canMineBlock(this.player, x, y, z);
 	}
 	
-	public boolean canMineBlock(Vector4Helper<Integer> vec) {
+	public boolean canMineBlock(Vector4<Integer> vec) {
 		return canMineBlock(vec.x, vec.y, vec.z);
 	}
 	
-	public boolean canMineBlock(EntityPlayer player, Vector4Helper<Integer> vec) {
+	public boolean canMineBlock(EntityPlayer player, Vector4<Integer> vec) {
 		return canMineBlock(player, vec.x, vec.y, vec.z);
 	}
 	
@@ -78,7 +78,7 @@ public class BlockHelper {
 		return world.blockExists(x, y, z);
 	}
 	
-	public boolean blockExists(Vector4Helper<Integer> vec) {
+	public boolean blockExists(Vector4<Integer> vec) {
 		return blockExists(vec.x, vec.y, vec.z);
 	}
 	
@@ -86,7 +86,7 @@ public class BlockHelper {
 		return world.getBlockMetadata(x, y, z);
 	}
 	
-	public int getBlockMetaData(Vector4Helper<Integer> vec) {
+	public int getBlockMetaData(Vector4<Integer> vec) {
 		return getBlockMetaData(vec.x, vec.y, vec.z);
 	}
 	
@@ -95,7 +95,7 @@ public class BlockHelper {
 		return world.getBlock(x, y, z).getMaterial();
 	}
 	
-	public Material getBlockMaterial(Vector4Helper<Integer> vec) {
+	public Material getBlockMaterial(Vector4<Integer> vec) {
 		return getBlockMaterial(vec.x, vec.y, vec.z);
 	}
 	
@@ -132,11 +132,11 @@ public class BlockHelper {
 		world.func_147480_a(x, y, z, drop);
 	}
 	
-	public void destroyBlock(Vector4Helper<Integer> vec, boolean drop) {
+	public void destroyBlock(Vector4<Integer> vec, boolean drop) {
 		destroyBlock(vec.x, vec.y, vec.z, drop);
 	}
 	
-	public void destroyBlock(Vector4Helper vec) {
+	public void destroyBlock(Vector4 vec) {
 		destroyBlock(vec, true);
 	}
 	
@@ -153,11 +153,11 @@ public class BlockHelper {
 		setBlock(x, y, z, block, 0);
 	}
 	
-	public void setBlock(Vector4Helper<Integer> vec, Block block, int metaData) {
+	public void setBlock(Vector4<Integer> vec, Block block, int metaData) {
 		setBlock(vec.x, vec.y, vec.z, block, metaData);
 	}
 	
-	public void setBlock(Vector4Helper<Integer> vec, Block block) {
+	public void setBlock(Vector4<Integer> vec, Block block) {
 		setBlock(vec, block, 0);
 	}
 	
@@ -165,7 +165,7 @@ public class BlockHelper {
 		world.setBlockToAir(x, y, z);
 	}
 	
-	public void setBlockToAir(Vector4Helper<Integer> vec) {
+	public void setBlockToAir(Vector4<Integer> vec) {
 		setBlockToAir(vec.x, vec.y, vec.z);
 	}
 }

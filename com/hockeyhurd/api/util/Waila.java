@@ -21,7 +21,7 @@ import net.minecraft.util.MovingObjectPosition.MovingObjectType;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
-import com.hockeyhurd.api.math.Vector4Helper;
+import com.hockeyhurd.api.math.Vector4;
 
 /**
  * Partially re-written and should be slightly more modular.
@@ -41,7 +41,7 @@ public class Waila {
 	private Material[] matWhiteList;
 	private int sideHit = 0;
 	private int offset;
-	private Vector4Helper vec;
+	private Vector4 vec;
 	private BlockHelper bh;
 	private boolean returnState = false;
 
@@ -224,10 +224,10 @@ public class Waila {
 	}
 
 	private void setVector3i(int x, int y, int z, int sideHit) {
-		this.vec = new Vector4Helper<Integer>(x, y, z, sideHit);
+		this.vec = new Vector4<Integer>(x, y, z, sideHit);
 	}
 
-	public Vector4Helper<Integer> getVector3i() {
+	public Vector4<Integer> getVector3i() {
 		return this.vec.getVector4i();
 	}
 
