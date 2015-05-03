@@ -14,7 +14,7 @@ import com.hockeyhurd.api.util.AbstractReference;
 public class LibReference extends AbstractReference {
 
 	/** Current build number. */
-	public static final short BUILD = 23;
+	public static final short BUILD = 24;
 	
 	/** Current version with included build number. */
 	public static final String VERSION = "v1.1." + BUILD;
