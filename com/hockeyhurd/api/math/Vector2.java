@@ -4,51 +4,34 @@ package com.hockeyhurd.api.math;
  * Class used to store world co-ordinate data by specified number.
  * 
  * @author hockeyhurd
- * @version Oct 18, 2014
+ * @version May 21, 2015
  */
-public class Vector4<N> {
+public class Vector2<N> {
 
-	// Local vars
-	public N x, y, z, w;
+	public N x, y;
 	
 	/** Identity function used for setting a vector to its 'zero'. */
-	public static final Vector4 zero = new Vector4();
+	public static final Vector2 zero = new Vector2();
 	
 	/**
 	 * Constructor creates new instance of this class with default 
-	 * co-ordinate value of (0, 0, 0, -1).
+	 * co-ordinate value of (0, 0, 0).
 	 */
-	public Vector4() {
-		this((N) (Number) 0, (N) (Number) 0, (N) (Number) 0);
+	public Vector2() {
+		this((N) (Number) 0, (N) (Number) 0);
 	}
 	
 	/**
-	 * Alternative constructor creates new instance of this class
-	 * through setting to (x, y, z, 0).
+	 * Most generalized constructor creates new instance of this class
+	 * through setting to (x, y, z).
 	 * 
 	 * @param x = xPos
 	 * @param y = yPos
 	 * @param z = zPos
 	 */
-	public Vector4(N x, N y, N z) {
-		this(x, y, z, (N) (Number) 0);
-	}
-	
-	/**
-	 * Alternative constructor creates new instance of this class
-	 * through setting to (x, y, z, val).
-	 * 
-	 * @param x = xPos
-	 * @param y = yPos
-	 * @param z = zPos
-	 * @param w = Mainly used for storing sides of blocks however 
-	 * 	can be re-purposed if desired.
-	 */
-	public Vector4(N x, N y, N z, N w) {
+	public Vector2(N x, N y) {
 		this.x = x;
 		this.y = y;
-		this.z = z;
-		this.w = w;
 	}
 	
 	/**
@@ -57,16 +40,12 @@ public class Vector4<N> {
 	 * @param vec vector to add from this.
 	 * @return added vector.
 	 */
-	public Vector4<N> add(Vector4<N> vec) {
+	public Vector2<N> add(Vector2<N> vec) {
 		float xx = ((Number)this.x).floatValue() + ((Number) vec.x).floatValue();
 		float yy = ((Number)this.y).floatValue() + ((Number) vec.y).floatValue();
-		float zz = ((Number)this.z).floatValue() + ((Number) vec.z).floatValue();
-		float ww = ((Number) this.w).floatValue() + ((Number) vec.w).floatValue();
 		
 		this.x = (N) (Number) xx;
 		this.y = (N) (Number) yy;
-		this.z = (N) (Number) zz;
-		this.w = (N) (Number) ww;
 		
 		return this;
 	}
@@ -77,16 +56,12 @@ public class Vector4<N> {
 	 * @param vec vector to subtract from this.
 	 * @return subtracted vector.
 	 */
-	public Vector4<N> subtract(Vector4<N> vec) {
+	public Vector2<N> subtract(Vector2<N> vec) {
 		float xx = ((Number)this.x).floatValue() - ((Number) vec.x).floatValue();
 		float yy = ((Number)this.y).floatValue() - ((Number) vec.y).floatValue();
-		float zz = ((Number)this.z).floatValue() - ((Number) vec.z).floatValue();
-		float ww = ((Number)this.w).floatValue() - ((Number) vec.w).floatValue();
 		
 		this.x = (N) (Number) xx;
 		this.y = (N) (Number) yy;
-		this.z = (N) (Number) zz;
-		this.w = (N) (Number) ww;
 		
 		return this;
 	}
@@ -98,23 +73,17 @@ public class Vector4<N> {
 	 * @param vec2 point 2.
 	 * @return differenced vectors.
 	 */
-	public Vector4<N> getDifference(Vector4<N> vec1, Vector4<N> vec2) {
+	public Vector2<N> getDifference(Vector2<N> vec1, Vector2<N> vec2) {
 		float xx0 = toNumber(vec1.x).floatValue();
 		float yy0 = toNumber(vec1.y).floatValue();
-		float zz0 = toNumber(vec1.z).floatValue();
-		float ww0 = toNumber(vec1.w).floatValue();
 		
 		float xx1 = toNumber(vec2.x).floatValue();
 		float yy1 = toNumber(vec2.y).floatValue();
-		float zz1 = toNumber(vec2.z).floatValue();
-		float ww1 = toNumber(vec2.w).floatValue();
 		
 		float xTot = xx0 - xx1;
 		float yTot = yy0 - yy1;
-		float zTot = zz0 - zz1;
-		float wTot = ww0 - ww1;
 		
-		return new Vector4<N>((N) (Number) xTot, (N) (Number) yTot, (N) (Number) zTot, (N) (Number) wTot);
+		return new Vector2<N>((N) (Number) xTot, (N) (Number) yTot);
 	}
 	
 	/**
@@ -123,10 +92,30 @@ public class Vector4<N> {
 	 * @param vec vector<sub>2</sub>
 	 * @return difference as a double.
 	 */
-	public double getDifference(Vector4<N> vec) {
-		Vector4<Double> dif = getDifference(vec, this).getVector4d();
-		double sum = (dif.x * dif.x) + (dif.y * dif.y) + (dif.z * dif.z) + (dif.w * dif.w);
+	public double getDifference(Vector2<N> vec) {
+		Vector2<Double> dif = getDifference(vec, this).getVector2d();
+		double sum = (dif.x * dif.x) + (dif.y * dif.y);
 		return Math.sqrt(sum);
+	}
+
+	/**
+	 * Rotates this vector about another vector by said angle in degrees.
+	 * 
+	 * @param ref point of which to rotate about.
+	 * @param angle angle in degrees to rotate.
+	 * @return rotated vector.
+	 */
+	public Vector2<N> rotate(Vector2<Double> ref, double angle) {
+		double radians = Mathd.toDegrees(angle);
+		Vector2<Double> copy = this.getVector2d();
+		
+		copy.x = ref.x + (copy.x - ref.x) * Mathd.cos(radians) + (copy.y - ref.y) * Mathd.sin(radians);
+		copy.y = ref.y - (copy.x - ref.x) * Mathd.sin(radians) + (copy.y - ref.y * Mathd.cos(radians));
+		
+		this.x = (N) copy.x;
+		this.y = (N) copy.y;
+		
+		return this;
 	}
 	
 	private Number toNumber(N num) {
@@ -136,50 +125,37 @@ public class Vector4<N> {
 	/**
 	 * @return vector as integer.
 	 */
-	public Vector4<Integer> getVector4i() {
+	public Vector2<Integer> getVector4i() {
 		int xx = ((Number)this.x).intValue();
 		int yy = ((Number)this.y).intValue();
-		int zz = ((Number)this.z).intValue();
-		int ww = ((Number)this.w).intValue();
 		
-		return new Vector4<Integer>(xx, yy, zz, ww);
+		return new Vector2<Integer>(xx, yy);
 	}
 	
 	/**
 	 * @return vector as float.
 	 */
-	public Vector4<Float> getVector4f() {
+	public Vector2<Float> getVector2f() {
 		float xx = toNumber(this.x).floatValue();
 		float yy = toNumber(this.y).floatValue();
-		float zz = toNumber(this.z).floatValue();
-		float ww = toNumber(this.w).floatValue();
 		
-		return new Vector4<Float>(xx, yy, zz, ww);
+		return new Vector2<Float>(xx, yy);
 	}
 	
 	/**
 	 * @return vector as double.
 	 */
-	public Vector4<Double> getVector4d() {
+	public Vector2<Double> getVector2d() {
 		double xx = toNumber(this.x).doubleValue();
 		double yy = toNumber(this.y).doubleValue();
-		double zz = toNumber(this.z).doubleValue();
-		double ww = toNumber(this.w).doubleValue();
 		
-		return new Vector4<Double>(xx, yy, zz, ww);
+		return new Vector2<Double>(xx, yy);
 	}
 	
 	/**
 	 * @return new copied instance of this object.
 	 */
-	public Vector4<N> copy() {
-		return new Vector4<N>(x, y, z, w);
-	}
-
-	/**
-	 * @return new Vector2 object of same numerical type 'N'.
-	 */
-	public Vector2<N> toVector2() {
+	public Vector2<N> copy() {
 		return new Vector2<N>(x, y);
 	}
 	
@@ -187,7 +163,14 @@ public class Vector4<N> {
 	 * @return new Vector3 object of same numerical type 'N'.
 	 */
 	public Vector3<N> toVector3() {
-		return new Vector3<N>(x, y, z);
+		return new Vector3<N>(x, y, (N) (Number) 0);
+	}
+	
+	/**
+	 * @return new Vector4 object of same numerical type 'N'.
+	 */
+	public Vector4<N> toVector4() {
+		return new Vector4<N>(x, y, (N) (Number) 0);
 	}
 	
 	/*
@@ -196,18 +179,7 @@ public class Vector4<N> {
 	 */
 	@Override
 	public String toString() {
-		return "(" + this.x + ", " + this.y + ", " + this.z + ", " + this.w + ")";
-	}
-	
-	/**
-	 * Checks 4th element for equality.
-	 * 
-	 * @param object object to reference.
-	 * @param includeW set to true, just do it.
-	 * @return
-	 */
-	public boolean equals(Object object, boolean includeW) {
-		return includeW && equals(object) && object instanceof Vector4 && ((Vector4) object).w.equals(this.w);
+		return "(" + this.x + ", " + this.y + ")";
 	}
 
 	/*
@@ -220,7 +192,6 @@ public class Vector4<N> {
 		int result = 1;
 		result = prime * result + ((x == null) ? 0 : x.hashCode());
 		result = prime * result + ((y == null) ? 0 : y.hashCode());
-		result = prime * result + ((z == null) ? 0 : z.hashCode());
 		return result;
 	}
 
@@ -233,7 +204,7 @@ public class Vector4<N> {
 		if (this == obj) return true;
 		if (obj == null) return false;
 		if (getClass() != obj.getClass()) return false;
-		Vector4 other = (Vector4) obj;
+		Vector2 other = (Vector2) obj;
 		if (x == null) {
 			if (other.x != null) return false;
 		}
@@ -242,11 +213,7 @@ public class Vector4<N> {
 			if (other.y != null) return false;
 		}
 		else if (!y.equals(other.y)) return false;
-		if (z == null) {
-			if (other.z != null) return false;
-		}
-		else if (!z.equals(other.z)) return false;
 		return true;
 	}
-	
+
 }

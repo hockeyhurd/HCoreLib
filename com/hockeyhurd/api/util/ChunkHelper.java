@@ -10,7 +10,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 
-import com.hockeyhurd.api.math.Vector4;
+import com.hockeyhurd.api.math.Vector3;
 import com.hockeyhurd.mod.HCoreLibMain;
 
 public class ChunkHelper {
@@ -92,7 +92,7 @@ public class ChunkHelper {
 	 * @return chunk at player location.
 	 */
 	public Chunk getChunkFromPlayerLocation() {
-		return this.world != null && this.player != null ? getChunk(new Vector4<Double>(this.player.posX, this.player.posY, this.player.posZ).getVector4i()) : null;
+		return this.world != null && this.player != null ? getChunk(new Vector3<Double>(this.player.posX, this.player.posY, this.player.posZ).getVector3i()) : null;
 	}
 	
 	/**
@@ -102,7 +102,7 @@ public class ChunkHelper {
 	 * @return chunk at player location.
 	 */
 	public static Chunk getChunkFromPlayerLocation(EntityPlayer player) {
-		return player != null && player.worldObj != null ? getChunk(player.worldObj, new Vector4<Double>(player.posX, player.posY, player.posZ).getVector4i()) : null;
+		return player != null && player.worldObj != null ? getChunk(player.worldObj, new Vector3<Double>(player.posX, player.posY, player.posZ).getVector3i()) : null;
 	}
 	
 	/**
@@ -111,7 +111,7 @@ public class ChunkHelper {
 	 * @param vec vector in world.
 	 * @return chunk.
 	 */
-	public Chunk getChunk(Vector4<Integer> vec) {
+	public Chunk getChunk(Vector3<Integer> vec) {
 		return getChunk(this.world, vec);
 	}
 	
@@ -122,7 +122,7 @@ public class ChunkHelper {
 	 * @param vec location to reference.
 	 * @return
 	 */
-	public static Chunk getChunk(World world, Vector4<Integer> vec) {
+	public static Chunk getChunk(World world, Vector3<Integer> vec) {
 		if (world != null && vec != null) return world.getChunkFromBlockCoords(vec.x, vec.z);
 		return null;
 	}
@@ -134,12 +134,12 @@ public class ChunkHelper {
 	 * @param vec1 (x<sub>1</sub>, z<sub>1</sub>)
 	 * @return array of chunks if valid else can return null/empty array.
 	 */
-	public Chunk[] getChunksFromBounds(Vector4<Integer> vec0, Vector4<Integer> vec1) {
+	public Chunk[] getChunksFromBounds(Vector3<Integer> vec0, Vector3<Integer> vec1) {
 		if (this.world != null && vec0 != null && vec1 != null && !vec0.equals(vec1)) {
 			List<Chunk> list = new ArrayList<Chunk>();
 			
 			Chunk current;
-			Vector4<Integer> buffer = Vector4.zero.getVector4i();
+			Vector3<Integer> buffer = Vector3.zero.getVector3i();
 			
 			for (int x = vec0.x; x < vec1.x; x++) {
 				for (int z = vec0.z; z < vec1.z; z++) {
@@ -165,12 +165,12 @@ public class ChunkHelper {
 	 * @param vec1 (x<sub>1</sub>, z<sub>1</sub>)
 	 * @return array of chunks if valid else can return null/empty array.
 	 */
-	public static Chunk[] getChunksFromBounds(World world, Vector4<Integer> vec0, Vector4<Integer> vec1) {
+	public static Chunk[] getChunksFromBounds(World world, Vector3<Integer> vec0, Vector3<Integer> vec1) {
 		if (world != null && vec0 != null && vec1 != null && !vec0.equals(vec1)) {
 			List<Chunk> list = new ArrayList<Chunk>();
 			
 			Chunk current;
-			Vector4<Integer> buffer = Vector4.zero.getVector4i();
+			Vector3<Integer> buffer = Vector3.zero.getVector3i();
 			
 			for (int x = vec0.x; x < vec1.x; x++) {
 				for (int z = vec0.z; z < vec1.z; z++) {

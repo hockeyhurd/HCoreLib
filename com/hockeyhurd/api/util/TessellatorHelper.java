@@ -7,7 +7,7 @@ import net.minecraftforge.client.IItemRenderer.ItemRenderType;
 
 import org.lwjgl.opengl.GL11;
 
-import com.hockeyhurd.api.math.Vector4;
+import com.hockeyhurd.api.math.Vector3;
 import com.hockeyhurd.api.renderer.Color4i;
 
 /**
@@ -219,7 +219,7 @@ public class TessellatorHelper {
 	 * @param maxVec = maximum vector coordinate to draw.
 	 * @param renderInside = flag whether to also draw inside.
 	 */
-	public void drawZNeg(Vector4<Float> minVec, Vector4<Float> maxVec, boolean renderInside) {
+	public void drawZNeg(Vector3<Float> minVec, Vector3<Float> maxVec, boolean renderInside) {
 		drawZNeg(this.icon, minVec, maxVec, renderInside);
 	}
 	
@@ -231,7 +231,7 @@ public class TessellatorHelper {
 	 * @param maxVec = maximum vector coordinate to draw.
 	 * @param renderInside = flag whether to also draw inside.
 	 */
-	public void drawZNeg(IIcon icon, Vector4<Float> minVec, Vector4<Float> maxVec, boolean renderInside) {
+	public void drawZNeg(IIcon icon, Vector3<Float> minVec, Vector3<Float> maxVec, boolean renderInside) {
 		tess.setNormal(0.0f, 0.0f, -1.0f);
 		tess.addVertexWithUV(maxVec.x, maxVec.y, minVec.z, icon.getMaxU(), icon.getMinV());
 		tess.addVertexWithUV(maxVec.x, minVec.y, minVec.z, icon.getMaxU(), icon.getMaxV());
@@ -257,7 +257,7 @@ public class TessellatorHelper {
 	 * @param difV = difference of dv.
 	 * @param renderInside = flag whether inside should also be rendered.
 	 */
-	public void drawZNeg(Vector4<Float> minVec, Vector4<Float> maxVec, float min, float max, float difU, float difV, boolean renderInside) {
+	public void drawZNeg(Vector3<Float> minVec, Vector3<Float> maxVec, float min, float max, float difU, float difV, boolean renderInside) {
 		tess.setNormal(0.0f, 0.0f, -1.0f);
 		tess.addVertexWithUV(minVec.x, maxVec.y, maxVec.z, min - difU, min - difV);
 		tess.addVertexWithUV(minVec.x, minVec.y, maxVec.z, min - difU, max - difV);
@@ -279,7 +279,7 @@ public class TessellatorHelper {
 	 * @param maxVec = maximum vector coordinate to draw.
 	 * @param renderInside = flag whether to also draw inside.
 	 */
-	public void drawZPos(Vector4<Float> minVec, Vector4<Float> maxVec, boolean renderInside) {
+	public void drawZPos(Vector3<Float> minVec, Vector3<Float> maxVec, boolean renderInside) {
 		drawZPos(this.icon, minVec, maxVec, renderInside);
 	}
 	
@@ -291,7 +291,7 @@ public class TessellatorHelper {
 	 * @param maxVec = maximum vector coordinate to draw.
 	 * @param renderInside = flag whether to also draw inside.
 	 */
-	public void drawZPos(IIcon icon, Vector4<Float> minVec, Vector4<Float> maxVec, boolean renderInside) {
+	public void drawZPos(IIcon icon, Vector3<Float> minVec, Vector3<Float> maxVec, boolean renderInside) {
 		tess.setNormal(0.0f, 0.0f, 1.0f);
 		tess.addVertexWithUV(minVec.x, maxVec.y, maxVec.z, icon.getMinU(), icon.getMinV());
 		tess.addVertexWithUV(minVec.x, minVec.y, maxVec.z, icon.getMinU(), icon.getMaxV());
@@ -317,7 +317,7 @@ public class TessellatorHelper {
 	 * @param difV = difference of dv.
 	 * @param renderInside = flag whether inside should also be rendered.
 	 */
-	public void drawZPos(Vector4<Float> minVec, Vector4<Float> maxVec, float min, float max, float difU, float difV, boolean renderInside) {
+	public void drawZPos(Vector3<Float> minVec, Vector3<Float> maxVec, float min, float max, float difU, float difV, boolean renderInside) {
 		tess.setNormal(0.0f, 0.0f, 1.0f);
 		tess.addVertexWithUV(maxVec.x, maxVec.y, minVec.z, min - difU, min - difV);
 		tess.addVertexWithUV(maxVec.x, minVec.y, minVec.z, min - difU, max - difV);
@@ -339,7 +339,7 @@ public class TessellatorHelper {
 	 * @param maxVec = maximum vector coordinate to draw.
 	 * @param renderInside = flag whether to also draw inside.
 	 */
-	public void drawXNeg(Vector4<Float> minVec, Vector4<Float> maxVec, boolean renderInside) {
+	public void drawXNeg(Vector3<Float> minVec, Vector3<Float> maxVec, boolean renderInside) {
 		drawXNeg(this.icon, minVec, maxVec, renderInside);
 	}
 	
@@ -351,7 +351,7 @@ public class TessellatorHelper {
 	 * @param maxVec = maximum vector coordinate to draw.
 	 * @param renderInside = flag whether to also draw inside.
 	 */
-	public void drawXNeg(IIcon icon, Vector4<Float> minVec, Vector4<Float> maxVec, boolean renderInside) {
+	public void drawXNeg(IIcon icon, Vector3<Float> minVec, Vector3<Float> maxVec, boolean renderInside) {
 		tess.setNormal(-1.0f, 0.0f, 0.0f);
 		tess.addVertexWithUV(minVec.x, maxVec.y, minVec.z, icon.getMaxU(), icon.getMinV());
 		tess.addVertexWithUV(minVec.x, minVec.y, minVec.z, icon.getMaxU(), icon.getMaxV());
@@ -377,7 +377,7 @@ public class TessellatorHelper {
 	 * @param difV = difference of dv.
 	 * @param renderInside = flag whether inside should also be rendered.
 	 */
-	public void drawXNeg(Vector4<Float> minVec, Vector4<Float> maxVec, float min, float max, float difU, float difV, boolean renderInside) {
+	public void drawXNeg(Vector3<Float> minVec, Vector3<Float> maxVec, float min, float max, float difU, float difV, boolean renderInside) {
 		tess.setNormal(-1.0f, 0.0f, 0.0f);
 		tess.addVertexWithUV(minVec.x, maxVec.y, minVec.z, min - difU, min - difV);
 		tess.addVertexWithUV(minVec.x, minVec.y, minVec.z, min - difU, max - difV);
@@ -399,7 +399,7 @@ public class TessellatorHelper {
 	 * @param maxVec = maximum vector coordinate to draw.
 	 * @param renderInside = flag whether to also draw inside.
 	 */
-	public void drawXPos(Vector4<Float> minVec, Vector4<Float> maxVec, boolean renderInside) {
+	public void drawXPos(Vector3<Float> minVec, Vector3<Float> maxVec, boolean renderInside) {
 		drawXPos(this.icon, minVec, maxVec, renderInside);
 	}
 	
@@ -411,7 +411,7 @@ public class TessellatorHelper {
 	 * @param maxVec = maximum vector coordinate to draw.
 	 * @param renderInside = flag whether to also draw inside.
 	 */
-	public void drawXPos(IIcon icon, Vector4<Float> minVec, Vector4<Float> maxVec, boolean renderInside) {
+	public void drawXPos(IIcon icon, Vector3<Float> minVec, Vector3<Float> maxVec, boolean renderInside) {
 		tess.setNormal(1.0f, 0.0f, 0.0f);
 		tess.addVertexWithUV(maxVec.x, maxVec.y, maxVec.z, icon.getMinU(), icon.getMinV());
 		tess.addVertexWithUV(maxVec.x, minVec.y, maxVec.z, icon.getMinU(), icon.getMaxV());
@@ -437,7 +437,7 @@ public class TessellatorHelper {
 	 * @param difV = difference of dv.
 	 * @param renderInside = flag whether inside should also be rendered.
 	 */
-	public void drawXPos(Vector4<Float> minVec, Vector4<Float> maxVec, float min, float max, float difU, float difV, boolean renderInside) {
+	public void drawXPos(Vector3<Float> minVec, Vector3<Float> maxVec, float min, float max, float difU, float difV, boolean renderInside) {
 		tess.setNormal(1.0f, 0.0f, 0.0f);
 		tess.addVertexWithUV(maxVec.x, maxVec.y, maxVec.z, max - difU, min - difV);
 		tess.addVertexWithUV(maxVec.x, minVec.y, maxVec.z, max - difU, max - difV);
@@ -459,7 +459,7 @@ public class TessellatorHelper {
 	 * @param maxVec = maximum vector coordinate to draw.
 	 * @param renderInside = flag whether to also draw inside.
 	 */
-	public void drawYNeg(Vector4<Float> minVec, Vector4<Float> maxVec, boolean renderInside) {
+	public void drawYNeg(Vector3<Float> minVec, Vector3<Float> maxVec, boolean renderInside) {
 		drawYNeg(this.icon, minVec, maxVec, renderInside);
 	}
 	
@@ -471,7 +471,7 @@ public class TessellatorHelper {
 	 * @param maxVec = maximum vector coordinate to draw.
 	 * @param renderInside = flag whether to also draw inside.
 	 */
-	public void drawYNeg(IIcon icon, Vector4<Float> minVec, Vector4<Float> maxVec, boolean renderInside) {
+	public void drawYNeg(IIcon icon, Vector3<Float> minVec, Vector3<Float> maxVec, boolean renderInside) {
 		tess.setNormal(0.0f, -1.0f, 0.0f);
 		tess.addVertexWithUV(maxVec.x, minVec.y, minVec.z, icon.getMinU(), icon.getMinV());
 		tess.addVertexWithUV(maxVec.x, minVec.y, maxVec.z, icon.getMinU(), icon.getMaxV());
@@ -497,7 +497,7 @@ public class TessellatorHelper {
 	 * @param difV = difference of dv.
 	 * @param renderInside = flag whether inside should also be rendered.
 	 */
-	public void drawYNeg(Vector4<Float> minVec, Vector4<Float> maxVec, float min, float max, float difU, float difV, boolean renderInside) {
+	public void drawYNeg(Vector3<Float> minVec, Vector3<Float> maxVec, float min, float max, float difU, float difV, boolean renderInside) {
 		tess.setNormal(0.0f, -1.0f, 0.0f);
 		tess.addVertexWithUV(maxVec.x, minVec.y - 0.01d, minVec.z, max - difU, min - difV);
 		tess.addVertexWithUV(maxVec.x, minVec.y - 0.01d, maxVec.z, max - difU, max - difV);
@@ -519,7 +519,7 @@ public class TessellatorHelper {
 	 * @param maxVec = maximum vector coordinate to draw.
 	 * @param renderInside = flag whether to also draw inside.
 	 */
-	public void drawYPos(Vector4<Float> minVec, Vector4<Float> maxVec, boolean renderInside) {
+	public void drawYPos(Vector3<Float> minVec, Vector3<Float> maxVec, boolean renderInside) {
 		drawYPos(this.icon, minVec, maxVec, renderInside);
 	}
 	
@@ -531,7 +531,7 @@ public class TessellatorHelper {
 	 * @param maxVec = maximum vector coordinate to draw.
 	 * @param renderInside = flag whether to also draw inside.
 	 */
-	public void drawYPos(IIcon icon, Vector4<Float> minVec, Vector4<Float> maxVec, boolean renderInside) {
+	public void drawYPos(IIcon icon, Vector3<Float> minVec, Vector3<Float> maxVec, boolean renderInside) {
 		tess.setNormal(0.0f, 1.0f, 0.0f);
 		tess.addVertexWithUV(minVec.x, maxVec.y, minVec.z, icon.getMaxU(), icon.getMinV());
 		tess.addVertexWithUV(minVec.x, maxVec.y, maxVec.z, icon.getMaxU(), icon.getMaxV());
@@ -557,7 +557,7 @@ public class TessellatorHelper {
 	 * @param difV = difference of dv.
 	 * @param renderInside = flag whether inside should also be rendered.
 	 */
-	public void drawYPos(Vector4<Float> minVec, Vector4<Float> maxVec, float min, float max, float difU, float difV, boolean renderInside) {
+	public void drawYPos(Vector3<Float> minVec, Vector3<Float> maxVec, float min, float max, float difU, float difV, boolean renderInside) {
 		tess.setNormal(0.0f, 1.0f, 0.0f);
 		tess.addVertexWithUV(minVec.x, maxVec.y - 0.01d, minVec.z, min - difU, min - difV);
 		tess.addVertexWithUV(minVec.x, maxVec.y - 0.01d, maxVec.z, min - difU, max - difV);
