@@ -24,9 +24,17 @@ public class TessellatorHelper {
 	private IIcon icon;
 	public final Tessellator tess;
 	private boolean testFlagColour = false;
+
+	/**
+	 * Default constructor.
+	 */
+	public TessellatorHelper() {
+		this(null);
+	}
 	
 	/**
-	 * Default constructor used to initialize an icon and new instance of this class.
+	 * Constructor used to initialize an icon and new instance of this class.
+	 * 
 	 * @param icon = icon to use.
 	 */
 	public TessellatorHelper(IIcon icon) {

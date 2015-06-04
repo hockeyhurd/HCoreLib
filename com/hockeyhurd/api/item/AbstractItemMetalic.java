@@ -5,6 +5,12 @@ import net.minecraft.item.Item;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
+/**
+ * Generic class for creating but not limited to metalic items i.e. ingots, dusts, etc. 
+ * 
+ * @author hockeyhurd
+ * @version Jun 4, 2015
+ */
 public abstract class AbstractItemMetalic extends Item {
 	
 	protected String fileName;

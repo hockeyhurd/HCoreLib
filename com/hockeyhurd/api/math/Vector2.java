@@ -125,7 +125,7 @@ public class Vector2<N> {
 	/**
 	 * @return vector as integer.
 	 */
-	public Vector2<Integer> getVector4i() {
+	public Vector2<Integer> getVector2i() {
 		int xx = ((Number)this.x).intValue();
 		int yy = ((Number)this.y).intValue();
 		
