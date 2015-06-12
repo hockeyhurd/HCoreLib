@@ -12,11 +12,36 @@ public class Vector3<N> {
 	
 	/** Identity function used for setting a vector to its 'zero'. */
 	public static final Vector3 zero = new Vector3();
-	
+
+	/** (0, -1, 0) */
+	@SuppressWarnings("unchecked")
+	public static final Vector3 down = new Vector3(0, -1, 0);
+
+	/** (0, 1, 0) */
+	@SuppressWarnings("unchecked")
+	public static final Vector3 up = new Vector3(0, 1, 0);
+
+	/** (1, 0, 0) */
+	@SuppressWarnings("unchecked")
+	public static final Vector3 east = new Vector3(1, 0, 0);
+
+	/** (-1, 0, 0) */
+	@SuppressWarnings("unchecked")
+	public static final Vector3 west = new Vector3(-1, 0, 0);
+
+	/** (0, 0, -1) */
+	@SuppressWarnings("unchecked")
+	public static final Vector3 north = new Vector3(0, 0, -1);
+
+	/** (0, 0, 1) */
+	@SuppressWarnings("unchecked")
+	public static final Vector3 south = new Vector3(0, 0, 1);
+
 	/**
 	 * Constructor creates new instance of this class with default 
 	 * co-ordinate value of (0, 0, 0).
 	 */
+	@SuppressWarnings("unchecked")
 	public Vector3() {
 		this((N) (Number) 0, (N) (Number) 0, (N) (Number) 0);
 	}
@@ -74,18 +99,17 @@ public class Vector3<N> {
 	/**
 	 * Gets the difference net difference of each individual element.
 	 * 
-	 * @param vec1 point 1.
-	 * @param vec2 point 2.
+	 * @param other point '2'.
 	 * @return differenced vectors.
 	 */
-	public Vector3<N> getDifference(Vector3<N> vec1, Vector3<N> vec2) {
-		float xx0 = toNumber(vec1.x).floatValue();
-		float yy0 = toNumber(vec1.y).floatValue();
-		float zz0 = toNumber(vec1.z).floatValue();
+	public Vector3<N> getDifference(Vector3<N> other) {
+		float xx0 = toNumber(this.x).floatValue();
+		float yy0 = toNumber(this.y).floatValue();
+		float zz0 = toNumber(this.z).floatValue();
 		
-		float xx1 = toNumber(vec2.x).floatValue();
-		float yy1 = toNumber(vec2.y).floatValue();
-		float zz1 = toNumber(vec2.z).floatValue();
+		float xx1 = toNumber(other.x).floatValue();
+		float yy1 = toNumber(other.y).floatValue();
+		float zz1 = toNumber(other.z).floatValue();
 		
 		float xTot = xx0 - xx1;
 		float yTot = yy0 - yy1;
@@ -100,8 +124,8 @@ public class Vector3<N> {
 	 * @param vec vector<sub>2</sub>
 	 * @return difference as a double.
 	 */
-	public double getDifference(Vector3<N> vec) {
-		Vector3<Double> dif = getDifference(vec, this).getVector3d();
+	public double getNetDifference(Vector3<N> vec) {
+		Vector3<Double> dif = getDifference(vec).getVector3d();
 		double sum = (dif.x * dif.x) + (dif.y * dif.y) + (dif.z * dif.z);
 		return Math.sqrt(sum);
 	}

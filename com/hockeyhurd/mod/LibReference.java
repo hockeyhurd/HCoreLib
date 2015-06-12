@@ -5,7 +5,7 @@ import com.hockeyhurd.api.util.AbstractReference;
 /**
  * Example class, used directly for this core mode.
  * DO NOT: change this!
- * DO Not: use this!
+ * DO NOT: use this!
  * DO: Make your own reference class
  * WELCOMED: to copy this layout as an example.
  * 
@@ -14,7 +14,7 @@ import com.hockeyhurd.api.util.AbstractReference;
 public class LibReference extends AbstractReference {
 
 	/** Current build number. */
-	public static final short BUILD = 26;
+	public static final short BUILD = 27;
 	
 	/** Current version with included build number. */
 	public static final String VERSION = "v1.1." + BUILD;

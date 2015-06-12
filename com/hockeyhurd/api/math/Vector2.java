@@ -27,7 +27,6 @@ public class Vector2<N> {
 	 * 
 	 * @param x = xPos
 	 * @param y = yPos
-	 * @param z = zPos
 	 */
 	public Vector2(N x, N y) {
 		this.x = x;
@@ -69,16 +68,15 @@ public class Vector2<N> {
 	/**
 	 * Gets the difference net difference of each individual element.
 	 * 
-	 * @param vec1 point 1.
-	 * @param vec2 point 2.
+	 * @param other point '2'.
 	 * @return differenced vectors.
 	 */
-	public Vector2<N> getDifference(Vector2<N> vec1, Vector2<N> vec2) {
-		float xx0 = toNumber(vec1.x).floatValue();
-		float yy0 = toNumber(vec1.y).floatValue();
+	public Vector2<N> getDifference(Vector2<N> other) {
+		float xx0 = toNumber(this.x).floatValue();
+		float yy0 = toNumber(this.y).floatValue();
 		
-		float xx1 = toNumber(vec2.x).floatValue();
-		float yy1 = toNumber(vec2.y).floatValue();
+		float xx1 = toNumber(other.x).floatValue();
+		float yy1 = toNumber(other.y).floatValue();
 		
 		float xTot = xx0 - xx1;
 		float yTot = yy0 - yy1;
@@ -92,8 +90,8 @@ public class Vector2<N> {
 	 * @param vec vector<sub>2</sub>
 	 * @return difference as a double.
 	 */
-	public double getDifference(Vector2<N> vec) {
-		Vector2<Double> dif = getDifference(vec, this).getVector2d();
+	public double getNetDifference(Vector2<N> vec) {
+		Vector2<Double> dif = getDifference(vec).getVector2d();
 		double sum = (dif.x * dif.x) + (dif.y * dif.y);
 		return Math.sqrt(sum);
 	}
