@@ -1,19 +1,16 @@
 package com.hockeyhurd.api.handler;
 
+import com.hockeyhurd.api.util.AbstractReference;
+import com.hockeyhurd.api.util.ChatHelper;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraftforge.event.entity.EntityJoinWorldEvent;
+
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map.Entry;
 
-import net.minecraft.entity.player.EntityPlayerMP;
 import static net.minecraft.util.EnumChatFormatting.*;
-import net.minecraftforge.event.entity.EntityJoinWorldEvent;
-
-import com.hockeyhurd.api.util.AbstractReference;
-import com.hockeyhurd.api.util.ChatHelper;
-import com.hockeyhurd.mod.HCoreLibMain;
-import com.hockeyhurd.mod.LibReference;
-
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
 /**
  * Simple class for notifying player when they join the game about your mod's update!
@@ -69,21 +66,35 @@ public class NotifyPlayerOnJoinHandler {
 			EntityPlayerMP player = (EntityPlayerMP) event.entity;
 			if (!updateFlag) {
 				String build = "";
-				String url = "";
+				String updateUrl = "";
+
+				String changelogUrl = "";
 				
 				Iterator iter = map.entrySet().iterator();
-				// Grabbing the first index of entry's keys and values and store this data.
-				while (iter.hasNext()) {
+				// Grabbing the first index of entry's keys and values and store this data. 'update/build numer'
+				if (iter.hasNext()) {
 					Entry<String, String> current = (Entry<String, String>) iter.next();
 					build = current.getKey();
-					url = current.getValue();
-					break;
+					updateUrl = current.getValue();
 				}
-				
+
 				// Output info to joining player.
 				ChatHelper helper = new ChatHelper();
 				player.addChatComponentMessage(helper.comp(GREEN + "[" + name + "] " + GRAY + "Found an update! Latest build: " + build));
-				player.addChatComponentMessage(helper.compURL(GRAY + "You can get this at:" + WHITE, url, this.maskUrl));
+				player.addChatComponentMessage(helper.compURL(GRAY + "You can get this at:" + WHITE, updateUrl, this.maskUrl));
+
+				// grab changelog info.
+				String[] changelogArray = instance.getChangelogInfo();
+				if (changelogArray != null && changelogArray.length > 0) {
+					player.addChatComponentMessage(helper.comp(GREEN + "Change log:"));
+
+					for (String s : changelogArray) {
+						if (s != null) {
+							player.addChatComponentMessage(helper.comp(WHITE + s));
+						}
+					}
+				}
+
 			}
 		}
 	}

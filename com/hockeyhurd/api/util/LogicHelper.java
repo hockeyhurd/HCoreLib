@@ -61,7 +61,7 @@ public class LogicHelper {
 	 * @return inverse of inputted boolean.
 	 */
 	public static boolean flipper(boolean flag) {
-		return flag ? false : true;
+		return !flag;
 	}
 
 }

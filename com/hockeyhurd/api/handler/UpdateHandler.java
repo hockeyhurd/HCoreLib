@@ -1,14 +1,16 @@
 package com.hockeyhurd.api.handler;
 
+import com.hockeyhurd.api.util.AbstractReference;
+import com.hockeyhurd.mod.HCoreLibMain;
+
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Scanner;
-
-import com.hockeyhurd.api.util.AbstractReference;
-import com.hockeyhurd.mod.HCoreLibMain;
 
 public class UpdateHandler {
 
@@ -19,8 +21,10 @@ public class UpdateHandler {
 	private boolean upToDate = true;
 	
 	// NOTE: Just add build number + .jar
-	private final String url; // = "http://75.68.113.97:8080/downloads/versions/ExtraTools+-1.1.";
+	private final String url;
 	private String latestUrl = "";
+	private String changelogUrl;
+	private List<String> changelogList;
 
 	/**
 	 * From created reference class, get data needed and store into memory.
@@ -31,11 +35,14 @@ public class UpdateHandler {
 		String modName = "";
 		String val = "";
 		String vUrl = "";
+		String clUrl = "";
+
 		try {
 			currentVal = reference.getDeclaredField("BUILD").getShort(reference);
 			modName = reference.getDeclaredField("MOD_NAME").get(reference).toString();
 			val = reference.getDeclaredField("VERSION").get(reference).toString();
 			vUrl = reference.getDeclaredField("MOD_URL").get(reference).toString();
+			clUrl = reference.getDeclaredField("CHANGELOG_URL").get(reference).toString();
 		}
 		
 		catch (Exception e) {
@@ -46,41 +53,52 @@ public class UpdateHandler {
 		this.modName = modName;
 		this.currentBuild = val;
 		this.url = vUrl;
+		this.changelogUrl = clUrl;
+
+		changelogList = new ArrayList<String>();
 	}
 
 	/**
 	 * Call this method to check for updates.
 	 */
 	public void check() {
+		checkForLatestBuild();
+		checkForChangeLog();
+	}
+
+	/**
+	 * Method used to check for latest build number.
+	 */
+	private void checkForLatestBuild() {
 		if (exists(this.url)) {
 			URL link = null;
-			
+
 			try {
 				link = new URL(this.url);
 			}
-			
+
 			catch (MalformedURLException e) {
 				e.printStackTrace();
 				HCoreLibMain.lh.warn("URL:", this.url, "doesn't exist!");
 			}
-			
+
 			if (link == null) {
 				this.upToDate = true;
 				return;
 			}
-			
+
 			try {
 				Scanner sc = new Scanner(link.openStream());
 
 				this.latestBuild = sc.next();
-				
+
 				short latestNumber = Short.parseShort(this.latestBuild.substring(this.latestBuild.lastIndexOf('.') + 1, this.latestBuild.length()));
-				
+
 				if (this.currentBuildNumber < latestNumber) {
 					this.upToDate = false;
 					this.latestUrl = getAppropriateUrl();
 				}
-				
+
 				sc.close();
 			}
 			catch (IOException e) {
@@ -88,10 +106,55 @@ public class UpdateHandler {
 				HCoreLibMain.lh.warn("Error reading file! Please ensure data in file is valid!");
 			}
 		}
-		
+
 		else {
 			HCoreLibMain.lh.warn("Error url doesn't exist!");
 			this.upToDate = true;
+		}
+	}
+
+	/**
+	 * Method to check for changelog.
+	 */
+	private void checkForChangeLog() {
+		boolean exists = exists(this.changelogUrl);
+
+		if (!this.upToDate && exists) {
+			URL link = null;
+
+			try {
+				link = new URL(this.changelogUrl);
+			}
+
+			catch (MalformedURLException e) {
+				e.printStackTrace();
+				HCoreLibMain.lh.warn("URL:", this.changelogUrl, "doesn't exist!");
+			}
+
+			// nothing exists, return.
+			if (link == null) return;
+
+			try {
+				Scanner sc = new Scanner(link.openStream());
+
+				while (sc.hasNext()) {
+					String line = sc.next() + sc.nextLine();
+					changelogList.add(line);
+				}
+
+				sc.close();
+
+			}
+
+			catch (IOException e) {
+				e.printStackTrace();
+				HCoreLibMain.lh.warn("Error reading file! Please ensure data in file is valid");
+			}
+		}
+
+		else {
+			if (!exists) HCoreLibMain.lh.warn("Changelog url doesn't exist or is null.");
+			else HCoreLibMain.lh.info("No changelog found since we are up to date!");
 		}
 	}
 	
@@ -115,13 +178,28 @@ public class UpdateHandler {
 	public String getLatestURL() {
 		return this.latestUrl;
 	}
-	
+
+	/**
+	 * @return changelog as array of strings.
+	 */
+	public String[] getChangelogInfo() {
+		if (!upToDate && !changelogList.isEmpty()) return changelogList.toArray(new String[changelogList.size()]);
+		else return null;
+	}
+
 	/**
 	 * @return gets mapping from key: build_version, value: download_link_url.
 	 */
 	public HashMap<String,String> getMap() {
 		HashMap<String, String> ent = new HashMap<String, String>();
 		ent.put(getLatestBuild(), getLatestURL());
+
+		if (!upToDate && !changelogList.isEmpty()) {
+			for (int i = 0; i < changelogList.size(); i++) {
+				ent.put(String.valueOf(i), changelogList.get(i));
+			}
+		}
+
 		return ent;
 	}
 	

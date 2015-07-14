@@ -1,13 +1,12 @@
 package com.hockeyhurd.api.util;
 
+import com.hockeyhurd.api.math.Vector3;
+import com.hockeyhurd.mod.HCoreLibMain;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
-
-import com.hockeyhurd.api.math.Vector3;
-import com.hockeyhurd.mod.HCoreLibMain;
 
 public class BlockHelper {
 
@@ -115,13 +114,13 @@ public class BlockHelper {
 	
 	public boolean blockListContains(int id) {
 		Block block = Block.getBlockById(id);
-		return block != null && block != Blocks.air ? true : false;
+		return block != null && block != Blocks.air;
 	}
 	
 	public boolean blockListContains(Block block) {
 		int id = Block.getIdFromBlock(block);
 		Block b = Block.getBlockById(id); 
-		return b != null && b != Blocks.air ? true : false; 
+		return b != null && b != Blocks.air;
 	}
 	
 	public void destroyBlock(int x, int y, int z) {
@@ -168,4 +167,5 @@ public class BlockHelper {
 	public void setBlockToAir(Vector3<Integer> vec) {
 		setBlockToAir(vec.x, vec.y, vec.z);
 	}
+
 }

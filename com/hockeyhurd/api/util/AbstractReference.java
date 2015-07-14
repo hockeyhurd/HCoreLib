@@ -13,6 +13,9 @@ public abstract class AbstractReference {
 	
 	/** Not required but is available. NOTE: if not using it, set to null! */
 	public static String MOD_URL;
+
+	/** Not required but is available. NOTE: if not using it, set to null! */
+	public static String CHANGELOG_URL;
 	
 	/**
 	 * To use this class referencing, simple extend this class with your own and plug-in your own values.
