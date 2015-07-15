@@ -29,7 +29,7 @@ public class NumberFormatter {
 	 * @return formatted number as string.
 	 */ 
 	public static String format(Object o) {
-		return FORMAT.format(String.valueOf(o));
+		return o instanceof Number ? FORMAT.format(o) : "<ERROR>";
 	}
 
 	/**
@@ -40,7 +40,7 @@ public class NumberFormatter {
 	 * @return formatted string.
 	 */
 	public static String format(DecimalFormat format, Object o) {
-		return format.format(String.valueOf(o));
+		return o instanceof Number && format != null ? format.format(o) : "<ERROR>";
 	}
 
 	/**
@@ -51,7 +51,7 @@ public class NumberFormatter {
 	 * @return formatted string.
 	 */
 	public static String format(String format, Object o) {
-		return format(new DecimalFormat(format), o);
+		return o instanceof Number ? format(new DecimalFormat(format), o) : "<ERROR>";
 	}
 
 }

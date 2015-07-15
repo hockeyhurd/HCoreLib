@@ -194,11 +194,11 @@ public class UpdateHandler {
 		HashMap<String, String> ent = new HashMap<String, String>();
 		ent.put(getLatestBuild(), getLatestURL());
 
-		if (!upToDate && !changelogList.isEmpty()) {
+		/*if (!upToDate && !changelogList.isEmpty()) {
 			for (int i = 0; i < changelogList.size(); i++) {
 				ent.put(String.valueOf(i), changelogList.get(i));
 			}
-		}
+		}*/
 
 		return ent;
 	}
