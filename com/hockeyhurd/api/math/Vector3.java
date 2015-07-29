@@ -130,6 +130,34 @@ public class Vector3<N> {
 		return Math.sqrt(sum);
 	}
 
+	/**
+	 * Calculates linear interpolation between two vectors.
+	 *
+	 * @param v0
+	 * @param v1
+	 * @return linear interpolation between two vectors.
+	 */
+	public static Vector3<Double> lerp(Vector3<Double> v0, Vector3<Double> v1) {
+		return lerp(v0, v1, 0.5d);
+	}
+
+	/**
+	 * Calculates linear interpolation between two vectors.
+	 *
+	 * @param v0
+	 * @param v1
+	 * @param weight weighting between two vectors.
+	 * @return linear interpolation between two vectors.
+	 */
+	public static Vector3<Double> lerp(Vector3<Double> v0, Vector3<Double> v1, double weight) {
+		Vector3<Double> ret = new Vector3<Double>();
+		ret.x = Mathd.lerp(v0.x, v1.x, weight);
+		ret.y = Mathd.lerp(v0.y, v1.y, weight);
+		ret.z = Mathd.lerp(v0.z, v1.z, weight);
+
+		return ret;
+	}
+
 	private Number toNumber(N num) {
 		return (Number) num;
 	}

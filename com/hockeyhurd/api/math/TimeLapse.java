@@ -26,7 +26,16 @@ public class TimeLapse {
 	public double getEffectiveTimeSince() {
 		long currentTime = System.nanoTime();
 		double effTime = (currentTime - startTime) / ns;
-		return Math.ceil(effTime);
+		return effTime;
+	}
+
+	/**
+	 * Gives the effective from point of init.
+	 *
+	 * @return effective time in ns.
+	 */
+	public long getEffectiveTimeSinceNS() {
+		return System.nanoTime() - startTime;
 	}
 
 }

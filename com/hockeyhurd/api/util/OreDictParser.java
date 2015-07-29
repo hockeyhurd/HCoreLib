@@ -1,11 +1,15 @@
 package com.hockeyhurd.api.util;
 
+import com.hockeyhurd.mod.HCoreLibMain;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 
-import com.hockeyhurd.mod.HCoreLibMain;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Simple parsing class for checking ore dictionary for a given item and getting it by an ItemStack.
@@ -14,7 +18,31 @@ import com.hockeyhurd.mod.HCoreLibMain;
  */
 public class OreDictParser {
 
-	public OreDictParser() {
+	private static final Map<String, List<ItemStack>> internalMap = new HashMap<String, List<ItemStack>>();
+
+	private OreDictParser() {
+	}
+
+	/**
+	 * Method to push ore dictionary info into internal mapping.
+	 *
+	 * @param key ore dictionary key.
+	 * @param list list of oredictionary itemstacks.
+	 */
+	private static void pushListToMap(String key, List<ItemStack> list) {
+		if (list != null && !list.isEmpty()) {
+			List<ItemStack> putList = new ArrayList<ItemStack>(list.size());
+			ItemStack buffer;
+
+			for (ItemStack stack : list) {
+				buffer = stack.copy();
+				buffer.stackSize = 1;
+
+				putList.add(buffer);
+			}
+
+			internalMap.put(key, putList);
+		}
 	}
 
 	/**
@@ -24,6 +52,7 @@ public class OreDictParser {
 	 *            = name to find.
 	 * @return ItemStack if found, else returns null.
 	 */
+	@Deprecated
 	public static ItemStack getFromDict(String objectName) {
 		return getFromDict(objectName, 1);
 	}
@@ -37,6 +66,7 @@ public class OreDictParser {
 	 *            = size of created ItemStack if found.
 	 * @return ItemStack if found, else returns null.
 	 */
+	@Deprecated
 	public static ItemStack getFromDict(String objectName, int size) {
 		// If object name isn't valid or size is < 0 || > 64 return with information.
 		if (!LogicHelper.nullCheckString(objectName) || size <= 0 || size > 64) {
@@ -80,6 +110,58 @@ public class OreDictParser {
 
 				return flag && temp != null ? temp : (ItemStack) null;
 			}
+		}
+	}
+
+	/**
+	 * Function to get list of itemstacks by name from ore dictionary.
+	 *
+	 * @param objectName name to find.
+	 * @param size size to set stacks to.
+	 * @return list of itemstacks if found in ore dictionary, else can return NULL.
+	 */
+	public static List<ItemStack> getFromOreDict(String objectName, int size) {
+		return getFromOreDict(objectName, size, true);
+	}
+
+	/**
+	 * Function to get list of itemstacks by name from ore dictionary.
+	 *
+	 * @param objectName name to find.
+	 * @param size size to set stacks to.
+	 * @param useInternal flag when set to true will attempt to use internal mappings.
+	 * @return list of itemstacks if found in ore dictionary, else can return NULL.
+	 */
+	public static List<ItemStack> getFromOreDict(String objectName, int size, boolean useInternal) {
+		if (!LogicHelper.nullCheckString(objectName) || size <= 0 || size > 0x40) {
+			HCoreLibMain.lh.warn("Could not find object by name:", objectName, "Size:", size);
+			return null;
+		}
+
+		else {
+			List<ItemStack> list = null;
+			// List<ItemStack> retList = OreDictionary.getOres(objectName);
+			List<ItemStack> retList;
+
+			if (useInternal && !internalMap.isEmpty() && internalMap.containsKey(objectName)) retList = internalMap.get(objectName);
+
+			else retList = OreDictionary.getOres(objectName);
+
+			if (retList != null && !retList.isEmpty()) {
+				list = new ArrayList<ItemStack>(retList.size());
+				ItemStack buffer;
+
+				for (ItemStack stack : retList) {
+					buffer = stack.copy();
+					buffer.stackSize = size;
+
+					list.add(buffer);
+				}
+
+				if (!internalMap.containsKey(objectName)) pushListToMap(objectName, retList);
+			}
+
+			return list;
 		}
 	}
 

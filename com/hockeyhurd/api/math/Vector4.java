@@ -151,6 +151,35 @@ public class Vector4<N> {
 		double sum = (dif.x * dif.x) + (dif.y * dif.y) + (dif.z * dif.z) + (dif.w * dif.w);
 		return Math.sqrt(sum);
 	}
+
+	/**
+	 * Calculates linear interpolation between two vectors.
+	 *
+	 * @param v0
+	 * @param v1
+	 * @return linear interpolation between two vectors.
+	 */
+	public static Vector4<Double> lerp(Vector4<Double> v0, Vector4<Double> v1) {
+		return lerp(v0, v1, 0.5d);
+	}
+
+	/**
+	 * Calculates linear interpolation between two vectors.
+	 *
+	 * @param v0
+	 * @param v1
+	 * @param weight weighting between two vectors.
+	 * @return linear interpolation between two vectors.
+	 */
+	public static Vector4<Double> lerp(Vector4<Double> v0, Vector4<Double> v1, double weight) {
+		Vector4<Double> ret = new Vector4<Double>();
+		ret.x = Mathd.lerp(v0.x, v1.x, weight);
+		ret.y = Mathd.lerp(v0.y, v1.y, weight);
+		ret.z = Mathd.lerp(v0.z, v1.z, weight);
+		ret.w = Mathd.lerp(v0.w, v1.w, weight);
+
+		return ret;
+	}
 	
 	private Number toNumber(N num) {
 		return (Number) num;

@@ -97,6 +97,33 @@ public class Vector2<N> {
 	}
 
 	/**
+	 * Calculates linear interpolation between two vectors.
+	 *
+	 * @param v0
+	 * @param v1
+	 * @return linear interpolation between two vectors.
+	 */
+	public static Vector2<Double> lerp(Vector2<Double> v0, Vector2<Double> v1) {
+		return lerp(v0, v1, 0.5d);
+	}
+
+	/**
+	 * Calculates linear interpolation between two vectors.
+	 *
+	 * @param v0
+	 * @param v1
+	 * @param weight weighting between two vectors.
+	 * @return linear interpolation between two vectors.
+	 */
+	public static Vector2<Double> lerp(Vector2<Double> v0, Vector2<Double> v1, double weight) {
+		Vector2<Double> ret = new Vector2<Double>();
+		ret.x = Mathd.lerp(v0.x, v1.x, weight);
+		ret.y = Mathd.lerp(v0.y, v1.y, weight);
+
+		return ret;
+	}
+
+	/**
 	 * Rotates this vector about another vector by said angle in degrees.
 	 * 
 	 * @param ref point of which to rotate about.

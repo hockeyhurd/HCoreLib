@@ -230,6 +230,34 @@ public class Mathd {
 		
 		return value;
 	}
+
+	/**
+	 * Calculates linear interpolation betwen two numbers.
+	 * <br>By using this specific lerp, we set the weight to 0.5 resulting in midpoint.
+	 *
+	 * @param x0 smaller number.
+	 * @param x1 bigger number.
+	 * @return linear interpolation with weight being un-effected.
+	 */
+	public static double lerp(double x0, double x1) {
+		return lerp(x0, x1, 0.5d);
+	}
+
+	/**
+	 * Calculates linear interpolation betwen two numbers.
+	 *
+	 * @param p0 smaller number.
+	 * @param p1 bigger number.
+	 * @param weight weighting. (setting < 0.5 will weigh more towards smaller number; setting > 0.5 will weigh more towards larger number.
+	 *               setting to 0.5 will be towards the midpoint. <bold>NOTE: </bold>Weight is clamped to 0 <= weight <= 1.
+	 * @return linear interpolation with weight being effected.
+	 */
+	public static double lerp(double p0, double p1, double weight) {
+		if (weight < 0d) weight = 0d;
+		else if (weight > 1d) weight = 1d;
+
+		return p0 + (p1 - p0) * weight;
+	}
 	
 }
 
