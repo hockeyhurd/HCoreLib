@@ -18,6 +18,7 @@ import java.util.Map;
  */
 public class OreDictParser {
 
+	/** Internal mapping to use for caching data from ore dictionary. */
 	private static final Map<String, List<ItemStack>> internalMap = new HashMap<String, List<ItemStack>>();
 
 	private OreDictParser() {
