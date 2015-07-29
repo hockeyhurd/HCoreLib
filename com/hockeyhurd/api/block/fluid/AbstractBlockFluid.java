@@ -22,7 +22,7 @@ public abstract class AbstractBlockFluid extends BlockFluidClassic {
 	protected static final String suffix = ".still";
 
 	@SideOnly(Side.CLIENT)
-	private IIcon flowing, still;
+	protected IIcon flowing, still;
 
 	/**
 	 * @param name name of fluid block.
@@ -35,12 +35,14 @@ public abstract class AbstractBlockFluid extends BlockFluidClassic {
 		setBlockName(name + suffix);
 		this.name = name + suffix;
 		this.assetDir = assetDir;
+
+		if (fluid.getBlock() == null) fluid.setBlock(this);
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister reg) {
-		still = reg.registerIcon(assetDir + name);
+		blockIcon = still = reg.registerIcon(assetDir + name);
 		flowing = reg.registerIcon(assetDir + name.replace(suffix, ".flowing"));
 
 		this.stack.getFluid().setIcons(still, flowing);

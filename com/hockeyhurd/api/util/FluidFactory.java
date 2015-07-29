@@ -47,7 +47,7 @@ public final class FluidFactory {
 	public static Fluid createNewFluid(String name, BlockFluidBase fluidBlock, EnumRarity rarity) {
 		if (name != null && name.length() > 0) {
 			Fluid fluid = new Fluid(name);
-			fluid.setBlock(fluidBlock);
+			if (fluidBlock != null) fluid.setBlock(fluidBlock);
 			fluid.setRarity(rarity);
 
 			return fluid;
@@ -79,7 +79,7 @@ public final class FluidFactory {
 
 			ret = new Fluid(name);
 
-			ret.setBlock(fluidBlock);
+			if (fluidBlock != null) ret.setBlock(fluidBlock);
 			ret.setLuminosity(luminosity);
 			ret.setDensity(density);
 			ret.setTemperature(temperature);
