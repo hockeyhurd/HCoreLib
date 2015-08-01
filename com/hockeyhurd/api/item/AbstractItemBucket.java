@@ -30,6 +30,7 @@ public abstract class AbstractItemBucket extends ItemBucket {
 	public AbstractItemBucket(String name, String assetDir, Block block) {
 		super(block);
 
+		this.setUnlocalizedName(name);
 		this.name = name;
 		this.assetDir = assetDir;
 		this.block = block;

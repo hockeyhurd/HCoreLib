@@ -34,6 +34,18 @@ public class Color4i {
 		this.b = colorCorrect(b);
 		this.a = colorCorrect(a);
 	}
+
+	/**
+	 * Constructor from hexdecimal.
+	 *
+	 * @param hex hexdecimal (must be in 'ARGB'!) to use.
+	 */
+	public Color4i(final int hex) {
+		this.a = colorCorrect((hex >> 0x18) & 0xff);
+		this.r = colorCorrect((hex >> 0x10) & 0xff);
+		this.g = colorCorrect((hex >> 0x8) & 0xff);
+		this.b = colorCorrect((hex) & 0xff);
+	}
 	
 	/**
 	 * @return the r channel.
@@ -98,6 +110,36 @@ public class Color4i {
 	 */
 	private int colorCorrect(int val) {
 		return val < 0 ? 0 : (val > 255 ? 255 : val);
+	}
+
+	/**
+	 * @return color int represented in rgba as decimal number.
+	 */
+	public int getRGBA() {
+		return (r << 0x18) + (g << 0x10) + (b << 0x8) + a;
+	}
+
+	/**
+	 * @return color int represented in argb as decimal number.
+	 */
+	public int getARGB() {
+		return (a << 0x18) + (r << 0x10) + (g << 0x8) + b;
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+
+		builder.append("R: ");
+		builder.append(r);
+		builder.append(", G: ");
+		builder.append(g);
+		builder.append(", B: ");
+		builder.append(b);
+		builder.append(", A: ");
+		builder.append(a);
+
+		return builder.toString();
 	}
 
 }

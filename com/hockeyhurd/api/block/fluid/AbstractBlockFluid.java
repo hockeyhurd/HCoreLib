@@ -25,12 +25,22 @@ public abstract class AbstractBlockFluid extends BlockFluidClassic {
 	protected IIcon flowing, still;
 
 	/**
+	 * @param name     name of fluid block.
+	 * @param assetDir location of asset directory.
+	 * @param fluid    reference to fluid.
+	 */
+	public AbstractBlockFluid(String name, String assetDir, Fluid fluid) {
+		this(name, assetDir, fluid, Material.water);
+	}
+
+	/**
 	 * @param name name of fluid block.
 	 * @param assetDir location of asset directory.
 	 * @param fluid reference to fluid.
+	 * @param material material to be used.
 	 */
-	public AbstractBlockFluid(String name, String assetDir, Fluid fluid) {
-		super(fluid, Material.water);
+	public AbstractBlockFluid(String name, String assetDir, Fluid fluid, Material material) {
+		super(fluid, material);
 
 		setBlockName(name + suffix);
 		this.name = name + suffix;

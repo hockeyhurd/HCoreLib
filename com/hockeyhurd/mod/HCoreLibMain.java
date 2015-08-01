@@ -1,15 +1,10 @@
 package com.hockeyhurd.mod;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
-import net.minecraft.creativetab.CreativeTabs;
-
 import com.hockeyhurd.api.creativetab.ModCreativeTab;
 import com.hockeyhurd.api.math.TimeLapse;
 import com.hockeyhurd.api.util.LogHelper;
 import com.hockeyhurd.mod.block.BlockWhiteHidden;
 import com.hockeyhurd.mod.handler.ConfigHandler;
-
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
@@ -17,6 +12,9 @@ import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
+import net.minecraft.creativetab.CreativeTabs;
 
 @Mod(modid = LibReference.MOD_NAME, name = LibReference.MOD_NAME, version = LibReference.VERSION)
 public class HCoreLibMain {
@@ -56,7 +54,7 @@ public class HCoreLibMain {
 		loadObj();
 		proxy.init();
 		proxy.registerRenderInformation();
-		
+
 		lh.info("Init finished succesfully after", tl.getEffectiveTimeSince(), "ms!");
 	}
 	
