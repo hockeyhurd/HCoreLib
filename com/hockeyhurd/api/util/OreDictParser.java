@@ -19,7 +19,12 @@ import java.util.Map;
 public class OreDictParser {
 
 	/** Internal mapping to use for caching data from ore dictionary. */
-	private static final Map<String, List<ItemStack>> internalMap = new HashMap<String, List<ItemStack>>();
+	private static final Map<String, List<ItemStack>> internalMapByString = new HashMap<String, List<ItemStack>>();
+
+	/**
+	 * Internal mapping to use for caching data from ore dictionary.
+	 */
+	private static final Map<ItemStack, String> internalMapByStack = new HashMap<ItemStack, String>();
 
 	private OreDictParser() {
 	}
@@ -42,8 +47,18 @@ public class OreDictParser {
 				putList.add(buffer);
 			}
 
-			internalMap.put(key, putList);
+			internalMapByString.put(key, putList);
 		}
+	}
+
+	/**
+	 * Method to push ore dictionary into into internal mapping.
+	 *
+	 * @param key   itemstack key.
+	 * @param value oredictionaried string value.
+	 */
+	private static void pushItemStackToMap(ItemStack key, String value) {
+		if (key != null && key.stackSize > 0 && LogicHelper.nullCheckString(value)) internalMapByStack.put(key, value);
 	}
 
 	/**
@@ -72,7 +87,7 @@ public class OreDictParser {
 		// If object name isn't valid or size is < 0 || > 64 return with information.
 		if (!LogicHelper.nullCheckString(objectName) || size <= 0 || size > 64) {
 			HCoreLibMain.lh.warn("Could not find object by name:", objectName, "Size:", size);
-			return (ItemStack) null;
+			return null;
 		}
 
 		// Else proceed to iteration.
@@ -109,7 +124,7 @@ public class OreDictParser {
 				 */
 				temp.stackSize = block != null && item == null ? 2 : (block == null && item != null ? 1 : 1);
 
-				return flag && temp != null ? temp : (ItemStack) null;
+				return flag && temp != null ? temp : null;
 			}
 		}
 	}
@@ -144,7 +159,7 @@ public class OreDictParser {
 			// List<ItemStack> retList = OreDictionary.getOres(objectName);
 			List<ItemStack> retList;
 
-			if (useInternal && !internalMap.isEmpty() && internalMap.containsKey(objectName)) retList = internalMap.get(objectName);
+			if (useInternal && !internalMapByString.isEmpty() && internalMapByString.containsKey(objectName)) retList = internalMapByString.get(objectName);
 
 			else retList = OreDictionary.getOres(objectName);
 
@@ -159,10 +174,28 @@ public class OreDictParser {
 					list.add(buffer);
 				}
 
-				if (!internalMap.containsKey(objectName)) pushListToMap(objectName, retList);
+				if (!internalMapByString.containsKey(objectName)) pushListToMap(objectName, retList);
 			}
 
 			return list;
+		}
+	}
+
+	/**
+	 * Helper method to get name of itemstack from ore dictionary if found, else will return empty string.
+	 *
+	 * @param stack stack to check.
+	 * @return ore dict name if found, else returns empty string.
+	 */
+	public static String getOreDictName(final ItemStack stack) {
+		if (stack == null || stack.stackSize == 0) return "";
+
+		if (internalMapByStack.containsKey(stack)) return internalMapByStack.get(stack);
+		else {
+			String ret = OreDictionary.getOreIDs(stack).length > 0 ? OreDictionary.getOreName(OreDictionary.getOreIDs(stack)[0]) : "";
+			if (ret.length() > 0) pushItemStackToMap(stack, ret);
+
+			return ret;
 		}
 	}
 
