@@ -58,4 +58,76 @@ public class LogicHelper {
 		return !flag;
 	}
 
+	/**
+	 * Checks to see if provided number is within lower and upper ranges provided (inclusively).
+	 *
+	 * @param num number to check.
+	 * @param lower lower limit.
+	 * @param upper upper limit.
+	 * @return true if number is in range.
+	 */
+	public static boolean isNumberInRange(byte num, byte lower, byte upper) {
+		return lower < upper && lower <= num && num <= upper;
+	}
+
+	/**
+	 * Checks to see if provided number is within lower and upper ranges provided (inclusively).
+	 *
+	 * @param num number to check.
+	 * @param lower lower limit.
+	 * @param upper upper limit.
+	 * @return true if number is in range.
+	 */
+	public static boolean isNumberInRange(short num, short lower, short upper) {
+		return lower < upper && lower <= num && num <= upper;
+	}
+
+	/**
+	 * Checks to see if provided number is within lower and upper ranges provided (inclusively).
+	 *
+	 * @param num number to check.
+	 * @param lower lower limit.
+	 * @param upper upper limit.
+	 * @return true if number is in range.
+	 */
+	public static boolean isNumberInRange(int num, int lower, int upper) {
+		return lower < upper && lower <= num && num <= upper;
+	}
+
+	/**
+	 * Checks to see if provided number is within lower and upper ranges provided (inclusively).
+	 *
+	 * @param num number to check.
+	 * @param lower lower limit.
+	 * @param upper upper limit.
+	 * @return true if number is in range.
+	 */
+	public static boolean isNumberInRange(long num, long lower, long upper) {
+		return lower < upper && lower <= num && num <= upper;
+	}
+
+	/**
+	 * Checks to see if provided number is within lower and upper ranges provided (inclusively).
+	 *
+	 * @param num number to check.
+	 * @param lower lower limit.
+	 * @param upper upper limit.
+	 * @return true if number is in range.
+	 */
+	public static boolean isNumberInRange(float num, float lower, float upper) {
+		return lower < upper && lower <= num && num <= upper;
+	}
+
+	/**
+	 * Checks to see if provided number is within lower and upper ranges provided (inclusively).
+	 *
+	 * @param num number to check.
+	 * @param lower lower limit.
+	 * @param upper upper limit.
+	 * @return true if number is in range.
+	 */
+	public static boolean isNumberInRange(double num, double lower, double upper) {
+		return lower < upper && lower <= num && num <= upper;
+	}
+
 }

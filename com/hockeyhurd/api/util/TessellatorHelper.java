@@ -1,14 +1,16 @@
 package com.hockeyhurd.api.util;
 
+import com.hockeyhurd.api.math.Vector2;
+import com.hockeyhurd.api.math.Vector3;
+import com.hockeyhurd.api.renderer.Color4i;
+import com.hockeyhurd.mod.HCoreLibMain;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraftforge.client.IItemRenderer.ItemRenderType;
-
 import org.lwjgl.opengl.GL11;
-
-import com.hockeyhurd.api.math.Vector3;
-import com.hockeyhurd.api.renderer.Color4i;
 
 /**
  * Class used as helper for various tessllations with generic methods often used
@@ -19,6 +21,7 @@ import com.hockeyhurd.api.renderer.Color4i;
  * @author hockeyhurd
  * @version Oct 2, 2014
  */
+@SideOnly(Side.CLIENT)
 public class TessellatorHelper {
 
 	private IIcon icon;
@@ -35,7 +38,7 @@ public class TessellatorHelper {
 	/**
 	 * Constructor used to initialize an icon and new instance of this class.
 	 * 
-	 * @param icon = icon to use.
+	 * @param icon icon to use.
 	 */
 	public TessellatorHelper(IIcon icon) {
 		this.icon = icon;
@@ -46,11 +49,10 @@ public class TessellatorHelper {
 	 * Method used to draw generic cube/block with another smaller cube/block inside
 	 * itself through given parameters.
 	 * 
-	 * @param block = block to draw (inside). 
-	 * @param x = position x.
-	 * @param y = position y.
-	 * @param z = position z.
-	 * @param scale = scale of block inside (defaults to 0.9d if invalid).
+	 * @param x position x.
+	 * @param y position y.
+	 * @param z position z.
+	 * @param scale scale of block inside (defaults to 0.9d if invalid).
 	 * @param color 
 	 */
 	public void drawCuboid(float x, float y, float z, double scale, Color4i color) {
@@ -129,9 +131,9 @@ public class TessellatorHelper {
 	 * Tweaked method based from open source work by @author TheGreyGhost which can be found below
 	 * @see <a href="https://github.com/TheGreyGhost/ItemRendering/blob/master/src/TestItemRendering/blocks/ItemBlockNumberedFaces1Renderer.java">github.com/../ItemBlockNumberedFaces1Renderer.java</a>.
 	 * 
-	 * @param type = type of rendering, inventory, entity item, etc.
-	 * @param item = copy of itemstack.
-	 * @param generalizeNormals = true set all sides as normals, else individual.
+	 * @param type type of rendering, inventory, entity item, etc.
+	 * @param item copy of itemstack.
+	 * @param generalizeNormals true set all sides as normals, else individual.
 	 */
 	public void renderItem(ItemRenderType type, ItemStack item, boolean generalizeNormals) {
 		
@@ -223,9 +225,9 @@ public class TessellatorHelper {
 	/**
 	 * Draws icon along z- side of typical block.
 	 * 
-	 * @param minVec = minimum vector coordinate to draw.
-	 * @param maxVec = maximum vector coordinate to draw.
-	 * @param renderInside = flag whether to also draw inside.
+	 * @param minVec minimum vector coordinate to draw.
+	 * @param maxVec maximum vector coordinate to draw.
+	 * @param renderInside flag whether to also draw inside.
 	 */
 	public void drawZNeg(Vector3<Float> minVec, Vector3<Float> maxVec, boolean renderInside) {
 		drawZNeg(this.icon, minVec, maxVec, renderInside);
@@ -234,10 +236,10 @@ public class TessellatorHelper {
 	/**
 	 * Draws icon along z- side of typical block.
 	 * 
-	 * @param icon = icon to draw.
-	 * @param minVec = minimum vector coordinate to draw.
-	 * @param maxVec = maximum vector coordinate to draw.
-	 * @param renderInside = flag whether to also draw inside.
+	 * @param icon icon to draw.
+	 * @param minVec minimum vector coordinate to draw.
+	 * @param maxVec maximum vector coordinate to draw.
+	 * @param renderInside flag whether to also draw inside.
 	 */
 	public void drawZNeg(IIcon icon, Vector3<Float> minVec, Vector3<Float> maxVec, boolean renderInside) {
 		tess.setNormal(0.0f, 0.0f, -1.0f);
@@ -257,20 +259,23 @@ public class TessellatorHelper {
 	/**
 	 * Draws icon along z- (can be unspecified icon should coordinates be provided).
 	 * 
-	 * @param minVec = minimum vector coordinate to draw.
-	 * @param maxVec = maximum vector coordinate to draw.
-	 * @param min = minimum point to draw from.
-	 * @param max = maximum point to draw from.
-	 * @param difU = difference of du.
-	 * @param difV = difference of dv.
-	 * @param renderInside = flag whether inside should also be rendered.
+	 * @param minVec minimum vector coordinate to draw.
+	 * @param maxVec maximum vector coordinate to draw.
+	 * @param min minimum point to draw from.
+	 * @param max maximum point to draw from.
+	 * @param difU difference of du.
+	 * @param difV difference of dv.
+	 * @param renderInside flag whether inside should also be rendered.
+	 *
+	 * @deprecated as of 8/7/15, use {@link TessellatorHelper#drawZNeg(com.hockeyhurd.api.math.Vector3, com.hockeyhurd.api.math.Vector3, float, float, float, float) instead.}
 	 */
+	@Deprecated
 	public void drawZNeg(Vector3<Float> minVec, Vector3<Float> maxVec, float min, float max, float difU, float difV, boolean renderInside) {
 		tess.setNormal(0.0f, 0.0f, -1.0f);
-		tess.addVertexWithUV(minVec.x, maxVec.y, maxVec.z, min - difU, min - difV);
-		tess.addVertexWithUV(minVec.x, minVec.y, maxVec.z, min - difU, max - difV);
-		tess.addVertexWithUV(maxVec.x, minVec.y, maxVec.z, max - difU, max - difV);
-		tess.addVertexWithUV(maxVec.x, maxVec.y, maxVec.z, max - difU, min - difV);
+		tess.addVertexWithUV(minVec.x, maxVec.y, minVec.z, min - difU, min - difV);
+		tess.addVertexWithUV(minVec.x, minVec.y, minVec.z, min - difU, max - difV);
+		tess.addVertexWithUV(maxVec.x, minVec.y, minVec.z, max - difU, max - difV);
+		tess.addVertexWithUV(maxVec.x, maxVec.y, minVec.z, max - difU, min - difV);
 
 		if (renderInside) {
 			tess.addVertexWithUV(maxVec.x, maxVec.y, maxVec.z, max - difU, min - difV);
@@ -279,13 +284,32 @@ public class TessellatorHelper {
 			tess.addVertexWithUV(minVec.x, maxVec.y, maxVec.z, min - difU, min - difV);
 		}
 	}
-	
+
+	/**
+	 * Draws textures along z-.
+	 *
+	 * @param minVec minimum vector coordinate to draw.
+	 * @param maxVec maximum vector coordinate to draw.
+	 * @param minU coordinate.
+	 * @param maxU coordinate.
+	 * @param minV coordinate.
+	 * @param maxV coordinate.
+	 */
+	public void drawZNeg(Vector3<Float> minVec, Vector3<Float> maxVec, float minU, float maxU, float minV, float maxV) {
+		setNormal(0.0f, 0.0f, -1.0f);
+
+		addVertUV(minVec.x, maxVec.y, minVec.z, maxU, maxV);
+		addVertUV(minVec.x, minVec.y, minVec.z, maxU, minV);
+		addVertUV(maxVec.x, minVec.y, minVec.z, minU, minV);
+		addVertUV(maxVec.x, maxVec.y, minVec.z, minU, maxV);
+	}
+
 	/**
 	 * Draws icon along z+ side of typical block.
 	 * 
-	 * @param minVec = minimum vector coordinate to draw.
-	 * @param maxVec = maximum vector coordinate to draw.
-	 * @param renderInside = flag whether to also draw inside.
+	 * @param minVec minimum vector coordinate to draw.
+	 * @param maxVec maximum vector coordinate to draw.
+	 * @param renderInside flag whether to also draw inside.
 	 */
 	public void drawZPos(Vector3<Float> minVec, Vector3<Float> maxVec, boolean renderInside) {
 		drawZPos(this.icon, minVec, maxVec, renderInside);
@@ -294,10 +318,10 @@ public class TessellatorHelper {
 	/**
 	 * Draws icon along z+ side of typical block.
 	 * 
-	 * @param icon = icon to draw.
-	 * @param minVec = minimum vector coordinate to draw.
-	 * @param maxVec = maximum vector coordinate to draw.
-	 * @param renderInside = flag whether to also draw inside.
+	 * @param icon icon to draw.
+	 * @param minVec minimum vector coordinate to draw.
+	 * @param maxVec maximum vector coordinate to draw.
+	 * @param renderInside flag whether to also draw inside.
 	 */
 	public void drawZPos(IIcon icon, Vector3<Float> minVec, Vector3<Float> maxVec, boolean renderInside) {
 		tess.setNormal(0.0f, 0.0f, 1.0f);
@@ -317,14 +341,17 @@ public class TessellatorHelper {
 	/**
 	 * Draws icon along z+ (can be unspecified icon should coordinates be provided).
 	 * 
-	 * @param minVec = minimum vector coordinate to draw.
-	 * @param maxVec = maximum vector coordinate to draw.
-	 * @param min = minimum point to draw from.
-	 * @param max = maximum point to draw from.
-	 * @param difU = difference of du.
-	 * @param difV = difference of dv.
-	 * @param renderInside = flag whether inside should also be rendered.
+	 * @param minVec minimum vector coordinate to draw.
+	 * @param maxVec maximum vector coordinate to draw.
+	 * @param min minimum point to draw from.
+	 * @param max maximum point to draw from.
+	 * @param difU difference of du.
+	 * @param difV difference of dv.
+	 * @param renderInside flag whether inside should also be rendered.
+	 *
+	 * @deprecated as of 8/7/15 use {@link TessellatorHelper#drawZPos(com.hockeyhurd.api.math.Vector3, com.hockeyhurd.api.math.Vector3, float, float, float, float)} instead.
 	 */
+	@Deprecated
 	public void drawZPos(Vector3<Float> minVec, Vector3<Float> maxVec, float min, float max, float difU, float difV, boolean renderInside) {
 		tess.setNormal(0.0f, 0.0f, 1.0f);
 		tess.addVertexWithUV(maxVec.x, maxVec.y, minVec.z, min - difU, min - difV);
@@ -339,13 +366,32 @@ public class TessellatorHelper {
 			tess.addVertexWithUV(maxVec.x, maxVec.y, minVec.z, min - difU, min - difV);
 		}
 	}
+
+	/**
+	 * Draws textures along z+.
+	 *
+	 * @param minVec minimum vector coordinate to draw.
+	 * @param maxVec maximum vector coordinate to draw.
+	 * @param minU coordinate.
+	 * @param maxU coordinate.
+	 * @param minV coordinate.
+	 * @param maxV coordinate.
+	 */
+	public void drawZPos(Vector3<Float> minVec, Vector3<Float> maxVec, float minU, float maxU, float minV, float maxV) {
+		setNormal(0.0f, 0.0f, 1.0f);
+
+		addVertUV(minVec.x, maxVec.y, maxVec.z, maxU, maxV);
+		addVertUV(minVec.x, minVec.y, maxVec.z, maxU, minV);
+		addVertUV(maxVec.x, minVec.y, maxVec.z, minU, minV);
+		addVertUV(maxVec.x, maxVec.y, maxVec.z, minU, maxV);
+	}
 	
 	/**
 	 * Draws icon along x- side of typical block.
 	 * 
-	 * @param minVec = minimum vector coordinate to draw.
-	 * @param maxVec = maximum vector coordinate to draw.
-	 * @param renderInside = flag whether to also draw inside.
+	 * @param minVec minimum vector coordinate to draw.
+	 * @param maxVec maximum vector coordinate to draw.
+	 * @param renderInside flag whether to also draw inside.
 	 */
 	public void drawXNeg(Vector3<Float> minVec, Vector3<Float> maxVec, boolean renderInside) {
 		drawXNeg(this.icon, minVec, maxVec, renderInside);
@@ -354,10 +400,10 @@ public class TessellatorHelper {
 	/**
 	 * Draws icon along x- side of typical block.
 	 * 
-	 * @param icon = icon to draw.
-	 * @param minVec = minimum vector coordinate to draw.
-	 * @param maxVec = maximum vector coordinate to draw.
-	 * @param renderInside = flag whether to also draw inside.
+	 * @param icon icon to draw.
+	 * @param minVec minimum vector coordinate to draw.
+	 * @param maxVec maximum vector coordinate to draw.
+	 * @param renderInside flag whether to also draw inside.
 	 */
 	public void drawXNeg(IIcon icon, Vector3<Float> minVec, Vector3<Float> maxVec, boolean renderInside) {
 		tess.setNormal(-1.0f, 0.0f, 0.0f);
@@ -377,14 +423,17 @@ public class TessellatorHelper {
 	/**
 	 * Draws icon along x- (can be unspecified icon should coordinates be provided).
 	 * 
-	 * @param minVec = minimum vector coordinate to draw.
-	 * @param maxVec = maximum vector coordinate to draw.
-	 * @param min = minimum point to draw from.
-	 * @param max = maximum point to draw from.
-	 * @param difU = difference of du.
-	 * @param difV = difference of dv.
-	 * @param renderInside = flag whether inside should also be rendered.
+	 * @param minVec minimum vector coordinate to draw.
+	 * @param maxVec maximum vector coordinate to draw.
+	 * @param min minimum point to draw from.
+	 * @param max maximum point to draw from.
+	 * @param difU difference of du.
+	 * @param difV difference of dv.
+	 * @param renderInside flag whether inside should also be rendered.
+	 *
+	 * @deprecated  as of 8/7/15, use {@link TessellatorHelper#drawXNeg(com.hockeyhurd.api.math.Vector3, com.hockeyhurd.api.math.Vector3, float, float, float, float)} instead.
 	 */
+	@Deprecated
 	public void drawXNeg(Vector3<Float> minVec, Vector3<Float> maxVec, float min, float max, float difU, float difV, boolean renderInside) {
 		tess.setNormal(-1.0f, 0.0f, 0.0f);
 		tess.addVertexWithUV(minVec.x, maxVec.y, minVec.z, min - difU, min - difV);
@@ -401,11 +450,30 @@ public class TessellatorHelper {
 	}
 
 	/**
+	 * Draws textures along x-.
+	 *
+	 * @param minVec minimum vector coordinate to draw.
+	 * @param maxVec maximum vector coordinate to draw.
+	 * @param minU coordinate.
+	 * @param maxU coordinate.
+	 * @param minV coordinate.
+	 * @param maxV coordinate.
+	 */
+	public void drawXNeg(Vector3<Float> minVec, Vector3<Float> maxVec, float minU, float maxU, float minV, float maxV) {
+		setNormal(-1.0f, 0.0f, 0.0f);
+
+		addVertUV(minVec.x, maxVec.y, minVec.z, maxU, maxV);
+		addVertUV(minVec.x, minVec.y, minVec.z, maxU, minV);
+		addVertUV(minVec.x, minVec.y, maxVec.z, minU, minV);
+		addVertUV(minVec.x, maxVec.y, maxVec.z, minU, maxV);
+	}
+
+	/**
 	 * Draws icon along x+ side of typical block.
 	 * 
-	 * @param minVec = minimum vector coordinate to draw.
-	 * @param maxVec = maximum vector coordinate to draw.
-	 * @param renderInside = flag whether to also draw inside.
+	 * @param minVec minimum vector coordinate to draw.
+	 * @param maxVec maximum vector coordinate to draw.
+	 * @param renderInside flag whether to also draw inside.
 	 */
 	public void drawXPos(Vector3<Float> minVec, Vector3<Float> maxVec, boolean renderInside) {
 		drawXPos(this.icon, minVec, maxVec, renderInside);
@@ -414,10 +482,10 @@ public class TessellatorHelper {
 	/**
 	 * Draws icon along x+ side of typical block.
 	 * 
-	 * @param icon = icon to draw.
-	 * @param minVec = minimum vector coordinate to draw.
-	 * @param maxVec = maximum vector coordinate to draw.
-	 * @param renderInside = flag whether to also draw inside.
+	 * @param icon icon to draw.
+	 * @param minVec minimum vector coordinate to draw.
+	 * @param maxVec maximum vector coordinate to draw.
+	 * @param renderInside flag whether to also draw inside.
 	 */
 	public void drawXPos(IIcon icon, Vector3<Float> minVec, Vector3<Float> maxVec, boolean renderInside) {
 		tess.setNormal(1.0f, 0.0f, 0.0f);
@@ -437,14 +505,17 @@ public class TessellatorHelper {
 	/**
 	 * Draws icon along x+ (can be unspecified icon should coordinates be provided).
 	 * 
-	 * @param minVec = minimum vector coordinate to draw.
-	 * @param maxVec = maximum vector coordinate to draw.
-	 * @param min = minimum point to draw from.
-	 * @param max = maximum point to draw from.
-	 * @param difU = difference of du.
-	 * @param difV = difference of dv.
-	 * @param renderInside = flag whether inside should also be rendered.
+	 * @param minVec minimum vector coordinate to draw.
+	 * @param maxVec maximum vector coordinate to draw.
+	 * @param min minimum point to draw from.
+	 * @param max maximum point to draw from.
+	 * @param difU difference of du.
+	 * @param difV difference of dv.
+	 * @param renderInside flag whether inside should also be rendered.
+	 *
+	 * @deprecated as of 8/7/15, use {@link TessellatorHelper#drawXPos(com.hockeyhurd.api.math.Vector3, com.hockeyhurd.api.math.Vector3, float, float, float, float)} instead.
 	 */
+	@Deprecated
 	public void drawXPos(Vector3<Float> minVec, Vector3<Float> maxVec, float min, float max, float difU, float difV, boolean renderInside) {
 		tess.setNormal(1.0f, 0.0f, 0.0f);
 		tess.addVertexWithUV(maxVec.x, maxVec.y, maxVec.z, max - difU, min - difV);
@@ -459,13 +530,32 @@ public class TessellatorHelper {
 			tess.addVertexWithUV(maxVec.x, maxVec.y, maxVec.z, max - difU, min - difV);
 		}
 	}
+
+	/**
+	 * Draws textures along x+.
+	 *
+	 * @param minVec minimum vector coordinate to draw.
+	 * @param maxVec maximum vector coordinate to draw.
+	 * @param minU coordinate.
+	 * @param maxU coordinate.
+	 * @param minV coordinate.
+	 * @param maxV coordinate.
+	 */
+	public void drawXPos(Vector3<Float> minVec, Vector3<Float> maxVec, float minU, float maxU, float minV, float maxV) {
+		setNormal(1.0f, 0.0f, 0.0f);
+
+		addVertUV(maxVec.x, maxVec.y, minVec.z, maxU, maxV);
+		addVertUV(maxVec.x, minVec.y, minVec.z, maxU, minV);
+		addVertUV(maxVec.x, minVec.y, maxVec.z, minU, minV);
+		addVertUV(maxVec.x, maxVec.y, maxVec.z, minU, maxV);
+	}
 	
 	/**
 	 * Draws icon along y- side of typical block.
 	 * 
-	 * @param minVec = minimum vector coordinate to draw.
-	 * @param maxVec = maximum vector coordinate to draw.
-	 * @param renderInside = flag whether to also draw inside.
+	 * @param minVec minimum vector coordinate to draw.
+	 * @param maxVec maximum vector coordinate to draw.
+	 * @param renderInside flag whether to also draw inside.
 	 */
 	public void drawYNeg(Vector3<Float> minVec, Vector3<Float> maxVec, boolean renderInside) {
 		drawYNeg(this.icon, minVec, maxVec, renderInside);
@@ -474,10 +564,10 @@ public class TessellatorHelper {
 	/**
 	 * Draws icon along y- side of typical block.
 	 * 
-	 * @param icon = icon to draw.
-	 * @param minVec = minimum vector coordinate to draw.
-	 * @param maxVec = maximum vector coordinate to draw.
-	 * @param renderInside = flag whether to also draw inside.
+	 * @param icon icon to draw.
+	 * @param minVec minimum vector coordinate to draw.
+	 * @param maxVec maximum vector coordinate to draw.
+	 * @param renderInside flag whether to also draw inside.
 	 */
 	public void drawYNeg(IIcon icon, Vector3<Float> minVec, Vector3<Float> maxVec, boolean renderInside) {
 		tess.setNormal(0.0f, -1.0f, 0.0f);
@@ -497,14 +587,17 @@ public class TessellatorHelper {
 	/**
 	 * Draws icon along y- (can be unspecified icon should coordinates be provided).
 	 * 
-	 * @param minVec = minimum vector coordinate to draw.
-	 * @param maxVec = maximum vector coordinate to draw.
-	 * @param min = minimum point to draw from.
-	 * @param max = maximum point to draw from.
-	 * @param difU = difference of du.
-	 * @param difV = difference of dv.
-	 * @param renderInside = flag whether inside should also be rendered.
+	 * @param minVec minimum vector coordinate to draw.
+	 * @param maxVec maximum vector coordinate to draw.
+	 * @param min minimum point to draw from.
+	 * @param max maximum point to draw from.
+	 * @param difU difference of du.
+	 * @param difV difference of dv.
+	 * @param renderInside flag whether inside should also be rendered.
+	 *
+	 * @deprecated as of 8/7/15, use {@link TessellatorHelper#drawYNeg(com.hockeyhurd.api.math.Vector3, com.hockeyhurd.api.math.Vector3, float, float, float, float)} instead.
 	 */
+	@Deprecated
 	public void drawYNeg(Vector3<Float> minVec, Vector3<Float> maxVec, float min, float max, float difU, float difV, boolean renderInside) {
 		tess.setNormal(0.0f, -1.0f, 0.0f);
 		tess.addVertexWithUV(maxVec.x, minVec.y - 0.01d, minVec.z, max - difU, min - difV);
@@ -519,13 +612,32 @@ public class TessellatorHelper {
 			tess.addVertexWithUV(maxVec.x, minVec.y - 0.01d, minVec.z, max - difU, min - difV);
 		}
 	}
+
+	/**
+	 * Draws textures along y-.
+	 *
+	 * @param minVec minimum vector coordinate to draw.
+	 * @param maxVec maximum vector coordinate to draw.
+	 * @param minU coordinate.
+	 * @param maxU coordinate.
+	 * @param minV coordinate.
+	 * @param maxV coordinate.
+	 */
+	public void drawYNeg(Vector3<Float> minVec, Vector3<Float> maxVec, float minU, float maxU, float minV, float maxV) {
+		setNormal(0.0f, -1.0f, 0.0f);
+
+		addVertUV(maxVec.x, minVec.y, maxVec.z, maxU, maxV);
+		addVertUV(maxVec.x, minVec.y, minVec.z, maxU, minV);
+		addVertUV(minVec.x, minVec.y, minVec.z, minU, minV);
+		addVertUV(minVec.x, minVec.y, maxVec.z, minU, maxV);
+	}
 	
 	/**
 	 * Draws icon along y+ side of typical block.
-	 * 
-	 * @param minVec = minimum vector coordinate to draw.
-	 * @param maxVec = maximum vector coordinate to draw.
-	 * @param renderInside = flag whether to also draw inside.
+	 *
+	 * @param minVec minimum vector coordinate to draw.
+	 * @param maxVec maximum vector coordinate to draw.
+	 * @param renderInside flag whether to also draw inside.
 	 */
 	public void drawYPos(Vector3<Float> minVec, Vector3<Float> maxVec, boolean renderInside) {
 		drawYPos(this.icon, minVec, maxVec, renderInside);
@@ -534,10 +646,10 @@ public class TessellatorHelper {
 	/**
 	 * Draws icon along y+ side of typical block.
 	 * 
-	 * @param icon = icon to draw.
-	 * @param minVec = minimum vector coordinate to draw.
-	 * @param maxVec = maximum vector coordinate to draw.
-	 * @param renderInside = flag whether to also draw inside.
+	 * @param icon icon to draw.
+	 * @param minVec minimum vector coordinate to draw.
+	 * @param maxVec maximum vector coordinate to draw.
+	 * @param renderInside flag whether to also draw inside.
 	 */
 	public void drawYPos(IIcon icon, Vector3<Float> minVec, Vector3<Float> maxVec, boolean renderInside) {
 		tess.setNormal(0.0f, 1.0f, 0.0f);
@@ -557,13 +669,15 @@ public class TessellatorHelper {
 	/**
 	 * Draws icon along y+ (can be unspecified icon should coordinates be provided).
 	 * 
-	 * @param minVec = minimum vector coordinate to draw.
-	 * @param maxVec = maximum vector coordinate to draw.
-	 * @param min = minimum point to draw from.
-	 * @param max = maximum point to draw from.
-	 * @param difU = difference of du.
-	 * @param difV = difference of dv.
-	 * @param renderInside = flag whether inside should also be rendered.
+	 * @param minVec minimum vector coordinate to draw.
+	 * @param maxVec maximum vector coordinate to draw.
+	 * @param min minimum point to draw from.
+	 * @param max maximum point to draw from.
+	 * @param difU difference of du.
+	 * @param difV difference of dv.
+	 * @param renderInside flag whether inside should also be rendered.
+	 *
+	 * @deprecated as of 8/7/15, use {@link TessellatorHelper#drawYPos(com.hockeyhurd.api.math.Vector3, com.hockeyhurd.api.math.Vector3, float, float, float, float)} instead.
 	 */
 	public void drawYPos(Vector3<Float> minVec, Vector3<Float> maxVec, float min, float max, float difU, float difV, boolean renderInside) {
 		tess.setNormal(0.0f, 1.0f, 0.0f);
@@ -580,5 +694,137 @@ public class TessellatorHelper {
 		}
 	}
 
-}
+	/**
+	 * Draws textures along y+.
+	 *
+	 * @param minVec minimum vector coordinate to draw.
+	 * @param maxVec maximum vector coordinate to draw.
+	 * @param minU coordinate.
+	 * @param maxU coordinate.
+	 * @param minV coordinate.
+	 * @param maxV coordinate.
+	 */
+	public void drawYPos(Vector3<Float> minVec, Vector3<Float> maxVec, float minU, float maxU, float minV, float maxV) {
+		setNormal(0.0f, 1.0f, 0.0f);
 
+		addVertUV(maxVec.x, maxVec.y, maxVec.z, maxU, maxV);
+		addVertUV(maxVec.x, maxVec.y, minVec.z, maxU, minV);
+		addVertUV(minVec.x, maxVec.y, minVec.z, minU, minV);
+		addVertUV(minVec.x, maxVec.y, maxVec.z, minU, maxV);
+	}
+
+	/**
+	 * Sets normal by specified values.
+	 *
+	 * @param x
+	 * @param y
+	 * @param z
+	 */
+	public void setNormal(float x, float y, float z) {
+		if (LogicHelper.isNumberInRange(x, -1f, 1f) && LogicHelper.isNumberInRange(y, -1f, 1f) && LogicHelper.isNumberInRange(z, -1f, 1f))
+			tess.setNormal(x, y, z);
+	}
+
+	/**
+	 * Sets normal by specified vector values.
+	 *
+	 * @param vec
+	 */
+	public void setNormal(Vector3<Float> vec) {
+		setNormal(vec.x, vec.y, vec.z);
+	}
+
+	/**
+	 * Adds vertex with uv.
+	 *
+	 * @param x
+	 * @param y
+	 * @param z
+	 * @param u
+	 * @param v
+	 */
+	public void addVertUV(float x, float y, float z, float u, float v) {
+		tess.addVertexWithUV(x, y, z, u, v);
+	}
+
+	/**
+	 * Adds vertex with uv.
+	 *
+	 * @param vec
+	 * @param u
+	 * @param v
+	 */
+	public void addVertUV(Vector3<Float> vec, float u, float v) {
+		tess.addVertexWithUV(vec.x, vec.y, vec.z, u, v);
+	}
+
+	/**
+	 * Adds vertex with uv.
+	 *
+	 * @param vec
+	 * @param uv
+	 */
+	public void addVertUV(Vector3<Float> vec, Vector2<Float> uv) {
+		tess.addVertexWithUV(vec.x, vec.y, vec.z, uv.x, uv.y);
+	}
+
+	/**
+	 * Draws face from provided matrix and uv coordinates.
+	 *
+	 * @param matrix
+	 * @param minU
+	 * @param maxU
+	 * @param minV
+	 * @param maxV
+	 */
+	public void drawFace(Matrix4f matrix, float minU, float maxU, float minV, float maxV) {
+		drawFace(matrix, null, minU, maxU, minV, maxV);
+	}
+
+	/**
+	 * Draws face from provided matrix and uv coordinates with setting of normal vector (if not null).
+	 *
+	 * @param matrix
+	 * @param normalVec
+	 * @param minU
+	 * @param maxU
+	 * @param minV
+	 * @param maxV
+	 */
+	@SuppressWarnings("unchecked")
+	public void drawFace(Matrix4f matrix, Vector3<Float> normalVec, float minU, float maxU, float minV, float maxV) {
+		Vector3<?>[] proj = matrix.getProjection();
+
+		if (normalVec != null) setNormal(normalVec);
+
+		addVertUV((Vector3<Float>) proj[0], maxU, maxV);
+		addVertUV((Vector3<Float>) proj[1], maxU, minV);
+		addVertUV((Vector3<Float>) proj[2], minU, minV);
+		addVertUV((Vector3<Float>) proj[3], minU, maxV);
+	}
+
+	/**
+	 * Tells tessellator to start drawing quads!
+	 */
+	public void startDrawingQuads() {
+		tess.startDrawingQuads();
+	}
+
+	/**
+	 * Starts drawing face with 'n' number of vertices where 'n' is a positive integer >= 3.
+	 *
+	 * @param verts number of vertices to start drawing.
+	 */
+	public void startDrawing(int verts) {
+		if (verts > 2) tess.startDrawing(verts);
+		else HCoreLibMain.lh.severe("Error starting to draw with #", verts, "ensure this is (int) 'verts' >= '3'!");
+	}
+
+	/**
+	 * Teslls tessellator to draw/push drawing calls of established vertices.
+	 */
+	public void draw() {
+		tess.draw();
+	}
+
+}
