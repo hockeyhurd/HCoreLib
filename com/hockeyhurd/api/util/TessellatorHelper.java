@@ -272,10 +272,10 @@ public class TessellatorHelper {
 	@Deprecated
 	public void drawZNeg(Vector3<Float> minVec, Vector3<Float> maxVec, float min, float max, float difU, float difV, boolean renderInside) {
 		tess.setNormal(0.0f, 0.0f, -1.0f);
-		tess.addVertexWithUV(minVec.x, maxVec.y, minVec.z, min - difU, min - difV);
-		tess.addVertexWithUV(minVec.x, minVec.y, minVec.z, min - difU, max - difV);
-		tess.addVertexWithUV(maxVec.x, minVec.y, minVec.z, max - difU, max - difV);
-		tess.addVertexWithUV(maxVec.x, maxVec.y, minVec.z, max - difU, min - difV);
+		tess.addVertexWithUV(minVec.x, maxVec.y, maxVec.z, min - difU, min - difV);
+		tess.addVertexWithUV(minVec.x, minVec.y, maxVec.z, min - difU, max - difV);
+		tess.addVertexWithUV(maxVec.x, minVec.y, maxVec.z, max - difU, max - difV);
+		tess.addVertexWithUV(maxVec.x, maxVec.y, maxVec.z, max - difU, min - difV);
 
 		if (renderInside) {
 			tess.addVertexWithUV(maxVec.x, maxVec.y, maxVec.z, max - difU, min - difV);
