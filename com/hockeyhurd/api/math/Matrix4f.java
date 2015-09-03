@@ -1,6 +1,4 @@
-package com.hockeyhurd.api.util;
-
-import com.hockeyhurd.api.math.Vector3;
+package com.hockeyhurd.api.math;
 
 /**
  * Simple wrapper esque class for using 4 float based vector3's.

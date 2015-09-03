@@ -1,14 +1,12 @@
 package com.hockeyhurd.mod;
 
+import com.hockeyhurd.api.math.Color4i;
+import com.hockeyhurd.mod.block.renderer.WhiteBlockRenderer;
+import com.hockeyhurd.mod.item.ItemRendererHiddenWhite;
+import cpw.mods.fml.client.registry.RenderingRegistry;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraftforge.client.MinecraftForgeClient;
-
-import com.hockeyhurd.api.renderer.Color4i;
-import com.hockeyhurd.mod.block.renderer.WhiteBlockRenderer;
-import com.hockeyhurd.mod.item.ItemRendererHiddenWhite;
-
-import cpw.mods.fml.client.registry.RenderingRegistry;
 
 public class ClientProxy extends CommonProxy {
 

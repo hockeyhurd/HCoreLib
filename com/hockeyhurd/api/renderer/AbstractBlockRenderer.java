@@ -1,18 +1,16 @@
 package com.hockeyhurd.api.renderer;
 
+import com.hockeyhurd.api.math.Color4i;
+import com.hockeyhurd.api.util.TessellatorHelper;
+import com.hockeyhurd.mod.ClientProxy;
+import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
-
 import org.lwjgl.opengl.GL11;
-
-import com.hockeyhurd.api.util.TessellatorHelper;
-import com.hockeyhurd.mod.ClientProxy;
-
-import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public abstract class AbstractBlockRenderer implements ISimpleBlockRenderingHandler {

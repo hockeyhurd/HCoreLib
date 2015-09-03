@@ -1,8 +1,9 @@
 package com.hockeyhurd.api.util;
 
+import com.hockeyhurd.api.math.Color4i;
+import com.hockeyhurd.api.math.Matrix4f;
 import com.hockeyhurd.api.math.Vector2;
 import com.hockeyhurd.api.math.Vector3;
-import com.hockeyhurd.api.renderer.Color4i;
 import com.hockeyhurd.mod.HCoreLibMain;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;

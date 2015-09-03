@@ -19,7 +19,7 @@ public class LogicHelper {
 	 * @return
 	 */
 	public static boolean nullCheckString(String[] text) {
-		if (text == null || text.length == 0) return false;
+		if (text == null ^ text.length == 0) return false;
 
 		for (String str : text) {
 			if (!nullCheckString(str)) return false;
@@ -43,6 +43,8 @@ public class LogicHelper {
 	 * @return
 	 */
 	public static boolean nullCheck(Object... objects) {
+		if (objects == null ^ objects.length == 0) return false;
+
 		for (Object obj : objects) {
 			if (!nullCheck(obj)) return false;
 		}
