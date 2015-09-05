@@ -141,4 +141,43 @@ public class Rect<N> {
 		this.max.rotate(center, angle);
 	}
 
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof Rect)) return false;
+
+		Rect<?> rect = (Rect<?>) o;
+
+		if (color != rect.color) return false;
+		if (!min.equals(rect.min)) return false;
+		return max.equals(rect.max);
+
+	}
+
+	@Override
+	public int hashCode() {
+		int result = min.hashCode();
+		result = 31 * result + max.hashCode();
+		result = 31 * result + color;
+		return result;
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder ret = new StringBuilder();
+
+		ret.append("Min: ");
+		ret.append(min.x);
+		ret.append(", ");
+		ret.append(min.y);
+		ret.append(", Max: ");
+		ret.append(max.x);
+		ret.append(", ");
+		ret.append(max.y);
+		ret.append(", Color: ");
+		ret.append(color);
+
+		return ret.toString();
+	}
+
 }
