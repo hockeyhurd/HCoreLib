@@ -1,12 +1,12 @@
 package com.hockeyhurd.api.util;
 
-import java.util.Iterator;
-
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.world.World;
 
-public class ItemHelper {
+import java.util.Iterator;
+
+public final class ItemHelper {
 
 	private World world;
 	private EntityPlayer player;

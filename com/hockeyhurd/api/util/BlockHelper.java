@@ -8,7 +8,14 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 
-public class BlockHelper {
+/**
+ * @author hockeyhurd
+ *
+ * @deprecated as of 9/6/15, please use BlockUtils class instead!
+ * @see com.hockeyhurd.api.util.BlockUtils
+ */
+@Deprecated
+public final class BlockHelper {
 
 	private World world;
 	private EntityPlayer player;
@@ -23,7 +30,6 @@ public class BlockHelper {
 	}
 	
 	// Only use this constructor if there is no need with world or player interaction! i.e. block parameters.
-	@Deprecated
 	public BlockHelper() {
 	}
 	
@@ -135,7 +141,7 @@ public class BlockHelper {
 		destroyBlock(vec.x, vec.y, vec.z, drop);
 	}
 	
-	public void destroyBlock(Vector3 vec) {
+	public void destroyBlock(Vector3<Integer> vec) {
 		destroyBlock(vec, true);
 	}
 	
