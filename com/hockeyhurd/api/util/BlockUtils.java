@@ -31,7 +31,7 @@ public final class BlockUtils {
 	}
 
 	public static Block getBlock(int id) {
-		return (Block) Block.blockRegistry.getObjectById(id);
+		return Block.getBlockById(id);
 	}
 
 	public static Block getBlock(World world, int x, int y, int z) {

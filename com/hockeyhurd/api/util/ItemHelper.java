@@ -6,6 +6,13 @@ import net.minecraft.world.World;
 
 import java.util.Iterator;
 
+/**
+ * @author hockeyhurd
+ *
+ * @deprecated as of 9/6/15, please use ItemUtils class instead!
+ * @see com.hockeyhurd.api.util.ItemUtils
+ */
+@Deprecated
 public final class ItemHelper {
 
 	private World world;
