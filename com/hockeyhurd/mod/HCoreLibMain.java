@@ -70,7 +70,7 @@ public final class HCoreLibMain {
 		proxy.init();
 		proxy.registerRenderInformation();
 
-		lh.info("Init finished succesfully after", tl.getEffectiveTimeSince(), "ms!");
+		lh.info("Init finished successfully after", tl.getEffectiveTimeSince(), "ms!");
 	}
 	
 	private void loadObj() {
@@ -91,7 +91,7 @@ public final class HCoreLibMain {
 		
 		else lh.warn("Skipping checking for updates. WARNING: bugs may exist!");
 		
-		lh.info("Post-init finished succesfully after", tl.getEffectiveTimeSince(), "ms!");
+		lh.info("Post-init finished successfully after", tl.getEffectiveTimeSince(), "ms!");
 	}
 	
 	public HCoreLibMain() {

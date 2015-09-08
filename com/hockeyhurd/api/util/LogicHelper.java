@@ -16,10 +16,10 @@ public final class LogicHelper {
 	/**
 	 * Tests set String array and iterates through. If a single element is null, this will return false, else return true.
 	 * @param text = inputed text based String array.
-	 * @return
+	 * @return true if String array is NOT NULL, else returns false.
 	 */
-	public static boolean nullCheckString(String[] text) {
-		if (text == null ^ text.length == 0) return false;
+	public static boolean nullCheckString(String... text) {
+		if (text == null || text.length == 0) return false;
 
 		for (String str : text) {
 			if (!nullCheckString(str)) return false;
@@ -31,7 +31,7 @@ public final class LogicHelper {
 	/**
 	 * Returns true if the object is NOT null, else false.
 	 * @param object = object to test.
-	 * @return
+	 * @return true if object is NOT NULL, else returns false.
 	 */
 	public static boolean nullCheck(Object object) {
 		return object != null;
@@ -40,24 +40,16 @@ public final class LogicHelper {
 	/**
 	 * Tests set object array and iterates through. If a single element is null, this will return false, else return true.
 	 * @param objects = object array.
-	 * @return
+	 * @return true if object array is NOT NULL, else returns false.
 	 */
 	public static boolean nullCheck(Object... objects) {
-		if (objects == null ^ objects.length == 0) return false;
+		if (objects == null || objects.length == 0) return false;
 
 		for (Object obj : objects) {
 			if (!nullCheck(obj)) return false;
 		}
 
 		return true;
-	}
-
-	/**
-	 * @param flag = input boolean
-	 * @return inverse of inputted boolean.
-	 */
-	public static boolean flipper(boolean flag) {
-		return !flag;
 	}
 
 	/**
@@ -132,9 +124,16 @@ public final class LogicHelper {
 		return lower < upper && lower <= num && num <= upper;
 	}
 
+	/**
+	 * Checks if array contains reference object.
+	 *
+	 * @param array array to reference.
+	 * @param ref object to check.
+	 * @return true if array contains object, else returns false.
+	 */
 	public static boolean arrayContains(Object[] array, Object ref) {
 		if (ref == null) return false;
-		if (array == null ^ array.length == 0) return false;
+		if (array == null || array.length == 0) return false;
 		else if (array.length == 1) return array[0].equals(ref);
 		else if (array.length == 2) return array[0].equals(ref) || array[1].equals(ref);
 
@@ -145,8 +144,128 @@ public final class LogicHelper {
 		return false;
 	}
 
+	/**
+	 * Checks if array contains reference byte.
+	 *
+	 * @param array array to reference.
+	 * @param ref byte to check.
+	 * @return true if array contains byte, else returns false.
+	 */
+	public static boolean arrayContains(byte[] array, byte ref) {
+		if (array == null || array.length == 0) return false;
+		else if (array.length == 1) return array[0] == ref;
+		else if (array.length == 2) return array[0] == ref || array[1] == ref;
+
+		for (byte num : array) {
+			if (num == ref) return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Checks if array contains reference short.
+	 *
+	 * @param array array to reference.
+	 * @param ref short to check.
+	 * @return true if array contains short, else returns false.
+	 */
+	public static boolean arrayContains(short[] array, short ref) {
+		if (array == null || array.length == 0) return false;
+		else if (array.length == 1) return array[0] == ref;
+		else if (array.length == 2) return array[0] == ref || array[1] == ref;
+
+		for (short num : array) {
+			if (num == ref) return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Checks if array contains reference int.
+	 *
+	 * @param array array to reference.
+	 * @param ref int to check.
+	 * @return true if array contains int, else returns false.
+	 */
+	public static boolean arrayContains(int[] array, int ref) {
+		if (array == null || array.length == 0) return false;
+		else if (array.length == 1) return array[0] == ref;
+		else if (array.length == 2) return array[0] == ref || array[1] == ref;
+
+		for (int num : array) {
+			if (num == ref) return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Checks if array contains reference long.
+	 *
+	 * @param array array to reference.
+	 * @param ref long to check.
+	 * @return true if array contains long, else returns false.
+	 */
+	public static boolean arrayContains(long[] array, long ref) {
+		if (array == null || array.length == 0) return false;
+		else if (array.length == 1) return array[0] == ref;
+		else if (array.length == 2) return array[0] == ref || array[1] == ref;
+
+		for (long num : array) {
+			if (num == ref) return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Checks if array contains reference float.
+	 *
+	 * @param array array to reference.
+	 * @param ref float to check.
+	 * @return true if array contains float, else returns false.
+	 */
+	public static boolean arrayContains(float[] array, float ref) {
+		if (array == null || array.length == 0) return false;
+		else if (array.length == 1) return array[0] == ref;
+		else if (array.length == 2) return array[0] == ref || array[1] == ref;
+
+		for (float num : array) {
+			if (num == ref) return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Checks if array contains reference double.
+	 *
+	 * @param array array to reference.
+	 * @param ref double to check.
+	 * @return true if array contains double, else returns false.
+	 */
+	public static boolean arrayContains(double[] array, double ref) {
+		if (array == null || array.length == 0) return false;
+		else if (array.length == 1) return array[0] == ref;
+		else if (array.length == 2) return array[0] == ref || array[1] == ref;
+
+		for (double num : array) {
+			if (num == ref) return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Function to check provided statements (array of booleans) for 'AND' logic functionality.
+	 *
+	 * @param statements statements to check.
+	 * @return result of 'AND' logic.
+	 */
 	public static boolean and(boolean... statements) {
-		if (statements == null ^ statements.length == 0) return false;
+		if (statements == null || statements.length == 0) return false;
 		else if (statements.length == 1) return statements[0];
 		else if (statements.length == 2) return statements[0] && statements[1];
 
@@ -157,8 +276,14 @@ public final class LogicHelper {
 		return true;
 	}
 
+	/**
+	 * Function to check provided statements (array of booleans) for 'OR' logic functionality.
+	 *
+	 * @param statements statements to check.
+	 * @return result of 'OR' logic.
+	 */
 	public static boolean or(boolean... statements) {
-		if (statements == null ^ statements.length == 0) return false;
+		if (statements == null || statements.length == 0) return false;
 		else if (statements.length == 1) return statements[0];
 		else if (statements.length == 2) return statements[0] || statements[1];
 
@@ -169,15 +294,21 @@ public final class LogicHelper {
 		return false;
 	}
 
+	/**
+	 * Function to check provided statements (array of booleans) for 'XOR' logic functionality.
+	 *
+	 * @param statements statements to check.
+	 * @return result of 'XOR' logic.
+	 */
 	public static boolean xor(boolean... statements) {
-		if (statements == null ^ statements.length == 0) return false;
+		if (statements == null || statements.length == 0) return false;
 		else if (statements.length == 1) return statements[0];
 		else if (statements.length == 2) return statements[0] ^ statements[1];
 
 		int counter = 0;
 		for (boolean s : statements) {
 			if (s) {
-				if (counter > 0) return false;
+				if (counter > 1) return false;
 				else counter++;
 			}
 		}
@@ -185,6 +316,12 @@ public final class LogicHelper {
 		return counter == 1;
 	}
 
+	/**
+	 * Function provided to return 'NOT' logic functionality or opposite of provided boolean.
+	 *
+	 * @param statement statement to check.
+	 * @return result of 'NOT' logic or opposite of provided statement.
+	 */
 	public static boolean not(boolean statement) {
 		return !statement;
 	}
