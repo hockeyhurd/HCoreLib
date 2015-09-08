@@ -1,8 +1,8 @@
 package com.hockeyhurd.api.util;
 
-public class LogicHelper {
+public final class LogicHelper {
 	
-	public LogicHelper() {
+	private LogicHelper() {
 	}
 	
 	/**
@@ -130,6 +130,63 @@ public class LogicHelper {
 	 */
 	public static boolean isNumberInRange(double num, double lower, double upper) {
 		return lower < upper && lower <= num && num <= upper;
+	}
+
+	public static boolean arrayContains(Object[] array, Object ref) {
+		if (ref == null) return false;
+		if (array == null ^ array.length == 0) return false;
+		else if (array.length == 1) return array[0].equals(ref);
+		else if (array.length == 2) return array[0].equals(ref) || array[1].equals(ref);
+
+		for (Object o : array) {
+			if (o.equals(ref)) return true;
+		}
+
+		return false;
+	}
+
+	public static boolean and(boolean... statements) {
+		if (statements == null ^ statements.length == 0) return false;
+		else if (statements.length == 1) return statements[0];
+		else if (statements.length == 2) return statements[0] && statements[1];
+
+		for (boolean s : statements) {
+			if (!s) return false;
+		}
+
+		return true;
+	}
+
+	public static boolean or(boolean... statements) {
+		if (statements == null ^ statements.length == 0) return false;
+		else if (statements.length == 1) return statements[0];
+		else if (statements.length == 2) return statements[0] || statements[1];
+
+		for (boolean s : statements) {
+			if (s) return true;
+		}
+
+		return false;
+	}
+
+	public static boolean xor(boolean... statements) {
+		if (statements == null ^ statements.length == 0) return false;
+		else if (statements.length == 1) return statements[0];
+		else if (statements.length == 2) return statements[0] ^ statements[1];
+
+		int counter = 0;
+		for (boolean s : statements) {
+			if (s) {
+				if (counter > 0) return false;
+				else counter++;
+			}
+		}
+
+		return counter == 1;
+	}
+
+	public static boolean not(boolean statement) {
+		return !statement;
 	}
 
 }
