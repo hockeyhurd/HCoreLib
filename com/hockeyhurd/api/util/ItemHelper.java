@@ -25,7 +25,6 @@ public final class ItemHelper {
 
 	// Only use this constructor is there is no need with world or player interaction!
 	public ItemHelper() {
-
 	}
 
 	public Item getItem(int id) {
