@@ -86,7 +86,7 @@ public final class HCoreLibMain {
 			lh.info("Checking for updates!");
 			proxy.registerUpdateHandler();
 			if (!proxy.updateFlag) lh.warn("Found an update!");
-			else lh.info("Everything is up to date!");
+			else lh.info("Everything is UP to date!");
 		}
 		
 		else lh.warn("Skipping checking for updates. WARNING: bugs may exist!");

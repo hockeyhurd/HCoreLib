@@ -7,9 +7,7 @@
 
 package com.hockeyhurd.api.util;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import com.hockeyhurd.api.math.Vector4;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
@@ -21,7 +19,8 @@ import net.minecraft.util.MovingObjectPosition.MovingObjectType;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
-import com.hockeyhurd.api.math.Vector4;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Partially re-written and should be slightly more modular.
@@ -128,7 +127,7 @@ public class Waila {
 			// Get the avgCurrent rotational pitch (left, right)
 			float rotPitch = player.prevRotationPitch + (player.rotationPitch - player.prevRotationPitch) * f;
 
-			// Get the avgCurrent rotational yaw (up, down)
+			// Get the avgCurrent rotational yaw (UP, DOWN)
 			float rotYaw = player.prevRotationYaw + (player.rotationYaw - player.prevRotationYaw) * f;
 
 			// Get the avgCurrent position X.

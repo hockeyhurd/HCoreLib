@@ -1,5 +1,7 @@
 package com.hockeyhurd.api.math;
 
+import net.minecraftforge.common.util.ForgeDirection;
+
 /**
  * Class used to store world co-ordinate data by specified number.
  * 
@@ -15,15 +17,15 @@ public class Vector3<N> {
 
 	/** (0, -1, 0) */
 	@SuppressWarnings("unchecked")
-	public static final Vector3 down = new Vector3(0, -1, 0);
+	public static final Vector3 DOWN = new Vector3(0, -1, 0);
 
 	/** (0, 1, 0) */
 	@SuppressWarnings("unchecked")
-	public static final Vector3 up = new Vector3(0, 1, 0);
+	public static final Vector3 UP = new Vector3(0, 1, 0);
 
 	/** (1, 0, 0) */
 	@SuppressWarnings("unchecked")
-	public static final Vector3 east = new Vector3(1, 0, 0);
+	public static final Vector3 EAST = new Vector3(1, 0, 0);
 
 	/** (-1, 0, 0) */
 	@SuppressWarnings("unchecked")
@@ -31,11 +33,15 @@ public class Vector3<N> {
 
 	/** (0, 0, -1) */
 	@SuppressWarnings("unchecked")
-	public static final Vector3 north = new Vector3(0, 0, -1);
+	public static final Vector3 NORTH = new Vector3(0, 0, -1);
 
 	/** (0, 0, 1) */
 	@SuppressWarnings("unchecked")
-	public static final Vector3 south = new Vector3(0, 0, 1);
+	public static final Vector3 SOUTH = new Vector3(0, 0, 1);
+
+	public static final Vector3[] VALID_DIRECTIONS = new Vector3[] {
+			DOWN, UP, NORTH, SOUTH, west, EAST
+	};
 
 	/**
 	 * Constructor creates new instance of this class with default 
@@ -156,6 +162,23 @@ public class Vector3<N> {
 		ret.z = Mathd.lerp(v0.z, v1.z, weight);
 
 		return ret;
+	}
+
+	/**
+	 * Gets forge direction from referenced vector3<int>.
+	 *
+	 * @param vec vector3<int> to reference.
+	 * @return Appropriated forge direction, else may return ForgeDirection.UNKNOWN.
+	 */
+	public static ForgeDirection getDirection(Vector3<Integer> vec) {
+		if (vec.x == 0 && vec.y <= -1 && vec.z == 0) return ForgeDirection.VALID_DIRECTIONS[0];
+		else if (vec.x == 0 && vec.y >= 1 && vec.z == 0) return ForgeDirection.VALID_DIRECTIONS[1];
+		else if (vec.x <= -1 && vec.y == 0 && vec.z == 0) return ForgeDirection.VALID_DIRECTIONS[2];
+		else if (vec.x >= 1 && vec.y == 0 && vec.z == 0) return ForgeDirection.VALID_DIRECTIONS[3];
+		else if (vec.x == 0 && vec.y == 0 && vec.z <= -1) return ForgeDirection.VALID_DIRECTIONS[4];
+		else if (vec.x == 0 && vec.y == 0 && vec.z >= 1) return ForgeDirection.VALID_DIRECTIONS[5];
+
+		else return ForgeDirection.UNKNOWN;
 	}
 
 	private Number toNumber(N num) {

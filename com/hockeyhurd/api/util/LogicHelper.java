@@ -1,5 +1,11 @@
 package com.hockeyhurd.api.util;
 
+/**
+ * Largely static class used in conjunction with common logic uses from
+ * null checks to xor boolean statements.
+ *
+ * @author hockeyhurd
+ */
 public final class LogicHelper {
 	
 	private LogicHelper() {

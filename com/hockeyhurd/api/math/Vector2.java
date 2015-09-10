@@ -20,7 +20,7 @@ public class Vector2<N> {
 	public Vector2() {
 		this((N) (Number) 0, (N) (Number) 0);
 	}
-	
+
 	/**
 	 * Most generalized constructor creates new instance of this class
 	 * through setting to (x, y, z).

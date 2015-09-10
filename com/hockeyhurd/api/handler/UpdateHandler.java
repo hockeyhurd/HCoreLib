@@ -154,12 +154,12 @@ public class UpdateHandler {
 
 		else {
 			if (!exists) HCoreLibMain.lh.warn("Changelog url doesn't exist or is null.");
-			else HCoreLibMain.lh.info("No changelog found since we are up to date!");
+			else HCoreLibMain.lh.info("No changelog found since we are UP to date!");
 		}
 	}
 	
 	/**
-	 * @return true is up to date, else false.
+	 * @return true is UP to date, else false.
 	 */
 	public boolean getUpToDate() {
 		return upToDate;
@@ -235,7 +235,7 @@ public class UpdateHandler {
 		catch (Exception e) {
 			// e.printStackTrace();
 			HCoreLibMain.lh.warn("Could not find requested url!", urlCheck);
-			HCoreLibMain.lh.warn("Update server must be down or this build has not yet been released properly!");
+			HCoreLibMain.lh.warn("Update server must be DOWN or this build has not yet been released properly!");
 			return false;
 		}
 	}

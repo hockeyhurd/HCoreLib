@@ -1,13 +1,11 @@
 package com.hockeyhurd.api.handler;
 
-import java.io.File;
-
-import net.minecraftforge.common.config.Configuration;
-
 import com.hockeyhurd.api.util.AbstractReference;
 import com.hockeyhurd.mod.HCoreLibMain;
-
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.common.config.Configuration;
+
+import java.io.File;
 
 public abstract class AbstractConfigHandler {
 
@@ -91,7 +89,7 @@ public abstract class AbstractConfigHandler {
 	}
 	
 	/**
-	 * Class you can use to call and set-up own way of handling your config file.
+	 * Class you can use to call and set-UP own way of handling your config file.
 	 */
 	public abstract void handleConfiguration();
 
