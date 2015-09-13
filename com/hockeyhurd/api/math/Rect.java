@@ -95,6 +95,21 @@ public class Rect<N> {
 		
 		return new Vector2<Double>((max.x - min.x) / 2d + min.x, (max.y - min.y) / 2d + min.y);
 	}
+
+	/**
+	 * Difference between this and 'getCenter()' function, this accounts for
+	 * the same block.
+	 * <br><tab>min: (0, 0), max: (3, 3)</tab>
+	 * <br><tab>return vector2d: ((max.x - min.x) / 2d + min.x, (max.y - min.y) / 2d + min.y)</tab>
+	 *
+	 * @return center vector point.
+	 */
+	public Vector2<Double> getNormalizedCenter() {
+		Vector2<Double> min = this.min.getVector2d();
+		Vector2<Double> max = this.max.getVector2d();
+
+		return new Vector2<Double>((1d + max.x - min.x) / 2d + min.x, (1d + max.y - min.y) / 2d + min.y);
+	}
 	
 	/**
 	 * @return area of rectangle.
@@ -105,6 +120,23 @@ public class Rect<N> {
 		
 		Vector2<Double> ret = new Vector2<Double>(max.x - min.x, max.y - min.y);
 		
+		return Math.abs(ret.x * ret.y);
+	}
+
+	/**
+	 * Difference between this and 'getArea()' function, this accounts for
+	 * the same block.
+	 * <br><tab>min: (0, 0), max: (3, 3)</tab>
+	 * <br><tab>return vector2d: (1 + max.x - min.x), (1 + max.y - min.y)</tab>
+	 *
+	 * @return area of rectangle.
+	 */
+	public double getNormalizedArea() {
+		Vector2<Double> min = this.min.getVector2d();
+		Vector2<Double> max = this.max.getVector2d();
+
+		Vector2<Double> ret = new Vector2<Double>(1d + max.x - min.x, 1d + max.y - min.y);
+
 		return Math.abs(ret.x * ret.y);
 	}
 	
