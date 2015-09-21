@@ -115,8 +115,8 @@ public class Rect<N> {
 	 * @return area of rectangle.
 	 */
 	public double getArea() {
-		Vector2<Double> min = this.min.getVector2d();
-		Vector2<Double> max = this.max.getVector2d();
+		Vector2<Double> min = Vector2.absoluteDouble(this.min.getVector2d());
+		Vector2<Double> max = Vector2.absoluteDouble(this.max.getVector2d());
 		
 		Vector2<Double> ret = new Vector2<Double>(max.x - min.x, max.y - min.y);
 		
@@ -135,7 +135,10 @@ public class Rect<N> {
 		Vector2<Double> min = Vector2.absoluteDouble(this.min.getVector2d());
 		Vector2<Double> max = Vector2.absoluteDouble(this.max.getVector2d());
 
-		Vector2<Double> ret = new Vector2<Double>(1d + max.x - min.x, 1d + max.y - min.y);
+		double difX = max.x >= min.x ? max.x - min.x : min.x - max.x;
+		double difY = max.y >= min.y ? max.y - min.y : min.y - max.y;
+
+		Vector2<Double> ret = new Vector2<Double>(1d + difX, 1d + difY);
 
 		return Math.abs(ret.x * ret.y);
 	}
