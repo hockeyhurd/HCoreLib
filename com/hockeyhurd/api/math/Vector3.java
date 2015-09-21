@@ -217,7 +217,85 @@ public class Vector3<N> {
 		
 		return new Vector3<Double>(xx, yy, zz);
 	}
-	
+
+	/**
+	 * Makes vector in terms of absolute magnitude.
+	 *
+	 * @param vec vector to reference.
+	 */
+	public static Vector3<Byte> absoluteByte(Vector3<Byte> vec) {
+		if (vec.x < 0) vec.x = (byte) -vec.x;
+		if (vec.y < 0) vec.y = (byte) -vec.y;
+		if (vec.z < 0) vec.z = (byte) -vec.z;
+
+		return vec;
+	}
+
+	/**
+	 * Makes vector in terms of absolute magnitude.
+	 *
+	 * @param vec vector to reference.
+	 */
+	public static Vector3<Short> absoluteShort(Vector3<Short> vec) {
+		if (vec.x < 0) vec.x = (short) -vec.x;
+		if (vec.y < 0) vec.y = (short) -vec.y;
+		if (vec.z < 0) vec.z = (short) -vec.z;
+
+		return vec;
+	}
+
+	/**
+	 * Makes vector in terms of absolute magnitude.
+	 *
+	 * @param vec vector to reference.
+	 */
+	public static Vector3<Integer> absoluteInteger(Vector3<Integer> vec) {
+		if (vec.x < 0) vec.x = -vec.x;
+		if (vec.y < 0) vec.y = -vec.y;
+		if (vec.z < 0) vec.z = -vec.z;
+
+		return vec;
+	}
+
+	/**
+	 * Makes vector in terms of absolute magnitude.
+	 *
+	 * @param vec vector to reference.
+	 */
+	public static Vector3<Long> absoluteLong(Vector3<Long> vec) {
+		if (vec.x < 0L) vec.x = -vec.x;
+		if (vec.y < 0L) vec.y = -vec.y;
+		if (vec.z < 0L) vec.z = -vec.z;
+
+		return vec;
+	}
+
+	/**
+	 * Makes vector in terms of absolute magnitude.
+	 *
+	 * @param vec vector to reference.
+	 */
+	public static Vector3<Float> absoluteFloat(Vector3<Float> vec) {
+		if (vec.x < 0f) vec.x = -vec.x;
+		if (vec.y < 0f) vec.y = -vec.y;
+		if (vec.z < 0f) vec.z = -vec.z;
+
+		return vec;
+	}
+
+	/**
+	 * Makes vector in terms of absolute magnitude.
+	 *
+	 * @param vec vector to reference.
+	 */
+	public static Vector3<Double> absoluteDouble(Vector3<Double> vec) {
+		if (vec.x < 0d) vec.x = -vec.x;
+		if (vec.y < 0d) vec.y = -vec.y;
+		if (vec.z < 0d) vec.z = -vec.z;
+
+		return vec;
+	}
+
 	/**
 	 * @return new copied instance of this object.
 	 */

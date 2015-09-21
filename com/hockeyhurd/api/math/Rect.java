@@ -132,8 +132,8 @@ public class Rect<N> {
 	 * @return area of rectangle.
 	 */
 	public double getNormalizedArea() {
-		Vector2<Double> min = this.min.getVector2d();
-		Vector2<Double> max = this.max.getVector2d();
+		Vector2<Double> min = Vector2.absoluteDouble(this.min.getVector2d());
+		Vector2<Double> max = Vector2.absoluteDouble(this.max.getVector2d());
 
 		Vector2<Double> ret = new Vector2<Double>(1d + max.x - min.x, 1d + max.y - min.y);
 

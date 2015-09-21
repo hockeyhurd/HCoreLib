@@ -220,6 +220,90 @@ public class Vector4<N> {
 		
 		return new Vector4<Double>(xx, yy, zz, ww);
 	}
+
+	/**
+	 * Makes vector in terms of absolute magnitude.
+	 *
+	 * @param vec vector to reference.
+	 */
+	public static Vector4<Byte> absoluteByte(Vector4<Byte> vec) {
+		if (vec.x < 0) vec.x = (byte) -vec.x;
+		if (vec.y < 0) vec.y = (byte) -vec.y;
+		if (vec.z < 0) vec.z = (byte) -vec.z;
+		if (vec.w < 0) vec.w = (byte) -vec.w;
+
+		return vec;
+	}
+
+	/**
+	 * Makes vector in terms of absolute magnitude.
+	 *
+	 * @param vec vector to reference.
+	 */
+	public static Vector4<Short> absoluteShort(Vector4<Short> vec) {
+		if (vec.x < 0) vec.x = (short) -vec.x;
+		if (vec.y < 0) vec.y = (short) -vec.y;
+		if (vec.z < 0) vec.z = (short) -vec.z;
+		if (vec.w < 0) vec.w = (short) -vec.w;
+
+		return vec;
+	}
+
+	/**
+	 * Makes vector in terms of absolute magnitude.
+	 *
+	 * @param vec vector to reference.
+	 */
+	public static Vector4<Integer> absoluteInteger(Vector4<Integer> vec) {
+		if (vec.x < 0) vec.x = -vec.x;
+		if (vec.y < 0) vec.y = -vec.y;
+		if (vec.z < 0) vec.z = -vec.z;
+		if (vec.w < 0) vec.w = -vec.w;
+
+		return vec;
+	}
+
+	/**
+	 * Makes vector in terms of absolute magnitude.
+	 *
+	 * @param vec vector to reference.
+	 */
+	public static Vector4<Long> absoluteLong(Vector4<Long> vec) {
+		if (vec.x < 0L) vec.x = -vec.x;
+		if (vec.y < 0L) vec.y = -vec.y;
+		if (vec.z < 0L) vec.z = -vec.z;
+		if (vec.w < 0L) vec.w = -vec.w;
+
+		return vec;
+	}
+
+	/**
+	 * Makes vector in terms of absolute magnitude.
+	 *
+	 * @param vec vector to reference.
+	 */
+	public static Vector4<Float> absoluteFloat(Vector4<Float> vec) {
+		if (vec.x < 0f) vec.x = -vec.x;
+		if (vec.y < 0f) vec.y = -vec.y;
+		if (vec.z < 0f) vec.z = -vec.z;
+		if (vec.w < 0f) vec.w = -vec.w;
+
+		return vec;
+	}
+
+	/**
+	 * Makes vector in terms of absolute magnitude.
+	 *
+	 * @param vec vector to reference.
+	 */
+	public static Vector4<Double> absoluteDouble(Vector4<Double> vec) {
+		if (vec.x < 0d) vec.x = -vec.x;
+		if (vec.y < 0d) vec.y = -vec.y;
+		if (vec.z < 0d) vec.z = -vec.z;
+		if (vec.w < 0d) vec.w = -vec.w;
+
+		return vec;
+	}
 	
 	/**
 	 * @return new copied instance of this object.
