@@ -283,6 +283,17 @@ public final class LogicHelper {
 	}
 
 	/**
+	 * Function to check provided statements (array of booleans) for 'NAND' logic functionality.
+	 *
+	 * @param statements statements to check.
+	 * @return result of 'NAND' logic.
+	 */
+	public static boolean nand(boolean... statements)
+	{
+		return not(and(statements));
+	}
+
+	/**
 	 * Function to check provided statements (array of booleans) for 'OR' logic functionality.
 	 *
 	 * @param statements statements to check.
@@ -298,6 +309,17 @@ public final class LogicHelper {
 		}
 
 		return false;
+	}
+
+	/**
+	 * Function to check provided statements (array of booleans) for 'NOR' logic functionality.
+	 *
+	 * @param statements statements to check.
+	 * @return result of 'NOR' logic.
+	 */
+	public static boolean nor(boolean... statements)
+	{
+		return not(or(statements));
 	}
 
 	/**

@@ -8,7 +8,7 @@ import java.text.DecimalFormat;
  * @author hockeyhurd
  * @version Jan 13, 2015
  */
-public class NumberFormatter {
+public final class NumberFormatter {
 
 	private static final DecimalFormat FORMAT = new DecimalFormat("###,###.##");
 	
