@@ -288,8 +288,7 @@ public final class LogicHelper {
 	 * @param statements statements to check.
 	 * @return result of 'NAND' logic.
 	 */
-	public static boolean nand(boolean... statements)
-	{
+	public static boolean nand(boolean... statements) {
 		return not(and(statements));
 	}
 
@@ -317,8 +316,7 @@ public final class LogicHelper {
 	 * @param statements statements to check.
 	 * @return result of 'NOR' logic.
 	 */
-	public static boolean nor(boolean... statements)
-	{
+	public static boolean nor(boolean... statements) {
 		return not(or(statements));
 	}
 
@@ -342,6 +340,16 @@ public final class LogicHelper {
 		}
 
 		return counter == 1;
+	}
+
+	/**
+	 * Function to check provided statements (array of booleans) for 'XNOR' logic functionality.
+	 *
+	 * @param statements statements to check.
+	 * @return result of 'XNOR' logic.
+	 */
+	public static boolean xnor(boolean... statements) {
+		return not(xor(statements));
 	}
 
 	/**
