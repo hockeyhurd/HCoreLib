@@ -16,6 +16,14 @@ public final class StringUtils {
     private StringUtils() {
     }
 
+    public static boolean nullCheckString(String text) {
+        return LogicHelper.nullCheckString(text);
+    }
+
+    public static boolean nullCheckString(String... strings) {
+        return LogicHelper.nullCheckString(strings);
+    }
+
     /**
      * Gets a single String from an array of Objects.
      *
@@ -181,6 +189,54 @@ public final class StringUtils {
         }
 
         return map;
+    }
+
+    /**
+     * Gets if two Strings are equal.
+     *
+     * @param text0 String.
+     * @param text1 String.
+     * @return True if equal, else false.
+     */
+    public static boolean isEqual(String text0, String text1) {
+        return text0 != null && text1 != null && text0.length() == text1.length() &&
+                text0.length() > 0 && text0.equals(text1);
+    }
+
+    /**
+     * Gets if two Strings are equal (case insensitive).
+     *
+     * @param text0 String.
+     * @param text1 String.
+     * @return True if equal, else false.
+     */
+    public static boolean isEqulaIgnoreCase(String text0, String text1) {
+        return text0 != null && text1 != null && text0.length() == text1.length() &&
+                text0.length() > 0 && text0.equalsIgnoreCase(text1);
+    }
+
+    /**
+     * Compares two Strings.
+     *
+     * @param text  String.
+     * @param other String.
+     * @return Result of comparing two Strings.
+     */
+    public static byte compareTo(String text, String other) {
+        if (!nullCheckString(text) || !nullCheckString(other)) return 0;
+        else if (text.length() < other.length()) return -1;
+        else if (text.length() > other.length()) return 1;
+
+
+        for (int i = 0; i < text.length(); i++) {
+            char c0 = text.charAt(i);
+            char c1 = other.charAt(i);
+
+            if (c0 < c1) return -1;
+            else if (c0 > c1) return 1;
+        }
+
+        return 0;
     }
 
 }

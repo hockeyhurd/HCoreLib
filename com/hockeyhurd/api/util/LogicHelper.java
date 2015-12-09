@@ -16,7 +16,7 @@ public final class LogicHelper {
 	 * @return true if string isn't (by our standards) null, false if it is.
 	 */
 	public static boolean nullCheckString(String text) {
-		return text != null && text.length() > 0 && !text.equals("");
+		return text != null && text.length() > 0; // && !text.equals("");
 	}
 	
 	/**
