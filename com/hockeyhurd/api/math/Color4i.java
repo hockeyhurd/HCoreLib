@@ -137,18 +137,7 @@ public final class Color4i {
 
 	@Override
 	public String toString() {
-		StringBuilder builder = new StringBuilder();
-
-		builder.append("R: ");
-		builder.append(r);
-		builder.append(", G: ");
-		builder.append(g);
-		builder.append(", B: ");
-		builder.append(b);
-		builder.append(", A: ");
-		builder.append(a);
-
-		return builder.toString();
+		return String.format("R: %d, G: %d, B: %d, A: %d\n", r, g, b, a);
 	}
 
 }

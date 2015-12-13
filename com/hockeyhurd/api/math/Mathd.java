@@ -107,7 +107,7 @@ public class Mathd {
 	 * @return Cosine^-1 of angle
 	 */
 	public static double cosInv(double radians) {
-		return Math.pow(cos(radians), -1);
+		return Math.acos(radians);
 	}
 	
 	/**
@@ -116,7 +116,7 @@ public class Mathd {
 	 * @return Absolute value of cosine^-1 of angle
 	 */
 	public static double absCosInv(double radians) {
-		return Math.pow(absCos(radians), -1);
+		return abs(cosInv(radians));
 	}
 	
 	/**
@@ -143,7 +143,7 @@ public class Mathd {
 	 * @return Sine^-1 of angle
 	 */
 	public static double sinInv(double radians) {
-		return Math.pow(sin(radians), -1);
+		return Math.asin(radians);
 	}
 	
 	/**
@@ -152,7 +152,7 @@ public class Mathd {
 	 * @return Absolute value of sine^-1 of angle
 	 */
 	public static double absSinInv(double radians) {
-		return Math.pow(absSin(radians), -1);
+		return abs(sinInv(radians));
 	}
 	
 	/**

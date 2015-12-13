@@ -16,10 +16,26 @@ public final class StringUtils {
     private StringUtils() {
     }
 
+    /**
+     * Shortened function call to LogicHelper class.
+     *
+     * @see com.hockeyhurd.api.util.LogicHelper#nullCheckString(String)
+     *
+     * @param text String to check.
+     * @return True if not null of length == 0, else returns false.
+     */
     public static boolean nullCheckString(String text) {
         return LogicHelper.nullCheckString(text);
     }
 
+    /**
+     * Shortened function call to LogicHelper class.
+     *
+     * @see com.hockeyhurd.api.util.LogicHelper#nullCheckString(String...)
+     *
+     * @param strings Strings to check.
+     * @return True if not null, length of individual string == 0, or array length == 0, else returns false.
+     */
     public static boolean nullCheckString(String... strings) {
         return LogicHelper.nullCheckString(strings);
     }
@@ -210,7 +226,7 @@ public final class StringUtils {
      * @param text1 String.
      * @return True if equal, else false.
      */
-    public static boolean isEqulaIgnoreCase(String text0, String text1) {
+    public static boolean isEqulsIgnoreCase(String text0, String text1) {
         return text0 != null && text1 != null && text0.length() == text1.length() &&
                 text0.length() > 0 && text0.equalsIgnoreCase(text1);
     }

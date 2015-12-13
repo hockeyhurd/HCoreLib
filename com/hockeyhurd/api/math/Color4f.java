@@ -156,18 +156,7 @@ public final class Color4f {
 
 	@Override
 	public String toString() {
-		StringBuilder builder = new StringBuilder();
-
-		builder.append("R: ");
-		builder.append(r);
-		builder.append(", G: ");
-		builder.append(g);
-		builder.append(", B: ");
-		builder.append(b);
-		builder.append(", A: ");
-		builder.append(a);
-
-		return builder.toString();
+		return String.format("R: %f, G: %f, B: %f, A: %f\n", r, g, b, a);
 	}
 
 }
