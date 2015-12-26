@@ -45,7 +45,7 @@ public class ShapeRenderer implements IWorldRenderable {
 	public void render(RenderWorldLastEvent event) {
 		// ShapeRendererUtils.renderShape(enumShape, world, worldVec, offset, color);
 		final EntityPlayer player = Minecraft.getMinecraft().thePlayer;
-		final Vector3<Integer> playerVec = new Vector3<Double>(player.posX, player.posY, player.posZ).getVector3i();
+		final Vector3<Integer> playerVec = new Vector3<Double>(player.posX + 3.0d, player.posY, player.posZ + 3.0d).getVector3i();
 		ShapeRendererUtils.renderShape(enumShape, world, playerVec, offset, color);
 	}
 

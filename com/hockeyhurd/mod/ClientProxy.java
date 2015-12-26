@@ -31,7 +31,7 @@ public class ClientProxy extends CommonProxy {
 		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(HCoreLibMain.white), new ItemRendererHiddenWhite(HCoreLibMain.white.getBlockTextureFromSide(0)));
 
 		MinecraftForge.EVENT_BUS.register(RenderWorldHandler.instance());
-		RenderWorldHandler.instance().addRenderer(new ShapeRenderer(EnumShape.RECT, null, new Vector3<Integer>(), new Vector3<Integer>(2, 2, 2), new Color4i(0xffff0000)));
+		RenderWorldHandler.instance().addRenderer(new ShapeRenderer(EnumShape.RECT, null, new Vector3<Integer>(), new Vector3<Integer>(), new Color4i(0x7f00ff00)));
 	}
 	
 }
