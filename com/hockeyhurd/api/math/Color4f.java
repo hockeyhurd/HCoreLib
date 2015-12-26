@@ -1,10 +1,12 @@
 package com.hockeyhurd.api.math;
 
+import com.hockeyhurd.api.util.Color;
+
 /**
  * @author hockeyhurd
  * @version 9/3/15
  */
-public final class Color4f {
+public final class Color4f extends Color {
 
 	private float r, g, b, a;
 	public static final float MAX_VALUE = 1.0f;

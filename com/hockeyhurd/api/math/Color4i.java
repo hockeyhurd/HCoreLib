@@ -1,12 +1,14 @@
 package com.hockeyhurd.api.math;
 
+import com.hockeyhurd.api.util.Color;
+
 /**
  * Color class used to store color based pixel data.
  * 
  * @author hockeyhurd
  * @version Oct 18, 2014
  */
-public final class Color4i {
+public final class Color4i extends Color {
 
 	private int r, g, b, a;
 	public static final int MAX_VALUE = 0xff;
