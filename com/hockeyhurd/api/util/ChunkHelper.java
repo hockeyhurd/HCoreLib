@@ -1,5 +1,7 @@
 package com.hockeyhurd.api.util;
 
+import com.hockeyhurd.api.math.Rect;
+import com.hockeyhurd.api.math.Vector2;
 import com.hockeyhurd.api.math.Vector3;
 import com.hockeyhurd.mod.HCoreLibMain;
 import net.minecraft.block.Block;
@@ -71,7 +73,7 @@ public class ChunkHelper {
 						list.add(block2);
 					}
 					
-					else continue;
+					// else continue;
 				}
 			}
 		}
@@ -81,8 +83,7 @@ public class ChunkHelper {
 		player.addChatComponentMessage(new ChatHelper().comp(amount + " " + bh.getLocalized(blockToFind) + "(s) diamonds left to be found!"));
 		
 		// Make sure the list removed from memory.
-		list.removeAll(Collections.EMPTY_LIST);
-		
+		if (!list.isEmpty()) list.removeAll(Collections.EMPTY_LIST);
 	}
 	
 	/**
@@ -185,6 +186,21 @@ public class ChunkHelper {
 		}
 		
 		return null;
+	}
+
+	/**
+	 * Gets the chunk bounds and stores in a rect object.
+	 *
+	 * @param chunk Chunk in use.
+	 * @return rect.
+	 */
+	public static Rect<Integer> getChunkBounds(Chunk chunk) {
+		if (chunk == null) return null;
+
+		Vector2<Integer> min = new Vector2<Integer>(chunk.xPosition, chunk.zPosition);
+		Vector2<Integer> max = new Vector2<Integer>(chunk.xPosition + 1, chunk.zPosition + 1);
+
+		return new Rect<Integer>(min, max);
 	}
 	
 }

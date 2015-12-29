@@ -1,9 +1,6 @@
 package com.hockeyhurd.api.util;
 
-import com.hockeyhurd.api.math.Color4i;
-import com.hockeyhurd.api.math.Matrix4f;
-import com.hockeyhurd.api.math.Vector2;
-import com.hockeyhurd.api.math.Vector3;
+import com.hockeyhurd.api.math.*;
 import com.hockeyhurd.mod.HCoreLibMain;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -717,9 +714,9 @@ public class TessellatorHelper {
 	/**
 	 * Sets normal by specified values.
 	 *
-	 * @param x
-	 * @param y
-	 * @param z
+	 * @param x x face.
+	 * @param y y face.
+	 * @param z z face.
 	 */
 	public void setNormal(float x, float y, float z) {
 		if (LogicHelper.isNumberInRange(x, -1f, 1f) && LogicHelper.isNumberInRange(y, -1f, 1f) && LogicHelper.isNumberInRange(z, -1f, 1f))
@@ -729,7 +726,7 @@ public class TessellatorHelper {
 	/**
 	 * Sets normal by specified vector values.
 	 *
-	 * @param vec
+	 * @param vec vector representation of faces.
 	 */
 	public void setNormal(Vector3<Float> vec) {
 		setNormal(vec.x, vec.y, vec.z);
@@ -738,11 +735,11 @@ public class TessellatorHelper {
 	/**
 	 * Adds vertex with uv.
 	 *
-	 * @param x
-	 * @param y
-	 * @param z
-	 * @param u
-	 * @param v
+	 * @param x x-pos.
+	 * @param y y-pos.
+	 * @param z z-pos.
+	 * @param u u.
+	 * @param v v.
 	 */
 	public void addVertUV(float x, float y, float z, float u, float v) {
 		tess.addVertexWithUV(x, y, z, u, v);
@@ -751,9 +748,9 @@ public class TessellatorHelper {
 	/**
 	 * Adds vertex with uv.
 	 *
-	 * @param vec
-	 * @param u
-	 * @param v
+	 * @param vec vector position.
+	 * @param u u.
+	 * @param v v.
 	 */
 	public void addVertUV(Vector3<Float> vec, float u, float v) {
 		tess.addVertexWithUV(vec.x, vec.y, vec.z, u, v);
@@ -762,21 +759,92 @@ public class TessellatorHelper {
 	/**
 	 * Adds vertex with uv.
 	 *
-	 * @param vec
-	 * @param uv
+	 * @param vec vector position.
+	 * @param uv uv vector.
 	 */
 	public void addVertUV(Vector3<Float> vec, Vector2<Float> uv) {
 		tess.addVertexWithUV(vec.x, vec.y, vec.z, uv.x, uv.y);
 	}
 
 	/**
+	 * Adds vertex.
+	 *
+	 * @param x x-pos.
+	 * @param y y-pos.
+	 * @param z z-pos.
+	 */
+	public void addVert(float x, float y, float z) {
+		tess.addVertex(x, y, z);
+	}
+
+	/**
+	 * Adds vertex.
+	 *
+	 * @param vec vector position.
+	 */
+	public void addVert(Vector3<Float> vec) {
+		tess.addVertex(vec.x, vec.y, vec.z);
+	}
+
+	/**
+	 * Sets color RGBA.
+	 *
+	 * @param r int.
+	 * @param g int.
+	 * @param b int.
+	 * @param a int.
+	 */
+	public void setColorRGBA(int r, int g, int b, int a) {
+		tess.setColorRGBA(r, g, b, a);
+	}
+
+	/**
+	 * Sets color RGBA.
+	 *
+	 * @param color Color4i.
+	 */
+	public void setColorRGBA(Color4i color) {
+		tess.setColorRGBA(color.getR(), color.getG(), color.getB(), color.getA());
+	}
+
+	/**
+	 * Sets color RGBA.
+	 *
+	 * @param hex hex color value.
+	 */
+	public void setColorRGBA(int hex) {
+		setColorRGBA(new Color4i(hex));
+	}
+
+	/**
+	 * Sets color RGBA.
+	 *
+	 * @param r float.
+	 * @param g float.
+	 * @param b float.
+	 * @param a float.
+	 */
+	public void setColorRGBA(float r, float g, float b, float a) {
+		tess.setColorRGBA_F(r, g, b, a);
+	}
+
+	/**
+	 * Sets color RGBA.
+	 *
+	 * @param color Color4f.
+	 */
+	public void setColorRGBA(Color4f color) {
+		tess.setColorRGBA_F(color.getR(), color.getG(), color.getB(), color.getA());
+	}
+
+	/**
 	 * Draws face from provided matrix and uv coordinates.
 	 *
-	 * @param matrix
-	 * @param minU
-	 * @param maxU
-	 * @param minV
-	 * @param maxV
+	 * @param matrix matrix.
+	 * @param minU min-u.
+	 * @param maxU max-u.
+	 * @param minV min-v.
+	 * @param maxV max-v.
 	 */
 	public void drawFace(Matrix4f matrix, float minU, float maxU, float minV, float maxV) {
 		drawFace(matrix, null, minU, maxU, minV, maxV);
@@ -785,12 +853,12 @@ public class TessellatorHelper {
 	/**
 	 * Draws face from provided matrix and uv coordinates with setting of normal vector (if not null).
 	 *
-	 * @param matrix
-	 * @param normalVec
-	 * @param minU
-	 * @param maxU
-	 * @param minV
-	 * @param maxV
+	 * @param matrix matrix.
+	 * @param normalVec face normals.
+	 * @param minU min-u.
+	 * @param maxU max-u.
+	 * @param minV min-v.
+	 * @param maxV max-v.
 	 */
 	@SuppressWarnings("unchecked")
 	public void drawFace(Matrix4f matrix, Vector3<Float> normalVec, float minU, float maxU, float minV, float maxV) {

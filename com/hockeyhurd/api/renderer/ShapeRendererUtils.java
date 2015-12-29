@@ -3,9 +3,9 @@ package com.hockeyhurd.api.renderer;
 import com.hockeyhurd.api.math.Color4i;
 import com.hockeyhurd.api.math.Vector3;
 import com.hockeyhurd.api.util.Color;
+import com.hockeyhurd.api.util.TessellatorHelper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.world.World;
 import org.lwjgl.opengl.GL11;
 
 /**
@@ -22,57 +22,44 @@ public class ShapeRendererUtils {
 
 	/**
 	 * Util method for rendering a shape.
+	 * <br><bold>NOTE: </bold> Currently only supports quad based shapes, more coming soon.
 	 *
 	 * @param enumShape shape to render.
-	 * @param world world to render in.
-	 * @param worldVec world vec to render at.
+	 * @param vectors vectors to render.
 	 * @param offset offsetting vec.
 	 * @param color color of shape to render.
 	 */
-	public static void renderShape(EnumShape enumShape, World world, Vector3<Integer> worldVec, Vector3<Integer> offset, Color color) {
-		Color4i col = new Color4i(color.getARGB());
-		// HCoreLibMain.lh.info("Col:", col.toString());
-		// HCoreLibMain.lh.info(col.getR(), col.getG(), col.getB(), col.getA());
+	public static void renderShape(EnumShape enumShape, Vector3<Float>[] vectors, Vector3<Float> offset, Color color) {
+		final TessellatorHelper tessHelp = new TessellatorHelper();
+		final Color4i col = new Color4i(color.getARGB());
 
-		GL11.glPushMatrix();
-		GL11.glDisable(GL11.GL_LIGHTING);
+		GL11.glDepthMask(false);
 		GL11.glDisable(GL11.GL_TEXTURE_2D);
 		GL11.glDisable(GL11.GL_DEPTH_TEST);
+		GL11.glDisable(GL11.GL_CULL_FACE);
+		GL11.glPushMatrix();
 		GL11.glEnable(GL11.GL_BLEND);
+		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 
-		GL11.glLineWidth(6);
-		GL11.glTranslatef(-worldVec.x, -worldVec.y + 1.62f, -worldVec.z);
-		// GL11.glColor3ub((byte) col.getR(), (byte) col.getG(), (byte) col.getB());
-		GL11.glColor4ub((byte) col.getR(), (byte) col.getG(), (byte) col.getB(), (byte) col.getA());
+		GL11.glTranslatef(-offset.x, -offset.y, -offset.z);
+		tessHelp.startDrawingQuads();
+		tessHelp.setColorRGBA(col);
 
-		// float mx = 9;
-		float mx = worldVec.x;
-		// float my = 9;
-		float my = worldVec.y;
-		// float mz = 9;
-		float mz = worldVec.z;
+		if ((enumShape == EnumShape.RECT || enumShape == EnumShape.SQUARE) && vectors != null && vectors.length == 2) {
+			tessHelp.addVert(vectors[1].x, vectors[0].y, vectors[0].z);
+			tessHelp.addVert(vectors[1].x, vectors[0].y, vectors[1].z);
+			tessHelp.addVert(vectors[0].x, vectors[0].y, vectors[1].z);
+			tessHelp.addVert(vectors[0].x, vectors[0].y, vectors[0].z);
+		}
 
-		// GL11.glEnable(GL11.GL_LINE_SMOOTH);
-		// GL11.glHint( GL11.GL_LINE_SMOOTH_HINT, GL11.GL_NICEST );
-		// GL11.glBegin(GL11.GL_LINE_STRIP);
+		tessHelp.draw();
 
-		// GL11.glVertex3f(mx+0.5f,my,mz+0.5f);
-		// GL11.glVertex3f(mx-0.5f,my,mz+0.5f);
-
-		GL11.glBegin(GL11.GL_QUADS);
-
-		GL11.glVertex3f(mx + 0.5f, my, mz - 0.5f);
-		GL11.glVertex3f(mx + 0.5f, my, mz + 0.5f);
-		GL11.glVertex3f(mx - 0.5f, my, mz + 0.5f);
-		GL11.glVertex3f(mx - 0.5f, my, mz - 0.5f);
-
-		GL11.glEnd();
-
+		GL11.glPopMatrix();
 		GL11.glDisable(GL11.GL_BLEND);
-		GL11.glEnable(GL11.GL_LIGHTING);
+		GL11.glEnable(GL11.GL_CULL_FACE);
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
-		GL11.glPopMatrix();
+		GL11.glDepthMask(true);
 
 	}
 
