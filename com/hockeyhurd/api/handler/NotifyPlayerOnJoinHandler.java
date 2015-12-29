@@ -2,6 +2,7 @@ package com.hockeyhurd.api.handler;
 
 import com.hockeyhurd.api.util.AbstractReference;
 import com.hockeyhurd.api.util.ChatHelper;
+import com.hockeyhurd.mod.HCoreLibMain;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
@@ -51,7 +52,7 @@ public class NotifyPlayerOnJoinHandler {
 			this.name = referenceClass.getDeclaredField("MOD_NAME").get(referenceClass).toString();
 		}
 		catch (Exception e) {
-			System.err.println("Could not find mod's name! Please fix this mod dev!");
+			HCoreLibMain.lh.severe("Could not find mod's name! Please fix this mod dev!");
 		}
 	}
 

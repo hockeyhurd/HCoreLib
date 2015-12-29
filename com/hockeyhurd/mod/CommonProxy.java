@@ -1,13 +1,11 @@
 package com.hockeyhurd.mod;
 
-import java.util.HashMap;
-
-import net.minecraftforge.common.MinecraftForge;
-
 import com.hockeyhurd.api.handler.NotifyPlayerOnJoinHandler;
 import com.hockeyhurd.api.handler.UpdateHandler;
-
 import cpw.mods.fml.common.registry.GameRegistry;
+import net.minecraftforge.common.MinecraftForge;
+
+import java.util.HashMap;
 
 public class CommonProxy {
 
@@ -17,8 +15,11 @@ public class CommonProxy {
 	
 	public CommonProxy() {
 	}
-	
+
 	public void registerRenderInformation() {
+	}
+
+	public void registerInputHandlers() {
 	}
 	
 	public void init() {
