@@ -26,7 +26,7 @@ public abstract class AbstractConfigHandler {
 			this.modID = classRef.getDeclaredField("MOD_NAME").get(classRef).toString();
 		}
 		catch (Exception e) {
-			HCoreLibMain.lh.severe("Could not find MOD_NAME! Please make sure you have an appropriate reference class!");
+			HCoreLibMain.logHelper.severe("Could not find MOD_NAME! Please make sure you have an appropriate reference class!");
 			this.PATH = null;
 			return;
 		}
@@ -50,7 +50,7 @@ public abstract class AbstractConfigHandler {
 			this.modID = classRef.getDeclaredField("MOD_NAME").get(classRef).toString();
 		}
 		catch (Exception e) {
-			HCoreLibMain.lh.severe("Could not find MOD_NAME! Please make sure you have an appropriate reference class!");
+			HCoreLibMain.logHelper.severe("Could not find MOD_NAME! Please make sure you have an appropriate reference class!");
 			this.PATH = null;
 			return;
 		}
@@ -63,7 +63,7 @@ public abstract class AbstractConfigHandler {
 			this.config.save();
 		}
 		
-		else HCoreLibMain.lh.severe("Error generation config at path:\t" + (this.PATH + name));
+		else HCoreLibMain.logHelper.severe("Error generation config at path:\t" + (this.PATH + name));
 	}
 	
 	/**

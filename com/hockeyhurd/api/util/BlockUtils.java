@@ -271,7 +271,7 @@ public final class BlockUtils {
 		int tempData = getBlockMetadata(world, x, y, z);
 		if (checkBlock == block && tempData == metadata) flag = true;
 		if (!flag) world.setBlock(x, y, z, block, metadata, notify);
-		else HCoreLibMain.lh.warn("Couldn't place block:", getUnlocalized(block), "into world at", x, y, z, "with metadata:", metadata);
+		else HCoreLibMain.logHelper.warn("Couldn't place block:", getUnlocalized(block), "into world at", x, y, z, "with metadata:", metadata);
 	}
 
 	/**

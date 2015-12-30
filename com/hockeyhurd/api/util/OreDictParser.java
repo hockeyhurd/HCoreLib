@@ -86,7 +86,7 @@ public class OreDictParser {
 	public static ItemStack getFromDict(String objectName, int size) {
 		// If object name isn't valid or size is < 0 || > 64 return with information.
 		if (!LogicHelper.nullCheckString(objectName) || size <= 0 || size > 64) {
-			HCoreLibMain.lh.warn("Could not find object by name:", objectName, "Size:", size);
+			HCoreLibMain.logHelper.warn("Could not find object by name:", objectName, "Size:", size);
 			return null;
 		}
 
@@ -99,7 +99,7 @@ public class OreDictParser {
 			// Iterating through the ore dictionary searching for by name.
 			for (int i = 0; i < OreDictionary.getOreNames().length; i++) {
 				if (current.equals(OreDictionary.getOreNames()[i])) {
-					HCoreLibMain.lh.info("Found object by name:", current + "!");
+					HCoreLibMain.logHelper.info("Found object by name:", current + "!");
 					flag = true;
 					break;
 				}
@@ -150,7 +150,7 @@ public class OreDictParser {
 	 */
 	public static List<ItemStack> getFromOreDict(String objectName, int size, boolean useInternal) {
 		if (!LogicHelper.nullCheckString(objectName) || size <= 0 || size > 0x40) {
-			HCoreLibMain.lh.warn("Could not find object by name:", objectName, "Size:", size);
+			HCoreLibMain.logHelper.warn("Could not find object by name:", objectName, "Size:", size);
 			return null;
 		}
 

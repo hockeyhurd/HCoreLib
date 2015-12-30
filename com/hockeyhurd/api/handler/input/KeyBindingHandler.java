@@ -20,14 +20,24 @@ import java.util.List;
 @SideOnly(Side.CLIENT)
 public class KeyBindingHandler {
 
+	/** Store this instance of Minecraft statically. */
 	private static final Minecraft minecraft = Minecraft.getMinecraft();
 
-	private List<AbstractKeyBinding> keyBindingsList;
+	/** Internal list of KeyBinds */
+	private final List<AbstractKeyBinding> keyBindingsList;
 
+	/**
+	 * Creates an empty internal list of KeyBinds.
+	 */
 	public KeyBindingHandler() {
 		keyBindingsList = new ArrayList<AbstractKeyBinding>();
 	}
 
+	/**
+	 * Impractical but somewhat usable constructor with initial capacity of number of KeyBinds.
+	 *
+	 * @param numKeyBindings Number of initial KeyBinds.
+	 */
 	public KeyBindingHandler(int numKeyBindings) {
 		if (numKeyBindings < 0) numKeyBindings = -numKeyBindings;
 		else if (numKeyBindings == 0) numKeyBindings = 10;
@@ -35,6 +45,11 @@ public class KeyBindingHandler {
 		keyBindingsList = new ArrayList<AbstractKeyBinding>(numKeyBindings);
 	}
 
+	/**
+	 * Constructs internal list with passed array of KeyBinds.
+	 *
+	 * @param keyBindings KeyBindings to add.
+	 */
 	public KeyBindingHandler(AbstractKeyBinding... keyBindings) {
 		if (keyBindings != null && keyBindings.length > 0) {
 			keyBindingsList = new ArrayList<AbstractKeyBinding>(keyBindings.length);
@@ -43,7 +58,7 @@ public class KeyBindingHandler {
 				if (binding != null) {
 					keyBindingsList.add(binding);
 					ClientRegistry.registerKeyBinding(binding);
-					HCoreLibMain.lh.info("Key registered!");
+					if (HCoreLibMain.configHandler.isDebugMode()) HCoreLibMain.logHelper.info("Key registered!");
 				}
 			}
 		}
@@ -51,17 +66,24 @@ public class KeyBindingHandler {
 		else keyBindingsList = new ArrayList<AbstractKeyBinding>();
 	}
 
+	/**
+	 * Adds KeyBind to internal KeyBind list.
+	 *
+	 * @param keyBinding KeyBind to add.
+	 */
 	public void addKeyBinding(AbstractKeyBinding keyBinding) {
-		if (keyBinding != null) keyBindingsList.add(keyBinding);
+		if (keyBinding != null) {
+			keyBindingsList.add(keyBinding);
+			if (HCoreLibMain.configHandler.isDebugMode()) HCoreLibMain.logHelper.info("Key registered!");
+		}
 	}
 
 	@SubscribeEvent
 	public void onKeyInput(KeyInputEvent event) {
-		if (!minecraft.inGameHasFocus) return;
+		if (!minecraft.inGameHasFocus || keyBindingsList.isEmpty()) return;
 
-		HCoreLibMain.lh.info("KeyInputEvent called!");
 		for (AbstractKeyBinding binding : keyBindingsList) {
-			if (binding.isPressed()) binding.onKeyPressed(event);
+			if (binding.getIsKeyPressed()) binding.onKeyPressed(event);
 		}
 	}
 

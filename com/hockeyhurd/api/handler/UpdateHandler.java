@@ -79,7 +79,7 @@ public class UpdateHandler {
 
 			catch (MalformedURLException e) {
 				e.printStackTrace();
-				HCoreLibMain.lh.warn("URL:", this.url, "doesn't exist!");
+				HCoreLibMain.logHelper.warn("URL:", this.url, "doesn't exist!");
 			}
 
 			if (link == null) {
@@ -103,12 +103,12 @@ public class UpdateHandler {
 			}
 			catch (IOException e) {
 				e.printStackTrace();
-				HCoreLibMain.lh.warn("Error reading file! Please ensure data in file is valid!");
+				HCoreLibMain.logHelper.warn("Error reading file! Please ensure data in file is valid!");
 			}
 		}
 
 		else {
-			HCoreLibMain.lh.warn("Error url doesn't exist!");
+			HCoreLibMain.logHelper.warn("Error url doesn't exist!");
 			this.upToDate = true;
 		}
 	}
@@ -128,7 +128,7 @@ public class UpdateHandler {
 
 			catch (MalformedURLException e) {
 				e.printStackTrace();
-				HCoreLibMain.lh.warn("URL:", this.changelogUrl, "doesn't exist!");
+				HCoreLibMain.logHelper.warn("URL:", this.changelogUrl, "doesn't exist!");
 			}
 
 			// nothing exists, return.
@@ -148,13 +148,13 @@ public class UpdateHandler {
 
 			catch (IOException e) {
 				e.printStackTrace();
-				HCoreLibMain.lh.warn("Error reading file! Please ensure data in file is valid");
+				HCoreLibMain.logHelper.warn("Error reading file! Please ensure data in file is valid");
 			}
 		}
 
 		else {
-			if (!exists) HCoreLibMain.lh.warn("Changelog url doesn't exist or is null.");
-			else HCoreLibMain.lh.info("No changelog found since we are UP to date!");
+			if (!exists) HCoreLibMain.logHelper.warn("Changelog url doesn't exist or is null.");
+			else HCoreLibMain.logHelper.info("No changelog found since we are UP to date!");
 		}
 	}
 	
@@ -234,8 +234,8 @@ public class UpdateHandler {
 		}
 		catch (Exception e) {
 			// e.printStackTrace();
-			HCoreLibMain.lh.warn("Could not find requested url!", urlCheck);
-			HCoreLibMain.lh.warn("Update server must be DOWN or this build has not yet been released properly!");
+			HCoreLibMain.logHelper.warn("Could not find requested url!", urlCheck);
+			HCoreLibMain.logHelper.warn("Update server must be DOWN or this build has not yet been released properly!");
 			return false;
 		}
 	}

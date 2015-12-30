@@ -15,30 +15,31 @@ import net.minecraft.client.settings.KeyBinding;
 @SideOnly(Side.CLIENT)
 public abstract class AbstractKeyBinding extends KeyBinding {
 
-	private boolean keyDown = false;
-
+	/**
+	 * @param name Name of keybinding.
+	 * @param keyCode Key code for key.
+	 * @param category Category to be placed in.
+	 */
 	public AbstractKeyBinding(String name, int keyCode, String category) {
 		super(name, keyCode, category);
 	}
 
-	public boolean isKeyDown() {
-		return keyDown;
-	}
-
-	@Override
-	public boolean isPressed() {
-		return (keyDown = super.isPressed());
-	}
-
-	public void onKeyPressed(KeyInputEvent event) {
-		if (keyDown) return;
-
+	/**
+	 * Method directly called from event handler.
+	 *
+	 * @param event KeyInputEvent referenced.
+	 */
+	public final void onKeyPressed(KeyInputEvent event) {
 		activate(event);
-		keyDown = true;
 
-		HCoreLibMain.lh.info("Pressed");
+		if (HCoreLibMain.configHandler.isDebugMode()) HCoreLibMain.logHelper.info("Pressed");
 	}
 
+	/**
+	 * Abstract method called on key pressed event.
+	 *
+	 * @param event KeyInputEvent referenced.
+	 */
 	protected abstract void activate(KeyInputEvent event);
 
 }

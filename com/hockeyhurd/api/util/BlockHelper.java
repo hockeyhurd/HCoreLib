@@ -151,7 +151,7 @@ public final class BlockHelper {
 		int tempData = getBlockMetaData(x, y, z);
 		if (checkBlock == block && tempData == metaData) flag = true;
 		if (!flag) world.setBlock(x, y, z, block, metaData, 3);
-		else HCoreLibMain.lh.warn("Couldn't place block:", getUnlocalized(block), "into world at", x, y, z, "with metadata:", metaData);
+		else HCoreLibMain.logHelper.warn("Couldn't place block:", getUnlocalized(block), "into world at", x, y, z, "with metadata:", metaData);
 	}
 	
 	public void setBlock(int x, int y, int z, Block block) {

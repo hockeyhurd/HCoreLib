@@ -52,7 +52,7 @@ public class NotifyPlayerOnJoinHandler {
 			this.name = referenceClass.getDeclaredField("MOD_NAME").get(referenceClass).toString();
 		}
 		catch (Exception e) {
-			HCoreLibMain.lh.severe("Could not find mod's name! Please fix this mod dev!");
+			HCoreLibMain.logHelper.severe("Could not find mod's name! Please fix this mod dev!");
 		}
 	}
 

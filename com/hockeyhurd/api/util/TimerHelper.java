@@ -15,7 +15,7 @@ public class TimerHelper {
 			this.buffer = buffer;
 		}
 		else {
-			HCoreLibMain.lh.warn("Constructor value is less than 0! Defaulting timer to 20 ticks or 1 second with no buffer!");
+			HCoreLibMain.logHelper.warn("Constructor value is less than 0! Defaulting timer to 20 ticks or 1 second with no buffer!");
 			this.resetVal = this.tick = 20;
 			this.buffer = 0;
 		}

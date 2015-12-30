@@ -27,7 +27,7 @@ public final class HCoreLibMain {
 	
 	@Instance(LibReference.MOD_NAME)
 	public static HCoreLibMain instance;
-	public static LogHelper lh;
+	public static LogHelper logHelper;
 	public static final String modID = LibReference.MOD_NAME;
 	public static final String assetDir = "hcorelib:";
 	private TimeLapse tl;
@@ -40,38 +40,39 @@ public final class HCoreLibMain {
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
 		tl = new TimeLapse();
-		lh = new LogHelper(LibReference.class);
+		logHelper = new LogHelper(LibReference.class);
 
-		lh.info("Pre-init started, looking for config info!");
+		logHelper.info("Pre-init started, looking for config info!");
 		configHandler = new ConfigHandler(event, LibReference.class);
 		configHandler.handleConfiguration();
-		lh.info("Config info handled successfully! Applying changes now!");
+		logHelper.info("Config info handled successfully! Applying changes now!");
 
 		final Side side = FMLCommonHandler.instance().getEffectiveSide();
 		if (side == Side.CLIENT) {
-			lh.info("Attempting to inject data to mcmod.info file!");
+			logHelper.info("Attempting to inject data to mcmod.info file!");
 
-			final McModInfoDataInjector mcModInfoDataInjector = new McModInfoDataInjector(event, lh);
-			mcModInfoDataInjector.injectData(false, new String[] { "hockeyhurd" }, modID, LibReference.VERSION, LibReference.MOD_URL, null, "A simple library for all of hockeyhurd's mods and anyone who wishes to use this as well.");
+			final McModInfoDataInjector mcModInfoDataInjector = new McModInfoDataInjector(event, logHelper);
+			mcModInfoDataInjector.injectData(false, new String[] { "hockeyhurd" }, modID, LibReference.VERSION, LibReference.MOD_URL, null,
+					"A simple library for all of hockeyhurd's mods and anyone who wishes to use this as well.");
 
-			if (mcModInfoDataInjector.getResult()) lh.info("Injection was successful!");
-			else lh.warn("Injection was un-successful! mcmod.info is a liar!");
+			if (mcModInfoDataInjector.getResult()) logHelper.info("Injection was successful!");
+			else logHelper.warn("Injection was un-successful! mcmod.info is a liar!");
 		}
 
-		lh.info("Pre-init finished successfully after", tl.getEffectiveTimeSince(), "ms!");
+		logHelper.info("Pre-init finished successfully after", tl.getEffectiveTimeSince(), "ms!");
 	}
 	
 	@EventHandler
 	public void init(FMLInitializationEvent event) {
 		tl.resetStartTime();
-		lh.info("Init started, looking for config info!");
+		logHelper.info("Init started, looking for config info!");
 
 		loadObj();
 		proxy.init();
 		proxy.registerRenderInformation();
 		proxy.registerInputHandlers();
 
-		lh.info("Init finished successfully after", tl.getEffectiveTimeSince(), "ms!");
+		logHelper.info("Init finished successfully after", tl.getEffectiveTimeSince(), "ms!");
 	}
 	
 	private void loadObj() {
@@ -81,18 +82,18 @@ public final class HCoreLibMain {
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent event) {
 		tl.resetStartTime();
-		lh.info("Post-init started, looking for config info!");
+		logHelper.info("Post-init started, looking for config info!");
 		
 		if (configHandler.allowUpdating()) {
-			lh.info("Checking for updates!");
+			logHelper.info("Checking for updates!");
 			proxy.registerUpdateHandler();
-			if (!proxy.updateFlag) lh.warn("Found an update!");
-			else lh.info("Everything is UP to date!");
+			if (!proxy.updateFlag) logHelper.warn("Found an update!");
+			else logHelper.info("Everything is UP to date!");
 		}
 		
-		else lh.warn("Skipping checking for updates. WARNING: bugs may exist!");
+		else logHelper.warn("Skipping checking for updates. WARNING: bugs may exist!");
 		
-		lh.info("Post-init finished successfully after", tl.getEffectiveTimeSince(), "ms!");
+		logHelper.info("Post-init finished successfully after", tl.getEffectiveTimeSince(), "ms!");
 	}
 	
 	public HCoreLibMain() {

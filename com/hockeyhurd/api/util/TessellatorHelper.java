@@ -886,7 +886,7 @@ public class TessellatorHelper {
 	 */
 	public void startDrawing(int verts) {
 		if (verts > 2) tess.startDrawing(verts);
-		else HCoreLibMain.lh.severe("Error starting to draw with #", verts, "ensure this is (int) 'verts' >= '3'!");
+		else HCoreLibMain.logHelper.severe("Error starting to draw with #", verts, "ensure this is (int) 'verts' >= '3'!");
 	}
 
 	/**

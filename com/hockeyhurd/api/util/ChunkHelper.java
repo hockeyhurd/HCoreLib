@@ -49,7 +49,7 @@ public class ChunkHelper {
 	public void searchChunk(Block blockToFind) {
 		// Make sure I didn't derp UP anything and the block to be searched for is an actual block.
 		if (blockToFind == null || !bh.blockListContains(blockToFind)) {
-			HCoreLibMain.lh.severe("Block to find is not a block!");
+			HCoreLibMain.logHelper.severe("Block to find is not a block!");
 			return;
 		}
 		int xPos = (int) player.posX;
