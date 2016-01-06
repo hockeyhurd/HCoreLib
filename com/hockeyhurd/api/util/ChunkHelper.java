@@ -98,8 +98,8 @@ public class ChunkHelper {
 	/**
 	 * Gets chunk from player location.
 	 * 
-	 * @param player player to reference.
-	 * @return chunk at player location.
+	 * @param player Player to reference.
+	 * @return Chunk at player location.
 	 */
 	public static Chunk getChunkFromPlayerLocation(EntityPlayer player) {
 		return player != null && player.worldObj != null ? getChunk(player.worldObj, new Vector3<Double>(player.posX, player.posY, player.posZ).getVector3i()) : null;
@@ -108,58 +108,94 @@ public class ChunkHelper {
 	/**
 	 * Gets chunk from provided world location.
 	 * 
-	 * @param vec vector in world.
-	 * @return chunk.
+	 * @param vec Vector in world.
+	 * @return Chunk.
 	 */
 	public Chunk getChunk(Vector3<Integer> vec) {
 		return getChunk(this.world, vec);
 	}
-	
+
+	/**
+	 * Gets chunk from provided world location.
+	 *
+	 * @param vec Vector in world.
+	 * @return Chunk.
+	 */
+	public Chunk getChunk(Vector2<Integer> vec) {
+		return getChunk(this.world, vec);
+	}
+
+	public static Chunk getChunk(World world, Vector2<Integer> vec) {
+		return world != null && vec != null ? world.getChunkFromBlockCoords(vec.x, vec.y) : null;
+	}
+
 	/**
 	 * Gets chunk from provided world and location.
 	 * 
-	 * @param world world to reference.
-	 * @param vec location to reference.
-	 * @return
+	 * @param world World to reference.
+	 * @param vec Location to reference.
+	 * @return Chunk.
 	 */
 	public static Chunk getChunk(World world, Vector3<Integer> vec) {
-		if (world != null && vec != null) return world.getChunkFromBlockCoords(vec.x, vec.z);
-		return null;
+		return world != null && vec != null ? world.getChunkFromBlockCoords(vec.x, vec.z): null;
 	}
-	
+
 	/**
-	 * Gets array of chunk from provided boundaries (x<sub>0</sub>, z<sub>0</sub>), (x<sub>1</sub>, z<sub>1</sub>). 
-	 * 
+	 * Gets chunk from provided world and chunk location.
+	 *
+	 * @param world World to reference.
+	 * @param vec Location to reference.
+	 * @return Chunk.
+	 */
+	public static Chunk getChunkFromChunkCoordinates(World world, Vector2<Integer> vec) {
+		return world != null && vec != null ? world.getChunkFromChunkCoords(vec.x, vec.y) : null;
+	}
+
+	/**
+	 * Gets chunk from provided world and chunk location.
+	 *
+	 * @param world World to reference.
+	 * @param vec Location to reference.
+	 * @return Chunk.
+	 */
+	public static Chunk getChunkFromChunkCoordinates(World world, Vector3<Integer> vec) {
+		return world != null && vec != null ? world.getChunkFromChunkCoords(vec.x, vec.z) : null;
+	}
+
+	/**
+	 * Gets array of chunk from provided boundaries (x<sub>0</sub>, z<sub>0</sub>), (x<sub>1</sub>, z<sub>1</sub>).
+	 *
 	 * @param vec0 (x<sub>0</sub>, z<sub>0</sub>)
 	 * @param vec1 (x<sub>1</sub>, z<sub>1</sub>)
-	 * @return array of chunks if valid else can return null/empty array.
+	 * @return Array of chunks if valid else can return null/empty array.
 	 */
+	@SuppressWarnings("unchecked")
 	public Chunk[] getChunksFromBounds(Vector3<Integer> vec0, Vector3<Integer> vec1) {
 		if (this.world != null && vec0 != null && vec1 != null && !vec0.equals(vec1)) {
 			List<Chunk> list = new ArrayList<Chunk>();
-			
+
 			Chunk current;
 			Vector3<Integer> buffer = Vector3.zero.getVector3i();
-			
+
 			for (int x = vec0.x; x < vec1.x; x++) {
 				for (int z = vec0.z; z < vec1.z; z++) {
 					buffer.x = vec0.x + x;
 					buffer.z = vec0.z + z;
-					
+
 					current = getChunk(buffer);
 					if (current != null) list.add(current);
 				}
 			}
-			
+
 			return list.toArray(new Chunk[list.size()]);
 		}
-		
+
 		return null;
 	}
-	
+
 	/**
-	 * Gets array of chunk from provided boundaries (x<sub>0</sub>, z<sub>0</sub>), (x<sub>1</sub>, z<sub>1</sub>). 
-	 * 
+	 * Gets array of chunk from provided boundaries (x<sub>0</sub>, z<sub>0</sub>), (x<sub>1</sub>, z<sub>1</sub>).
+	 *
 	 * @param world world to reference.
 	 * @param vec0 (x<sub>0</sub>, z<sub>0</sub>)
 	 * @param vec1 (x<sub>1</sub>, z<sub>1</sub>)
@@ -168,23 +204,23 @@ public class ChunkHelper {
 	public static Chunk[] getChunksFromBounds(World world, Vector3<Integer> vec0, Vector3<Integer> vec1) {
 		if (world != null && vec0 != null && vec1 != null && !vec0.equals(vec1)) {
 			List<Chunk> list = new ArrayList<Chunk>();
-			
+
 			Chunk current;
 			Vector3<Integer> buffer = Vector3.zero.getVector3i();
-			
+
 			for (int x = vec0.x; x < vec1.x; x++) {
 				for (int z = vec0.z; z < vec1.z; z++) {
 					buffer.x = vec0.x + x;
 					buffer.z = vec0.z + z;
-					
+
 					current = getChunk(world, buffer);
 					if (current != null) list.add(current);
 				}
 			}
-			
+
 			return list.toArray(new Chunk[list.size()]);
 		}
-		
+
 		return null;
 	}
 
