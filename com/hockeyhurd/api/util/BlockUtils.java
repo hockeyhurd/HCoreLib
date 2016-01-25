@@ -8,6 +8,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
 /**
@@ -74,6 +75,40 @@ public final class BlockUtils {
 	 */
 	public static Block getBlock(World world, Vector3<Integer> vec) {
 		return getBlock(world, vec.x, vec.y, vec.z);
+	}
+
+	/**
+	 * Gets the TileEntity of type 'T' if successful else may return 'NULL'.
+	 *
+	 * @param world World object to reference.
+	 * @param x     x-pos.
+	 * @param y     y-pos.
+	 * @param z     z-pos.
+	 * @param clazz Class instance to check.
+	 * @param <T>   Type of TileEntity to (potentially) return.
+	 * @return TileEntity of type 'T' if successful else may return 'NULL'.
+	 */
+	public static <T extends TileEntity> T getTileEntity(World world, int x, int y, int z, Class<T> clazz) {
+		if (world == null || clazz == null) return null;
+
+		final TileEntity te = world.getTileEntity(x, y, z);
+		return clazz.isInstance(te) ? (T) te : null;
+	}
+
+	/**
+	 * Gets the TileEntity of type 'T' if successful else may return 'NULL'.
+	 *
+	 * @param world World object to reference.
+	 * @param vec   World vector3i to reference.
+	 * @param clazz Class instance to check.
+	 * @param <T>   Type of TileEntity to (potentially) return.
+	 * @return TileEntity of type 'T' if successful else may return 'NULL'.
+	 */
+	public static <T extends TileEntity> T getTileEntity(World world, Vector3<Integer> vec, Class<T> clazz) {
+		if (world == null || vec == null || clazz == null) return null;
+
+		final TileEntity te = world.getTileEntity(vec.x, vec.y, vec.z);
+		return clazz.isInstance(te) ? (T) te : null;
 	}
 
 	/**
