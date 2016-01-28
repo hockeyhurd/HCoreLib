@@ -356,4 +356,170 @@ public final class Sorts {
         return true;
     }
 
+    /**
+     * Insertion sorts an int array.
+     *
+     * @param arr Int array to sort.
+     * @param sortType SortType to use.
+     * @return Result; true if successful, else false.
+     */
+    public static boolean insertionSorti(int[] arr, SortType sortType) {
+        if (arr == null || arr.length == 0) return false;
+
+        int insertIndex;
+        int k;
+        int next;
+
+        for (int i = 0; i < arr.length; i++) {
+            next = arr[i];
+            insertIndex = 0;
+            k = i;
+
+            while (k > 0 && insertIndex == 0) {
+                if (sortType == SortType.ASCENDING && next > arr[k - 1]) insertIndex = k;
+                else if (sortType == SortType.DESCENDING && next < arr[k - 1]) insertIndex = k;
+                else arr[k] = arr[k - 1];
+
+                k--;
+            }
+
+            arr[insertIndex] = next;
+        }
+
+        return true;
+    }
+
+    /**
+     * Insertion sorts an long array.
+     *
+     * @param arr Long array to sort.
+     * @param sortType SortType to use.
+     * @return Result; true if successful, else false.
+     */
+    public static boolean insertionSortl(long[] arr, SortType sortType) {
+        if (arr == null || arr.length == 0) return false;
+
+        int insertIndex;
+        int k;
+        long next;
+
+        for (int i = 0; i < arr.length; i++) {
+            next = arr[i];
+            insertIndex = 0;
+            k = i;
+
+            while (k > 0 && insertIndex == 0) {
+                if (sortType == SortType.ASCENDING && next > arr[k - 1]) insertIndex = k;
+                else if (sortType == SortType.DESCENDING && next < arr[k - 1]) insertIndex = k;
+                else arr[k] = arr[k - 1];
+
+                k--;
+            }
+
+            arr[insertIndex] = next;
+        }
+
+        return true;
+    }
+
+    /**
+     * Insertion sorts an float array.
+     *
+     * @param arr Float array to sort.
+     * @param sortType SortType to use.
+     * @return Result; true if successful, else false.
+     */
+    public static boolean insertionSortf(float[] arr, SortType sortType) {
+        if (arr == null || arr.length == 0) return false;
+
+        int insertIndex;
+        int k;
+        float next;
+
+        for (int i = 0; i < arr.length; i++) {
+            next = arr[i];
+            insertIndex = 0;
+            k = i;
+
+            while (k > 0 && insertIndex == 0) {
+                if (sortType == SortType.ASCENDING && next > arr[k - 1]) insertIndex = k;
+                else if (sortType == SortType.DESCENDING && next < arr[k - 1]) insertIndex = k;
+                else arr[k] = arr[k - 1];
+
+                k--;
+            }
+
+            arr[insertIndex] = next;
+        }
+
+        return true;
+    }
+
+    /**
+     * Insertion sorts an double array.
+     *
+     * @param arr Double array to sort.
+     * @param sortType SortType to use.
+     * @return Result; true if successful, else false.
+     */
+    public static boolean insertionSortd(double[] arr, SortType sortType) {
+        if (arr == null || arr.length == 0) return false;
+
+        int insertIndex;
+        int k;
+        double next;
+
+        for (int i = 0; i < arr.length; i++) {
+            next = arr[i];
+            insertIndex = 0;
+            k = i;
+
+            while (k > 0 && insertIndex == 0) {
+                if (sortType == SortType.ASCENDING && next > arr[k - 1]) insertIndex = k;
+                else if (sortType == SortType.DESCENDING && next < arr[k - 1]) insertIndex = k;
+                else arr[k] = arr[k - 1];
+
+                k--;
+            }
+
+            arr[insertIndex] = next;
+        }
+
+        return true;
+    }
+
+    /**
+     * Insertion sorts a comparable object array.
+     *
+     * @param comparables Comparable array to sort.
+     * @param sortType SortType to use.
+     * @return Result; true if successful, else false.
+     */
+    @SuppressWarnings("unchecked")
+    public static boolean insertionSort(Comparable[] comparables, SortType sortType) {
+        if (comparables == null || comparables.length == 0) return false;
+
+        int insertIndex;
+        int k;
+        Comparable next;
+
+        for (int i = 0; i < comparables.length; i++) {
+            next = comparables[i];
+            insertIndex = 0;
+            k = i;
+
+            while (k > 0 && insertIndex == 0) {
+                if (sortType == SortType.ASCENDING && next.compareTo(comparables[k - 1]) == 1) insertIndex = k;
+                else if (sortType == SortType.DESCENDING && next.compareTo(comparables[k - 1]) == -1) insertIndex = k;
+                else comparables[k] = comparables[k - 1];
+
+                k--;
+            }
+
+            comparables[insertIndex] = next;
+        }
+
+        return true;
+    }
+
 }

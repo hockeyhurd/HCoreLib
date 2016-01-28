@@ -59,6 +59,210 @@ public final class LogicHelper {
 	}
 
 	/**
+	 * Gets the largest byte in array.
+	 *
+	 * @param bytes Bytes array.
+	 * @return Largest byte value.
+     */
+	public static byte getLargestByte(byte[] bytes) {
+		if (bytes == null || bytes.length == 0) return 0;
+
+		byte largest = Byte.MIN_VALUE;
+		for (int i = 0; i < bytes.length; i++) {
+			if (bytes[i] > largest) largest = bytes[i];
+		}
+
+		return largest;
+	}
+
+	/**
+	 * Gets the smallest byte in array.
+	 *
+	 * @param bytes Bytes array.
+	 * @return Smallest byte value.
+	 */
+	public static byte getSmallestByte(byte[] bytes) {
+		if (bytes == null || bytes.length == 0) return 0;
+
+		byte smallest = Byte.MAX_VALUE;
+		for (int i = 0; i < bytes.length; i++) {
+			if (bytes[i] < smallest) smallest = bytes[i];
+		}
+
+		return smallest;
+	}
+
+	/**
+	 * Gets the largest short in array.
+	 *
+	 * @param shorts Shorts array.
+	 * @return Largest short value.
+	 */
+	public static short getLargestShort(short[] shorts) {
+		if (shorts == null || shorts.length == 0) return 0;
+
+		short largest = Short.MIN_VALUE;
+		for (int i = 0; i < shorts.length; i++) {
+			if (shorts[i] > largest) largest = shorts[i];
+		}
+
+		return largest;
+	}
+
+	/**
+	 * Gets the smallest short in array.
+	 *
+	 * @param shorts Short array.
+	 * @return Smallest short value.
+	 */
+	public static short getSmallestShort(short[] shorts) {
+		if (shorts == null || shorts.length == 0) return 0;
+
+		short smallest = Short.MAX_VALUE;
+		for (int i = 0; i < shorts.length; i++) {
+			if (shorts[i] < smallest) smallest = shorts[i];
+		}
+
+		return smallest;
+	}
+
+	/**
+	 * Gets the largest int in array.
+	 *
+	 * @param shorts Int array.
+	 * @return Largest int value.
+	 */
+	public static int getLargestInt(int[] shorts) {
+		if (shorts == null || shorts.length == 0) return 0;
+
+		int largest = Integer.MIN_VALUE;
+		for (int i = 0; i < shorts.length; i++) {
+			if (shorts[i] > largest) largest = shorts[i];
+		}
+
+		return largest;
+	}
+
+	/**
+	 * Gets the smallest int in array.
+	 *
+	 * @param ints Int array.
+	 * @return Smallest int value.
+	 */
+	public static int getSmallestInt(int[] ints) {
+		if (ints == null || ints.length == 0) return 0;
+
+		int smallest = Integer.MAX_VALUE;
+		for (int i = 0; i < ints.length; i++) {
+			if (ints[i] < smallest) smallest = ints[i];
+		}
+
+		return smallest;
+	}
+
+	/**
+	 * Gets the largest long in array.
+	 *
+	 * @param longs Long array.
+	 * @return Largest long value.
+	 */
+	public static long getLargestLong(long[] longs) {
+		if (longs == null || longs.length == 0) return 0;
+
+		long largest = Long.MIN_VALUE;
+		for (int i = 0; i < longs.length; i++) {
+			if (longs[i] > largest) largest = longs[i];
+		}
+
+		return largest;
+	}
+
+	/**
+	 * Gets the smallest long in array.
+	 *
+	 * @param longs Long array.
+	 * @return Smallest long value.
+	 */
+	public static long getSmallestLong(long[] longs) {
+		if (longs == null || longs.length == 0) return 0;
+
+		long smallest = Long.MAX_VALUE;
+		for (int i = 0; i < longs.length; i++) {
+			if (longs[i] < smallest) smallest = longs[i];
+		}
+
+		return smallest;
+	}
+
+	/**
+	 * Gets the largest float in array.
+	 *
+	 * @param floats Float array.
+	 * @return Largest float value.
+	 */
+	public static float getLargestFloat(float[] floats) {
+		if (floats == null || floats.length == 0) return 0;
+
+		float largest = Float.MIN_VALUE;
+		for (int i = 0; i < floats.length; i++) {
+			if (floats[i] > largest) largest = floats[i];
+		}
+
+		return largest;
+	}
+
+	/**
+	 * Gets the smallest float in array.
+	 *
+	 * @param floats Float array.
+	 * @return Smallest float value.
+	 */
+	public static float getSmallestFloat(float[] floats) {
+		if (floats == null || floats.length == 0) return 0;
+
+		float smallest = Float.MAX_VALUE;
+		for (int i = 0; i < floats.length; i++) {
+			if (floats[i] < smallest) smallest = floats[i];
+		}
+
+		return smallest;
+	}
+
+	/**
+	 * Gets the largest double in array.
+	 *
+	 * @param floats Double array.
+	 * @return Largest double value.
+	 */
+	public static double getLargestDouble(double[] floats) {
+		if (floats == null || floats.length == 0) return 0;
+
+		double largest = Double.MIN_VALUE;
+		for (int i = 0; i < floats.length; i++) {
+			if (floats[i] > largest) largest = floats[i];
+		}
+
+		return largest;
+	}
+
+	/**
+	 * Gets the smallest double in array.
+	 *
+	 * @param floats Double array.
+	 * @return Smallest double value.
+	 */
+	public static double getSmallestDouble(double[] floats) {
+		if (floats == null || floats.length == 0) return 0;
+
+		double smallest = Double.MAX_VALUE;
+		for (int i = 0; i < floats.length; i++) {
+			if (floats[i] < smallest) smallest = floats[i];
+		}
+
+		return smallest;
+	}
+
+	/**
 	 * Checks to see if provided number is within lower and upper ranges provided (inclusively).
 	 *
 	 * @param num number to check.

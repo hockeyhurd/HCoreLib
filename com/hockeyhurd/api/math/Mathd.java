@@ -15,8 +15,7 @@ public class Mathd {
 	 * @return radians value.
 	 */
 	public static double toRadians(double angle) {
-		double radians = angle * Math.PI / 180;
-		return radians;
+		return angle * Math.PI / 180.0d;
 	}
 	
 	/**
@@ -25,8 +24,7 @@ public class Mathd {
 	 * @return angle of degree value.
 	 */
 	public static double toDegrees(double radians) {
-		double degrees = radians * 180 / Math.PI;
-		return degrees;
+		return radians * 180 / Math.PI;
 	}
 	
 	/**
@@ -224,8 +222,8 @@ public class Mathd {
 		
 		final double copyVal = value;
 		final int offset = exp < -1 ? 1 : -1;
-		for (int i = 0; i < (int) Math.abs(exp) + offset; i++) {
-			value *= exp < -1 ? (double) (1 / copyVal) : copyVal;
+		for (int i = 0; i < Math.abs(exp) + offset; i++) {
+			value *= exp < -1 ? (1.0d / copyVal) : copyVal;
 		}
 		
 		return value;
