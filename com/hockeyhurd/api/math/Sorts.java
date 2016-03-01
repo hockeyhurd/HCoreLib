@@ -8,21 +8,21 @@ package com.hockeyhurd.api.math;
  */
 public final class Sorts {
 
-    /**
-     * SortType enumeration.
-     *
-     * @author hockeyhurd
-     * @version 1/27/16
-     */
-    public enum SortType {
-        ASCENDING, DESCENDING;
-    }
+	/**
+	 * SortType enumeration.
+	 *
+	 * @author hockeyhurd
+	 * @version 1/27/16
+	 */
+	public enum SortType {
+		ASCENDING, DESCENDING
+	}
 
     private Sorts() {
     }
 
     /**
-     * Selction sorts int array.
+     * Selection sorts int array.
      *
      * @param arr Int array.
      * @param sortType SortType to use.
@@ -30,6 +30,7 @@ public final class Sorts {
      */
     public static boolean selectionSorti(int[] arr, SortType sortType) {
         if (arr == null || arr.length == 0) return false;
+        else if (arr.length == 1) return true;
 
         int insertIndex;
         int value;
@@ -51,7 +52,7 @@ public final class Sorts {
     }
 
     /**
-     * Selction sorts long array.
+     * Selection sorts long array.
      *
      * @param arr Long array.
      * @param sortType SortType to use.
@@ -59,6 +60,7 @@ public final class Sorts {
      */
     public static boolean selectionSortl(long[] arr, SortType sortType) {
         if (arr == null || arr.length == 0) return false;
+        else if (arr.length == 1) return true;
 
         int insertIndex;
         long value;
@@ -80,7 +82,7 @@ public final class Sorts {
     }
 
     /**
-     * Selction sorts float array.
+     * Selection sorts float array.
      *
      * @param arr Float array.
      * @param sortType SortType to use.
@@ -88,6 +90,7 @@ public final class Sorts {
      */
     public static boolean selectionSortf(float[] arr, SortType sortType) {
         if (arr == null || arr.length == 0) return false;
+        else if (arr.length == 1) return true;
 
         int insertIndex;
         float value;
@@ -109,7 +112,7 @@ public final class Sorts {
     }
 
     /**
-     * Selction sorts double array.
+     * Selection sorts double array.
      *
      * @param arr Double array.
      * @param sortType SortType to use.
@@ -117,6 +120,7 @@ public final class Sorts {
      */
     public static boolean selectionSortd(double[] arr, SortType sortType) {
         if (arr == null || arr.length == 0) return false;
+        else if (arr.length == 1) return true;
 
         int insertIndex;
         double value;
@@ -138,7 +142,7 @@ public final class Sorts {
     }
 
     /**
-     * Selction sorts a comparable object array.
+     * Selection sorts a comparable object array.
      *
      * @param comparables A comparable array.
      * @param sortType SortType to use.
@@ -147,6 +151,7 @@ public final class Sorts {
     @SuppressWarnings("unchecked")
     public static boolean selectionSort(Comparable[] comparables, SortType sortType) {
         if (comparables == null || comparables.length == 0) return false;
+        else if (comparables.length == 1) return true;
 
         int insertIndex;
         Comparable value;
@@ -179,6 +184,7 @@ public final class Sorts {
      */
     public static boolean quickSorti(int[] arr, final int lower, final int higher, SortType sortType) {
         if (arr == null || arr.length == 0 || lower > higher) return false;
+        else if (arr.length == 1) return true;
 
         int i = lower;
         int j = higher;
@@ -216,6 +222,7 @@ public final class Sorts {
      */
     public static boolean quickSortl(long[] arr, final int lower, final int higher, SortType sortType) {
         if (arr == null || arr.length == 0 || lower > higher) return false;
+        else if (arr.length == 1) return true;
 
         int i = lower;
         int j = higher;
@@ -253,6 +260,7 @@ public final class Sorts {
      */
     public static boolean quickSortf(float[] arr, final int lower, final int higher, SortType sortType) {
         if (arr == null || arr.length == 0 || lower > higher) return false;
+        else if (arr.length == 1) return true;
 
         int i = lower;
         int j = higher;
@@ -290,6 +298,7 @@ public final class Sorts {
      */
     public static boolean quickSortd(double[] arr, final int lower, final int higher, SortType sortType) {
         if (arr == null || arr.length == 0 || lower > higher) return false;
+        else if (arr.length == 1) return true;
 
         int i = lower;
         int j = higher;
@@ -329,6 +338,7 @@ public final class Sorts {
     @SuppressWarnings("unchecked")
     public static boolean quickSort(Comparable[] comparables, final int lower, final int higher, SortType sortType) {
         if (comparables == null || comparables.length == 0 || lower > higher) return false;
+        else if (comparables.length == 1) return true;
 
         int i = lower;
         int j = higher;
@@ -365,6 +375,7 @@ public final class Sorts {
      */
     public static boolean insertionSorti(int[] arr, SortType sortType) {
         if (arr == null || arr.length == 0) return false;
+        else if (arr.length == 1) return true;
 
         int insertIndex;
         int k;
@@ -398,6 +409,7 @@ public final class Sorts {
      */
     public static boolean insertionSortl(long[] arr, SortType sortType) {
         if (arr == null || arr.length == 0) return false;
+        else if (arr.length == 1) return true;
 
         int insertIndex;
         int k;
@@ -431,6 +443,7 @@ public final class Sorts {
      */
     public static boolean insertionSortf(float[] arr, SortType sortType) {
         if (arr == null || arr.length == 0) return false;
+        else if (arr.length == 1) return true;
 
         int insertIndex;
         int k;
@@ -464,6 +477,7 @@ public final class Sorts {
      */
     public static boolean insertionSortd(double[] arr, SortType sortType) {
         if (arr == null || arr.length == 0) return false;
+        else if (arr.length == 1) return true;
 
         int insertIndex;
         int k;
@@ -498,6 +512,7 @@ public final class Sorts {
     @SuppressWarnings("unchecked")
     public static boolean insertionSort(Comparable[] comparables, SortType sortType) {
         if (comparables == null || comparables.length == 0) return false;
+        else if (comparables.length == 1) return true;
 
         int insertIndex;
         int k;
@@ -520,6 +535,408 @@ public final class Sorts {
         }
 
         return true;
+    }
+
+    /**
+     * Radix sorts int array.
+	 *
+     * @param arr int array to sort.
+     * @param sortType SortType to use.
+     * @return Sorted array if successful, else returns false.
+     */
+    public static boolean radixSorti(int[] arr, SortType sortType) {
+        if (arr == null || arr.length == 0) return false;
+        else if (arr.length == 1) return true;
+
+        int[] output = new int[arr.length];
+
+        for (int byteIndex = 0; byteIndex < 0x20; byteIndex += 0x8) {
+            int[] sortOffsets = new int[0x100];
+
+            for (int i = 0; i < arr.length; i++) {
+                int radixVal = intToU32(arr[i]);
+                int radixPiece = (radixVal >> byteIndex) & 0xff;
+                sortOffsets[radixPiece]++;
+            }
+
+            int total = 0;
+            for (int i = 0; i < sortOffsets.length; i++) {
+                int count = sortOffsets[i];
+                sortOffsets[i] = total;
+                total += count;
+            }
+
+            for (int i = 0; i < arr.length; i++) {
+                int radixVal = intToU32(arr[i]);
+                int radixPiece = (radixVal >> byteIndex) & 0xff;
+                if (sortOffsets[radixPiece] < output.length) output[sortOffsets[radixPiece]++] = arr[i];
+            }
+
+            // arr = output;
+
+            for (int i = 0; i < arr.length; i++) {
+                arr[i] = output[i];
+            }
+        }
+
+        int i;
+        for (i = 0; i < arr.length; i++) {
+            if (arr[i] >= 0) break;
+        }
+
+        if (i > 0 && i < arr.length) {
+            int posNumLen = arr.length - i;
+            int negNumLen = i;
+            int index;
+
+            int[] posNums = new int[posNumLen];
+            int[] negNums = new int[negNumLen];
+
+            for (index = 0; index < posNumLen; index++) {
+                posNums[index] = arr[index + i];
+            }
+
+            for (index = 0; index < negNumLen; index++) {
+                negNums[index] = arr[index];
+            }
+
+            reverseArrayi(negNums);
+
+            // Reassemble the array:
+            i = 0;
+            for (index = 0; index < negNumLen; index++) {
+                arr[i++] = negNums[index];
+            }
+
+            for (index = 0; index < posNumLen; index++) {
+                arr[i++] = posNums[index];
+            }
+        }
+
+        if (sortType == SortType.DESCENDING) reverseArrayi(arr);
+
+        return true;
+    }
+
+	/**
+	 * Radix sorts float array.
+	 *
+	 * @param arr float array to sort.
+	 * @param sortType SortType to use.
+	 * @return Sorted array if successful, else returns false.
+	 */
+    public static boolean radixSortf(float[] arr, SortType sortType) {
+        if (arr == null || arr.length == 0) return false;
+        else if (arr.length == 1) return true;
+
+        float[] output = new float[arr.length];
+
+        for (int byteIndex = 0; byteIndex < 0x20; byteIndex += 0x8) {
+            int[] sortOffsets = new int[0x100];
+
+            for (int i = 0; i < arr.length; i++) {
+                int radixVal = floatToU32(arr[i]);
+                int radixPiece = (radixVal >> byteIndex) & 0xff;
+                sortOffsets[radixPiece]++;
+            }
+
+            int total = 0;
+            for (int i = 0; i < sortOffsets.length; i++) {
+                int count = sortOffsets[i];
+                sortOffsets[i] = total;
+                total += count;
+            }
+
+            for (int i = 0; i < arr.length; i++) {
+                int radixVal = floatToU32(arr[i]);
+                int radixPiece = (radixVal >> byteIndex) & 0xff;
+
+                if (sortOffsets[radixPiece] < output.length) output[sortOffsets[radixPiece]++] = arr[i];
+            }
+
+            for (int i = 0; i < arr.length; i++) {
+                arr[i] = output[i];
+            }
+        }
+
+        int i;
+        for (i = 0; i < arr.length; i++) {
+            if (arr[i] >= 0) break;
+        }
+
+        if (i > 0 && i < arr.length) {
+            int posNumLen = arr.length - i;
+            int negNumLen = i;
+            int index;
+
+            float[] posNums = new float[posNumLen];
+            float[] negNums = new float[negNumLen];
+
+            for (index = 0; index < posNumLen; index++) {
+                posNums[index] = arr[index + i];
+            }
+
+            for (index = 0; index < negNumLen; index++) {
+                negNums[index] = arr[index];
+            }
+
+            reverseArrayf(negNums);
+
+            // Reassemble the array:
+            i = 0;
+            for (index = 0; index < negNumLen; index++) {
+                arr[i++] = negNums[index];
+            }
+
+            for (index = 0; index < posNumLen; index++) {
+                arr[i++] = posNums[index];
+            }
+        }
+
+        if (sortType == SortType.DESCENDING) reverseArrayf(arr);
+
+        return true;
+    }
+
+	/**
+	 * Radix sorts double array.
+	 *
+	 * @param arr double array to sort.
+	 * @param sortType SortType to use.
+	 * @return Sorted array if successful, else returns false.
+	 */
+    public static boolean radixSortd(double[] arr, SortType sortType) {
+        if (arr == null || arr.length == 0) return false;
+        else if (arr.length == 1) return true;
+
+        double[] output = new double[arr.length];
+
+        for (int byteIndex = 0; byteIndex < 0x20; byteIndex += 0x8) {
+            int[] sortOffsets = new int[0x100];
+
+            for (int i = 0; i < arr.length; i++) {
+                int radixVal = doubleToU32(arr[i]);
+                int radixPiece = (radixVal >> byteIndex) & 0xff;
+                sortOffsets[radixPiece]++;
+            }
+
+            int total = 0;
+            for (int i = 0; i < sortOffsets.length; i++) {
+                int count = sortOffsets[i];
+                sortOffsets[i] = total;
+                total += count;
+            }
+
+            for (int i = 0; i < arr.length; i++) {
+                int radixVal = doubleToU32(arr[i]);
+                int radixPiece = (radixVal >> byteIndex) & 0xff;
+
+                if (sortOffsets[radixPiece] < output.length) output[sortOffsets[radixPiece]++] = arr[i];
+            }
+
+            for (int i = 0; i < arr.length; i++) {
+                arr[i] = output[i];
+            }
+        }
+
+        int i;
+        for (i = 0; i < arr.length; i++) {
+            if (arr[i] >= 0) break;
+        }
+
+        if (i > 0 && i < arr.length) {
+            int posNumLen = arr.length - i;
+            int negNumLen = i;
+            int index;
+
+            double[] posNums = new double[posNumLen];
+            double[] negNums = new double[negNumLen];
+
+            for (index = 0; index < posNumLen; index++) {
+                posNums[index] = arr[index + i];
+            }
+
+            for (index = 0; index < negNumLen; index++) {
+                negNums[index] = arr[index];
+            }
+
+            reverseArrayd(negNums);
+
+            // Reassemble the array:
+            i = 0;
+            for (index = 0; index < negNumLen; index++) {
+                arr[i++] = negNums[index];
+            }
+
+            for (index = 0; index < posNumLen; index++) {
+                arr[i++] = posNums[index];
+            }
+        }
+
+        if (sortType == SortType.DESCENDING) reverseArrayd(arr);
+
+        return true;
+    }
+
+	/**
+	 * Reverses byte array.
+	 *
+	 * @param arr byte array to reverse.
+	 */
+    public static void reverseArrayb(byte[] arr) {
+        if (arr == null || arr.length <= 1) return;
+
+        byte temp;
+
+        for (int i = 0; i < arr.length / 2; i++) {
+            temp = arr[arr.length - i - 1];
+            arr[arr.length - i - 1] = arr[i];
+            arr[i] = temp;
+        }
+    }
+
+	/**
+	 * Reverses short array.
+	 *
+	 * @param arr short array to reverse.
+	 */
+    public static void reverseArrays(short[] arr) {
+        if (arr == null || arr.length <= 1) return;
+
+        short temp;
+
+        for (int i = 0; i < arr.length / 2; i++) {
+            temp = arr[arr.length - i - 1];
+            arr[arr.length - i - 1] = arr[i];
+            arr[i] = temp;
+        }
+    }
+
+	/**
+	 * Reverses int array.
+	 *
+	 * @param arr int array to reverse.
+	 */
+    public static void reverseArrayi(int[] arr) {
+        if (arr == null || arr.length <= 1) return;
+
+        int temp;
+
+        for (int i = 0; i < arr.length / 2; i++) {
+            temp = arr[arr.length - i - 1];
+            arr[arr.length - i - 1] = arr[i];
+            arr[i] = temp;
+        }
+    }
+
+	/**
+	 * Reverses long array.
+	 *
+	 * @param arr long array to reverse.
+	 */
+    public static void reverseArrayl(long[] arr) {
+        if (arr == null || arr.length <= 1) return;
+
+        long temp;
+
+        for (int i = 0; i < arr.length / 2; i++) {
+            temp = arr[arr.length - i - 1];
+            arr[arr.length - i - 1] = arr[i];
+            arr[i] = temp;
+        }
+    }
+
+	/**
+	 * Reverses float array.
+	 *
+	 * @param arr float array to reverse.
+	 */
+    public static void reverseArrayf(float[] arr) {
+        if (arr == null || arr.length <= 1) return;
+
+        float temp;
+
+        for (int i = 0; i < arr.length / 2; i++) {
+            temp = arr[arr.length - i - 1];
+            arr[arr.length - i - 1] = arr[i];
+            arr[i] = temp;
+        }
+    }
+
+	/**
+	 * Reverses double array.
+	 *
+	 * @param arr double array to reverse.
+	 */
+    public static void reverseArrayd(double[] arr) {
+        if (arr == null || arr.length <= 1) return;
+
+        double temp;
+
+        for (int i = 0; i < arr.length / 2; i++) {
+            temp = arr[arr.length - i - 1];
+            arr[arr.length - i - 1] = arr[i];
+            arr[i] = temp;
+        }
+    }
+
+	/**
+	 * Reverses object array.
+	 *
+	 * @param arr object array to reverse.
+	 */
+    public static void reverseArray(Object[] arr) {
+        if (arr == null || arr.length <= 1) return;
+
+        Object temp;
+
+        for (int i = 0; i < arr.length / 2; i++) {
+            temp = arr[arr.length - i - 1];
+            arr[arr.length - i - 1] = arr[i];
+            arr[i] = temp;
+        }
+    }
+
+	/**
+	 * Attempts to convert an int to a u32 int.
+	 *
+	 * @param val value to convert.
+	 * @return converted int.
+	 */
+    public static int intToU32(int val) {
+        int result = val;
+        if (result < 0) result = ~result;
+        else result |= 0x80000000;
+
+        return result;
+    }
+
+	/**
+	 * Attempts to convert an int to a u32 int.
+	 *
+	 * @param val value to convert.
+	 * @return converted int.
+	 */
+    public static int floatToU32(float val) {
+        int result = (int) val;
+        if (result < 0) result = ~result;
+        else result |= 0x80000000;
+
+        return result;
+    }
+
+	/**
+	 * Attempts to convert an int to a u32 int.
+	 *
+	 * @param val value to convert.
+	 * @return converted int.
+	 */
+    public static int doubleToU32(double val) {
+        int result = (int) val;
+        if (result < 0) result = ~result;
+        else result |= 0x80000000;
+
+        return result;
     }
 
 }
