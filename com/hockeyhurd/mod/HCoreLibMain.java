@@ -95,7 +95,7 @@ public final class HCoreLibMain {
 		
 		logHelper.info("Post-init finished successfully after", tl.getEffectiveTimeSince(), "ms!");
 	}
-	
+
 	public HCoreLibMain() {
 	}
 

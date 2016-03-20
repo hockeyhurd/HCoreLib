@@ -15,8 +15,11 @@ import java.util.List;
  */
 public class AStarAlogirthm {
 
-	private final IPathTile startTile, endTile;
-	private List<IPathTile> pathTiles;
+	protected static final float DEFAULT_COST = 1.0f;
+
+	protected final IPathTile startTile, endTile;
+	protected List<IPathTile> pathTiles;
+	protected double distanceLeft;
 
 	/**
 	 * @param startTile IPathTile start.
@@ -26,6 +29,7 @@ public class AStarAlogirthm {
 		this.startTile = startTile;
 		this.endTile = endTile;
 		pathTiles = new LinkedList<IPathTile>();
+		distanceLeft = endTile.distanceTo(startTile.worldVec());
 	}
 
 	/**
@@ -53,7 +57,7 @@ public class AStarAlogirthm {
 
 						TileEntity te = world.getTileEntity(x, y, z);
 						if (te instanceof IPathTile) tiles[counter++] = (IPathTile) te;
-						else tiles[counter++] = new BasicPathTile(x, y, z, false);
+						else tiles[counter++] = new BasicPathTile(x, y, z, DEFAULT_COST, false);
 					}
 				}
 
@@ -66,32 +70,32 @@ public class AStarAlogirthm {
 			Vector3<Integer> currentVec = origin.getOffsetVec(-1, 0, 0);
 			TileEntity te = world.getTileEntity(currentVec.x, currentVec.y, currentVec.z);
 			if (te instanceof IPathTile) tiles[0] = (IPathTile) te;
-			else tiles[0] = new BasicPathTile(currentVec, false);
+			else tiles[0] = new BasicPathTile(currentVec, DEFAULT_COST, false);
 
 			currentVec = origin.getOffsetVec(1, 0, 0);
 			te = world.getTileEntity(currentVec.x, currentVec.y, currentVec.z);
 			if (te instanceof IPathTile) tiles[1] = (IPathTile) te;
-			else tiles[1] = new BasicPathTile(currentVec, false);
+			else tiles[1] = new BasicPathTile(currentVec, DEFAULT_COST, false);
 
 			currentVec = origin.getOffsetVec(0, 0, -1);
 			te = world.getTileEntity(currentVec.x, currentVec.y, currentVec.z);
 			if (te instanceof IPathTile) tiles[2] = (IPathTile) te;
-			else tiles[2] = new BasicPathTile(currentVec, false);
+			else tiles[2] = new BasicPathTile(currentVec, DEFAULT_COST, false);
 
 			currentVec = origin.getOffsetVec(0, 0, 1);
 			te = world.getTileEntity(currentVec.x, currentVec.y, currentVec.z);
 			if (te instanceof IPathTile) tiles[3] = (IPathTile) te;
-			else tiles[3] = new BasicPathTile(currentVec, false);
+			else tiles[3] = new BasicPathTile(currentVec, DEFAULT_COST, false);
 
 			currentVec = origin.getOffsetVec(0, -1, 0);
 			te = world.getTileEntity(currentVec.x, currentVec.y, currentVec.z);
 			if (te instanceof IPathTile) tiles[4] = (IPathTile) te;
-			else tiles[4] = new BasicPathTile(currentVec, false);
+			else tiles[4] = new BasicPathTile(currentVec, DEFAULT_COST, false);
 
 			currentVec = origin.getOffsetVec(0, 1, 0);
 			te = world.getTileEntity(currentVec.x, currentVec.y, currentVec.z);
 			if (te instanceof IPathTile) tiles[5] = (IPathTile) te;
-			else tiles[5] = new BasicPathTile(currentVec, false);
+			else tiles[5] = new BasicPathTile(currentVec, DEFAULT_COST, false);
 		}
 
 		return tiles;
