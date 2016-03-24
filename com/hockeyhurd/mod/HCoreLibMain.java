@@ -4,23 +4,24 @@ import com.hockeyhurd.api.creativetab.ModCreativeTab;
 import com.hockeyhurd.api.math.TimeLapse;
 import com.hockeyhurd.api.util.LogHelper;
 import com.hockeyhurd.api.util.McModInfoDataInjector;
+import com.hockeyhurd.api.util.SystemInfo;
+import com.hockeyhurd.api.util.interfaces.IForgeMod;
 import com.hockeyhurd.mod.block.BlockWhiteHidden;
+import com.hockeyhurd.mod.handler.CommandHandler;
 import com.hockeyhurd.mod.handler.ConfigHandler;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.SidedProxy;
-import cpw.mods.fml.common.event.FMLInitializationEvent;
-import cpw.mods.fml.common.event.FMLPostInitializationEvent;
-import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.event.*;
 import cpw.mods.fml.relauncher.Side;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
 
 @Mod(modid = LibReference.MOD_NAME, name = LibReference.MOD_NAME, version = LibReference.VERSION)
-public final class HCoreLibMain {
+public final class HCoreLibMain implements IForgeMod {
 
 	@SidedProxy(clientSide = "com.hockeyhurd.mod.ClientProxy", serverSide = "com.hockeyhurd.mod.CommonProxy")
 	public static CommonProxy proxy;
@@ -38,6 +39,7 @@ public final class HCoreLibMain {
 	public static Block white;
 	
 	@EventHandler
+	@Override
 	public void preInit(FMLPreInitializationEvent event) {
 		tl = new TimeLapse();
 		logHelper = new LogHelper(LibReference.class);
@@ -63,6 +65,7 @@ public final class HCoreLibMain {
 	}
 	
 	@EventHandler
+	@Override
 	public void init(FMLInitializationEvent event) {
 		tl.resetStartTime();
 		logHelper.info("Init started, looking for config info!");
@@ -80,6 +83,7 @@ public final class HCoreLibMain {
 	}
 	
 	@EventHandler
+	@Override
 	public void postInit(FMLPostInitializationEvent event) {
 		tl.resetStartTime();
 		logHelper.info("Post-init started, looking for config info!");
@@ -94,6 +98,18 @@ public final class HCoreLibMain {
 		else logHelper.warn("Skipping checking for updates. WARNING: bugs may exist!");
 		
 		logHelper.info("Post-init finished successfully after", tl.getEffectiveTimeSince(), "ms!");
+	}
+
+	@EventHandler
+	@Override
+	public void serverStartedEvent(FMLServerStartedEvent event) {
+		SystemInfo.instance().setStartTime();
+	}
+
+	@EventHandler
+	@Override
+	public void serverStartingEvent(FMLServerStartingEvent event) {
+		CommandHandler.instance().registerCommands(event);
 	}
 
 	public HCoreLibMain() {
