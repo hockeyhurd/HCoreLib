@@ -29,10 +29,10 @@ public final class Color4f extends Color {
 		g = (hex >> 0x8) & 0xff;
 		b = (hex) & 0xff;
 
-		r /= (float) Color4i.MAX_VALUE;
-		g /= (float) Color4i.MAX_VALUE;
-		b /= (float) Color4i.MAX_VALUE;
-		a /= (float) Color4i.MAX_VALUE;
+		r /= (float) 0xff;
+		g /= (float) 0xff;
+		b /= (float) 0xff;
+		a /= (float) 0xff;
 
 		r = colorCorrect(r);
 		g = colorCorrect(g);

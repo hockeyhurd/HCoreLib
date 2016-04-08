@@ -31,7 +31,7 @@ public final class TimeLapse {
 	 * @param startTime start time to set to.
 	 */
 	public void setStartTime(long startTime) {
-		if (startTime <= System.nanoTime()) this.startTime = startTime;
+		this.startTime = startTime;
 	}
 
 	/**

@@ -10,7 +10,8 @@ import com.hockeyhurd.api.util.Color;
  */
 public final class Color4i extends Color {
 
-	private int r, g, b, a;
+	// private int r, g, b, a;
+	private int rgba;
 	public static final int MAX_VALUE = 0xff;
 	public static final int MIN_VALUE = 0x0;
 
@@ -18,6 +19,7 @@ public final class Color4i extends Color {
 	 * Generic constructor which defaults all channel values to '255'.
 	 */
 	public Color4i() {
+		this.rgba = 0x0;
 	}
 
 	/**
@@ -28,7 +30,7 @@ public final class Color4i extends Color {
 	 * @param b channel.
 	 */
 	public Color4i(int r, int g, int b) {
-		this(r, g, b, 255);
+		this(r, g, b, 0xff);
 	}
 	
 	/**
@@ -40,78 +42,102 @@ public final class Color4i extends Color {
 	 * @param a channel.
 	 */
 	public Color4i(int r, int g, int b, int a) {
-		this.r = colorCorrect(r);
-		this.g = colorCorrect(g);
-		this.b = colorCorrect(b);
-		this.a = colorCorrect(a);
+		r = colorCorrect(r);
+		g = colorCorrect(g);
+		b = colorCorrect(b);
+		a = colorCorrect(a);
+
+		rgba = (r << 0x18) + (g << 0x10) + (b << 0x8) + a;
 	}
 
 	/**
 	 * Constructor from hexdecimal.
 	 *
-	 * @param hex hexdecimal (must be in 'ARGB'!) to use.
+	 * @param hex hexdecimal (must be in 'RGBA'!) to use.
 	 */
 	public Color4i(final int hex) {
-		this.a = colorCorrect((hex >> 0x18) & 0xff);
-		this.r = colorCorrect((hex >> 0x10) & 0xff);
-		this.g = colorCorrect((hex >> 0x8) & 0xff);
-		this.b = colorCorrect((hex) & 0xff);
+		int r = colorCorrect((hex >> 0x18) & 0xff);
+		int g = colorCorrect((hex >> 0x10) & 0xff);
+		int b = colorCorrect((hex >> 0x8) & 0xff);
+		int a = colorCorrect((hex) & 0xff);
+
+		rgba = (r << 0x18) + (g << 0x10) + (b << 0x8) + a;
 	}
 	
 	/**
 	 * @return the r channel.
 	 */
 	public int getR() {
-		return r;
+		return (rgba >> 0x18) & 0xff;
 	}
 
 	/**
 	 * @param r the r to set
 	 */
 	public void setR(int r) {
-		this.r = colorCorrect(r);
+		r = colorCorrect(r);
+		int g = (rgba >> 0x10) & 0xff;
+		int b = (rgba >> 0x8) & 0xff;
+		int a = rgba & 0xff;
+
+		rgba = (r << 0x18) + (g << 0x10) + (b << 0x8) + a;
 	}
 
 	/**
 	 * @return the g channel.
 	 */
 	public int getG() {
-		return g;
+		return (rgba >> 0x10) & 0xff;
 	}
 
 	/**
 	 * @param g the g to set
 	 */
 	public void setG(int g) {
-		this.g = colorCorrect(g);
+		int r = (rgba >> 0x18) & 0xff;
+		g = colorCorrect(g);
+		int b = (rgba >> 0x8) & 0xff;
+		int a = rgba & 0xff;
+
+		rgba = (r << 0x18) + (g << 0x10) + (b << 0x8) + a;
 	}
 
 	/**
 	 * @return the b channel.
 	 */
 	public int getB() {
-		return b;
+		return (rgba >> 0x8) & 0xff;
 	}
 
 	/**
 	 * @param b the b to set
 	 */
 	public void setB(int b) {
-		this.b = colorCorrect(b);
+		int r = (rgba >> 0x18) & 0xff;
+		int g = (rgba >> 0x10) & 0xff;
+		b = colorCorrect(b);
+		int a = rgba & 0xff;
+
+		rgba = (r << 0x18) + (g << 0x10) + (b << 0x8) + a;
 	}
 
 	/**
 	 * @return the a channel.
 	 */
 	public int getA() {
-		return a;
+		return rgba & 0xff;
 	}
 
 	/**
 	 * @param a the a to set
 	 */
 	public void setA(int a) {
-		this.a = colorCorrect(a);
+		int r = (rgba >> 0x18) & 0xff;
+		int g = (rgba >> 0x10) & 0xff;
+		int b = (rgba >> 0x8) & 0xff;
+		a = colorCorrect(a);
+
+		rgba = (r << 0x18) + (g << 0x10) + (b << 0x8) + a;
 	}
 
 	/**
@@ -127,19 +153,25 @@ public final class Color4i extends Color {
 	 * @return color int represented in rgba as decimal number.
 	 */
 	public int getRGBA() {
-		return (r << 0x18) + (g << 0x10) + (b << 0x8) + a;
+		return rgba;
 	}
 
 	/**
 	 * @return color int represented in argb as decimal number.
 	 */
 	public int getARGB() {
+		int r = (rgba >> 0x18) & 0xff;
+		int g = (rgba >> 0x10) & 0xff;
+		int b = (rgba >> 0x8) & 0xff;
+		int a = rgba & 0xff;
+
 		return (a << 0x18) + (r << 0x10) + (g << 0x8) + b;
 	}
 
 	@Override
 	public String toString() {
-		return String.format("R: %d, G: %d, B: %d, A: %d\n", r, g, b, a);
+		return String.format("R: %d, G: %d, B: %d, A: %d\n", (rgba >> 0x18) & 0xff,
+				(rgba >> 0x10) & 0xff, (rgba >> 0x8) & 0xff, rgba & 0xff);
 	}
 
 }

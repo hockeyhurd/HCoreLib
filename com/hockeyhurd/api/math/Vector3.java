@@ -181,6 +181,132 @@ public class Vector3<N> {
 		else return ForgeDirection.UNKNOWN;
 	}
 
+	/**
+	 * Rotates vector3 around x axis.
+	 *
+	 * @param vec vector3 to rotate.
+	 * @param angle angle (in degrees) to rotate by.
+	 * @return rotated vector3.
+	 */
+	public static Vector3<Float> rotateAroundXAxis(Vector3<Float> vec, float angle) {
+		final float radians = (float) Mathd.toRadians(angle);
+		final float cos = (float) Mathd.cos(radians);
+		final float sin = (float) Mathd.sin(radians);
+
+		final float y = vec.y * cos + vec.z * sin;
+		final float z = vec.z * cos - vec.y * sin;
+
+		vec.y = y;
+		vec.z = z;
+
+		return vec;
+	}
+
+	/**
+	 * Rotates vector3 around x axis.
+	 *
+	 * @param vec vector3 to rotate.
+	 * @param angle angle (in degrees) to rotate by.
+	 * @return rotated vector3.
+	 */
+	public static Vector3<Double> rotateAroundXAxis(Vector3<Double> vec, double angle) {
+		final double radians = Mathd.toRadians(angle);
+		final double cos = Mathd.cos(radians);
+		final double sin = Mathd.sin(radians);
+
+		final double y = vec.y * cos + vec.z * sin;
+		final double z = vec.z * cos - vec.y * sin;
+
+		vec.y = y;
+		vec.z = z;
+
+		return vec;
+	}
+
+	/**
+	 * Rotates vector3 around y axis.
+	 *
+	 * @param vec vector3 to rotate.
+	 * @param angle angle (in degrees) to rotate by.
+	 * @return rotated vector3.
+	 */
+	public static Vector3<Float> rotateAroundYAxis(Vector3<Float> vec, float angle) {
+		final float radians = (float) Mathd.toRadians(angle);
+		final float cos = (float) Mathd.cos(radians);
+		final float sin = (float) Mathd.sin(radians);
+
+		final float x = vec.x * cos + vec.z * sin;
+		final float z = vec.z * cos - vec.x * sin;
+
+		vec.x = x;
+		vec.z = z;
+
+		return vec;
+	}
+
+	/**
+	 * Rotates vector3 around y axis.
+	 *
+	 * @param vec vector3 to rotate.
+	 * @param angle angle (in degrees) to rotate by.
+	 * @return rotated vector3.
+	 */
+	public static Vector3<Double> rotateAroundYAxis(Vector3<Double> vec, double angle) {
+		final double radians = Mathd.toRadians(angle);
+		final double cos = Mathd.cos(radians);
+		final double sin = Mathd.sin(radians);
+
+		final double x = vec.x * cos + vec.z * sin;
+		final double z = vec.z * cos - vec.x * sin;
+
+		vec.x = x;
+		vec.z = z;
+
+		return vec;
+	}
+
+	/**
+	 * Rotates vector3 around z axis.
+	 *
+	 * @param vec vector3 to rotate.
+	 * @param angle angle (in degrees) to rotate by.
+	 * @return rotated vector3.
+	 */
+	public static Vector3<Float> rotateAroundZAxis(Vector3<Float> vec, float angle) {
+		final float radians = (float) Mathd.toRadians(angle);
+		final float cos = (float) Mathd.cos(radians);
+		final float sin = (float) Mathd.sin(radians);
+
+		final float x = vec.x * cos + vec.y * sin;
+		final float y = vec.y * cos - vec.x * sin;
+
+		vec.x = x;
+		vec.y = y;
+
+		return vec;
+	}
+
+	/**
+	 * Rotates vector3 around z axis.
+	 *
+	 * @param vec vector3 to rotate.
+	 * @param angle angle (in degrees) to rotate by.
+     * @return rotated vector3.
+     */
+	public static Vector3<Double> rotateAroundZAxis(Vector3<Double> vec, double angle) {
+		final double radians = Mathd.toRadians(angle);
+		final double cos = Mathd.cos(radians);
+		final double sin = Mathd.sin(radians);
+
+		final double x = vec.x * cos + vec.y * sin;
+		final double y = vec.y * cos - vec.x * sin;
+
+		vec.x = x;
+		vec.y = y;
+
+		return vec;
+	}
+
 	private Number toNumber(N num) {
 		return (Number) num;
 	}

@@ -211,6 +211,7 @@ public class Mathd {
 	
 	/**
 	 * Function used to exponentiate any value to any exponent.
+	 *
 	 * @param value = value to raise to power.
 	 * @param exp = exponent value or power to raise to.
 	 * @return value raised to exponent.
@@ -251,8 +252,8 @@ public class Mathd {
 	 * @return linear interpolation with weight being effected.
 	 */
 	public static double lerp(double p0, double p1, double weight) {
-		if (weight < 0d) weight = 0d;
-		else if (weight > 1d) weight = 1d;
+		if (weight < 0.0d) weight = 0.0d;
+		else if (weight > 1.0d) weight = 1.0d;
 
 		return p0 + (p1 - p0) * weight;
 	}
