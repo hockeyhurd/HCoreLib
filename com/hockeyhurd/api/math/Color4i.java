@@ -56,12 +56,9 @@ public final class Color4i extends Color {
 	 * @param hex hexdecimal (must be in 'RGBA'!) to use.
 	 */
 	public Color4i(final int hex) {
-		int r = colorCorrect((hex >> 0x18) & 0xff);
-		int g = colorCorrect((hex >> 0x10) & 0xff);
-		int b = colorCorrect((hex >> 0x8) & 0xff);
-		int a = colorCorrect((hex) & 0xff);
-
-		rgba = (r << 0x18) + (g << 0x10) + (b << 0x8) + a;
+		if (hex >= 0xffffffff) rgba = 0xffffffff;
+		else if (hex <= 0) rgba = 0;
+		else rgba = hex;
 	}
 	
 	/**
@@ -76,11 +73,7 @@ public final class Color4i extends Color {
 	 */
 	public void setR(int r) {
 		r = colorCorrect(r);
-		int g = (rgba >> 0x10) & 0xff;
-		int b = (rgba >> 0x8) & 0xff;
-		int a = rgba & 0xff;
-
-		rgba = (r << 0x18) + (g << 0x10) + (b << 0x8) + a;
+		rgba &= r << 0x18;
 	}
 
 	/**
@@ -94,12 +87,8 @@ public final class Color4i extends Color {
 	 * @param g the g to set
 	 */
 	public void setG(int g) {
-		int r = (rgba >> 0x18) & 0xff;
 		g = colorCorrect(g);
-		int b = (rgba >> 0x8) & 0xff;
-		int a = rgba & 0xff;
-
-		rgba = (r << 0x18) + (g << 0x10) + (b << 0x8) + a;
+		rgba &= g << 0x10;
 	}
 
 	/**
@@ -113,12 +102,8 @@ public final class Color4i extends Color {
 	 * @param b the b to set
 	 */
 	public void setB(int b) {
-		int r = (rgba >> 0x18) & 0xff;
-		int g = (rgba >> 0x10) & 0xff;
 		b = colorCorrect(b);
-		int a = rgba & 0xff;
-
-		rgba = (r << 0x18) + (g << 0x10) + (b << 0x8) + a;
+		rgba &= b << 0x8;
 	}
 
 	/**
@@ -132,16 +117,13 @@ public final class Color4i extends Color {
 	 * @param a the a to set
 	 */
 	public void setA(int a) {
-		int r = (rgba >> 0x18) & 0xff;
-		int g = (rgba >> 0x10) & 0xff;
-		int b = (rgba >> 0x8) & 0xff;
 		a = colorCorrect(a);
-
-		rgba = (r << 0x18) + (g << 0x10) + (b << 0x8) + a;
+		rgba &= a;
 	}
 
 	/**
 	 * Simple function used to check if the value is in range of 0 <= val <= 255.
+	 *
 	 * @param val = input value.
 	 * @return return corrected value if invalid, else return the input value.
 	 */
@@ -160,17 +142,13 @@ public final class Color4i extends Color {
 	 * @return color int represented in argb as decimal number.
 	 */
 	public int getARGB() {
-		int r = (rgba >> 0x18) & 0xff;
-		int g = (rgba >> 0x10) & 0xff;
-		int b = (rgba >> 0x8) & 0xff;
-		int a = rgba & 0xff;
-
-		return (a << 0x18) + (r << 0x10) + (g << 0x8) + b;
+		return ((rgba & 0xff) << 0x18) + (((rgba >> 0x8) & 0xff) << 0x10) +
+				(((rgba >> 0x10) & 0xff) << 0x8) + ((rgba >> 0x18) & 0xff);
 	}
 
 	@Override
 	public String toString() {
-		return String.format("R: %d, G: %d, B: %d, A: %d\n", (rgba >> 0x18) & 0xff,
+		return String.format("R: %d, G: %d, B: %d, A: %d", (rgba >> 0x18) & 0xff,
 				(rgba >> 0x10) & 0xff, (rgba >> 0x8) & 0xff, rgba & 0xff);
 	}
 
