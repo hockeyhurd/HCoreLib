@@ -59,4 +59,10 @@ public interface IPathTile {
      */
 	Block getTile(World world);
 
+	@Override
+	int hashCode();
+
+	@Override
+	boolean equals(Object obj);
+
 }

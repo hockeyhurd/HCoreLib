@@ -132,8 +132,7 @@ public class Vector3<N> {
 	 */
 	public double getNetDifference(Vector3<N> vec) {
 		Vector3<Double> dif = getDifference(vec).getVector3d();
-		double sum = (dif.x * dif.x) + (dif.y * dif.y) + (dif.z * dif.z);
-		return Math.sqrt(sum);
+		return Math.sqrt((dif.x * dif.x) + (dif.y * dif.y) + (dif.z * dif.z));
 	}
 
 	/**
