@@ -17,13 +17,25 @@ import static com.hockeyhurd.api.math.pathfinding.PathUtils.getAdjacentTiles;
  */
 public class BasicPathingAlgorithm {
 
-    protected final IPathTile startTile, endTile;
-    protected final boolean useDiagonals;
+    protected IPathTile startTile, endTile;
+    protected boolean useDiagonals;
     protected final List<IPathTile> pathTiles;
     protected final List<IPathTile> visitedTiles;
     protected Vector3<Integer>[] lastPath;
     protected boolean lastPathMarked = false;
 
+    /**
+     * @param useDiagonals boolean flag for diagonals.
+     */
+    public BasicPathingAlgorithm(boolean useDiagonals) {
+        this(null, null, useDiagonals);
+    }
+
+    /**
+     * @param startTile Initial start tile.
+     * @param endTile Initial end tile.
+     * @param useDiagonals boolean flag for diagonals.
+     */
     public BasicPathingAlgorithm(IPathTile startTile, IPathTile endTile, boolean useDiagonals) {
         this.startTile = startTile;
         this.endTile = endTile;
@@ -69,6 +81,7 @@ public class BasicPathingAlgorithm {
             }
 
             else if (findPath(world, neighbor)) {
+            // else if (!visitedTiles.contains(neighbor) && findPath(world, neighbor)) {
                 pathTiles.add(neighbor);
                 return true;
             }
