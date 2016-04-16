@@ -71,7 +71,8 @@ public class BasicPathingAlgorithm {
      * @return boolean result.
      */
     protected boolean findPath(World world, IPathTile origin) {
-        if (visitedTiles.contains(origin)) return false; // Already visited, return.
+        // if (visitedTiles.contains(origin)) return false; // Already visited, return.
+        if (contains(visitedTiles, origin)) return false; // Already visited, return.
         visitedTiles.add(origin);
 
         for (IPathTile neighbor : getAdjacentTiles(world, origin, useDiagonals)) {
@@ -86,6 +87,26 @@ public class BasicPathingAlgorithm {
                 return true;
             }
 
+        }
+
+        return false;
+    }
+
+    /**
+     * Searches over a given list for a specific IPathTile.
+     *
+     * @see com.hockeyhurd.api.math.pathfinding.IPathTile
+     *
+     * @param list List to search through.
+     * @param search IPathTile to search for.
+     * @return result of search.
+     */
+    protected boolean contains(List<IPathTile> list, IPathTile search) {
+        if (list == null || list.isEmpty()) return false;
+
+        final Vector3<Integer> searchVec = search.worldVec();
+        for (IPathTile tile : list) {
+            if (tile.worldVec().equals(searchVec)) return true;
         }
 
         return false;
