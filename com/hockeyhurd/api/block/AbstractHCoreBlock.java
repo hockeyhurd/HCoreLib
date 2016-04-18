@@ -1,33 +1,30 @@
 package com.hockeyhurd.api.block;
 
-import com.hockeyhurd.api.creativetab.ModCreativeTab;
-import com.hockeyhurd.api.tileentity.AbstractTile;
+import com.hockeyhurd.api.creativetab.AbstractCreativeTab;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.block.BlockContainer;
+import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.world.World;
 
 /**
- * Generic abstract block container class with added features for getting started.
+ * Generic abstract block class with added features for getting started.
  *
  * @author hockeyhurd
  * @version 4/18/16
  */
-public abstract class HCoreBlockContainer extends BlockContainer {
+public abstract class AbstractHCoreBlock extends Block {
 
     protected final String assetDir;
     protected String name;
 
     /**
      * @param material Material of block.
-     * @param creativeTab Creative tabl to initialize to.
+     * @param creativeTab Creative tab to initialize to.
      * @param assetDir String assets directory.
      * @param name String name of block.
      */
-    public HCoreBlockContainer(Material material, ModCreativeTab creativeTab, String assetDir, String name) {
+    public AbstractHCoreBlock(Material material, AbstractCreativeTab creativeTab, String assetDir, String name) {
         super(material);
 
         this.assetDir = assetDir;
@@ -50,17 +47,5 @@ public abstract class HCoreBlockContainer extends BlockContainer {
      * @return float block hardness.
      */
     public abstract float getBlockHardness();
-
-    /**
-     * Gets the created instance of AbstractTile child object.
-     *
-     * @return AbstractTile child object instance.
-     */
-    public abstract AbstractTile getTileEntity();
-
-    @Override
-    public AbstractTile createNewTileEntity(World world, int id) {
-        return getTileEntity();
-    }
 
 }
