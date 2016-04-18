@@ -12,15 +12,15 @@ import net.minecraft.item.Item;
  * @author hockeyhurd
  * @version 4/18/16
  */
-public abstract class AbstractBlockOreAbstract extends AbstractHCoreBlock {
+public abstract class AbstractBlockOre extends AbstractHCoreBlock {
 
 	private final float hardness;
 
-	public AbstractBlockOreAbstract(Material material, AbstractCreativeTab creativeTab, String assetDir, String name) {
+	public AbstractBlockOre(Material material, AbstractCreativeTab creativeTab, String assetDir, String name) {
 		this(material, creativeTab, assetDir, name, 5.0f);
 	}
 
-	public AbstractBlockOreAbstract(Material material, AbstractCreativeTab creativeTab, String assetDir, String name, float hardness) {
+	public AbstractBlockOre(Material material, AbstractCreativeTab creativeTab, String assetDir, String name, float hardness) {
 		super(material, creativeTab, assetDir, name);
 		this.hardness = hardness;
 		setHardness(hardness);

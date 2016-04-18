@@ -12,7 +12,7 @@ import java.util.List;
  * @author hockeyhurd
  * @version 4/13/16
  */
-final class PathUtils {
+public final class PathUtils {
 
     static final float DEFAULT_PATH_COST = 1.0f;
 
@@ -27,7 +27,7 @@ final class PathUtils {
      * @param useDiagonals Boolean flag to toggle use of diagonals.
      * @return Adjacent tiles' array.
      */
-    static IPathTile[] getAdjacentTiles(World world, IPathTile origin, boolean useDiagonals) {
+    public static IPathTile[] getAdjacentTiles(World world, IPathTile origin, boolean useDiagonals) {
         if (world == null || origin == null) return new IPathTile[0];
 
         IPathTile[] tiles;
@@ -96,7 +96,7 @@ final class PathUtils {
      * @param end End tile.
      * @return double distance.
      */
-    static double distanceTo(IPathTile start, IPathTile end) {
+    public static double distanceTo(IPathTile start, IPathTile end) {
         return start != null && end != null ? end.distanceTo(start.worldVec()) : 0.0d;
     }
 
@@ -106,7 +106,7 @@ final class PathUtils {
      * @param list List to reference.
      * @param destination IPathTile[] arra to push onto.
      */
-    static void toArray(List<IPathTile> list, IPathTile[] destination) {
+    public static void toArray(List<IPathTile> list, IPathTile[] destination) {
         if (list == null || list.isEmpty()) destination = new IPathTile[0];
 
         destination = list.toArray(new IPathTile[list.size()]);

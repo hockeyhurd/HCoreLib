@@ -1,5 +1,7 @@
 package com.hockeyhurd.api.tileentity;
 
+import com.hockeyhurd.api.block.AbstractHCoreBlock;
+import com.hockeyhurd.api.math.Vector3;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 
@@ -27,6 +29,24 @@ public abstract class AbstractTile extends TileEntity {
      */
     public AbstractTile() {
         this.customName = "container.generic";
+    }
+
+    /**
+     * Gets the block associated with this tile entity.
+     *
+     * @return AbstractHCoreBlock contained in tile entity.
+     */
+    public AbstractHCoreBlock getBlock() {
+        return (AbstractHCoreBlock) blockType;
+    }
+
+    /**
+     * Gets the world vector3 coordinates.
+     *
+     * @return Vector3i coordinates.
+     */
+    public Vector3<Integer> worldVec() {
+        return new Vector3<Integer>(xCoord, yCoord, zCoord);
     }
 
     /**
