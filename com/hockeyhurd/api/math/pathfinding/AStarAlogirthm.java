@@ -9,7 +9,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 import static com.hockeyhurd.api.math.pathfinding.PathUtils.distanceTo;
-import static com.hockeyhurd.api.math.pathfinding.PathUtils.getAdjacentTiles;
 
 /**
  * General purpose A* Algorithm implementation.
@@ -20,7 +19,7 @@ import static com.hockeyhurd.api.math.pathfinding.PathUtils.getAdjacentTiles;
 public class AStarAlogirthm {
 
 	protected IPathTile startTile, endTile;
-	// protected List<IPathTile> pathTiles;
+	protected IPathTile[] pathTiles;
 	protected double distanceLeft;
 	protected boolean useDiagonals;
 
@@ -57,21 +56,13 @@ public class AStarAlogirthm {
 	 * @param world World to reference.
 	 * @return List of path tiles to follow if found, else may return NULL!
 	 */
-	public List<IPathTile> findPath(World world) {
+	public IPathTile[] findPath(World world) {
 		List<PathNode> openList = new LinkedList<PathNode>();
 		List<PathNode> closedList = new LinkedList<PathNode>();
 		PathNode current = new PathNode(startTile, null, startTile.getCost(), 0.0d);
-		IPathTile[] adjacents;
-		IPathTile at;
-		// Node at;
 		PathNode node;
-		Vector3<Integer> atVec;
-		final Vector3<Integer> startVec = startTile.worldVec();
+		// final Vector3<Integer> startVec = startTile.worldVec();
 		final Vector3<Integer> endVec = endTile.worldVec();
-		double gCost;
-		double hCost;
-		// double hCost = current.distanceTo(endVec);
-		// double fCost;
 
 		openList.add(current);
 
@@ -82,28 +73,34 @@ public class AStarAlogirthm {
 			if (current.vec.equals(endVec)) {
 				List<IPathTile> path = new LinkedList<IPathTile>();
 
-				while (current.parent != null) {
+				// while (current.parent != null) {
+				while (current.hasParentNode()) {
 					path.add(current.tile);
 					current = current.parent;
 				}
 
-				openList.clear();
-				closedList.clear();
-				return path;
+				PathUtils.toArray(path, pathTiles);
+				// openList.clear();
+				// closedList.clear();
+				return pathTiles;
 			}
 
 			openList.remove(current);
 			closedList.add(current);
 
-			adjacents = PathUtils.getAdjacentTiles(world, current.tile, useDiagonals);
+			IPathTile[] adjacents = PathUtils.getAdjacentTiles(world, current.tile, useDiagonals);
 
 			for (int i = 0; i < adjacents.length; i++) {
-				at = adjacents[i];
+				IPathTile at = adjacents[i];
 				if (at.isSolid()) continue;
-				atVec = at.worldVec();
-				gCost = current.gCost + current.tile.distanceTo(atVec);
-				hCost = atVec.getNetDifference(endVec);
+
+				Vector3<Integer> atVec = at.worldVec();
+				// double gCost = current.gCost + current.tile.distanceTo(atVec);
+				double gCost = current.gCost + PathUtils.distanceTo(current.tile, at);
+				// double hCost = atVec.getNetDifference(endVec);
+				double hCost = PathUtils.distanceTo(at, endTile);
 				node = new PathNode(at, current, gCost, hCost);
+
 				if (contains(closedList, atVec) && gCost >= node.gCost) continue;
 				if (!contains(openList, atVec) || gCost < node.gCost) openList.add(node);
 			}
@@ -112,6 +109,15 @@ public class AStarAlogirthm {
 		closedList.clear();
 
 		return null;
+	}
+
+	/**
+	 * Gets the last calculated path.
+	 *
+	 * @return IPathTile[].
+     */
+	public IPathTile[] getLastPath() {
+		return pathTiles != null ? pathTiles : new IPathTile[0];
 	}
 
 	/**

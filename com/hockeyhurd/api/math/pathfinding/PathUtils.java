@@ -4,6 +4,8 @@ import com.hockeyhurd.api.math.Vector3;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
+import java.util.List;
+
 /**
  * Generic utility class for Pathfinding classes.
  *
@@ -96,6 +98,18 @@ final class PathUtils {
      */
     static double distanceTo(IPathTile start, IPathTile end) {
         return start != null && end != null ? end.distanceTo(start.worldVec()) : 0.0d;
+    }
+
+    /**
+     * Takes a list and pushes its contents into provided array.
+     *
+     * @param list List to reference.
+     * @param destination IPathTile[] arra to push onto.
+     */
+    static void toArray(List<IPathTile> list, IPathTile[] destination) {
+        if (list == null || list.isEmpty()) destination = new IPathTile[0];
+
+        destination = list.toArray(new IPathTile[list.size()]);
     }
 
 }

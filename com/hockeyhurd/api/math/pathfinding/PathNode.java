@@ -42,4 +42,13 @@ public class PathNode {
 		this(tile, parent, tile.getCost(), 0.0d);
 	}
 
+	/**
+	 * Function to check if this node has a parent node.
+	 *
+	 * @return boolean result.
+     */
+	public boolean hasParentNode() {
+		return parent != null;
+	}
+
 }
