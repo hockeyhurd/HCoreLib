@@ -6,7 +6,9 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map.Entry;
 
 /**
@@ -18,6 +20,25 @@ import java.util.Map.Entry;
 public final class InventoryUtils {
 
     private InventoryUtils() {
+    }
+
+    public static int getSizeInventory(Container container) {
+        return container != null ? container.inventorySlots.size() : 0;
+    }
+
+    public static ItemStack[] getStacksInContainer(Container container) {
+        final int size = getSizeInventory(container);
+
+        if (size == 0) return new ItemStack[0];
+
+        List<ItemStack> list = new ArrayList<ItemStack>(size);
+
+        for (int i = 0; i < size; i++) {
+            Slot slot = (Slot) container.inventorySlots;
+            if (slot.getHasStack()) list.add(slot.getStack());
+        }
+
+        return list.toArray(new ItemStack[list.size()]);
     }
 
     /**
@@ -83,6 +104,80 @@ public final class InventoryUtils {
         }
 
         return map;
+    }
+
+    /**
+     * Attempts to add an ItemStack to a container's inventory.
+     *
+     * @param container Container to reference.
+     * @param addStack ItemStack to add to container.
+     * @param mergeFirst boolean flag whether we can merge itemstacks (true) or
+     *                   simply place in first empty slot (false).
+     * @return int displaced after attempt.
+     */
+    public static int addByStack(Container container, ItemStack addStack, boolean mergeFirst) {
+        if (container == null || addStack == null || addStack.stackSize < 1) return 0;
+
+        final int invSize = getSizeInventory(container);
+        final int startSize = addStack.stackSize;
+        int amountLeft = startSize;
+
+        // If allowed to merge:
+        if (mergeFirst) {
+            final HashMap<Integer, ItemStack> map = getMapOfItemStacks(container, addStack);
+
+            // First pass, see if we can add to existing stack:
+            for (Entry<Integer, ItemStack> entry : map.entrySet()) {
+                if (amountLeft <= 0) break;
+
+                ItemStack currentStack = entry.getValue();
+                int stackSize = currentStack.stackSize;
+
+                if (stackSize < currentStack.getMaxStackSize()) {
+                    final int dif = currentStack.getMaxStackSize() - stackSize;
+                    amountLeft -= dif;
+                    stackSize += dif;
+                    currentStack.stackSize = stackSize;
+
+                    container.putStackInSlot(entry.getKey(), currentStack);
+                }
+            }
+        }
+
+        // Second pass, try to add remainder to empty slot:
+        for (int i = 0; i < invSize; i++) {
+            Slot slot = (Slot) container.inventorySlots.get(i);
+
+            if (!slot.getHasStack()) {
+                addStack.stackSize = amountLeft;
+                amountLeft = 0;
+                container.putStackInSlot(i, addStack);
+                break;
+            }
+        }
+
+        return startSize - amountLeft;
+    }
+
+    /**
+     * Adds an array of ItemStacks to container.
+     *
+     * @param container Container to reference.
+     * @param mergeFirst boolean flag whether we can merge itemstacks (true) or
+     *                   simply place in first empty slot (false).
+     * @param stacks ItemStacks to add to container.
+     * @return int[] result where int[i] is the result of operation addByStack(..., ..., stacks[i]).
+     */
+    public static int[] addByStacks(Container container, boolean mergeFirst, ItemStack... stacks) {
+        if (container == null || stacks == null || stacks.length == 0) return new int[0];
+
+        int[] results = new int[stacks.length];
+
+        for (int i = 0; i < stacks.length; i++) {
+            results[i] = addByStack(container, stacks[i], mergeFirst);
+        }
+
+        return results;
     }
 
     /**
