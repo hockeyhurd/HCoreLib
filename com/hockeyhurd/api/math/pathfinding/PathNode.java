@@ -1,18 +1,15 @@
 package com.hockeyhurd.api.math.pathfinding;
 
-import com.hockeyhurd.api.math.Vector3;
-
 /**
  * Simple node structure for storing relevant node data.
+ * With added features typically used with A* path finding.
  *
  * @author hockeyhurd
  * @version 4/16/2016.
  */
-public class PathNode {
+public class PathNode extends BasicPathNode {
 
-	public IPathTile tile;
 	public PathNode parent;
-	public Vector3<Integer> vec;
 	public double gCost;
 	public double hCost;
 
@@ -25,7 +22,8 @@ public class PathNode {
 	 * @param hCost double.
 	 */
 	public PathNode(IPathTile tile, PathNode parent, double gCost, double hCost) {
-		this.tile = tile;
+		super(tile, tile.worldVec());
+
 		this.parent = parent;
 		this.hCost = hCost;
 		this.gCost = gCost;

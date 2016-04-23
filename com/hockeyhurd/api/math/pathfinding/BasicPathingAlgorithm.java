@@ -19,8 +19,7 @@ public class BasicPathingAlgorithm {
 
     protected IPathTile startTile, endTile;
     protected boolean useDiagonals;
-    protected final List<IPathTile> pathTiles;
-    protected final List<IPathTile> visitedTiles;
+    protected final List<BasicPathNode> pathTiles;
     protected Vector3<Integer>[] lastPath;
     protected boolean lastPathMarked = false;
 
@@ -40,8 +39,7 @@ public class BasicPathingAlgorithm {
         this.startTile = startTile;
         this.endTile = endTile;
         this.useDiagonals = useDiagonals;
-        pathTiles = new LinkedList<IPathTile>();
-        visitedTiles = new LinkedList<IPathTile>();
+        pathTiles = new LinkedList<BasicPathNode>();
     }
 
     /**
@@ -52,15 +50,14 @@ public class BasicPathingAlgorithm {
      */
     public boolean findPath(World world) {
         pathTiles.clear();
-        visitedTiles.clear();
         lastPathMarked = true;
 
         if (startTile.equals(endTile)) {
-            pathTiles.add(startTile);
+            pathTiles.add(new BasicPathNode(startTile));
             return true;
         }
 
-        return findPath(world, startTile);
+        return findPath(world, new BasicPathNode(startTile));
     }
 
     /**
@@ -70,24 +67,30 @@ public class BasicPathingAlgorithm {
      * @param origin IPathTile origin.
      * @return boolean result.
      */
-    protected boolean findPath(World world, IPathTile origin) {
-        // if (visitedTiles.contains(origin)) return false; // Already visited, return.
-        if (contains(visitedTiles, origin)) return false; // Already visited, return.
-        visitedTiles.add(origin);
+    protected boolean findPath(World world, BasicPathNode origin) {
+        if (origin.visited) return false;
+        origin.visited = true;
 
-        for (IPathTile neighbor : getAdjacentTiles(world, origin, useDiagonals)) {
+        final int indexInserted = pathTiles.size();
+        pathTiles.add(origin);
+
+        for (IPathTile neighbor : getAdjacentTiles(world, origin.tile, useDiagonals)) {
+            BasicPathNode neighborNode = new BasicPathNode(neighbor);
+
             if (neighbor.equals(endTile)) {
-                pathTiles.add(neighbor);
+                pathTiles.add(neighborNode);
                 return true;
             }
 
-            else if (findPath(world, neighbor)) {
-            // else if (!visitedTiles.contains(neighbor) && findPath(world, neighbor)) {
-                pathTiles.add(neighbor);
+            else if (!neighborNode.visited && findPath(world, neighborNode)) {
+                pathTiles.add(neighborNode);
                 return true;
             }
 
         }
+
+        origin.visited = false;
+        pathTiles.remove(indexInserted);
 
         return false;
     }
@@ -98,15 +101,14 @@ public class BasicPathingAlgorithm {
      * @see com.hockeyhurd.api.math.pathfinding.IPathTile
      *
      * @param list List to search through.
-     * @param search IPathTile to search for.
+     * @param search Vector3 to search for.
      * @return result of search.
      */
-    protected boolean contains(List<IPathTile> list, IPathTile search) {
+    protected boolean contains(List<BasicPathNode> list, Vector3<Integer> search) {
         if (list == null || list.isEmpty()) return false;
 
-        final Vector3<Integer> searchVec = search.worldVec();
-        for (IPathTile tile : list) {
-            if (tile.worldVec().equals(searchVec)) return true;
+        for (BasicPathNode node : list) {
+            if (search.equals(node.vec)) return true;
         }
 
         return false;
@@ -120,11 +122,11 @@ public class BasicPathingAlgorithm {
     @SuppressWarnings("unchecked")
     public Vector3<Integer>[] getPath() {
         if (lastPathMarked) {
-            lastPath = new Vector3[pathTiles.size()];
+            lastPath = (Vector3<Integer>[]) new Vector3[pathTiles.size()];
 
             int index = 0;
-            for (IPathTile tile : pathTiles) {
-                lastPath[index++] = tile.worldVec();
+            for (BasicPathNode node : pathTiles) {
+                lastPath[index++] = node.vec;
             }
         }
 
