@@ -1,4 +1,4 @@
-package com.hockeyhurd.api.util;
+package com.hockeyhurd.api.math;
 
 /**
  * Abstracted class for all other color implementations.

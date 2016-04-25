@@ -1,7 +1,5 @@
 package com.hockeyhurd.api.math;
 
-import com.hockeyhurd.api.util.Color;
-
 /**
  * @author hockeyhurd
  * @version 9/3/15

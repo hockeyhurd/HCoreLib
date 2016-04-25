@@ -1,9 +1,12 @@
 package com.hockeyhurd.mod;
 
+import com.hockeyhurd.api.handler.InGameGuiHandler;
 import com.hockeyhurd.api.math.Color4i;
 import com.hockeyhurd.mod.block.renderer.WhiteBlockRenderer;
+import com.hockeyhurd.mod.client.gui.HGuiConfig;
 import com.hockeyhurd.mod.item.ItemRendererHiddenWhite;
 import cpw.mods.fml.client.registry.RenderingRegistry;
+import cpw.mods.fml.common.FMLCommonHandler;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraftforge.client.MinecraftForgeClient;
@@ -14,6 +17,13 @@ public class ClientProxy extends CommonProxy {
 	public static int hiddenBlockRenderType;
 
 	public ClientProxy() {
+	}
+
+	@Override
+	protected void registerMCForgeEventHandlers() {
+		super.registerMCForgeEventHandlers();
+
+		FMLCommonHandler.instance().bus().register(new InGameGuiHandler(HGuiConfig.class, HCoreLibMain.configHandler));
 	}
 
 	@Override

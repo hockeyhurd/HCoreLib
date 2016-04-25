@@ -1,7 +1,7 @@
 package com.hockeyhurd.mod.block.renderer;
 
+import com.hockeyhurd.api.client.renderer.AbstractBlockRenderer;
 import com.hockeyhurd.api.math.Color4i;
-import com.hockeyhurd.api.renderer.AbstractBlockRenderer;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.util.IIcon;

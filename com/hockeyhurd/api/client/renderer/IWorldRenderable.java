@@ -1,4 +1,4 @@
-package com.hockeyhurd.api.renderer;
+package com.hockeyhurd.api.client.renderer;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;

@@ -1,7 +1,7 @@
-package com.hockeyhurd.api.renderer;
+package com.hockeyhurd.api.client.renderer;
 
+import com.hockeyhurd.api.math.Color;
 import com.hockeyhurd.api.math.Vector3;
-import com.hockeyhurd.api.util.Color;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraftforge.client.event.RenderWorldLastEvent;

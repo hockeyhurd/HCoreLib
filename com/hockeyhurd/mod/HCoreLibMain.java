@@ -1,12 +1,12 @@
 package com.hockeyhurd.mod;
 
-import com.hockeyhurd.api.creativetab.ModCreativeTab;
 import com.hockeyhurd.api.math.TimeLapse;
 import com.hockeyhurd.api.util.LogHelper;
 import com.hockeyhurd.api.util.McModInfoDataInjector;
 import com.hockeyhurd.api.util.SystemInfo;
 import com.hockeyhurd.api.util.interfaces.IForgeMod;
 import com.hockeyhurd.mod.block.BlockWhiteHidden;
+import com.hockeyhurd.mod.creativetab.ModCreativeTab;
 import com.hockeyhurd.mod.handler.CommandHandler;
 import com.hockeyhurd.mod.handler.ConfigHandler;
 import cpw.mods.fml.common.FMLCommonHandler;
@@ -20,7 +20,8 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
 
-@Mod(modid = LibReference.MOD_NAME, name = LibReference.MOD_NAME, version = LibReference.VERSION)
+@Mod(modid = LibReference.MOD_NAME, name = LibReference.MOD_NAME, version = LibReference.VERSION,
+		guiFactory = "com.hockeyhurd.mod.client.gui.HGuiFactory")
 public final class HCoreLibMain implements IForgeMod {
 
 	@SidedProxy(clientSide = "com.hockeyhurd.mod.ClientProxy", serverSide = "com.hockeyhurd.mod.CommonProxy")

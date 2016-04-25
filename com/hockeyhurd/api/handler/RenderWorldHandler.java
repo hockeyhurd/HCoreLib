@@ -1,6 +1,6 @@
 package com.hockeyhurd.api.handler;
 
-import com.hockeyhurd.api.renderer.IWorldRenderable;
+import com.hockeyhurd.api.client.renderer.IWorldRenderable;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;

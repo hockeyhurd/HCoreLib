@@ -1,7 +1,5 @@
 package com.hockeyhurd.api.math;
 
-import com.hockeyhurd.api.util.Color;
-
 /**
  * Color class used to store color based pixel data.
  * 

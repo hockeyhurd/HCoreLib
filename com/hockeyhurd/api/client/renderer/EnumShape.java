@@ -1,4 +1,4 @@
-package com.hockeyhurd.api.renderer;
+package com.hockeyhurd.api.client.renderer;
 
 /**
  * Enumeration for shapes.

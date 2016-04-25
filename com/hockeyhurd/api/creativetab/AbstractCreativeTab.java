@@ -6,24 +6,39 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 
+/**
+ * Generalized abstract class for templating Creative Tab implementaions.
+ *
+ * @see net.minecraft.creativetab.CreativeTabs
+ *
+ * @author hockeyhurd
+ * @version 4/25/16
+ */
 public abstract class AbstractCreativeTab extends CreativeTabs {
 
-	private final String text;
-	
-	public AbstractCreativeTab(int par1, String par2) {
-		super(par1, par2);
-		this.text = par2;
+	protected final String text;
+
+	/**
+	 * @param id Creative tab ID.
+	 * @param text Name of text.
+     */
+	public AbstractCreativeTab(int id, String text) {
+		super(id, text);
+		this.text = text;
 	}
 
+	@Override
 	@SideOnly(Side.CLIENT)
 	public Item getTabIconItem() {
 		return Items.diamond;
 	}
-	
+
+	@Override
 	public String getTranslatedTabLabel() {
 		return this.text;
 	}
-	
+
+	@Override
 	public boolean hasSearchBar() {
 		return false;
 	}
