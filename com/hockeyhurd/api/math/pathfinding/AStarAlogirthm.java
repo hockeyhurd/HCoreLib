@@ -79,7 +79,10 @@ public class AStarAlogirthm {
 					current = current.parent;
 				}
 
-				PathUtils.toArray(path, pathTiles);
+				// PathUtils.toArray(path, pathTiles);
+
+				pathTiles = path.toArray(new IPathTile[path.size()]);
+
 				// openList.clear();
 				// closedList.clear();
 				return pathTiles;
@@ -106,7 +109,7 @@ public class AStarAlogirthm {
 			}
 		}
 
-		closedList.clear();
+		// closedList.clear();
 
 		return null;
 	}
