@@ -1,7 +1,6 @@
 package com.hockeyhurd.mod.client.gui;
 
 import com.hockeyhurd.api.client.gui.AbstractGuiFactory;
-import com.hockeyhurd.api.client.gui.ModGuiConfig;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -15,7 +14,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 public final class HGuiFactory extends AbstractGuiFactory {
 
     @Override
-    public Class<? extends ModGuiConfig> mainConfigGuiClass() {
+    public Class<? extends HGuiConfig> mainConfigGuiClass() {
         return HGuiConfig.class;
     }
 

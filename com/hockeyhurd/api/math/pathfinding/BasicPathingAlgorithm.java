@@ -20,7 +20,6 @@ public class BasicPathingAlgorithm {
     protected IPathTile startTile, endTile;
     protected boolean useDiagonals;
     protected final List<BasicPathNode> pathTiles;
-    protected Vector3<Integer>[] lastPath;
     protected boolean lastPathMarked = false;
 
     /**
@@ -40,6 +39,19 @@ public class BasicPathingAlgorithm {
         this.endTile = endTile;
         this.useDiagonals = useDiagonals;
         pathTiles = new LinkedList<BasicPathNode>();
+    }
+
+    /**
+     * Finds a generic path from start to end point if applicable.
+     *
+     * @param world World to reference.
+     * @return Found path will contain an array.length > 0, else will be array.length is 0.
+     */
+    @SuppressWarnings("unchecked")
+    public Vector3<Integer>[] findAndGetPath(World world) {
+        final boolean result = findPath(world);
+
+        return result ? getPath() : (Vector3<Integer>[]) new Vector3[0];
     }
 
     /**
@@ -121,16 +133,18 @@ public class BasicPathingAlgorithm {
      */
     @SuppressWarnings("unchecked")
     public Vector3<Integer>[] getPath() {
-        if (lastPathMarked) {
-            lastPath = (Vector3<Integer>[]) new Vector3[pathTiles.size()];
+        if (lastPathMarked && !pathTiles.isEmpty()) {
+            Vector3<Integer>[] lastPath = (Vector3<Integer>[]) new Vector3[pathTiles.size()];
 
             int index = 0;
             for (BasicPathNode node : pathTiles) {
                 lastPath[index++] = node.vec;
             }
+
+            return lastPath;
         }
 
-        return lastPath;
+        return (Vector3<Integer>[]) new Vector3[0];
     }
 
 }

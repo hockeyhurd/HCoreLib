@@ -1,9 +1,8 @@
 package com.hockeyhurd.mod;
 
-import com.hockeyhurd.api.handler.InGameGuiHandler;
+import com.hockeyhurd.api.handler.config.ConfigChangedEventHandler;
 import com.hockeyhurd.api.math.Color4i;
 import com.hockeyhurd.mod.block.renderer.WhiteBlockRenderer;
-import com.hockeyhurd.mod.client.gui.HGuiConfig;
 import com.hockeyhurd.mod.item.ItemRendererHiddenWhite;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.FMLCommonHandler;
@@ -22,8 +21,6 @@ public class ClientProxy extends CommonProxy {
 	@Override
 	protected void registerMCForgeEventHandlers() {
 		super.registerMCForgeEventHandlers();
-
-		FMLCommonHandler.instance().bus().register(new InGameGuiHandler(HGuiConfig.class, HCoreLibMain.configHandler));
 	}
 
 	@Override
@@ -36,6 +33,7 @@ public class ClientProxy extends CommonProxy {
 		// Below is an example of how to create, initialize, and register a KeyInputHandler from this API.
 		// KeyBindingHandler handler = new KeyBindingHandler(new TestKeyBinding("Test", Keyboard.KEY_F4, LibReference.MOD_NAME));
 		// FMLCommonHandler.instance().bus().register(handler);
+		FMLCommonHandler.instance().bus().register(new ConfigChangedEventHandler(HCoreLibMain.modID, HCoreLibMain.configHandler));
 	}
 
 	private void registerSpecialRenderers() {

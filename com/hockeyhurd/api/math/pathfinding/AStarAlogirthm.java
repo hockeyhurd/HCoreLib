@@ -19,7 +19,7 @@ import static com.hockeyhurd.api.math.pathfinding.PathUtils.distanceTo;
 public class AStarAlogirthm {
 
 	protected IPathTile startTile, endTile;
-	protected IPathTile[] pathTiles;
+	protected List<IPathTile> lastPath;
 	protected double distanceLeft;
 	protected boolean useDiagonals;
 
@@ -56,7 +56,7 @@ public class AStarAlogirthm {
 	 * @param world World to reference.
 	 * @return List of path tiles to follow if found, else may return NULL!
 	 */
-	public IPathTile[] findPath(World world) {
+	public List<IPathTile> findPath(World world) {
 		List<PathNode> openList = new LinkedList<PathNode>();
 		List<PathNode> closedList = new LinkedList<PathNode>();
 		PathNode current = new PathNode(startTile, null, startTile.getCost(), 0.0d);
@@ -71,21 +71,17 @@ public class AStarAlogirthm {
 			current = openList.get(0);
 
 			if (current.vec.equals(endVec)) {
-				List<IPathTile> path = new LinkedList<IPathTile>();
+				lastPath = new LinkedList<IPathTile>();
 
 				// while (current.parent != null) {
 				while (current.hasParentNode()) {
-					path.add(current.tile);
+					lastPath.add(current.tile);
 					current = current.parent;
 				}
 
-				// PathUtils.toArray(path, pathTiles);
-
-				pathTiles = path.toArray(new IPathTile[path.size()]);
-
 				// openList.clear();
 				// closedList.clear();
-				return pathTiles;
+				return lastPath;
 			}
 
 			openList.remove(current);
@@ -117,10 +113,10 @@ public class AStarAlogirthm {
 	/**
 	 * Gets the last calculated path.
 	 *
-	 * @return IPathTile[].
+	 * @return List of IPathTile.
      */
-	public IPathTile[] getLastPath() {
-		return pathTiles != null ? pathTiles : new IPathTile[0];
+	public List<IPathTile> getLastPath() {
+		return lastPath;
 	}
 
 	/**

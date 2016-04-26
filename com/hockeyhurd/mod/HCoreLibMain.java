@@ -8,7 +8,7 @@ import com.hockeyhurd.api.util.interfaces.IForgeMod;
 import com.hockeyhurd.mod.block.BlockWhiteHidden;
 import com.hockeyhurd.mod.creativetab.ModCreativeTab;
 import com.hockeyhurd.mod.handler.CommandHandler;
-import com.hockeyhurd.mod.handler.ConfigHandler;
+import com.hockeyhurd.mod.handler.config.ConfigHandler;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
