@@ -6,6 +6,12 @@ import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IChatComponent;
 
+/**
+ * @deprecated as of 4/27/16.  Code using this class should migrate to ChatUtils.
+ *
+ * @author hockeyhurd
+ */
+@Deprecated
 public class ChatHelper {
 
 	private EntityPlayer player;

@@ -41,12 +41,65 @@ public final class StringUtils {
     }
 
     /**
+     * Searches through string for a given letter
+     * and if found will return first index, else
+     * returns -1.
+     *
+     * @param ref String to reference.
+     * @param c Char to lookup.
+     * @return first int index.
+     */
+    public static int indexOf(String ref, char c) {
+        if (!nullCheckString(ref)) return -1;
+
+        char[] arr = getCharArray(ref);
+
+        for (int i = 0; i < arr.length; i++) {
+            if (arr[i] == c) return i;
+        }
+
+        return -1;
+    }
+
+    /**
+     * Searches through string for a given letter
+     * and if found will return last index, else
+     * returns -1.
+     *
+     * @param ref String to reference.
+     * @param c Char to lookup.
+     * @return last int index.
+     */
+    public static int lastIndexOf(String ref, char c) {
+        if (!nullCheckString(ref)) return -1;
+
+        char[] arr = getCharArray(ref);
+
+        for (int i = arr.length - 1; i >= 0; i--) {
+            if (arr[i] == c) return i;
+        }
+
+        return -1;
+    }
+
+    /**
+     * Checks if string contains a given char.
+     *
+     * @param ref String to reference.
+     * @param c Char to lookup.
+     * @return boolean result.
+     */
+    public static boolean contains(String ref, char c) {
+        return indexOf(ref, c) > -1;
+    }
+
+    /**
      * Gets a single String from an array of Objects.
      *
      * @param objects Objects.
      * @return Single String from Objects.
      */
-    public String getString(Object... objects) {
+    public static String getString(Object... objects) {
         if (objects == null || objects.length == 0) return "<empty>";
 
         StringBuilder builder = new StringBuilder();
@@ -66,7 +119,7 @@ public final class StringUtils {
      * @param begin Begin index.
      * @return String substring.
      */
-    public String substring(String ref, int begin) {
+    public static String substring(String ref, int begin) {
         if (LogicHelper.nullCheckString(ref)) ref = ref.substring(begin);
 
         return ref;
@@ -81,7 +134,7 @@ public final class StringUtils {
      * @param end   End index.
      * @return String substring.
      */
-    public String substring(String ref, int begin, int end) {
+    public static String substring(String ref, int begin, int end) {
         if (LogicHelper.nullCheckString(ref)) ref = ref.substring(begin, end);
 
         return ref;
@@ -94,7 +147,7 @@ public final class StringUtils {
      * @param ref String to reference.
      * @return String trimmed.
      */
-    public String trim(String ref) {
+    public static String trim(String ref) {
         if (LogicHelper.nullCheckString(ref)) ref = ref.trim();
 
         return ref;
@@ -106,7 +159,7 @@ public final class StringUtils {
      * @param ref String to reference.
      * @return Char array representing the String.
      */
-    public char[] getCharArray(String ref) {
+    public static char[] getCharArray(String ref) {
         if (LogicHelper.nullCheckString(ref)) return ref.toCharArray();
 
         return ref == null ? null : new char[0];
@@ -122,7 +175,7 @@ public final class StringUtils {
      * @param newChar New char to replace with.
      * @return Replaced String.
      */
-    public String replace(String ref, char oldChar, char newChar) {
+    public static String replace(String ref, char oldChar, char newChar) {
         if (LogicHelper.nullCheckString(ref)) ref = ref.replace(oldChar, newChar);
 
         return ref;
@@ -138,7 +191,7 @@ public final class StringUtils {
      * @param replacement New String to replace with.
      * @return Replaced String.
      */
-    public String replace(String ref, String pattern, String replacement) {
+    public static String replace(String ref, String pattern, String replacement) {
         if (LogicHelper.nullCheckString(ref) && LogicHelper.nullCheckString(pattern) &&
                 LogicHelper.nullCheckString(replacement))
             ref = ref.replace(pattern, replacement);
@@ -153,7 +206,7 @@ public final class StringUtils {
      * @param ref String to reference.
      * @return Int array representing the found indicies.
      */
-    public int[] indicies(char c, String ref) {
+    public static int[] indicies(char c, String ref) {
         if (LogicHelper.nullCheckString(ref)) {
             char[] arr = ref.toCharArray();
             List<Integer> list = new ArrayList<Integer>(ref.length());
@@ -182,7 +235,7 @@ public final class StringUtils {
      * @param strings Strings to reference as an array.
      * @return Mapping of the char indicies of each String referenced.
      */
-    public Map<String, Integer[]> indicies(char c, String... strings) {
+    public static Map<String, Integer[]> indicies(char c, String... strings) {
         Map<String, Integer[]> map = null;
 
         if (strings != null && strings.length > 0) {
@@ -238,7 +291,7 @@ public final class StringUtils {
      * @param other String.
      * @return Result of comparing two Strings.
      */
-    public static byte compareTo(String text, String other) {
+    public static int compareTo(String text, String other) {
         if (!nullCheckString(text) || !nullCheckString(other)) return 0;
         else if (text.length() < other.length()) return -1;
         else if (text.length() > other.length()) return 1;
