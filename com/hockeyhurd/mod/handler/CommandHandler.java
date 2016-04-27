@@ -16,17 +16,20 @@ import java.util.Map.Entry;
  * @author hockeyhurd
  * @version 3/19/16
  */
-public class CommandHandler {
+public final class CommandHandler {
 
     private static final CommandHandler commandHandler = new CommandHandler();
     private final Map<String, HCommand> commandMap;
     private final TimeLapse timeLapse;
     private boolean regComplete;
 
+    public final HServerCommands hServerCommands;
+
     private CommandHandler() {
         commandMap = new HashMap<String, HCommand>();
         regComplete = false;
         timeLapse = new TimeLapse();
+        hServerCommands = new HServerCommands();
         addLocalCommands();
     }
 
@@ -43,7 +46,7 @@ public class CommandHandler {
      * Adds localized commands to handler.
      */
     private void addLocalCommands() {
-        addCommand(new HServerCommands());
+        addCommand(hServerCommands);
     }
 
 	/**

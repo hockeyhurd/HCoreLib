@@ -1,16 +1,12 @@
 package com.hockeyhurd.api.block;
 
+import com.hockeyhurd.mod.ClientProxy;
+import com.hockeyhurd.mod.HCoreLibMain;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.world.World;
-
-import com.hockeyhurd.mod.ClientProxy;
-import com.hockeyhurd.mod.HCoreLibMain;
-
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public abstract class AbstractHiddenBlock extends Block {
 
@@ -59,4 +55,16 @@ public abstract class AbstractHiddenBlock extends Block {
 		return null;
 	}*/
 
+	/*@Override
+	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float clickX, float clickY, float clickZ) {
+		if (world.isRemote) {
+			String path = "F:\\Games\\Minecraft\\_my mods\\1.7.10\\HCoreLib\\src\\assets\\hcorelib\\textures\\blocks\\HiddenWhite.png";
+			File file = new File(path);
+			// final HCommand command = CommandHandler.instance().hServerCommands;
+			// player.addChatComponentMessage(ChatUtils.createCmdComponent(false, command, command.getCommandUsage(null)));
+			player.addChatComponentMessage(ChatUtils.createFileComponent(false, file, file.getName()));
+		}
+
+		return super.onBlockActivated(world, x, y, z, player, side, clickX, clickY, clickZ);
+	}*/
 }

@@ -6,6 +6,8 @@ import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IChatComponent;
 
+import java.io.File;
+
 /**
  * Largely static utility class for creating message to be
  * used in the in-game chat system.
@@ -21,6 +23,13 @@ public final class ChatUtils {
     private ChatUtils() {
     }
 
+    /**
+     * Creates a generic chat component.
+     *
+     * @param separateMessages boolean flag to separate by commas and space.
+     * @param messages Messages.
+     * @return IChatComponent.
+     */
     public static IChatComponent createComponent(boolean separateMessages, String... messages) {
         if (messages == null || messages.length == 0)
             return createComponent(false, EnumChatFormatting.WHITE + "<empty>");
@@ -38,6 +47,15 @@ public final class ChatUtils {
         return createTranslation(builder.toString());
     }
 
+    /**
+     * Creates a url chat component.
+     *
+     * @param separateMessages boolean flag to separate by commas and space.
+     * @param url String url to use.
+     * @param maskURL String url mask.
+     * @param messages Messages.
+     * @return IChatComponent.
+     */
     public static IChatComponent createURLComponent(boolean separateMessages, String url, String maskURL, String... messages) {
         if (!StringUtils.nullCheckString(url) || !StringUtils.contains(url, '.'))
             throw new NullPointerException("URL doesn't exist!");
@@ -50,10 +68,26 @@ public final class ChatUtils {
         return comp;
     }
 
+    /**
+     * Creates a url chat component.
+     *
+     * @param separateMessages boolean flag to separate by commas and space.
+     * @param url String url to use.
+     * @param messages Messages.
+     * @return IChatComponent.
+     */
     public static IChatComponent createURLComponent(boolean separateMessages, String url, String... messages) {
         return createURLComponent(separateMessages, url, null, messages);
     }
 
+    /**
+     * Creates a command chat component.
+     *
+     * @param separateMessages boolean flag to separate by commas and space.
+     * @param command HCommand to use.
+     * @param messages Messages.
+     * @return IChatComponent.
+     */
     public static IChatComponent createCmdComponent(boolean separateMessages, HCommand command, String... messages) {
         if (command == null)
             return createComponent(false, "<Invalid command>");
@@ -66,10 +100,42 @@ public final class ChatUtils {
         return comp;
     }
 
+    /**
+     * Creates a file chat component.
+     *
+     * @param separateMessages boolean flag to separate by commas and space.
+     * @param file File to open.
+     * @param messages Messages.
+     * @return IChatComponent.
+     */
+    public static IChatComponent createFileComponent(boolean separateMessages, File file, String... messages) {
+        if (file == null || !file.exists())
+            return createComponent(false, "<missing file>");
+
+        IChatComponent comp = createComponent(separateMessages, messages);
+
+        comp.getChatStyle().setChatClickEvent(new ClickEvent(ClickEvent.Action.OPEN_FILE, file.getAbsolutePath()));
+
+        return comp;
+    }
+
+    /**
+     * Private factory function to create chat translation.
+     *
+     * @param message Message.
+     * @return ChatComponentTranslation.
+     */
     private static ChatComponentTranslation createTranslation(String message) {
         return new ChatComponentTranslation(message);
     }
 
+    /**
+     * Private factory function to create chat translation.
+     *
+     * @param message Message.
+     * @param objects Object[].
+     * @return ChatComponentTranslation.
+     */
     private static ChatComponentTranslation createTranslation(String message, Object... objects) {
         return new ChatComponentTranslation(message, objects);
     }
