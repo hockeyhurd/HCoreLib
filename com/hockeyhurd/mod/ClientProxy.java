@@ -42,4 +42,9 @@ public class ClientProxy extends CommonProxy {
 		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(HCoreLibMain.white), new ItemRendererHiddenWhite(HCoreLibMain.white.getBlockTextureFromSide(0)));
 	}
 
+	@Override
+	public boolean isClient() {
+		return true;
+	}
+
 }

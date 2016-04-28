@@ -308,4 +308,28 @@ public final class StringUtils {
         return 0;
     }
 
+    /**
+     * Interprets compareTo method to see if text comes
+     * lexicographically before the other.
+     *
+     * @param text String to reference.
+     * @param other String to compare.
+     * @return boolean result.
+     */
+    public static boolean isTextBeforeOther(String text, String other) {
+        return compareTo(text, other) < 0;
+    }
+
+    /**
+     * Interprets compareTo method to see if text comes
+     * lexicographically after the other.
+     *
+     * @param text String to reference.
+     * @param other String to compare.
+     * @return boolean result.
+     */
+    public static boolean isTextAfterOther(String text, String other) {
+        return compareTo(text, other) > 0;
+    }
+
 }
