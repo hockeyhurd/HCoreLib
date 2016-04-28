@@ -1,7 +1,6 @@
 package com.hockeyhurd.api.handler;
 
 import com.hockeyhurd.api.util.AbstractReference;
-import com.hockeyhurd.api.util.ChatHelper;
 import com.hockeyhurd.mod.HCoreLibMain;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -11,6 +10,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map.Entry;
 
+import static com.hockeyhurd.api.util.ChatUtils.*;
 import static net.minecraft.util.EnumChatFormatting.*;
 
 /**
@@ -35,11 +35,12 @@ public class NotifyPlayerOnJoinHandler {
 	
 	/**
 	 * Default constructor for instantiating your mod's update notifier.
-	 * @param instance = your created instance of updatehandler
-	 * @param map = map created by calling myUpdateHandlerInstance.check() followed by myUpdateHandlerInstance.getMap().
-	 * @param referenceClass = a reference to your created ReferenceClass.class that extends AbstractReference class and followed its directions.
-	 * @param updateFlag = your created stored updateFlag boolean var obtained by calling myUpdateHandlerInstance.getUpToDate().
-	 * @param maskUrl = Whether you wish to hide the url in the chat, NOTE: doesn't change what the user sees when prompted to open.
+	 *
+	 * @param instance your created instance of UpdateHandler.
+	 * @param map map created by calling myUpdateHandlerInstance.check() followed by myUpdateHandlerInstance.getMap().
+	 * @param referenceClass a reference to your created ReferenceClass.class that extends AbstractReference class and followed its directions.
+	 * @param updateFlag your created stored updateFlag boolean var obtained by calling myUpdateHandlerInstance.getUpToDate().
+	 * @param maskUrl Whether you wish to hide the url in the chat, NOTE: doesn't change what the user sees when prompted to open.
 	 */
 	public NotifyPlayerOnJoinHandler(UpdateHandler instance, HashMap<String, String> map, Class<? extends AbstractReference> referenceClass, boolean updateFlag, boolean maskUrl, boolean allowUpdateCheck) {
 		this.instance = instance;
@@ -58,8 +59,10 @@ public class NotifyPlayerOnJoinHandler {
 
 	/**
 	 * Method called when player join's the world, whether client or server based.
-	 * @param event = event call.
+	 *
+	 * @param event event call.
 	 */
+	@SuppressWarnings("unchecked")
 	@SubscribeEvent
 	public void onPlayerJoin(EntityJoinWorldEvent event) {
 		if (!(event.entity instanceof EntityPlayerMP) || !allowUpdateCheck) return;
@@ -80,18 +83,19 @@ public class NotifyPlayerOnJoinHandler {
 				}
 
 				// Output info to joining player.
-				ChatHelper helper = new ChatHelper();
-				player.addChatComponentMessage(helper.comp(GREEN + "[" + name + "] " + GRAY + "Found an update! Latest build: " + build));
-				player.addChatComponentMessage(helper.compURL(GRAY + "You can get this at:" + WHITE, updateUrl, this.maskUrl));
+				player.addChatComponentMessage(createComponent(GREEN + "[" + name + "] " +
+						GRAY + "Found an update! Latest build: " + build));
+				player.addChatComponentMessage(createURLComponent(false, updateUrl, DEFAULT_URL_MASK,
+						GRAY + "You can get this at:" + WHITE));
 
 				// grab changelog info.
 				String[] changelogArray = instance.getChangelogInfo();
 				if (changelogArray != null && changelogArray.length > 0) {
-					player.addChatComponentMessage(helper.comp(GREEN + "Change log:"));
+					player.addChatComponentMessage(createComponent(GREEN + "Change log:"));
 
 					for (String s : changelogArray) {
 						if (s != null) {
-							player.addChatComponentMessage(helper.comp(WHITE + s));
+							player.addChatComponentMessage(createComponent(WHITE + s));
 						}
 					}
 				}

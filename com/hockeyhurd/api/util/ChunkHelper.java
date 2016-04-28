@@ -18,8 +18,7 @@ public class ChunkHelper {
 
 	private World world;
 	private EntityPlayer player;
-	private BlockHelper bh;
-	
+
 	/**
 	 * @param world world to commonly reference.
 	 * @param player player to reference.
@@ -27,7 +26,6 @@ public class ChunkHelper {
 	public ChunkHelper(World world, EntityPlayer player) {
 		this.world = world;
 		this.player = player;
-		this.bh = new BlockHelper(world, player);
 	}
 	
 	/**
@@ -48,7 +46,7 @@ public class ChunkHelper {
 	 */
 	public void searchChunk(Block blockToFind) {
 		// Make sure I didn't derp UP anything and the block to be searched for is an actual block.
-		if (blockToFind == null || !bh.blockListContains(blockToFind)) {
+		if (blockToFind == null || !BlockUtils.blockListContains(blockToFind)) {
 			HCoreLibMain.logHelper.severe("Block to find is not a block!");
 			return;
 		}
@@ -66,9 +64,9 @@ public class ChunkHelper {
 				for (int z = 0; z < 16; z++) {
 					
 					// Get the block id of the block being analyzed,
-					Block block = bh.getBlock(chunkX + x, y, chunkZ + z);
+					Block block = BlockUtils.getBlock(world, chunkX + x, y, chunkZ + z);
 					// If the block id is not of 'air' and it matches the desired block, add it to the list.
-					if (block != null && block != Blocks.air && bh.blockListContains(block) && block == blockToFind) {
+					if (block != null && block != Blocks.air && BlockUtils.blockListContains(block) && block == blockToFind) {
 						Block block2 = blockToFind;
 						list.add(block2);
 					}
@@ -80,7 +78,8 @@ public class ChunkHelper {
 		
 		// Print out to the player how much of the given block is currently in the chunk they are standing in.
 		int amount = list.size();
-		player.addChatComponentMessage(new ChatHelper().comp(amount + " " + bh.getLocalized(blockToFind) + "(s) diamonds left to be found!"));
+		player.addChatComponentMessage(ChatUtils.createComponent(true, Integer.toString(amount),
+				BlockUtils.getLocalized(blockToFind), "(s) diamonds left to be found!"));
 		
 		// Make sure the list removed from memory.
 		if (!list.isEmpty()) list.removeAll(Collections.EMPTY_LIST);

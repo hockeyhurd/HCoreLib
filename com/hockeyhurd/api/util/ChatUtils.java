@@ -48,6 +48,16 @@ public final class ChatUtils {
     }
 
     /**
+     * Creates a generic chat component.
+     *
+     * @param messages Messages.
+     * @return IChatComponent.
+     */
+    public static IChatComponent createComponent(String... messages) {
+        return createComponent(false, messages);
+    }
+
+    /**
      * Creates a url chat component.
      *
      * @param separateMessages boolean flag to separate by commas and space.
@@ -71,13 +81,12 @@ public final class ChatUtils {
     /**
      * Creates a url chat component.
      *
-     * @param separateMessages boolean flag to separate by commas and space.
      * @param url String url to use.
      * @param messages Messages.
      * @return IChatComponent.
      */
-    public static IChatComponent createURLComponent(boolean separateMessages, String url, String... messages) {
-        return createURLComponent(separateMessages, url, null, messages);
+    public static IChatComponent createURLComponent(String url, String... messages) {
+        return createURLComponent(false, url, null, messages);
     }
 
     /**

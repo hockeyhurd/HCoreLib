@@ -1,6 +1,7 @@
 package com.hockeyhurd.mod;
 
 import com.hockeyhurd.api.command.HCommand;
+import com.hockeyhurd.api.util.ChatUtils;
 import com.hockeyhurd.api.util.NumberParser;
 import com.hockeyhurd.api.util.SystemInfo;
 import com.hockeyhurd.mod.handler.CommandHandler;
@@ -23,13 +24,14 @@ public final class HServerCommands extends HCommand {
 
 	@Override
 	public void processCommand(ICommandSender sender, String[] args) {
-		if (args.length == 0) sender.addChatMessage(chatHelper.comp(getCommandUsage(sender)));
+		if (args.length == 0)
+			sender.addChatMessage(ChatUtils.createComponent(getCommandUsage(sender)));
 		else if (args[0].equalsIgnoreCase(commandArgs[0])) {
 			if (args.length == 1) {
 				List<String> textToSend = SystemInfo.instance().getServerTPSSummary();
 
 				for (String str : textToSend) {
-					sender.addChatMessage(chatHelper.comp(str));
+					sender.addChatMessage(ChatUtils.createComponent(str));
 				}
 			}
 
@@ -39,19 +41,20 @@ public final class HServerCommands extends HCommand {
 				String[] textToSend = SystemInfo.instance().getTPSDetails(dim);
 
 				for (String str : textToSend) {
-					sender.addChatMessage(chatHelper.comp(str));
+					sender.addChatMessage(ChatUtils.createComponent(str));
 				}
 			}
 
-			else sender.addChatMessage(chatHelper.comp(getCommandUsage(sender)));
+			else sender.addChatMessage(ChatUtils.createComponent(getCommandUsage(sender)));
 		}
 
 		else if (args[0].equalsIgnoreCase(commandArgs[1])) {
-			if (args.length == 1) sender.addChatMessage(chatHelper.comp(SystemInfo.instance().getSystemUpTime()));
-			else sender.addChatMessage(chatHelper.comp(getCommandUsage(sender)));
+			if (args.length == 1)
+				sender.addChatMessage(ChatUtils.createComponent(SystemInfo.instance().getSystemUpTime()));
+			else sender.addChatMessage(ChatUtils.createComponent(getCommandUsage(sender)));
 		}
 
-		else sender.addChatMessage(chatHelper.comp(getCommandUsage(sender)));
+		else sender.addChatMessage(ChatUtils.createComponent(getCommandUsage(sender)));
 	}
 
 	@Override

@@ -1,7 +1,5 @@
 package com.hockeyhurd.api.command;
 
-import com.hockeyhurd.api.util.ChatHelper;
-import com.hockeyhurd.mod.handler.CommandHandler;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
 
@@ -18,7 +16,6 @@ import java.util.List;
 public abstract class HCommand extends CommandBase {
 
     protected static final String BASE_NAME = "hclib";
-    protected static final ChatHelper chatHelper = new ChatHelper();
     protected final String commandName;
     protected String[] commandArgs;
 

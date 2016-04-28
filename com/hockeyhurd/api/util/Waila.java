@@ -41,7 +41,6 @@ public class Waila {
 	private int sideHit = 0;
 	private int offset;
 	private Vector4 vec;
-	private BlockHelper bh;
 	private boolean returnState = false;
 
 	/**
@@ -60,7 +59,6 @@ public class Waila {
 		this.blockPlace = blockPlace;
 		this.metaData = metaData;
 
-		this.bh = new BlockHelper(world, player);
 		blockBlackList = new ArrayList<Block>();
 		addBlockBlackList();
 		matWhiteList = new Material[] {};
@@ -233,11 +231,11 @@ public class Waila {
 	private void placeBlockHandler(World world, int xx, int yy, int zz, int sideHit) {
 		if (blockPlace != null) {
 			if (sideHit == 0) return;
-			else if (sideHit == 1) bh.setBlock(xx, yy + this.offset, zz, blockPlace, metaData);
-			else if (sideHit == 2) bh.setBlock(xx, yy, zz - this.offset, blockPlace, metaData);
-			else if (sideHit == 3) bh.setBlock(xx, yy, zz + this.offset, blockPlace, metaData);
-			else if (sideHit == 4) bh.setBlock(xx - this.offset, yy, zz, blockPlace, metaData);
-			else if (sideHit == 5) bh.setBlock(xx + this.offset, yy, zz, blockPlace, metaData);
+			else if (sideHit == 1) BlockUtils.setBlock(world, xx, yy + this.offset, zz, blockPlace, metaData);
+			else if (sideHit == 2) BlockUtils.setBlock(world, xx, yy, zz - this.offset, blockPlace, metaData);
+			else if (sideHit == 3) BlockUtils.setBlock(world, xx, yy, zz + this.offset, blockPlace, metaData);
+			else if (sideHit == 4) BlockUtils.setBlock(world, xx - this.offset, yy, zz, blockPlace, metaData);
+			else if (sideHit == 5) BlockUtils.setBlock(world, xx + this.offset, yy, zz, blockPlace, metaData);
 		}
 
 		// Else return because we don't know what the user wants to place!
@@ -293,14 +291,15 @@ public class Waila {
 		 * If said block is something and the player can reach the block they are looking at, place the said block.
 		 */
 		if (xCheck && yCheck && zCheck) {
-			if (bh.blockExists(x, y, z) && !blockBlackList.contains(bh.getBlock(x, y, z))) {
+			if (BlockUtils.blockExists(world, x, y, z) &&
+					!blockBlackList.contains(BlockUtils.getBlock(world, x, y, z))) {
 				// If the block trying to be placed is equal to block at the coordinate, return;
 
 				// Set true for par4 if destroyed block should drop, item-drops.
 				// if (!matSp) world.func_147480_a(x, y, z, true);
-				if (!matSp) bh.destroyBlock(x, y, z, true);
+				if (!matSp) BlockUtils.destroyBlock(world, x, y, z, true);
 				else {
-					Material currentMat = bh.getBlockMaterial(x, y, z);
+					Material currentMat = BlockUtils.getBlockMaterial(world, x, y, z);
 					boolean contains = false;
 
 					for (int i = 0; i < matWhiteList.length; i++) {
@@ -308,7 +307,7 @@ public class Waila {
 					}
 
 					if (!contains) return;
-					else bh.destroyBlock(x, y, z, true);
+					else BlockUtils.destroyBlock(world, x, y, z, true);
 				}
 
 				world.setBlockToAir(x, y, z);
@@ -338,11 +337,11 @@ public class Waila {
 		 */
 		for (int xx = x - 1; xx < x + 2; xx++) {
 			for (int zz = z - 1; zz < z + 2; zz++) {
-				Block currentBlock = bh.getBlock(xx, y, zz);
+				Block currentBlock = BlockUtils.getBlock(world, xx, y, zz);
 
 				// Note: Last check below shouldn't be necessary as it should already be tilled! (in theory).
 				if (currentBlock == dirt || currentBlock == grass /* || currentBlock == tilledDirtID */) {
-					bh.setBlock(xx, y, zz, tilDir);
+					BlockUtils.setBlock(world, xx, y, zz, tilDir);
 				}
 			}
 		}
