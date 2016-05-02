@@ -57,4 +57,8 @@ public abstract class AbstractItemBucket extends ItemBucket {
 		subItems.add(new ItemStack(item, 1, 0));
 	}
 
+	@Override
+	public boolean doesContainerItemLeaveCraftingGrid(ItemStack stack) {
+		return true;
+	}
 }
