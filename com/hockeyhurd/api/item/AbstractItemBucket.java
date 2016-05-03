@@ -1,10 +1,12 @@
 package com.hockeyhurd.api.item;
 
+import com.hockeyhurd.api.util.ItemUtils;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBucket;
 import net.minecraft.item.ItemStack;
@@ -21,6 +23,23 @@ public abstract class AbstractItemBucket extends ItemBucket {
 	protected final String name;
 	protected final String assetDir;
 	protected final Block block;
+	protected final Item itemToReturn;
+
+	/**
+	 * @param name name of item bucket.
+	 * @param assetDir location of asset directory.
+	 * @param itemToReturn Item to return.
+	 * @param block reference to block.
+	 */
+	public AbstractItemBucket(String name, String assetDir, Item itemToReturn, Block block) {
+		super(block);
+
+		this.setUnlocalizedName(name);
+		this.name = name;
+		this.assetDir = assetDir;
+		this.itemToReturn = itemToReturn;
+		this.block = block;
+	}
 
 	/**
 	 * @param name name of item bucket.
@@ -28,12 +47,7 @@ public abstract class AbstractItemBucket extends ItemBucket {
 	 * @param block reference to block.
 	 */
 	public AbstractItemBucket(String name, String assetDir, Block block) {
-		super(block);
-
-		this.setUnlocalizedName(name);
-		this.name = name;
-		this.assetDir = assetDir;
-		this.block = block;
+		this(name, assetDir, Items.bucket, block);
 	}
 
 	@Override
@@ -58,7 +72,19 @@ public abstract class AbstractItemBucket extends ItemBucket {
 	}
 
 	@Override
-	public boolean doesContainerItemLeaveCraftingGrid(ItemStack stack) {
+	public boolean hasContainerItem(ItemStack stack) {
 		return true;
 	}
+
+	@Override
+	public boolean doesContainerItemLeaveCraftingGrid(ItemStack stack) {
+		return false;
+	}
+
+	@Override
+	public ItemStack getContainerItem(ItemStack stack) {
+		if (stack.attemptDamageItem(1, itemRand)) return ItemUtils.createStack(itemToReturn);
+		return stack;
+	}
+
 }
