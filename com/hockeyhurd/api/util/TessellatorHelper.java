@@ -23,7 +23,7 @@ import org.lwjgl.opengl.GL11;
 public class TessellatorHelper {
 
 	private IIcon icon;
-	public final Tessellator tess;
+	public static final Tessellator tess = Tessellator.instance;
 	private boolean testFlagColour = false;
 
 	/**
@@ -40,7 +40,6 @@ public class TessellatorHelper {
 	 */
 	public TessellatorHelper(IIcon icon) {
 		this.icon = icon;
-		tess = Tessellator.instance;
 	}
 	
 	/**
@@ -247,6 +246,7 @@ public class TessellatorHelper {
 		tess.addVertexWithUV(minVec.x, maxVec.y, minVec.z, icon.getMinU(), icon.getMinV());
 		
 		if (renderInside) {
+			tess.setNormal(0.0f, 0.0f, 1.0f);
 			tess.addVertexWithUV(minVec.x, maxVec.y, minVec.z, icon.getMinU(), icon.getMinV());
 			tess.addVertexWithUV(minVec.x, minVec.y, minVec.z, icon.getMinU(), icon.getMaxV());
 			tess.addVertexWithUV(maxVec.x, minVec.y, minVec.z, icon.getMaxU(), icon.getMaxV());
@@ -276,6 +276,7 @@ public class TessellatorHelper {
 		tess.addVertexWithUV(maxVec.x, maxVec.y, maxVec.z, max - difU, min - difV);
 
 		if (renderInside) {
+			tess.setNormal(0.0f, 0.0f, 1.0f);
 			tess.addVertexWithUV(maxVec.x, maxVec.y, maxVec.z, max - difU, min - difV);
 			tess.addVertexWithUV(maxVec.x, minVec.y, maxVec.z, max - difU, max - difV);
 			tess.addVertexWithUV(minVec.x, minVec.y, maxVec.z, min - difU, max - difV);
@@ -329,6 +330,7 @@ public class TessellatorHelper {
 		tess.addVertexWithUV(maxVec.x, maxVec.y, maxVec.z, icon.getMaxU(), icon.getMinV());
 		
 		if (renderInside) {
+			tess.setNormal(0.0f, 0.0f, -1.0f);
 			tess.addVertexWithUV(maxVec.x, maxVec.y, maxVec.z, icon.getMaxU(), icon.getMinV());
 			tess.addVertexWithUV(maxVec.x, minVec.y, maxVec.z, icon.getMaxU(), icon.getMaxV());
 			tess.addVertexWithUV(minVec.x, minVec.y, maxVec.z, icon.getMinU(), icon.getMaxV());
@@ -358,6 +360,7 @@ public class TessellatorHelper {
 		tess.addVertexWithUV(minVec.x, maxVec.y, minVec.z, max - difU, min - difV);
 
 		if (renderInside) {
+			tess.setNormal(0.0f, 0.0f, -1.0f);
 			tess.addVertexWithUV(minVec.x, maxVec.y, minVec.z, max - difU, min - difV);
 			tess.addVertexWithUV(minVec.x, minVec.y, minVec.z, max - difU, max - difV);
 			tess.addVertexWithUV(maxVec.x, minVec.y, minVec.z, min - difU, max - difV);
@@ -411,6 +414,7 @@ public class TessellatorHelper {
 		tess.addVertexWithUV(minVec.x, maxVec.y, maxVec.z, icon.getMinU(), icon.getMinV());
 		
 		if (renderInside) {
+			tess.setNormal(1.0f, 0.0f, 0.0f);
 			tess.addVertexWithUV(minVec.x, maxVec.y, maxVec.z, icon.getMinU(), icon.getMinV());
 			tess.addVertexWithUV(minVec.x, minVec.y, maxVec.z, icon.getMinU(), icon.getMaxV());
 			tess.addVertexWithUV(minVec.x, minVec.y, minVec.z, icon.getMaxU(), icon.getMaxV());
@@ -440,6 +444,7 @@ public class TessellatorHelper {
 		tess.addVertexWithUV(minVec.x, maxVec.y, maxVec.z, max - difU, min - difV);
 
 		if (renderInside) {
+			tess.setNormal(1.0f, 0.0f, 0.0f);
 			tess.addVertexWithUV(minVec.x, maxVec.y, maxVec.z, max - difU, min - difV);
 			tess.addVertexWithUV(minVec.x, minVec.y, maxVec.z, max - difU, max - difV);
 			tess.addVertexWithUV(minVec.x, minVec.y, minVec.z, min - difU, max - difV);
@@ -493,6 +498,7 @@ public class TessellatorHelper {
 		tess.addVertexWithUV(maxVec.x, maxVec.y, minVec.z, icon.getMaxU(), icon.getMinV());
 		
 		if (renderInside) {
+			tess.setNormal(-1.0f, 0.0f, 0.0f);
 			tess.addVertexWithUV(maxVec.x, maxVec.y, minVec.z, icon.getMaxU(), icon.getMinV());
 			tess.addVertexWithUV(maxVec.x, minVec.y, minVec.z, icon.getMaxU(), icon.getMaxV());
 			tess.addVertexWithUV(maxVec.x, minVec.y, maxVec.z, icon.getMinU(), icon.getMaxV());
@@ -522,6 +528,7 @@ public class TessellatorHelper {
 		tess.addVertexWithUV(maxVec.x, maxVec.y, minVec.z, min - difU, min - difV);
 
 		if (renderInside) {
+			tess.setNormal(-1.0f, 0.0f, 0.0f);
 			tess.addVertexWithUV(maxVec.x, maxVec.y, minVec.z, min - difU, min - difV);
 			tess.addVertexWithUV(maxVec.x, minVec.y, minVec.z, min - difU, max - difV);
 			tess.addVertexWithUV(maxVec.x, minVec.y, maxVec.z, max - difU, max - difV);
@@ -575,6 +582,7 @@ public class TessellatorHelper {
 		tess.addVertexWithUV(minVec.x, minVec.y, minVec.z, icon.getMaxU(), icon.getMinV());
 		
 		if (renderInside) {
+			tess.setNormal(0.0f, 1.0f, 0.0f);
 			tess.addVertexWithUV(minVec.x, minVec.y, minVec.z, icon.getMaxU(), icon.getMinV());
 			tess.addVertexWithUV(minVec.x, minVec.y, maxVec.z, icon.getMaxU(), icon.getMaxV());
 			tess.addVertexWithUV(maxVec.x, minVec.y, maxVec.z, icon.getMinU(), icon.getMaxV());
@@ -604,6 +612,7 @@ public class TessellatorHelper {
 		tess.addVertexWithUV(minVec.x, minVec.y - 0.01d, minVec.z, min - difU, min - difV);
 
 		if (renderInside) {
+			tess.setNormal(0.0f, 1.0f, 0.0f);
 			tess.addVertexWithUV(minVec.x, minVec.y - 0.01d, minVec.z, min - difU, min - difV);
 			tess.addVertexWithUV(minVec.x, minVec.y - 0.01d, maxVec.z, min - difU, max - difV);
 			tess.addVertexWithUV(maxVec.x, minVec.y - 0.01d, maxVec.z, max - difU, max - difV);
@@ -657,6 +666,7 @@ public class TessellatorHelper {
 		tess.addVertexWithUV(maxVec.x, maxVec.y, minVec.z, icon.getMinU(), icon.getMinV());
 		
 		if (renderInside) {
+			tess.setNormal(0.0f, -1.0f, 0.0f);
 			tess.addVertexWithUV(maxVec.x, maxVec.y, minVec.z, icon.getMinU(), icon.getMinV());
 			tess.addVertexWithUV(maxVec.x, maxVec.y, maxVec.z, icon.getMinU(), icon.getMaxV());
 			tess.addVertexWithUV(minVec.x, maxVec.y, maxVec.z, icon.getMaxU(), icon.getMaxV());
@@ -685,6 +695,7 @@ public class TessellatorHelper {
 		tess.addVertexWithUV(maxVec.x, maxVec.y - 0.01d, minVec.z, max - difU, min - difV);
 
 		if (renderInside) {
+			tess.setNormal(0.0f, -1.0f, 0.0f);
 			tess.addVertexWithUV(maxVec.x, maxVec.y - 0.01d, minVec.z, max - difU, min - difV);
 			tess.addVertexWithUV(maxVec.x, maxVec.y - 0.01d, maxVec.z, max - difU, max - difV);
 			tess.addVertexWithUV(minVec.x, maxVec.y - 0.01d, maxVec.z, min - difU, max - difV);
@@ -712,6 +723,70 @@ public class TessellatorHelper {
 	}
 
 	/**
+	 * Draws a 2D texture with provided UV coordinates.
+	 *
+	 * @param x x-position.
+	 * @param y y-position.
+	 * @param width width of plane.
+	 * @param height height of plane
+	 * @param minU min U coordinate.
+	 * @param maxU max U coordinate.
+     * @param minV min V coordinate.
+     * @param maxV max V coordinate.
+     */
+	public void draw2D(float x, float y, float width, float height, float minU, float maxU, float minV, float maxV) {
+		addVertUV(x, y, 0.0f, minU, maxV);
+		addVertUV(x, y + height, 0.0f, minU, minV);
+		addVertUV(x + width, y + height, 0.0f, maxU, minV);
+		addVertUV(x + width, y, 0.0f, maxU, maxV);
+	}
+
+	/**
+	 * Draws a 2D texture with provided UV coordinates.
+	 *
+	 * @param vec x, y position.
+	 * @param size width, height.
+	 * @param minUV min U, V
+     * @param maxUV max Y, V
+	 *
+	 * @throws IllegalArgumentException on null argument(s).
+     */
+	public void draw2D(Vector2<Float> vec, Vector2<Float> size, Vector2<Float> minUV, Vector2<Float> maxUV) {
+		if (vec == null || size == null || minUV == null || maxUV == null)
+			throw new IllegalArgumentException("NULL argument!");
+
+		draw2D(vec.x, vec.y, size.x, size.y, minUV.x, maxUV.x, minUV.y, maxUV.y);
+	}
+
+	/**
+	 * Draws a 2D texture with provided UV coordinates.
+	 *
+	 * @param vec x, y position.
+	 * @param size width, height.
+	 * @param minMax minUV, maxUV.
+     */
+	public void draw2D(Vector2<Float> vec, Vector2<Float> size, Vector2<Float> minMax) {
+		if (vec == null || size == null || minMax == null)
+			throw new IllegalArgumentException("NULL argument!");
+
+		draw2D(vec.x, vec.y, size.x, size.y, minMax.x, minMax.y, minMax.x, minMax.y);
+	}
+
+	/**
+	 * Draws a 2D texture with provided UV coordinates.
+	 *
+	 * @param vec x, y position.
+	 * @param size width == height size
+	 * @param minMax minUV, maxUV.
+     */
+	public void draw2D(Vector2<Float> vec, float size, Vector2<Float> minMax) {
+		if (vec == null || minMax == null)
+			throw new IllegalArgumentException("NULL argument!");
+
+		draw2D(vec.x, vec.y, size, size, minMax.x, minMax.y, minMax.x, minMax.y);
+	}
+
+	/**
 	 * Sets normal by specified values.
 	 *
 	 * @param x x face.
@@ -719,7 +794,8 @@ public class TessellatorHelper {
 	 * @param z z face.
 	 */
 	public void setNormal(float x, float y, float z) {
-		if (LogicHelper.isNumberInRange(x, -1f, 1f) && LogicHelper.isNumberInRange(y, -1f, 1f) && LogicHelper.isNumberInRange(z, -1f, 1f))
+		if (LogicHelper.isNumberInRange(x, -1f, 1f) && LogicHelper.isNumberInRange(y, -1f, 1f) &&
+				LogicHelper.isNumberInRange(z, -1f, 1f))
 			tess.setNormal(x, y, z);
 	}
 
