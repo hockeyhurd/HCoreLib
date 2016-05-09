@@ -1,10 +1,10 @@
 package com.hockeyhurd.hcorelib.api.handler.input;
 
 import com.hockeyhurd.hcorelib.mod.HCoreLibMain;
-import cpw.mods.fml.common.gameevent.InputEvent.KeyInputEvent;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.settings.KeyBinding;
+import net.minecraftforge.fml.common.gameevent.InputEvent.KeyInputEvent;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
  * Interface for keybindings.

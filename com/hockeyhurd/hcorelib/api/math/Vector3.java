@@ -1,6 +1,6 @@
 package com.hockeyhurd.hcorelib.api.math;
 
-import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraft.util.EnumFacing;
 
 /**
  * Class used to store world co-ordinate data by specified number.
@@ -167,17 +167,16 @@ public class Vector3<N> {
 	 * Gets forge direction from referenced vector3<int>.
 	 *
 	 * @param vec vector3<int> to reference.
-	 * @return Appropriated forge direction, else may return ForgeDirection.UNKNOWN.
+	 * @return Appropriated forge direction, else may return EnumFacing.UNKNOWN.
 	 */
-	public static ForgeDirection getDirection(Vector3<Integer> vec) {
-		if (vec.x == 0 && vec.y <= -1 && vec.z == 0) return ForgeDirection.VALID_DIRECTIONS[0];
-		else if (vec.x == 0 && vec.y >= 1 && vec.z == 0) return ForgeDirection.VALID_DIRECTIONS[1];
-		else if (vec.x <= -1 && vec.y == 0 && vec.z == 0) return ForgeDirection.VALID_DIRECTIONS[2];
-		else if (vec.x >= 1 && vec.y == 0 && vec.z == 0) return ForgeDirection.VALID_DIRECTIONS[3];
-		else if (vec.x == 0 && vec.y == 0 && vec.z <= -1) return ForgeDirection.VALID_DIRECTIONS[4];
-		else if (vec.x == 0 && vec.y == 0 && vec.z >= 1) return ForgeDirection.VALID_DIRECTIONS[5];
-
-		else return ForgeDirection.UNKNOWN;
+	public static EnumFacing getDirection(Vector3<Integer> vec) {
+		if (vec.x == 0 && vec.y <= -1 && vec.z == 0) return EnumFacing.VALUES[0];
+		else if (vec.x == 0 && vec.y >= 1 && vec.z == 0) return EnumFacing.VALUES[1];
+		else if (vec.x <= -1 && vec.y == 0 && vec.z == 0) return EnumFacing.VALUES[2];
+		else if (vec.x >= 1 && vec.y == 0 && vec.z == 0) return EnumFacing.VALUES[3];
+		else if (vec.x == 0 && vec.y == 0 && vec.z <= -1) return EnumFacing.VALUES[4];
+		// else if (vec.x == 0 && vec.y == 0 && vec.z >= 1) return EnumFacing.VALUES[5];
+		else return EnumFacing.VALUES[5];
 	}
 
 	/**

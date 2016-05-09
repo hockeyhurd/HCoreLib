@@ -5,7 +5,7 @@ import com.hockeyhurd.hcorelib.api.math.TimeLapse;
 import com.hockeyhurd.hcorelib.api.util.LogicHelper;
 import com.hockeyhurd.hcorelib.mod.HCoreLibMain;
 import com.hockeyhurd.hcorelib.mod.HServerCommands;
-import cpw.mods.fml.common.event.FMLServerStartingEvent;
+import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 
 import java.util.ArrayList;
 import java.util.HashMap;

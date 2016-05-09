@@ -13,10 +13,8 @@ import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.MathHelper;
-import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.util.MovingObjectPosition.MovingObjectType;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 import java.util.ArrayList;
@@ -133,14 +131,14 @@ public class Waila {
 
 			// Get the avgCurrent position Y and offset the yCorrd to the
 			// player's head level (camera level).
-			double posY = (player.prevPosY + (player.posY - player.prevPosY) * (double) f + 1.6200000000000001D) - (double) player.yOffset;
+			double posY = (player.prevPosY + (player.posY - player.prevPosY) * (double) f + player.height) - (double) player.height;
 
 			// Get the avgCurrent position Z.
 			double posZ = player.prevPosZ + (player.posZ - player.prevPosZ) * (double) f;
 
 			// Get the vector represented by the combination of the three above
 			// world coordinates.
-			Vec3 vec3d = Vec3.createVectorHelper(posX, posY, posZ);
+			Vec3d vec3d = new Vec3d(posX, posY, posZ);
 
 			// Get the -rotYaw and represent deltaDegrees about the y-axis;
 			// calculate cos('x').

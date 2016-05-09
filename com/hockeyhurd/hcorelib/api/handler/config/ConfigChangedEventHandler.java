@@ -1,7 +1,7 @@
 package com.hockeyhurd.hcorelib.api.handler.config;
 
-import cpw.mods.fml.client.event.ConfigChangedEvent;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.client.event.ConfigChangedEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 /**
  * Event handler for config changes.
@@ -25,7 +25,7 @@ public class ConfigChangedEventHandler {
 
 	@SubscribeEvent
 	public void onConfigChangedEvent(ConfigChangedEvent event) {
-		if (event.modID.equals(modID)) configHandler.saveConfig();
+		if (event.getModID().equals(modID)) configHandler.saveConfig();
 	}
 
 }

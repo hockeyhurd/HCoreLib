@@ -1,15 +1,14 @@
 package com.hockeyhurd.hcorelib.api.item;
 
 import com.hockeyhurd.hcorelib.api.util.ItemUtils;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
-import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBucket;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 import java.util.List;
@@ -50,18 +49,18 @@ public abstract class AbstractItemBucket extends ItemBucket {
 		this(name, assetDir, Items.bucket, block);
 	}
 
-	@Override
+	/*@Override
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IIconRegister reg) {
 		this.itemIcon = reg.registerIcon(assetDir + name);
-	}
+	}*/
 
 	@Override
-	public boolean tryPlaceContainedLiquid(World world, int x, int y, int z) {
+	public boolean tryPlaceContainedLiquid(EntityPlayer player, World world, BlockPos pos) {
 		if (block == null) return false;
-		else if (!world.isAirBlock(x, y, z) && world.getBlock(x, y, z).getMaterial().isSolid()) return false;
+		else if (!world.isAirBlock(pos) && world.getBlockState(pos).getMaterial().isSolid()) return false;
 		else {
-			world.setBlock(x, y, z, block, 0, 3);
+			world.setBlockState(pos, block.getDefaultState(), 3);
 			return true;
 		}
 	}
@@ -76,10 +75,10 @@ public abstract class AbstractItemBucket extends ItemBucket {
 		return true;
 	}
 
-	@Override
+	/*@Override
 	public boolean doesContainerItemLeaveCraftingGrid(ItemStack stack) {
 		return false;
-	}
+	}*/
 
 	@Override
 	public ItemStack getContainerItem(ItemStack stack) {

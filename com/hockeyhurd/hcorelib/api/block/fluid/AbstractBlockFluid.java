@@ -1,10 +1,6 @@
 package com.hockeyhurd.hcorelib.api.block.fluid;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.util.IIcon;
 import net.minecraftforge.fluids.BlockFluidClassic;
 import net.minecraftforge.fluids.Fluid;
 
@@ -21,8 +17,8 @@ public abstract class AbstractBlockFluid extends BlockFluidClassic {
 
 	protected static final String suffix = ".still";
 
-	@SideOnly(Side.CLIENT)
-	protected IIcon flowing, still;
+	/*@SideOnly(Side.CLIENT)
+	protected IIcon flowing, still;*/
 
 	/**
 	 * @param name     name of fluid block.
@@ -42,14 +38,14 @@ public abstract class AbstractBlockFluid extends BlockFluidClassic {
 	public AbstractBlockFluid(String name, String assetDir, Fluid fluid, Material material) {
 		super(fluid, material);
 
-		setBlockName(name + suffix);
+		setRegistryName(name + suffix);
 		this.name = name + suffix;
 		this.assetDir = assetDir;
 
 		if (fluid.getBlock() == null) fluid.setBlock(this);
 	}
 
-	@Override
+	/*@Override
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister reg) {
 		blockIcon = still = reg.registerIcon(assetDir + name);
@@ -62,6 +58,6 @@ public abstract class AbstractBlockFluid extends BlockFluidClassic {
 	@SideOnly(Side.CLIENT)
 	public IIcon getIcon(int side, int meta) {
 		return side <= 1 ? still : flowing;
-	}
+	}*/
 
 }

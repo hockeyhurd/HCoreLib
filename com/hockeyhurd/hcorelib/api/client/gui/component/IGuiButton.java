@@ -1,9 +1,9 @@
 package com.hockeyhurd.hcorelib.api.client.gui.component;
 
 import com.hockeyhurd.hcorelib.api.math.Vector2;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.Minecraft;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
  * Interfacing for gui buttons.

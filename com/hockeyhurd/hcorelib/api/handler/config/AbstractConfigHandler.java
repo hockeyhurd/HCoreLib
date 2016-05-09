@@ -2,9 +2,9 @@ package com.hockeyhurd.hcorelib.api.handler.config;
 
 import com.hockeyhurd.hcorelib.api.util.AbstractReference;
 import com.hockeyhurd.hcorelib.mod.HCoreLibMain;
-import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.common.config.ConfigCategory;
 import net.minecraftforge.common.config.Configuration;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
 import java.io.File;
 import java.util.ArrayList;
