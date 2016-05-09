@@ -15,9 +15,12 @@ public class LibReference extends AbstractReference {
 
 	/** Current build number. */
 	public static final short BUILD = 37;
+
+	/** Current Subversion */
+	public static final byte SUB_VERSION = 1;
 	
 	/** Current version with included build number. */
-	public static final String VERSION = "v1.1." + BUILD;
+	public static final String VERSION = "v1." + SUB_VERSION + '.' + BUILD;
 	
 	/** Current mod name. */
 	public static final String MOD_NAME = "HCoreLib";
