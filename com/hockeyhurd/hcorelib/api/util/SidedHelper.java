@@ -1,8 +1,8 @@
 package com.hockeyhurd.hcorelib.api.util;
 
-import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.relauncher.Side;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.relauncher.Side;
 
 /**
  * Class used to help find the side of the world.

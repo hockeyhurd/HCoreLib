@@ -3,8 +3,8 @@ package com.hockeyhurd.hcorelib.mod;
 import com.hockeyhurd.hcorelib.api.handler.NotifyPlayerOnJoinHandler;
 import com.hockeyhurd.hcorelib.api.handler.UpdateHandler;
 import com.hockeyhurd.hcorelib.api.util.interfaces.IProxy;
-import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 
 import java.util.HashMap;
 

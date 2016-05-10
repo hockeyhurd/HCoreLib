@@ -1,7 +1,7 @@
 package com.hockeyhurd.hcorelib.api.util;
 
-import cpw.mods.fml.common.ModMetadata;
-import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.ModMetadata;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
 /**
  * Utility class for injecting data into mcmod.info file.

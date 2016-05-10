@@ -2,11 +2,8 @@ package com.hockeyhurd.hcorelib.api.block;
 
 import com.hockeyhurd.hcorelib.api.creativetab.AbstractCreativeTab;
 import com.hockeyhurd.hcorelib.api.tileentity.AbstractTile;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.world.World;
 
 /**
@@ -32,15 +29,9 @@ public abstract class AbstractHCoreBlockContainer extends BlockContainer {
         this.assetDir = assetDir;
         this.name = name;
 
-        this.setBlockName(name);
+        this.setRegistryName(name);
         this.setHardness(getBlockHardness());
         if (creativeTab != null) this.setCreativeTab(creativeTab);
-    }
-
-    @Override
-    @SideOnly(Side.CLIENT)
-    public void registerBlockIcons(IIconRegister reg) {
-        blockIcon = reg.registerIcon(assetDir + name);
     }
 
     /**

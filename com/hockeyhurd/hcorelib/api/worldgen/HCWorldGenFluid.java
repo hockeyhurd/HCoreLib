@@ -1,11 +1,13 @@
 package com.hockeyhurd.hcorelib.api.worldgen;
 
 import com.hockeyhurd.hcorelib.api.math.Vector3;
-import cpw.mods.fml.common.IWorldGenerator;
 import net.minecraft.block.Block;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraft.world.chunk.IChunkGenerator;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.gen.feature.WorldGenLakes;
+import net.minecraftforge.fml.common.IWorldGenerator;
 
 import java.util.Random;
 
@@ -37,22 +39,36 @@ public class HCWorldGenFluid extends WorldGenLakes implements IWorldGenerator {
 		this.maxVec = maxVec;
 	}
 
-	@Override
+	/**
+	 * Generates at x, y, z.
+	 *
+	 * @param world World.
+	 * @param random Random.
+	 * @param x int.
+	 * @param y int.
+	 * @param z int.
+	 * @return boolean.
+	 */
 	public boolean generate(World world, Random random, int x, int y, int z) {
-		int firstBlockX = x + random.nextInt(maxVec.x);
-		int firstBlockY = random.nextInt(maxVec.y);
-		int firstBlockZ = z + random.nextInt(maxVec.z);
+		return generate(world, random, new BlockPos(x, y, z));
+	}
 
-		super.generate(world, random, firstBlockX, firstBlockY, firstBlockZ);
+	@Override
+	public boolean generate(World world, Random random, BlockPos pos) {
+		int firstBlockX = pos.getX() + random.nextInt(maxVec.x);
+		int firstBlockY = random.nextInt(maxVec.y);
+		int firstBlockZ = pos.getZ() + random.nextInt(maxVec.z);
+
+		super.generate(world, random, new BlockPos(firstBlockX, firstBlockY, firstBlockZ));
 		return true;
 	}
 
 	@Override
-	public void generate(Random random, int chunkX, int chunkZ, World world, IChunkProvider chunkGenerator, IChunkProvider chunkProvider) {
+	public void generate(Random random, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator, IChunkProvider chunkProvider) {
 		int firstBlockX = chunkX + random.nextInt(maxVec.x);
 		int firstBlockY = random.nextInt(maxVec.y);
 		int firstBlockZ = chunkZ + random.nextInt(maxVec.z);
 
-		super.generate(world, random, firstBlockX, firstBlockY, firstBlockZ);
+		super.generate(world, random, new BlockPos(firstBlockX, firstBlockY, firstBlockZ));
 	}
 }

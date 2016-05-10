@@ -5,8 +5,10 @@ import com.hockeyhurd.hcorelib.api.math.Vector2;
 import com.hockeyhurd.hcorelib.api.math.Vector3;
 import com.hockeyhurd.hcorelib.mod.HCoreLibMain;
 import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 
@@ -46,13 +48,13 @@ public class ChunkHelper {
 	 */
 	public void searchChunk(Block blockToFind) {
 		// Make sure I didn't derp UP anything and the block to be searched for is an actual block.
-		if (blockToFind == null || !BlockUtils.blockListContains(blockToFind)) {
+		if (blockToFind == null || !BlockUtils.blockListContains(blockToFind.getDefaultState())) {
 			HCoreLibMain.logHelper.severe("Block to find is not a block!");
 			return;
 		}
 		int xPos = (int) player.posX;
 		int zPos = (int) player.posZ;
-		Chunk chunk = world.getChunkFromBlockCoords(xPos, zPos);
+		Chunk chunk = world.getChunkFromBlockCoords(new BlockPos(xPos, 0, zPos));
 		List<Block> list = new ArrayList<Block>();
 		
 		int chunkX = chunk.xPosition * 16;
@@ -64,7 +66,7 @@ public class ChunkHelper {
 				for (int z = 0; z < 16; z++) {
 					
 					// Get the block id of the block being analyzed,
-					Block block = BlockUtils.getBlock(world, chunkX + x, y, chunkZ + z);
+					IBlockState block = BlockUtils.getBlock(world, chunkX + x, y, chunkZ + z);
 					// If the block id is not of 'air' and it matches the desired block, add it to the list.
 					if (block != null && block != Blocks.air && BlockUtils.blockListContains(block) && block == blockToFind) {
 						Block block2 = blockToFind;
@@ -125,7 +127,7 @@ public class ChunkHelper {
 	}
 
 	public static Chunk getChunk(World world, Vector2<Integer> vec) {
-		return world != null && vec != null ? world.getChunkFromBlockCoords(vec.x, vec.y) : null;
+		return world != null && vec != null ? world.getChunkFromBlockCoords(new BlockPos(vec.x, 0, vec.y)) : null;
 	}
 
 	/**
@@ -136,7 +138,7 @@ public class ChunkHelper {
 	 * @return Chunk.
 	 */
 	public static Chunk getChunk(World world, Vector3<Integer> vec) {
-		return world != null && vec != null ? world.getChunkFromBlockCoords(vec.x, vec.z): null;
+		return world != null && vec != null ? world.getChunkFromBlockCoords(new BlockPos(vec.x, 0, vec.y)): null;
 	}
 
 	/**

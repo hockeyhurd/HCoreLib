@@ -2,9 +2,9 @@ package com.hockeyhurd.hcorelib.api.client.renderer;
 
 import com.hockeyhurd.hcorelib.api.math.Color;
 import com.hockeyhurd.hcorelib.api.math.Vector3;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
  * Shape renderer class.

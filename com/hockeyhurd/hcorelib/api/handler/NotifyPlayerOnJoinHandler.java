@@ -2,16 +2,16 @@ package com.hockeyhurd.hcorelib.api.handler;
 
 import com.hockeyhurd.hcorelib.api.util.AbstractReference;
 import com.hockeyhurd.hcorelib.mod.HCoreLibMain;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map.Entry;
 
 import static com.hockeyhurd.hcorelib.api.util.ChatUtils.*;
-import static net.minecraft.util.EnumChatFormatting.*;
+import static net.minecraft.util.text.TextFormatting.*;
 
 /**
  * Simple class for notifying player when they join the game about your mod's update!
@@ -65,9 +65,9 @@ public class NotifyPlayerOnJoinHandler {
 	@SuppressWarnings("unchecked")
 	@SubscribeEvent
 	public void onPlayerJoin(EntityJoinWorldEvent event) {
-		if (!(event.entity instanceof EntityPlayerMP) || !allowUpdateCheck) return;
+		if (!(event.getEntity() instanceof EntityPlayerMP) || !allowUpdateCheck) return;
 		else {
-			EntityPlayerMP player = (EntityPlayerMP) event.entity;
+			EntityPlayerMP player = (EntityPlayerMP) event.getEntity();
 			if (!updateFlag) {
 				String build = "";
 				String updateUrl = "";

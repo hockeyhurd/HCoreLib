@@ -168,7 +168,7 @@ public class Waila {
 
 			// Get the above calculations and represent this in a vector3
 			// format.
-			Vec3 vec3d1 = vec3d.addVector((double) f7 * d3, (double) f8 * d3 + 1, (double) f9 * d3);
+			Vec3d vec3d1 = vec3d.addVector((double) f7 * d3, (double) f8 * d3 + 1, (double) f9 * d3);
 
 			/*
 			 * Combine vector rotations and vector absolute world positions and throw it through a vector ray to calculate the direction and block the entity (player) is currently looking at in the given instance.
@@ -181,7 +181,7 @@ public class Waila {
 
 			// Check if the vector ray intersects with some sort of TILE
 			// if (movingObjectPos.typeOfHit == MovingObjectType.TILE) {
-			if (movingObjectPos.typeOfHit == MovingObjectType.BLOCK) {
+			if (movingObjectPos.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK) {
 
 				// Get the position of the TILE intersected as represented in
 				// 3D space.

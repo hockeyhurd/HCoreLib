@@ -2,11 +2,10 @@ package com.hockeyhurd.hcorelib.api.block;
 
 import com.hockeyhurd.hcorelib.mod.ClientProxy;
 import com.hockeyhurd.hcorelib.mod.HCoreLibMain;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public abstract class AbstractHiddenBlock extends Block {
 
@@ -15,15 +14,15 @@ public abstract class AbstractHiddenBlock extends Block {
 	public AbstractHiddenBlock(Material material, String name) {
 		super(material);
 		this.setBlockUnbreakable();
-		this.setBlockName(name);
+		this.setRegistryName(name);
 		this.NAME = name;
 		this.setCreativeTab(HCoreLibMain.myCreativeTab);
 	}
 
-	@SideOnly(Side.CLIENT)
+	/*@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister reg) {
 		this.blockIcon = reg.registerIcon(HCoreLibMain.assetDir + this.NAME);
-	}
+	}*/
 
 	@SideOnly(Side.CLIENT)
 	public boolean isOpaqueCube() {

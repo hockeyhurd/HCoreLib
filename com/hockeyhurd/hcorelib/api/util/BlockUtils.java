@@ -4,11 +4,13 @@ import com.hockeyhurd.hcorelib.api.math.Vector3;
 import com.hockeyhurd.hcorelib.mod.HCoreLibMain;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 /**
@@ -62,8 +64,8 @@ public final class BlockUtils {
 	 * @param z z-coordinate.
 	 * @return block in world at coordinate.
 	 */
-	public static Block getBlock(World world, int x, int y, int z) {
-		return world.getBlock(x, y, z);
+	public static IBlockState getBlock(World world, int x, int y, int z) {
+		return world.getBlockState(createBlockPos(x, y, z));
 	}
 
 	/**
@@ -73,7 +75,7 @@ public final class BlockUtils {
 	 * @param vec vector3 to check (x, y, z).
 	 * @return block in world at coordinate.
 	 */
-	public static Block getBlock(World world, Vector3<Integer> vec) {
+	public static IBlockState getBlock(World world, Vector3<Integer> vec) {
 		return getBlock(world, vec.x, vec.y, vec.z);
 	}
 
@@ -91,7 +93,7 @@ public final class BlockUtils {
 	public static <T extends TileEntity> T getTileEntity(World world, int x, int y, int z, Class<T> clazz) {
 		if (world == null || clazz == null) return null;
 
-		final TileEntity te = world.getTileEntity(x, y, z);
+		final TileEntity te = world.getTileEntity(createBlockPos(x, y, z));
 		return clazz.isInstance(te) ? (T) te : null;
 	}
 
@@ -107,32 +109,8 @@ public final class BlockUtils {
 	public static <T extends TileEntity> T getTileEntity(World world, Vector3<Integer> vec, Class<T> clazz) {
 		if (world == null || vec == null || clazz == null) return null;
 
-		final TileEntity te = world.getTileEntity(vec.x, vec.y, vec.z);
+		final TileEntity te = world.getTileEntity(createBlockPos(vec.x, vec.y, vec.z));
 		return clazz.isInstance(te) ? (T) te : null;
-	}
-
-	/**
-	 * Gets block metadata from world coordinates.
-	 *
-	 * @param world world object to reference.
-	 * @param x x-coordinate.
-	 * @param y y-coordinate.
-	 * @param z z-coordinate.
-	 * @return block in world at coordinate.
-	 */
-	public static int getBlockMetadata(World world, int x, int y, int z) {
-		return world.getBlockMetadata(x, y, z);
-	}
-
-	/**
-	 * Gets block metadata from world coordinates.
-	 *
-	 * @param world world object to reference.
-	 * @param vec  vector3 to check (x, y, z).
-	 * @return block in world at coordinate.
-	 */
-	public static int getBlockMetadata(World world, Vector3<Integer> vec) {
-		return getBlockMetadata(world, vec.x, vec.y, vec.z);
 	}
 
 	/**
@@ -146,7 +124,7 @@ public final class BlockUtils {
 	 * @return true if can be mined by provided player, else returns false.
 	 */
 	public static boolean canMineBlock(EntityPlayer player, World world, int x, int y, int z) {
-		return world.canMineBlock(player, x, y, z);
+		return world.canMineBlockBody(player, createBlockPos(x, y, z));
 	}
 
 	/**
@@ -171,7 +149,7 @@ public final class BlockUtils {
 	 * @return true if can be mined by provided player, else returns false.
 	 */
 	public static boolean canMineBlock(EntityPlayer player, int x, int y, int z) {
-		return player.worldObj.canMineBlock(player, x, y, z);
+		return player.worldObj.canMineBlockBody(player, createBlockPos(x, y, z));
 	}
 
 	/**
@@ -183,30 +161,6 @@ public final class BlockUtils {
 	 */
 	public static boolean canMineBlock(EntityPlayer player, Vector3<Integer> vec) {
 		return canMineBlock(player, vec.x, vec.y, vec.z);
-	}
-
-	/**
-	 * Checks if block exists (i.e. <block> != Blocks.air) at world coordinate.
-	 *
-	 * @param world world object to reference.
-	 * @param x x-coordinate.
-	 * @param y y-coordinate.
-	 * @param z z-coordinate.
-	 * @return true if block exists, else returns false.
-	 */
-	public static boolean blockExists(World world, int x, int y, int z) {
-		return world.blockExists(x, y, z);
-	}
-
-	/**
-	 * Checks if block exists (i.e. <block> != Blocks.air) at world coordinate.
-	 *
-	 * @param world world object to reference.
-	 * @param vec vector3 to check (x, y, z).
-	 * @return true if block exists, else returns false.
-	 */
-	public static boolean blockExists(World world, Vector3<Integer> vec) {
-		return blockExists(world, vec.x, vec.y, vec.z);
 	}
 
 	/**
@@ -239,7 +193,7 @@ public final class BlockUtils {
 	 * @param block block to reference.
 	 * @return block material.
 	 */
-	public static Material getBlockMaterial(Block block) {
+	public static Material getBlockMaterial(IBlockState block) {
 		return block.getMaterial();
 	}
 
@@ -253,7 +207,7 @@ public final class BlockUtils {
 	 * @param drop set to true if should drop destroyed block, else set to false to disable.
 	 */
 	public static void destroyBlock(World world, int x, int y, int z, boolean drop) {
-		world.func_147480_a(x, y, z, drop);
+		world.destroyBlock(createBlockPos(x, y, z), drop);
 	}
 
 	/**
@@ -297,30 +251,15 @@ public final class BlockUtils {
 	 * @param y y-coordinate.
 	 * @param z z-coordinate.
 	 * @param block block to set.
-	 * @param metadata metadata of block to set.
 	 * @param notify notification level, default should be '3' to notify and update client.
 	 */
-	public static void setBlock(World world, int x, int y, int z, Block block, int metadata, int notify) {
+	public static void setBlock(World world, int x, int y, int z, IBlockState block, int notify) {
 		boolean flag = false;
-		Block checkBlock = getBlock(world, x, y, z);
-		int tempData = getBlockMetadata(world, x, y, z);
-		if (checkBlock == block && tempData == metadata) flag = true;
-		if (!flag) world.setBlock(x, y, z, block, metadata, notify);
-		else HCoreLibMain.logHelper.warn("Couldn't place block:", getUnlocalized(block), "into world at", x, y, z, "with metadata:", metadata);
-	}
-
-	/**
-	 * Attempts to set block at world coordinate.
-	 *
-	 * @param world world object to reference.
-	 * @param x x-coordinate.
-	 * @param y y-coordinate.
-	 * @param z z-coordinate.
-	 * @param block block to set.
-	 * @param metadata metadata of block to set.
-	 */
-	public static void setBlock(World world, int x, int y, int z, Block block, int metadata) {
-		setBlock(world, x, y, z, block, metadata, 3);
+		IBlockState checkBlock = getBlock(world, x, y, z);
+		// int tempData = getBlockMetadata(world, x, y, z);
+		if (checkBlock == block) flag = true;
+		if (!flag) world.setBlockState(createBlockPos(x, y, z), block, notify);
+		else HCoreLibMain.logHelper.warn("Couldn't place block:", getUnlocalized(block.getBlock()), "into world at", x, y, z);
 	}
 
 	/**
@@ -332,8 +271,8 @@ public final class BlockUtils {
 	 * @param z z-coordinate.
 	 * @param block block to set.
 	 */
-	public static void setBlock(World world, int x, int y, int z, Block block) {
-		setBlock(world, x, y, z, block, 0, 3);
+	public static void setBlock(World world, int x, int y, int z, IBlockState block) {
+		setBlock(world, x, y, z, block, 3);
 	}
 
 	/**
@@ -342,23 +281,10 @@ public final class BlockUtils {
 	 * @param world world object to reference.
 	 * @param vec vector3 to check (x, y, z).
 	 * @param block block to set.
-	 * @param metadata metadata of block to set.
 	 * @param notify notification level, default should be '3' to notify and update client.
 	 */
-	public static void setBlock(World world, Vector3<Integer> vec, Block block, int metadata, int notify) {
-		setBlock(world, vec.x, vec.y, vec.z, block, metadata, notify);
-	}
-
-	/**
-	 * Attempts to set block at world coordinate.
-	 *
-	 * @param world world object to reference.
-	 * @param vec vector3 to check (x, y, z).
-	 * @param block block to set.
-	 * @param metadata metadata of block to set.
-	 */
-	public static void setBlock(World world, Vector3<Integer> vec, Block block, int metadata) {
-		setBlock(world, vec.x, vec.y, vec.z, block, metadata);
+	public static void setBlock(World world, Vector3<Integer> vec, IBlockState block, int notify) {
+		setBlock(world, vec.x, vec.y, vec.z, block, notify);
 	}
 
 	/**
@@ -368,8 +294,8 @@ public final class BlockUtils {
 	 * @param vec vector3 to check (x, y, z).
 	 * @param block block to set.
 	 */
-	public static void setBlock(World world, Vector3<Integer> vec, Block block) {
-		setBlock(world, vec.x, vec.y, vec.z, block, 0);
+	public static void setBlock(World world, Vector3<Integer> vec, IBlockState block) {
+		setBlock(world, vec.x, vec.y, vec.z, block);
 	}
 
 	/**
@@ -381,7 +307,7 @@ public final class BlockUtils {
 	 * @param z z-coordinate.
 	 */
 	public static void setBlockToAir(World world, int x, int y, int z) {
-		world.setBlockToAir(x, y, z);
+		world.setBlockToAir(createBlockPos(x, y, z));
 	}
 
 	/**
@@ -391,7 +317,7 @@ public final class BlockUtils {
 	 * @param vec vector3 to check (x, y, z).
 	 */
 	public static void setBlockToAir(World world, Vector3<Integer> vec) {
-		world.setBlockToAir(vec.x, vec.y, vec.z);
+		world.setBlockToAir(createBlockPos(vec.x, vec.y, vec.z));
 	}
 
 	/**
@@ -400,6 +326,7 @@ public final class BlockUtils {
 	 * @param id ID of block to check.
 	 * @return true if verified, else may return false.
 	 */
+	@Deprecated
 	public static boolean blockListContains(int id) {
 		Block block = Block.getBlockById(id);
 		return block != null && block != Blocks.air;
@@ -411,8 +338,8 @@ public final class BlockUtils {
 	 * @param block Block to check.
 	 * @return true if verified, else may return false.
 	 */
-	public static boolean blockListContains(Block block) {
-		int id = Block.getIdFromBlock(block);
+	public static boolean blockListContains(IBlockState block) {
+		int id = Block.getIdFromBlock(block.getBlock());
 		Block b = Block.getBlockById(id);
 		return b != null && b != Blocks.air;
 	}
@@ -435,6 +362,28 @@ public final class BlockUtils {
 	 */
 	public static String getUnlocalized(Block block) {
 		return block != null ? block.getUnlocalizedName() : "This is not a block!";
+	}
+
+	/**
+	 * Creates a BlockPos.
+	 *
+	 * @param x int.
+	 * @param y int.
+	 * @param z int.
+	 * @return BlockPos.
+	 */
+	public static BlockPos createBlockPos(int x, int y, int z) {
+		return new BlockPos(x, y, z);
+	}
+
+	/**
+	 * Creates a BlockPos.
+	 *
+	 * @param vec vector3i.
+	 * @return BlockPos.
+	 */
+	public static BlockPos createBlockPos(Vector3<Integer> vec) {
+		return new BlockPos(vec.x, vec.y, vec.z);
 	}
 
 	@Override

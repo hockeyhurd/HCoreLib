@@ -1,10 +1,12 @@
 package com.hockeyhurd.hcorelib.api.worldgen;
 
-import cpw.mods.fml.common.IWorldGenerator;
 import net.minecraft.block.Block;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraft.world.chunk.IChunkGenerator;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.gen.feature.WorldGenMinable;
+import net.minecraftforge.fml.common.IWorldGenerator;
 
 import java.util.Random;
 
@@ -63,8 +65,9 @@ public class AbstractWorldgen implements IWorldGenerator {
 	 * (non-Javadoc)
 	 * @see cpw.mods.fml.common.IWorldGenerator#generate(java.util.Random, int, int, net.minecraft.world.World, net.minecraft.world.chunk.IChunkProvider, net.minecraft.world.chunk.IChunkProvider)
 	 */
-	public void generate(Random random, int chunkX, int chunkZ, World world, IChunkProvider chunkGenerator, IChunkProvider chunkProvider) {
-		switch (world.provider.dimensionId) {
+	@Override
+	public void generate(Random random, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator, IChunkProvider chunkProvider) {
+		switch (world.provider.getDimension()) {
 			case -1 :
 				generateNether(world, random, chunkX * CHUNK_SIZE, chunkZ * CHUNK_SIZE);
 				break;
@@ -138,7 +141,7 @@ public class AbstractWorldgen implements IWorldGenerator {
 			int posY = minY + random.nextInt(maxY - minY);
 			int posZ = blockZPos + random.nextInt(maxZ);
 			
-			new WorldGenMinable(block, maxVeinSize).generate(world, random, posX, posY, posZ);
+			new WorldGenMinable(block.getDefaultState(), maxVeinSize).generate(world, random, new BlockPos(posX, posY, posZ));
 		}
 	}
 

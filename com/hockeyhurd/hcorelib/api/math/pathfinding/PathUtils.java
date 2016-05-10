@@ -2,6 +2,7 @@ package com.hockeyhurd.hcorelib.api.math.pathfinding;
 
 import com.hockeyhurd.hcorelib.api.math.Vector3;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 import java.util.List;
@@ -43,7 +44,7 @@ public final class PathUtils {
 
                         if (x == 0 && y == 0 && z == 0) continue;
 
-                        te = world.getTileEntity(x, y, z);
+                        te = world.getTileEntity(new BlockPos(x, y, z));
                         if (te instanceof IPathTile) tiles[counter++] = (IPathTile) te;
                         else tiles[counter++] = new BasicPathTile(x, y, z, DEFAULT_PATH_COST, false);
                     }
@@ -56,32 +57,32 @@ public final class PathUtils {
             tiles = new IPathTile[6];
 
             Vector3<Integer> currentVec = origin.getOffsetVec(-1, 0, 0);
-            TileEntity te = world.getTileEntity(currentVec.x, currentVec.y, currentVec.z);
+            TileEntity te = world.getTileEntity(new BlockPos(currentVec.x, currentVec.y, currentVec.z));
             if (te instanceof IPathTile) tiles[0] = (IPathTile) te;
             else tiles[0] = new BasicPathTile(currentVec, DEFAULT_PATH_COST, false);
 
             currentVec = origin.getOffsetVec(1, 0, 0);
-            te = world.getTileEntity(currentVec.x, currentVec.y, currentVec.z);
+            te = world.getTileEntity(new BlockPos(currentVec.x, currentVec.y, currentVec.z));
             if (te instanceof IPathTile) tiles[1] = (IPathTile) te;
             else tiles[1] = new BasicPathTile(currentVec, DEFAULT_PATH_COST, false);
 
             currentVec = origin.getOffsetVec(0, 0, -1);
-            te = world.getTileEntity(currentVec.x, currentVec.y, currentVec.z);
+            te = world.getTileEntity(new BlockPos(currentVec.x, currentVec.y, currentVec.z));
             if (te instanceof IPathTile) tiles[2] = (IPathTile) te;
             else tiles[2] = new BasicPathTile(currentVec, DEFAULT_PATH_COST, false);
 
             currentVec = origin.getOffsetVec(0, 0, 1);
-            te = world.getTileEntity(currentVec.x, currentVec.y, currentVec.z);
+            te = world.getTileEntity(new BlockPos(currentVec.x, currentVec.y, currentVec.z));
             if (te instanceof IPathTile) tiles[3] = (IPathTile) te;
             else tiles[3] = new BasicPathTile(currentVec, DEFAULT_PATH_COST, false);
 
             currentVec = origin.getOffsetVec(0, -1, 0);
-            te = world.getTileEntity(currentVec.x, currentVec.y, currentVec.z);
+            te = world.getTileEntity(new BlockPos(currentVec.x, currentVec.y, currentVec.z));
             if (te instanceof IPathTile) tiles[4] = (IPathTile) te;
             else tiles[4] = new BasicPathTile(currentVec, DEFAULT_PATH_COST, false);
 
             currentVec = origin.getOffsetVec(0, 1, 0);
-            te = world.getTileEntity(currentVec.x, currentVec.y, currentVec.z);
+            te = world.getTileEntity(new BlockPos(currentVec.x, currentVec.y, currentVec.z));
             if (te instanceof IPathTile) tiles[5] = (IPathTile) te;
             else tiles[5] = new BasicPathTile(currentVec, DEFAULT_PATH_COST, false);
         }

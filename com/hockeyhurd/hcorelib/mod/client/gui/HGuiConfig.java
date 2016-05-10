@@ -2,9 +2,9 @@ package com.hockeyhurd.hcorelib.mod.client.gui;
 
 import com.hockeyhurd.hcorelib.api.client.gui.ModGuiConfig;
 import com.hockeyhurd.hcorelib.mod.HCoreLibMain;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
  * Gui class for HCoreLib gui config.

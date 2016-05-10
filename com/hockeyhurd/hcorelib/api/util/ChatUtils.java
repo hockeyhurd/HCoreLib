@@ -1,10 +1,10 @@
 package com.hockeyhurd.hcorelib.api.util;
 
 import com.hockeyhurd.hcorelib.api.command.HCommand;
-import net.minecraft.event.ClickEvent;
-import net.minecraft.util.ChatComponentTranslation;
-import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.util.IChatComponent;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.event.ClickEvent;
 
 import java.io.File;
 
@@ -30,9 +30,9 @@ public final class ChatUtils {
      * @param messages Messages.
      * @return IChatComponent.
      */
-    public static IChatComponent createComponent(boolean separateMessages, String... messages) {
+    public static ITextComponent createComponent(boolean separateMessages, String... messages) {
         if (messages == null || messages.length == 0)
-            return createComponent(false, EnumChatFormatting.WHITE + "<empty>");
+            return createComponent(false, TextFormatting.WHITE + "<empty>");
 
         StringBuilder builder = new StringBuilder(Math.max(0x20, messages.length << 1));
 
@@ -53,7 +53,7 @@ public final class ChatUtils {
      * @param messages Messages.
      * @return IChatComponent.
      */
-    public static IChatComponent createComponent(String... messages) {
+    public static ITextComponent createComponent(String... messages) {
         return createComponent(false, messages);
     }
 
@@ -66,11 +66,11 @@ public final class ChatUtils {
      * @param messages Messages.
      * @return IChatComponent.
      */
-    public static IChatComponent createURLComponent(boolean separateMessages, String url, String maskURL, String... messages) {
+    public static ITextComponent createURLComponent(boolean separateMessages, String url, String maskURL, String... messages) {
         if (!StringUtils.nullCheckString(url) || !StringUtils.contains(url, '.'))
             throw new NullPointerException("URL doesn't exist!");
 
-        IChatComponent comp = createComponent(separateMessages, messages);
+        ITextComponent comp = createComponent(separateMessages, messages);
         comp.appendText(" " + (StringUtils.nullCheckString(maskURL) ? maskURL : url));
 
         comp.getChatStyle().setChatClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, url));
@@ -85,7 +85,7 @@ public final class ChatUtils {
      * @param messages Messages.
      * @return IChatComponent.
      */
-    public static IChatComponent createURLComponent(String url, String... messages) {
+    public static ITextComponent createURLComponent(String url, String... messages) {
         return createURLComponent(false, url, null, messages);
     }
 
@@ -97,11 +97,11 @@ public final class ChatUtils {
      * @param messages Messages.
      * @return IChatComponent.
      */
-    public static IChatComponent createCmdComponent(boolean separateMessages, HCommand command, String... messages) {
+    public static ITextComponent createCmdComponent(boolean separateMessages, HCommand command, String... messages) {
         if (command == null)
             return createComponent(false, "<Invalid command>");
 
-        IChatComponent comp = createComponent(separateMessages, messages);
+        ITextComponent comp = createComponent(separateMessages, messages);
 
         comp.getChatStyle().setChatClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND,
                 command.getCommandUsage(null)));
@@ -117,11 +117,11 @@ public final class ChatUtils {
      * @param messages Messages.
      * @return IChatComponent.
      */
-    public static IChatComponent createFileComponent(boolean separateMessages, File file, String... messages) {
+    public static ITextComponent createFileComponent(boolean separateMessages, File file, String... messages) {
         if (file == null || !file.exists())
             return createComponent(false, "<missing file>");
 
-        IChatComponent comp = createComponent(separateMessages, messages);
+        ITextComponent comp = createComponent(separateMessages, messages);
 
         comp.getChatStyle().setChatClickEvent(new ClickEvent(ClickEvent.Action.OPEN_FILE, file.getAbsolutePath()));
 
@@ -134,8 +134,8 @@ public final class ChatUtils {
      * @param message Message.
      * @return ChatComponentTranslation.
      */
-    private static ChatComponentTranslation createTranslation(String message) {
-        return new ChatComponentTranslation(message);
+    private static ITextComponent createTranslation(String message) {
+        return new TextComponentTranslation(message);
     }
 
     /**
@@ -145,8 +145,8 @@ public final class ChatUtils {
      * @param objects Object[].
      * @return ChatComponentTranslation.
      */
-    private static ChatComponentTranslation createTranslation(String message, Object... objects) {
-        return new ChatComponentTranslation(message, objects);
+    private static ITextComponent createTranslation(String message, Object... objects) {
+        return new TextComponentTranslation(message, objects);
     }
 
 }

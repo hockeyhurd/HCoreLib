@@ -1,13 +1,13 @@
 package com.hockeyhurd.hcorelib.api.client.gui;
 
 import com.hockeyhurd.hcorelib.api.handler.config.AbstractConfigHandler;
-import cpw.mods.fml.client.config.GuiConfig;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraftforge.common.config.ConfigCategory;
 import net.minecraftforge.common.config.ConfigElement;
+import net.minecraftforge.fml.client.config.GuiConfig;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.LinkedList;
 import java.util.List;

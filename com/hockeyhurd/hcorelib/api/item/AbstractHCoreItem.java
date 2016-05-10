@@ -1,9 +1,6 @@
 package com.hockeyhurd.hcorelib.api.item;
 
 import com.hockeyhurd.hcorelib.api.creativetab.AbstractCreativeTab;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.item.Item;
 
 /**
@@ -32,11 +29,11 @@ public abstract class AbstractHCoreItem extends Item {
         setCreativeTab(creativeTab);
     }
 
-    @Override
+    /*@Override
     @SideOnly(Side.CLIENT)
     public void registerIcons(IIconRegister reg) {
         itemIcon = reg.registerIcon(assetDir + name);
-    }
+    }*/
 
     /**
      * Gets the name of the Item.

@@ -1,9 +1,9 @@
 package com.hockeyhurd.hcorelib.api.handler.input;
 
 import com.hockeyhurd.hcorelib.mod.HCoreLibMain;
-import cpw.mods.fml.common.gameevent.InputEvent;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraftforge.fml.common.gameevent.InputEvent;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
  * Class example of implmenting a KeyBind from this API.

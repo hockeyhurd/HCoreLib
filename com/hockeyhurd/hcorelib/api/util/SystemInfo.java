@@ -7,8 +7,8 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.WorldServer;
+import net.minecraftforge.fml.server.FMLServerHandler;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -137,7 +137,7 @@ public final class SystemInfo {
         long sum = 0;
         long counter = 0;
 
-        for (long l : MinecraftServer.getServer().worldTickTimes.get(world.provider.dimensionId)) {
+        for (long l : FMLServerHandler.instance().getServer().worldTickTimes.get(world.provider.getDimension())) {
             sum += l;
             counter++;
         }
@@ -156,7 +156,7 @@ public final class SystemInfo {
         long sum = 0L;
         int counter = 0;
 
-        for (long l : MinecraftServer.getServer().worldTickTimes.get(world.provider.dimensionId)) {
+        for (long l : FMLServerHandler.instance().getServer().worldTickTimes.get(world.provider.getDimension())) {
             sum += l;
             counter++;
         }
@@ -170,7 +170,7 @@ public final class SystemInfo {
      * @return List< String />.
      */
     public List<String> getServerTPSSummary() {
-        final WorldServer[] worldServers = MinecraftServer.getServer().worldServers;
+        final WorldServer[] worldServers =  FMLServerHandler.instance().getServer().worldServers;
         final List<String> list = new ArrayList<String>(3 + worldServers.length);
         int chunksLoaded = 0;
 
@@ -180,8 +180,8 @@ public final class SystemInfo {
         for (WorldServer world : worldServers) {
             chunksLoaded += world.getChunkProvider().getLoadedChunkCount();
 
-            dimID = world.provider.dimensionId;
-            dimName = world.provider.getDimensionName();
+            dimID = world.provider.getDimension();
+            dimName = world.getProviderName();
 
             list.add("[" + dimID + "]" + dimName + ": " + NumberFormatter.formatTime(getWorldTickTime(world)) +
                     "ms [" + NumberFormatter.formatTime(getWorldTPS(world)) + "]");
@@ -192,7 +192,7 @@ public final class SystemInfo {
         long sum = 0L;
         int counter = 0;
 
-        for (long l : MinecraftServer.getServer().tickTimeArray) {
+        for (long l : FMLServerHandler.instance().getServer().tickTimeArray) {
             sum += l;
             counter++;
         }
@@ -215,11 +215,11 @@ public final class SystemInfo {
     public String[] getTPSDetails(final int dimension) {
         List<String> list = new ArrayList<String>(11);
 
-        WorldServer world = MinecraftServer.getServer().worldServerForDimension(dimension);
+        WorldServer world = FMLServerHandler.instance().getServer().worldServerForDimension(dimension);
         List<Entity> entities = world.getLoadedEntityList();
 
         list.add("Uptime: " + NumberFormatter.millisecondsAsString((long) timeLapse.getEffectiveTimeSince()));
-        list.add("Dimension [" + dimension + ']' + world.provider.getDimensionName());
+        list.add("Dimension [" + dimension + ']' + world.getProviderName());
         list.add("Players online: (" + world.playerEntities.size() + "): " + getPlayersForDimension(dimension));
         list.add("Item entity count: " + getAmountOfItemEntities(entities));
         list.add("Hostile entities: " + getAmountOfHostileEntity(entities));
@@ -303,16 +303,15 @@ public final class SystemInfo {
      * @param dimension int dimensional ID to check.
      * @return String of player names in world if applicable else returns "Empty".
      */
-    @SuppressWarnings("unchecked")
     private static String getPlayersForDimension(final int dimension) {
-        List<EntityPlayer> players = (ArrayList<EntityPlayer>) MinecraftServer.getServer().worldServerForDimension(dimension).playerEntities;
+        List<EntityPlayer> players = FMLServerHandler.instance().getServer().worldServerForDimension(dimension).playerEntities;
 
         if (players.isEmpty()) return "<Empty>";
 
         StringBuilder builder = new StringBuilder();
 
         for (int i = 0; i < players.size(); i++) {
-            builder.append(players.get(i).getCommandSenderName());
+            builder.append(players.get(i).getName());
 
             if (i + 1 < players.size()) builder.append(", ");
             else builder.append('.');

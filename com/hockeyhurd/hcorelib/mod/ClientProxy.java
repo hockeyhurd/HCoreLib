@@ -1,14 +1,7 @@
 package com.hockeyhurd.hcorelib.mod;
 
 import com.hockeyhurd.hcorelib.api.handler.config.ConfigChangedEventHandler;
-import com.hockeyhurd.hcorelib.api.math.Color4i;
-import com.hockeyhurd.hcorelib.mod.block.renderer.WhiteBlockRenderer;
-import com.hockeyhurd.hcorelib.mod.item.ItemRendererHiddenWhite;
-import cpw.mods.fml.client.registry.RenderingRegistry;
-import cpw.mods.fml.common.FMLCommonHandler;
-import net.minecraft.init.Blocks;
-import net.minecraft.item.Item;
-import net.minecraftforge.client.MinecraftForgeClient;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 
 public class ClientProxy extends CommonProxy {
 
@@ -37,9 +30,9 @@ public class ClientProxy extends CommonProxy {
 	}
 
 	private void registerSpecialRenderers() {
-		hiddenBlockRenderType = RenderingRegistry.getNextAvailableRenderId(); 
-		RenderingRegistry.registerBlockHandler(new WhiteBlockRenderer(hiddenBlockRenderType, Blocks.gold_block.getBlockTextureFromSide(0), new Color4i(0, 127, 255)));
-		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(HCoreLibMain.white), new ItemRendererHiddenWhite(HCoreLibMain.white.getBlockTextureFromSide(0)));
+		// hiddenBlockRenderType = RenderingRegistry.getNextAvailableRenderId();
+		// RenderingRegistry.registerBlockHandler(new WhiteBlockRenderer(hiddenBlockRenderType, Blocks.gold_block.getBlockTextureFromSide(0), new Color4i(0, 127, 255)));
+		// MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(HCoreLibMain.white), new ItemRendererHiddenWhite(HCoreLibMain.white.getBlockTextureFromSide(0)));
 	}
 
 	@Override
