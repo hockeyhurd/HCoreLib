@@ -7,13 +7,17 @@
 
 package com.hockeyhurd.hcorelib.api.util;
 
-import com.hockeyhurd.hcorelib.api.math.Vector4;
+import com.hockeyhurd.hcorelib.api.math.Vector3;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
@@ -31,14 +35,14 @@ public class Waila {
 	private ItemStack stack;
 	private World world;
 	private EntityPlayer player;
-	private Block blockPlace;
+	private IBlockState blockPlace;
 	private int metaData;
 
 	private List<Block> blockBlackList;
 	private Material[] matWhiteList;
-	private int sideHit = 0;
+	private EnumFacing sideHit;
 	private int offset;
-	private Vector4 vec;
+	private Vector3<Integer> vec;
 	private boolean returnState = false;
 
 	/**
@@ -50,7 +54,7 @@ public class Waila {
 	 * @param blockPlace = block to place NOTE: set to null if not placing anything (IMPORTANT!).
 	 * @param metaData = metaData value, just set to '0' if not using please.
 	 */
-	public Waila(ItemStack stack, World world, EntityPlayer player, Block blockPlace, int metaData) {
+	public Waila(ItemStack stack, World world, EntityPlayer player, IBlockState blockPlace, int metaData) {
 		this.stack = stack;
 		this.world = world;
 		this.player = player;
@@ -173,24 +177,27 @@ public class Waila {
 			/*
 			 * Combine vector rotations and vector absolute world positions and throw it through a vector ray to calculate the direction and block the entity (player) is currently looking at in the given instance.
 			 */
-			MovingObjectPosition movingObjectPos = world.func_147447_a(vec3d, vec3d1, false, true, false);
+			// MovingObjectPosition movingObjectPos = world.func_147447_a(vec3d, vec3d1, false, true, false);
+			RayTraceResult rayTraceResult = world.rayTraceBlocks(vec3d, vec3d1, false, true, false);
 
 			// Make sure there is no possibility the entity (player) is not
 			// looking at 'null'.
-			if (movingObjectPos == null) return;
+			if (rayTraceResult == null) return;
 
 			// Check if the vector ray intersects with some sort of TILE
 			// if (movingObjectPos.typeOfHit == MovingObjectType.TILE) {
-			if (movingObjectPos.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK) {
+			if (rayTraceResult.typeOfHit == RayTraceResult.Type.BLOCK) {
 
 				// Get the position of the TILE intersected as represented in
 				// 3D space.
-				int xx = movingObjectPos.blockX;
-				int yy = movingObjectPos.blockY;
-				int zz = movingObjectPos.blockZ;
+				BlockPos rayTracePos = rayTraceResult.getBlockPos();
+				int xx = rayTracePos.getX();
+				int yy = rayTracePos.getY();
+				int zz = rayTracePos.getZ();
 
 				// Get the side of which the vector ray intersects with.
-				int sideHit = movingObjectPos.sideHit;
+				// int sideHit = rayTraceResult.sideHit;
+				EnumFacing sideHit = rayTraceResult.sideHit;
 				// print("Side: " + sideHit);
 
 				if (handler && stack != null) placeBlockHandler(world, xx, yy, zz, sideHit);
@@ -202,32 +209,34 @@ public class Waila {
 
 			// stack.setItemDamage(0);
 		// }
-		return;
 	}
 
-	private void setSideHit(int side) {
+	private void setSideHit(EnumFacing side) {
 		this.sideHit = side;
 	}
 
 	/**
 	 * Get the side hit. NOTE: must make method finder() call
 	 * for this to return any relavent information!
+	 *
 	 * @return int side of impact.
 	 */
-	public int getSideHit() {
+	public EnumFacing getSideHit() {
 		return this.sideHit;
 	}
 
-	private void setVector3i(int x, int y, int z, int sideHit) {
-		this.vec = new Vector4<Integer>(x, y, z, sideHit);
+	private void setVector3i(int x, int y, int z, EnumFacing sideHit) {
+		this.vec = new Vector3<Integer>(x, y, z);
+		this.sideHit = sideHit;
 	}
 
-	public Vector4<Integer> getVector3i() {
-		return this.vec.getVector4i();
+	public Vector3<Integer> getVector3i() {
+		return vec;
 	}
 
-	private void placeBlockHandler(World world, int xx, int yy, int zz, int sideHit) {
+	private void placeBlockHandler(World world, int xx, int yy, int zz, EnumFacing side) {
 		if (blockPlace != null) {
+			final int sideHit = side.ordinal();
 			if (sideHit == 0) return;
 			else if (sideHit == 1) BlockUtils.setBlock(world, xx, yy + this.offset, zz, blockPlace, metaData);
 			else if (sideHit == 2) BlockUtils.setBlock(world, xx, yy, zz - this.offset, blockPlace, metaData);
@@ -241,16 +250,17 @@ public class Waila {
 	}
 
 	/** Method used that can mine a 2-Dimensional area based off a given side hit.
+	 *
 	 * @param x xPos
 	 * @param y yPos
 	 * @param z zPos
-	 * @param sideHit side of impact
 	 */
-	private void mineArea(int x, int y, int z, int sideHit) {
+	private void mineArea(int x, int y, int z, EnumFacing side) {
 		/*
 		 * sideHit == 0, bottom sideHit == 1, top sideHit == 2, front sideHit == 3, back sideHit == 4, left sideHit == 5, right
 		 */
 		final int deltaPos = 6;
+		final int sideHit = side.ordinal();
 
 		for (int i = -offset; i <= offset; i++) {
 			for (int j = -offset; j <= offset; j++) {
@@ -308,12 +318,10 @@ public class Waila {
 					else BlockUtils.destroyBlock(world, x, y, z, true);
 				}
 
-				world.setBlockToAir(x, y, z);
+				// world.setBlockToAir(x, y, z);
+				BlockUtils.setBlockToAir(world, x, y, z);
 			}
-
-			else return;
 		}
-		else return;
 	}
 	
 	/**
@@ -335,11 +343,11 @@ public class Waila {
 		 */
 		for (int xx = x - 1; xx < x + 2; xx++) {
 			for (int zz = z - 1; zz < z + 2; zz++) {
-				Block currentBlock = BlockUtils.getBlock(world, xx, y, zz);
+				Block currentBlock = BlockUtils.getBlock(world, xx, y, zz).getBlock();
 
 				// Note: Last check below shouldn't be necessary as it should already be tilled! (in theory).
 				if (currentBlock == dirt || currentBlock == grass /* || currentBlock == tilledDirtID */) {
-					BlockUtils.setBlock(world, xx, y, zz, tilDir);
+					BlockUtils.setBlock(world, xx, y, zz, tilDir.getDefaultState());
 				}
 			}
 		}

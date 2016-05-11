@@ -2,6 +2,7 @@ package com.hockeyhurd.hcorelib.api.block;
 
 import com.hockeyhurd.hcorelib.api.creativetab.AbstractCreativeTab;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.Item;
 
 import java.util.Random;
@@ -32,7 +33,7 @@ public abstract class AbstractBlockOre extends AbstractHCoreBlock {
 	}
 
 	@Override
-	public Item getItemDropped(int par1, Random rand, int par3) {
+	public Item getItemDropped(IBlockState state, Random rand, int fortune) {
 		return Item.getItemFromBlock(this);
 	}
 

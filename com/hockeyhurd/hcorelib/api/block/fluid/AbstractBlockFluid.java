@@ -17,9 +17,6 @@ public abstract class AbstractBlockFluid extends BlockFluidClassic {
 
 	protected static final String suffix = ".still";
 
-	/*@SideOnly(Side.CLIENT)
-	protected IIcon flowing, still;*/
-
 	/**
 	 * @param name     name of fluid block.
 	 * @param assetDir location of asset directory.
@@ -44,20 +41,5 @@ public abstract class AbstractBlockFluid extends BlockFluidClassic {
 
 		if (fluid.getBlock() == null) fluid.setBlock(this);
 	}
-
-	/*@Override
-	@SideOnly(Side.CLIENT)
-	public void registerBlockIcons(IIconRegister reg) {
-		blockIcon = still = reg.registerIcon(assetDir + name);
-		flowing = reg.registerIcon(assetDir + name.replace(suffix, ".flowing"));
-
-		this.stack.getFluid().setIcons(still, flowing);
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public IIcon getIcon(int side, int meta) {
-		return side <= 1 ? still : flowing;
-	}*/
 
 }

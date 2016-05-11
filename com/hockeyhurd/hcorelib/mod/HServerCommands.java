@@ -6,6 +6,8 @@ import com.hockeyhurd.hcorelib.api.util.NumberParser;
 import com.hockeyhurd.hcorelib.api.util.SystemInfo;
 import com.hockeyhurd.hcorelib.mod.handler.CommandHandler;
 import net.minecraft.command.ICommandSender;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.math.BlockPos;
 
 import java.util.List;
 
@@ -23,7 +25,7 @@ public final class HServerCommands extends HCommand {
     }
 
 	@Override
-	public void processCommand(ICommandSender sender, String[] args) {
+	public void execute(MinecraftServer server, ICommandSender sender, String[] args) {
 		if (args.length == 0)
 			sender.addChatMessage(ChatUtils.createComponent(getCommandUsage(sender)));
 		else if (args[0].equalsIgnoreCase(commandArgs[0])) {
@@ -63,7 +65,7 @@ public final class HServerCommands extends HCommand {
 	}
 
 	@Override
-	public List addTabCompletionOptions(ICommandSender sender, String[] words) {
+	public List<String> getTabCompletionOptions(MinecraftServer server, ICommandSender sender, String[] words, BlockPos pos) {
 		if (words == null || words.length == 0) return null;
 
 		if (words.length == 1) return CommandHandler.instance().doesCommandStartWith(words[0]);

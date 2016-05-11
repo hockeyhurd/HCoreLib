@@ -46,7 +46,7 @@ public abstract class AbstractTile extends TileEntity {
      * @return Vector3i coordinates.
      */
     public Vector3<Integer> worldVec() {
-        return new Vector3<Integer>(xCoord, yCoord, zCoord);
+        return new Vector3<Integer>(pos.getX(), pos.getY(), pos.getZ());
     }
 
     /**

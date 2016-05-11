@@ -2,6 +2,7 @@ package com.hockeyhurd.hcorelib.api.command;
 
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
+import net.minecraft.server.MinecraftServer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -88,7 +89,7 @@ public abstract class HCommand extends CommandBase {
     }
 
     @Override
-    public abstract void processCommand(ICommandSender sender, String[] args);
+    public abstract void execute(MinecraftServer server, ICommandSender sender, String[] args);
 
     @Override
     public int getRequiredPermissionLevel() {
@@ -96,7 +97,7 @@ public abstract class HCommand extends CommandBase {
     }
 
     @Override
-    public boolean canCommandSenderUseCommand(ICommandSender sender) {
+    public boolean checkPermission(MinecraftServer server, ICommandSender sender) {
         return true;
     }
 

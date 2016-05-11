@@ -80,6 +80,17 @@ public final class BlockUtils {
 	}
 
 	/**
+	 * Gets block from world coordinates.
+	 *
+	 * @param world World.
+	 * @param blockPos BlockPos.
+	 * @return IBlockState.
+	 */
+	public static IBlockState getBlock(World world, BlockPos blockPos) {
+		return world.getBlockState(blockPos);
+	}
+
+	/**
 	 * Gets the TileEntity of type 'T' if successful else may return 'NULL'.
 	 *
 	 * @param world World object to reference.
@@ -90,6 +101,7 @@ public final class BlockUtils {
 	 * @param <T>   Type of TileEntity to (potentially) return.
 	 * @return TileEntity of type 'T' if successful else may return 'NULL'.
 	 */
+	@SuppressWarnings("unchecked")
 	public static <T extends TileEntity> T getTileEntity(World world, int x, int y, int z, Class<T> clazz) {
 		if (world == null || clazz == null) return null;
 
@@ -106,10 +118,28 @@ public final class BlockUtils {
 	 * @param <T>   Type of TileEntity to (potentially) return.
 	 * @return TileEntity of type 'T' if successful else may return 'NULL'.
 	 */
+	@SuppressWarnings("unchecked")
 	public static <T extends TileEntity> T getTileEntity(World world, Vector3<Integer> vec, Class<T> clazz) {
 		if (world == null || vec == null || clazz == null) return null;
 
 		final TileEntity te = world.getTileEntity(createBlockPos(vec.x, vec.y, vec.z));
+		return clazz.isInstance(te) ? (T) te : null;
+	}
+
+	/**
+	 * Gets the TileEntity of type 'T' if successful else may return 'NULL'.
+	 *
+	 * @param world World object to reference.
+	 * @param blockPos BlockPos.
+	 * @param clazz Class instance to check.
+	 * @param <T>   Type of TileEntity to (potentially) return.
+	 * @return TileEntity of type 'T' if successful else may return 'NULL'.
+	 */
+	@SuppressWarnings("unchecked")
+	public static <T extends TileEntity> T getTileEntity(World world, BlockPos blockPos, Class<T> clazz) {
+		if (world == null || blockPos == null || clazz == null) return null;
+
+		final TileEntity te = world.getTileEntity(blockPos);
 		return clazz.isInstance(te) ? (T) te : null;
 	}
 
@@ -164,6 +194,17 @@ public final class BlockUtils {
 	}
 
 	/**
+	 * Checks if given player can mine/break block at player-world coordinate.
+	 *
+	 * @param player player to reference.
+	 * @param blockPos BlockPos.
+	 * @return true if can be mined by provided player, else returns false.
+	 */
+	public static boolean canMineBlock(EntityPlayer player, BlockPos blockPos) {
+		return player.worldObj.canMineBlockBody(player, blockPos);
+	}
+
+	/**
 	 * Gets block material from block at world coordinate.
 	 *
 	 * @param world world object to reference.
@@ -185,6 +226,17 @@ public final class BlockUtils {
 	 */
 	public static Material getBlockMaterial(World world, Vector3<Integer> vec) {
 		return getBlockMaterial(world, vec.x, vec.y, vec.z);
+	}
+
+	/**
+	 * Gets block material from block at world coordinate.
+	 *
+	 * @param world World.
+	 * @param blockPos BlockPos.
+	 * @return Material.
+	 */
+	public static Material getBlockMaterial(World world, BlockPos blockPos) {
+		return getBlock(world, blockPos).getMaterial();
 	}
 
 	/**
@@ -244,6 +296,27 @@ public final class BlockUtils {
 	}
 
 	/**
+	 * Destroys block at world coordinate.
+	 *
+	 * @param world World.
+	 * @param blockPos BlockPos.
+	 * @param drop boolean.
+	 */
+	public static void destroyBlock(World world, BlockPos blockPos, boolean drop) {
+		world.destroyBlock(blockPos, drop);
+	}
+
+	/**
+	 * Destroys block at world coordinate.
+	 *
+	 * @param world World.
+	 * @param blockPos BlockPos.
+	 */
+	public static void destroyBlock(World world, BlockPos blockPos) {
+		world.destroyBlock(blockPos, true);
+	}
+
+	/**
 	 * Attempts to set block at world coordinate.
 	 *
 	 * @param world world object to reference.
@@ -299,6 +372,29 @@ public final class BlockUtils {
 	}
 
 	/**
+	 * Attempts to set block at world coordinate.
+	 *
+	 * @param world World.
+	 * @param blockPos BlockPos.
+	 * @param block IBlockState.
+	 * @param notify int.
+	 */
+	public static void setBlock(World world, BlockPos blockPos, IBlockState block, int notify) {
+		world.setBlockState(blockPos, block, notify);
+	}
+
+	/**
+	 * Attempts to set block at world coordinate.
+	 *
+	 * @param world World.
+	 * @param blockPos BlockPos.
+	 * @param block IBlockState.
+	 */
+	public static void setBlock(World world, BlockPos blockPos, IBlockState block) {
+		setBlock(world, blockPos, block, 3);
+	}
+
+	/**
 	 * Sets block to air at given world coordinate.
 	 *
 	 * @param world world object to reference.
@@ -318,6 +414,52 @@ public final class BlockUtils {
 	 */
 	public static void setBlockToAir(World world, Vector3<Integer> vec) {
 		world.setBlockToAir(createBlockPos(vec.x, vec.y, vec.z));
+	}
+
+	/**
+	 * Sets block to air at given world coordinate.
+	 *
+	 * @param world World.
+	 * @param blockPos BlockPos.
+	 */
+	public static void setBlockToAir(World world, BlockPos blockPos) {
+		world.setBlockToAir(blockPos);
+	}
+
+	/**
+	 * Gets if block exists.
+	 *
+	 * @param world World.
+	 * @param x int.
+	 * @param y int.
+	 * @param z int.
+	 * @return boolean result.
+	 */
+	public static boolean blockExists(World world, int x, int y, int z) {
+		final Block block = getBlock(world, x, y, z).getBlock();
+		return block != null && block != Blocks.air;
+	}
+
+	/**
+	 * Gets if block exists.
+	 *
+	 * @param world World.
+	 * @param vec vector3i.
+	 * @return boolean result.
+	 */
+	public static boolean blockExists(World world, Vector3<Integer> vec) {
+		return vec != null && blockExists(world, vec.x, vec.y, vec.z);
+	}
+
+	/**
+	 * Gets if block exists.
+	 *
+	 * @param world World.
+	 * @param blockPos BlockPos.
+	 * @return boolean result.
+	 */
+	public static boolean blockExists(World world, BlockPos blockPos) {
+		return blockPos != null && blockExists(world, blockPos.getX(), blockPos.getY(), blockPos.getZ());
 	}
 
 	/**

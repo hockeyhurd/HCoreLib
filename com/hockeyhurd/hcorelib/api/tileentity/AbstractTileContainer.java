@@ -100,11 +100,6 @@ public abstract class AbstractTileContainer extends AbstractTile implements ISid
     }
 
     @Override
-    public ItemStack getStackInSlotOnClosing(int slot) {
-        return slots != null && slot >= 0 && slot < slots.length ? slots[slot] : null;
-    }
-
-    @Override
     public void setInventorySlotContents(int slot, ItemStack stack) {
         this.slots[slot] = stack;
         if (stack != null && stack.stackSize > this.getInventoryStackLimit()) stack.stackSize = this.getInventoryStackLimit();
@@ -119,14 +114,14 @@ public abstract class AbstractTileContainer extends AbstractTile implements ISid
      * Method called when user opens inventory.
      */
     @Override
-    public void openInventory() {
+    public void openInventory(EntityPlayer player) {
     }
 
     /**
      * Method called when user closes inventory.
      */
     @Override
-    public void closeInventory() {
+    public void closeInventory(EntityPlayer player) {
     }
 
     /**

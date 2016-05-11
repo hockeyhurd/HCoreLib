@@ -132,7 +132,8 @@ public final class ItemUtils {
 	 * @return true if registered, else may return false.
 	 */
 	public static boolean isAnItem(Item item) {
-		return item != null && Item.itemRegistry.containsKey(item);
+		// return item != null && Item.itemRegistry.containsKey(item);
+		return item != null;
 	}
 
 	/**

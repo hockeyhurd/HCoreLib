@@ -1,6 +1,7 @@
 package com.hockeyhurd.hcorelib.api.util;
 
 import net.minecraft.item.EnumRarity;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fluids.BlockFluidBase;
 import net.minecraftforge.fluids.Fluid;
 
@@ -19,34 +20,40 @@ public final class FluidFactory {
 	 * Creates and returs fluid object if successful, else returns null.
 	 *
 	 * @param name name of fluid.
+	 * @param still ResourceLocation.
+	 * @param flowing ResourceLocation.
 	 * @return fluid object.
 	 */
-	public static Fluid createNewFluid(String name) {
-		return createNewFluid(name, null, EnumRarity.uncommon);
+	public static Fluid createNewFluid(String name, ResourceLocation still, ResourceLocation flowing) {
+		return createNewFluid(name, still, flowing, null, EnumRarity.UNCOMMON);
 	}
 
 	/**
 	 * Creates and resturns fluid object if successful, else returns null.
 	 *
 	 * @param name name of fluid.
+	 * @param still ResourceLocation.
+	 * @param flowing ResourceLocation.
 	 * @param fluidBlock block fluid uses if applicable.
 	 * @return fluid object.
 	 */
-	public static Fluid createNewFluid(String name, BlockFluidBase fluidBlock) {
-		return createNewFluid(name, fluidBlock, EnumRarity.uncommon);
+	public static Fluid createNewFluid(String name, ResourceLocation still, ResourceLocation flowing, BlockFluidBase fluidBlock) {
+		return createNewFluid(name, still, flowing, fluidBlock, EnumRarity.UNCOMMON);
 	}
 
 	/**
 	 * Creates and resturns fluid object if successful, else returns null.
 	 *
 	 * @param name name of fluid.
+	 * @param still ResourceLocation.
+	 * @param flowing ResourceLocation.
 	 * @param fluidBlock block fluid uses if applicable.
 	 * @param rarity rarity of fluid.
 	 * @return fluid object.
 	 */
-	public static Fluid createNewFluid(String name, BlockFluidBase fluidBlock, EnumRarity rarity) {
+	public static Fluid createNewFluid(String name, ResourceLocation still, ResourceLocation flowing, BlockFluidBase fluidBlock, EnumRarity rarity) {
 		if (name != null && name.length() > 0) {
-			Fluid fluid = new Fluid(name);
+			Fluid fluid = new Fluid(name, still, flowing);
 			if (fluidBlock != null) fluid.setBlock(fluidBlock);
 			fluid.setRarity(rarity);
 
@@ -57,9 +64,11 @@ public final class FluidFactory {
 	}
 
 	/**
-	 * Creates and resturns fluid object if successful, else returns null.
+	 * Creates and returns fluid object if successful, else returns null.
 	 *
 	 * @param name name of fluid.
+	 * @param still ResourceLocation.
+	 * @param flowing ResourceLocation.
 	 * @param fluidBlock block fluid uses if applicable.
 	 * @param luminosity luminosity of fluid.
 	 * @param density density of fluid.
@@ -69,7 +78,8 @@ public final class FluidFactory {
 	 * @param rarity rarity of fluid.
 	 * @return fluid object.
 	 */
-	public static Fluid createNewFluid(String name, BlockFluidBase fluidBlock, int luminosity, int density, int temperature, int viscosity, boolean isGaseous, EnumRarity rarity) {
+	public static Fluid createNewFluid(String name, ResourceLocation still, ResourceLocation flowing, BlockFluidBase fluidBlock,
+			int luminosity, int density, int temperature, int viscosity, boolean isGaseous, EnumRarity rarity) {
 		Fluid ret = null;
 
 		if (name != null && name.length() > 0) {
@@ -77,7 +87,7 @@ public final class FluidFactory {
 			if (luminosity < 0) luminosity = 0;
 			else if (luminosity > 0xf) luminosity = 0xf;
 
-			ret = new Fluid(name);
+			ret = new Fluid(name, still, flowing);
 
 			if (fluidBlock != null) ret.setBlock(fluidBlock);
 			ret.setLuminosity(luminosity);

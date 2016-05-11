@@ -4,7 +4,6 @@ import com.hockeyhurd.hcorelib.api.handler.NotifyPlayerOnJoinHandler;
 import com.hockeyhurd.hcorelib.api.handler.UpdateHandler;
 import com.hockeyhurd.hcorelib.api.util.interfaces.IProxy;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 
 import java.util.HashMap;
 
@@ -35,7 +34,7 @@ public class CommonProxy implements IProxy {
 	}
 	
 	protected void registerBlocks() {
-		GameRegistry.registerBlock(HCoreLibMain.white, "HiddenWhite");
+		// GameRegistry.registerBlock(HCoreLibMain.white, "HiddenWhite");
 	}
 
 	@Override
