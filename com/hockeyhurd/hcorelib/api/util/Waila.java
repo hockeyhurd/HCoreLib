@@ -121,94 +121,90 @@ public class Waila {
 	 * @param handler boolean flag
 	 */
 	public void finder(boolean handler) {
-		// if (stack.getItemDamage() >= 0) {
-			float f = 1.0F;
+		float f = 1.0F;
 
-			// Get the avgCurrent rotational pitch (left, right)
-			float rotPitch = player.prevRotationPitch + (player.rotationPitch - player.prevRotationPitch) * f;
+		// Get the avgCurrent rotational pitch (left, right)
+		float rotPitch = player.prevRotationPitch + (player.rotationPitch - player.prevRotationPitch) * f;
 
-			// Get the avgCurrent rotational yaw (UP, DOWN)
-			float rotYaw = player.prevRotationYaw + (player.rotationYaw - player.prevRotationYaw) * f;
+		// Get the avgCurrent rotational yaw (UP, DOWN)
+		float rotYaw = player.prevRotationYaw + (player.rotationYaw - player.prevRotationYaw) * f;
 
-			// Get the avgCurrent position X.
-			double posX = player.prevPosX + (player.posX - player.prevPosX) * (double) f;
+		// Get the avgCurrent position X.
+		double posX = player.prevPosX + (player.posX - player.prevPosX) * (double) f;
 
-			// Get the avgCurrent position Y and offset the yCorrd to the
-			// player's head level (camera level).
-			double posY = (player.prevPosY + (player.posY - player.prevPosY) * (double) f + player.height) - (double) player.height;
+		// Get the avgCurrent position Y and offset the yCorrd to the
+		// player's head level (camera level).
+		double posY = (player.prevPosY + (player.posY - player.prevPosY) * (double) f + player.height) - (double) player.height;
 
-			// Get the avgCurrent position Z.
-			double posZ = player.prevPosZ + (player.posZ - player.prevPosZ) * (double) f;
+		// Get the avgCurrent position Z.
+		double posZ = player.prevPosZ + (player.posZ - player.prevPosZ) * (double) f;
 
-			// Get the vector represented by the combination of the three above
-			// world coordinates.
-			Vec3d vec3d = new Vec3d(posX, posY, posZ);
+		// Get the vector represented by the combination of the three above
+		// world coordinates.
+		Vec3d vec3d = new Vec3d(posX, posY, posZ);
 
-			// Get the -rotYaw and represent deltaDegrees about the y-axis;
-			// calculate cos('x').
-			float f3 = MathHelper.cos(-rotYaw * 0.01745329F - 3.141593F);
+		// Get the -rotYaw and represent deltaDegrees about the y-axis;
+		// calculate cos('x').
+		float f3 = MathHelper.cos(-rotYaw * 0.01745329F - 3.141593F);
 
-			// Get the -rotYaw and represent the deltaDegrees about the y-axis;
-			// calculate sin('x').
-			float f4 = MathHelper.sin(-rotYaw * 0.01745329F - 3.141593F);
+		// Get the -rotYaw and represent the deltaDegrees about the y-axis;
+		// calculate sin('x').
+		float f4 = MathHelper.sin(-rotYaw * 0.01745329F - 3.141593F);
 
-			// Get the -rotPitch and represent the deltaDegrees about the
-			// x-axis; calculate cos('y').
-			float f5 = -MathHelper.cos(-rotPitch * 0.01745329F);
+		// Get the -rotPitch and represent the deltaDegrees about the
+		// x-axis; calculate cos('y').
+		float f5 = -MathHelper.cos(-rotPitch * 0.01745329F);
 
-			// Get the -rotPitch and represent the deltaDegrees about the
-			// x-axis; calculate sin('y').
-			float f6 = MathHelper.sin(-rotPitch * 0.01745329F);
+		// Get the -rotPitch and represent the deltaDegrees about the
+		// x-axis; calculate sin('y').
+		float f6 = MathHelper.sin(-rotPitch * 0.01745329F);
 
-			// Get absoulute 'x' value calculated via cos('x') and sin('x').
-			float f7 = f4 * f5;
-			// Represent null deltaZ.
-			float f8 = f6;
-			// Get the absolute 'y' value calculated via cos('y') and sin('y').
-			float f9 = f3 * f5;
-			// Get the distance the vector ray should extend to.
-			// double d3 = 5000D;
-			double d3 = 5000D;
+		// Get absoulute 'x' value calculated via cos('x') and sin('x').
+		float f7 = f4 * f5;
+		// Represent null deltaZ.
+		float f8 = f6;
+		// Get the absolute 'y' value calculated via cos('y') and sin('y').
+		float f9 = f3 * f5;
+		// Get the distance the vector ray should extend to.
+		// double d3 = 5000D;
+		double d3 = 5000D;
 
-			// Get the above calculations and represent this in a vector3
-			// format.
-			Vec3d vec3d1 = vec3d.addVector((double) f7 * d3, (double) f8 * d3 + 1, (double) f9 * d3);
+		// Get the above calculations and represent this in a vector3
+		// format.
+		Vec3d vec3d1 = vec3d.addVector((double) f7 * d3, (double) f8 * d3 + 1, (double) f9 * d3);
 
 			/*
 			 * Combine vector rotations and vector absolute world positions and throw it through a vector ray to calculate the direction and block the entity (player) is currently looking at in the given instance.
 			 */
-			// MovingObjectPosition movingObjectPos = world.func_147447_a(vec3d, vec3d1, false, true, false);
-			RayTraceResult rayTraceResult = world.rayTraceBlocks(vec3d, vec3d1, false, true, false);
+		// MovingObjectPosition movingObjectPos = world.func_147447_a(vec3d, vec3d1, false, true, false);
+		RayTraceResult rayTraceResult = world.rayTraceBlocks(vec3d, vec3d1, false, true, false);
 
-			// Make sure there is no possibility the entity (player) is not
-			// looking at 'null'.
-			if (rayTraceResult == null) return;
+		// Make sure there is no possibility the entity (player) is not
+		// looking at 'null'.
+		if (rayTraceResult == null) return;
 
-			// Check if the vector ray intersects with some sort of TILE
-			// if (movingObjectPos.typeOfHit == MovingObjectType.TILE) {
-			if (rayTraceResult.typeOfHit == RayTraceResult.Type.BLOCK) {
+		// Check if the vector ray intersects with some sort of TILE
+		// if (movingObjectPos.typeOfHit == MovingObjectType.TILE) {
+		if (rayTraceResult.typeOfHit == RayTraceResult.Type.BLOCK) {
 
-				// Get the position of the TILE intersected as represented in
-				// 3D space.
-				BlockPos rayTracePos = rayTraceResult.getBlockPos();
-				int xx = rayTracePos.getX();
-				int yy = rayTracePos.getY();
-				int zz = rayTracePos.getZ();
+			// Get the position of the TILE intersected as represented in
+			// 3D space.
+			BlockPos rayTracePos = rayTraceResult.getBlockPos();
+			int xx = rayTracePos.getX();
+			int yy = rayTracePos.getY();
+			int zz = rayTracePos.getZ();
 
-				// Get the side of which the vector ray intersects with.
-				// int sideHit = rayTraceResult.sideHit;
-				EnumFacing sideHit = rayTraceResult.sideHit;
-				// print("Side: " + sideHit);
+			// Get the side of which the vector ray intersects with.
+			// int sideHit = rayTraceResult.sideHit;
+			EnumFacing sideHit = rayTraceResult.sideHit;
+			// print("Side: " + sideHit);
 
-				if (handler && stack != null) placeBlockHandler(world, xx, yy, zz, sideHit);
-				else {
-					setSideHit(sideHit);
-					setVector3i(xx, yy, zz, sideHit);
-				}
+			if (handler && stack != null) placeBlockHandler(world, xx, yy, zz, sideHit);
+			else {
+				setSideHit(sideHit);
+				setVector3i(xx, yy, zz, sideHit);
 			}
-
-			// stack.setItemDamage(0);
-		// }
+		}
 	}
 
 	private void setSideHit(EnumFacing side) {
@@ -244,9 +240,6 @@ public class Waila {
 			else if (sideHit == 4) BlockUtils.setBlock(world, xx - this.offset, yy, zz, blockPlace, metaData);
 			else if (sideHit == 5) BlockUtils.setBlock(world, xx + this.offset, yy, zz, blockPlace, metaData);
 		}
-
-		// Else return because we don't know what the user wants to place!
-		else return;
 	}
 
 	/** Method used that can mine a 2-Dimensional area based off a given side hit.
@@ -300,7 +293,7 @@ public class Waila {
 		 */
 		if (xCheck && yCheck && zCheck) {
 			if (BlockUtils.blockExists(world, x, y, z) &&
-					!blockBlackList.contains(BlockUtils.getBlock(world, x, y, z))) {
+					!blockBlackList.contains(BlockUtils.getBlock(world, x, y, z).getBlock())) {
 				// If the block trying to be placed is equal to block at the coordinate, return;
 
 				// Set true for par4 if destroyed block should drop, item-drops.

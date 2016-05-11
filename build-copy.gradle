@@ -20,6 +20,14 @@ plugins {
     id "net.minecraftforge.gradle.forge" version "2.0.2"
 }
 */
+
+sourceSets {
+    main {
+        java { srcDirs = ["$projectDir/src"] }
+        resources { srcDirs = ["$projectDir/src"] }
+    }
+}
+
 version = "1.2.1"
 group= "com.hockeyhurd.hcorelib" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "HCoreLib"
@@ -80,3 +88,43 @@ processResources
                 exclude 'mcmod.info'
             }
         }
+
+jar {
+    // appendix = 'universal'
+    exclude '**/*.java'
+    exclude '**/*.txt'
+    exclude '**/*.md'
+    exclude '**/*.gradle'
+    exclude 'cofh/**'
+}
+
+task devjar(type: Jar) {
+    from (sourceSets.main.output) {
+        exclude 'assets/**'
+        exclude 'com/hockeyhurd/hcorelib/mod/**'
+        exclude '**/*.java'
+        exclude 'cofh/**'
+        exclude '**/*.txt'
+        exclude '**/*.md'
+        exclude '**/*.gradle'
+    }
+    appendix = 'deobf'
+}
+
+task srcjar(type: Jar) {
+    from (sourceSets.main.output) {
+        exclude 'cofh/**'
+        exclude '**/*.class'
+        exclude '**/*.txt'
+        exclude '**/*.md'
+        exclude '**/*.gradle'
+    }
+    appendix = 'src'
+}
+
+artifacts {
+    archives devjar
+    archives srcjar
+}
+
+idea { module { inheritOutputDirs = true } }

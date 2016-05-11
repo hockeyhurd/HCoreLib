@@ -14,8 +14,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 /**
- * Largely static class to further improve upon deprecated BlockHelper class.
- * @see com.hockeyhurd.hcorelib.api.util.BlockHelper
+ * Largely static class block utility class.
  *
  * @author hockeyhurd
  * @version 9/6/15
