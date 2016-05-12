@@ -114,7 +114,6 @@ task devjar(type: Jar) {
 task srcjar(type: Jar) {
     from (sourceSets.main.output) {
         exclude 'cofh/**'
-        exclude '**/*.class'
         exclude '**/*.txt'
         exclude '**/*.md'
         exclude '**/*.gradle'
