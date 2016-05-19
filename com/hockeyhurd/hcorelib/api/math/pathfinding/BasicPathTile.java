@@ -1,7 +1,7 @@
 package com.hockeyhurd.hcorelib.api.math.pathfinding;
 
 import com.hockeyhurd.hcorelib.api.math.Vector3;
-import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -103,8 +103,8 @@ public class BasicPathTile implements IPathTile {
 	}
 
 	@Override
-	public Block getTile(World world) {
-		return world != null ? world.getBlockState(new BlockPos(vec.x, vec.y, vec.z)).getBlock() : null;
+	public IBlockState getTile(World world) {
+		return world != null ? world.getBlockState(new BlockPos(vec.x, vec.y, vec.z)) : null;
 	}
 
 	@Override

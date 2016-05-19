@@ -46,6 +46,15 @@ public final class SystemInfo {
         timeLapse.resetStartTime();
     }
 
+    /**
+     * Gets the Java version.
+     *
+     * @return String.
+     */
+    public String getJavaVersion() {
+        return System.getProperty("java.version");
+    }
+
 	/**
      * Gets the server OS Name.
      *

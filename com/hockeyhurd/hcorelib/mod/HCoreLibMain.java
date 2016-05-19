@@ -4,6 +4,7 @@ import com.hockeyhurd.hcorelib.api.math.TimeLapse;
 import com.hockeyhurd.hcorelib.api.util.LogHelper;
 import com.hockeyhurd.hcorelib.api.util.McModInfoDataInjector;
 import com.hockeyhurd.hcorelib.api.util.SystemInfo;
+import com.hockeyhurd.hcorelib.api.util.exceptions.InCompatibleJavaException.JavaCompatibility;
 import com.hockeyhurd.hcorelib.api.util.interfaces.IForgeMod;
 import com.hockeyhurd.hcorelib.mod.block.BlockWhiteHidden;
 import com.hockeyhurd.hcorelib.mod.creativetab.ModCreativeTab;
@@ -19,6 +20,7 @@ import net.minecraftforge.fml.common.Mod.Instance;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.*;
 import net.minecraftforge.fml.relauncher.Side;
+import org.apache.commons.lang3.JavaVersion;
 
 @Mod(modid = LibReference.MOD_NAME, name = LibReference.MOD_NAME, version = LibReference.VERSION,
 		guiFactory = "com.hockeyhurd.hcorelib.mod.client.gui.HGuiFactory")
@@ -44,6 +46,9 @@ public final class HCoreLibMain implements IForgeMod {
 	public void preInit(FMLPreInitializationEvent event) {
 		tl = new TimeLapse();
 		logHelper = new LogHelper(LibReference.class);
+
+		final boolean result = JavaCompatibility.runCheck(JavaVersion.JAVA_1_6);
+		if (result) logHelper.info("Java version is compatible!");
 
 		logHelper.info("Pre-init started, looking for config info!");
 		configHandler = new ConfigHandler(event, LibReference.class);

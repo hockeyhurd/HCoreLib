@@ -1,7 +1,7 @@
 package com.hockeyhurd.hcorelib.api.math.pathfinding;
 
 import com.hockeyhurd.hcorelib.api.math.Vector3;
-import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.world.World;
 
 /**
@@ -57,7 +57,7 @@ public interface IPathTile {
 	 * @param world World to reference.
 	 * @return Block at tile.
      */
-	Block getTile(World world);
+	IBlockState getTile(World world);
 
 	@Override
 	int hashCode();
