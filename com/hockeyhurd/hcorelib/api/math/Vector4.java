@@ -65,7 +65,7 @@ public class Vector4<N> {
 	 * @param x = xPos
 	 * @param y = yPos
 	 * @param z = zPos
-	 * @param w = Mainly used for storing sides of blocks however 
+	 * @param w = Mainly used for storing sides of block however
 	 * 	can be re-purposed if desired.
 	 */
 	public Vector4(N x, N y, N z, N w) {

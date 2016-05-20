@@ -8,7 +8,7 @@ import net.minecraft.item.Item;
 import java.util.Random;
 
 /**
- * This abstract class is to be used for easier creating of ore blocks.
+ * This abstract class is to be used for easier creating of ore block.
  *
  * @author hockeyhurd
  * @version 4/18/16

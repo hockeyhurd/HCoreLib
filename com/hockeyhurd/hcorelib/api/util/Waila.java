@@ -84,7 +84,7 @@ public class Waila {
 	}
 
 	/**
-	 * Allows for adding additional blocks to black list through class call.
+	 * Allows for adding additional block to black list through class call.
 	 * @param block block to add to black list.
 	 */
 	public void add(Block block) {
@@ -265,7 +265,7 @@ public class Waila {
 
 	}
 
-	/** Setting material to null disregards check for like material blocks.
+	/** Setting material to null disregards check for like material block.
 	 * NOTE: Benefit of using this over BlockHelper's method is the additional
 	 * checks for whether the block looking at is allowed to be interacted with.
 	 * Example of this might be when "trying" to break bedrock which should clearly
@@ -332,7 +332,7 @@ public class Waila {
 		Block grass = Blocks.grass;
 
 		/*
-		 * Scan through blocks on the x and z axis, check if they can be tilled, till the land!
+		 * Scan through block on the x and z axis, check if they can be tilled, till the land!
 		 */
 		for (int xx = x - 1; xx < x + 2; xx++) {
 			for (int zz = z - 1; zz < z + 2; zz++) {

@@ -1,5 +1,7 @@
 package com.hockeyhurd.hcorelib.mod;
 
+import com.hockeyhurd.hcorelib.api.block.AbstractHCoreBlock;
+import com.hockeyhurd.hcorelib.api.creativetab.AbstractCreativeTab;
 import com.hockeyhurd.hcorelib.api.math.TimeLapse;
 import com.hockeyhurd.hcorelib.api.util.LogHelper;
 import com.hockeyhurd.hcorelib.api.util.McModInfoDataInjector;
@@ -7,6 +9,7 @@ import com.hockeyhurd.hcorelib.api.util.SystemInfo;
 import com.hockeyhurd.hcorelib.api.util.exceptions.InCompatibleJavaException.JavaCompatibility;
 import com.hockeyhurd.hcorelib.api.util.interfaces.IForgeMod;
 import com.hockeyhurd.hcorelib.mod.block.BlockWhiteHidden;
+import com.hockeyhurd.hcorelib.mod.block.TestBlock;
 import com.hockeyhurd.hcorelib.mod.creativetab.ModCreativeTab;
 import com.hockeyhurd.hcorelib.mod.handler.CommandHandler;
 import com.hockeyhurd.hcorelib.mod.handler.config.ConfigHandler;
@@ -37,10 +40,11 @@ public final class HCoreLibMain implements IForgeMod {
 	private TimeLapse tl;
 	
 	public static ConfigHandler configHandler;
-	public static CreativeTabs myCreativeTab = new ModCreativeTab(CreativeTabs.getNextID(), "HCoreLib");
+	public static AbstractCreativeTab myCreativeTab = new ModCreativeTab(CreativeTabs.getNextID(), "HCoreLib");
 	
 	public static Block white;
-	
+	public static AbstractHCoreBlock testBlock;
+
 	@EventHandler
 	@Override
 	public void preInit(FMLPreInitializationEvent event) {
@@ -86,6 +90,7 @@ public final class HCoreLibMain implements IForgeMod {
 	
 	private void loadObj() {
 		white = new BlockWhiteHidden(Material.rock, "HiddenWhite");
+		testBlock = new TestBlock();
 	}
 	
 	@EventHandler

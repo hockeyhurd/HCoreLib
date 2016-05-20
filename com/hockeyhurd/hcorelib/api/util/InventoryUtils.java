@@ -79,7 +79,7 @@ public final class InventoryUtils {
      *
      * @param container Container to reference.
      * @param block Block to find.
-     * @return int quantity of blocks.
+     * @return int quantity of block.
      */
     public static int getQuantityOfBlock(Container container, Block block) {
         return container != null && block != null ? getQuantityOfStack(container, ItemUtils.createStack(block)) : 0;
@@ -181,11 +181,11 @@ public final class InventoryUtils {
     }
 
     /**
-     * Attempts to remove n number of items or blocks contained in ItemStack to remove.
+     * Attempts to remove n number of items or block contained in ItemStack to remove.
      *
      * @param container Container to reference.
      * @param stackToRemove ItemStack to remove.
-     * @return int number of items/blocks removed.
+     * @return int number of items/block removed.
      */
     public static int removeByStack(Container container, ItemStack stackToRemove) {
         if (container == null || stackToRemove == null || stackToRemove.stackSize < 1) return 0;
@@ -233,12 +233,12 @@ public final class InventoryUtils {
     }
 
     /**
-     * Attempts to remove n number of blocks contained to remove.
+     * Attempts to remove n number of block contained to remove.
      *
      * @param container Container to reference.
      * @param block Block to remove.
-     * @param blocksToRemove int n number of blocks to remove.
-     * @return int number of blocks removed.
+     * @param blocksToRemove int n number of block to remove.
+     * @return int number of block removed.
      */
     public static int removeByBlock(Container container, Block block, int blocksToRemove) {
         if (container == null || block == null) return 0;

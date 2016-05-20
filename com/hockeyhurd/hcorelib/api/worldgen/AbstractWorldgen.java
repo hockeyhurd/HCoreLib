@@ -11,7 +11,7 @@ import net.minecraftforge.fml.common.IWorldGenerator;
 import java.util.Random;
 
 /**
- * Abstract class used for generic template for generating blocks,
+ * Abstract class used for generic template for generating block,
  * such as ore, in any given dimension. 
  * 
  * @author hockeyhurd
@@ -29,7 +29,7 @@ public class AbstractWorldgen implements IWorldGenerator {
 	/**
 	 * Complete constructor for full control over all generation needs.
 	 * @param blockToSpawn = block to spawn in overworld.
-	 * @param blockToSpawnNether = block to spawn in nether. 
+	 * @param blockToSpawnNether = block to spawn in nether.
 	 * @param chanceOfSpawn = chance of spawn in overworld.
 	 * @param chanceOfSpawnNether = chance of spawn in nether.
 	 * @param minVeinSize = min vein size.

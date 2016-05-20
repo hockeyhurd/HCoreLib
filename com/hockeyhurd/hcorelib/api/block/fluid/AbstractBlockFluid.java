@@ -5,7 +5,7 @@ import net.minecraftforge.fluids.BlockFluidClassic;
 import net.minecraftforge.fluids.Fluid;
 
 /**
- * Helper class for creating fluid blocks more quickly and easily.
+ * Helper class for creating fluid block more quickly and easily.
  *
  * @author hockeyhurd
  * @version 7/22/2015.

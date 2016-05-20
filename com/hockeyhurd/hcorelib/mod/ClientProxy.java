@@ -1,6 +1,9 @@
 package com.hockeyhurd.hcorelib.mod;
 
 import com.hockeyhurd.hcorelib.api.handler.config.ConfigChangedEventHandler;
+import com.hockeyhurd.hcorelib.api.util.ItemUtils;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 
 public class ClientProxy extends CommonProxy {
@@ -9,6 +12,16 @@ public class ClientProxy extends CommonProxy {
 	public static int hiddenBlockRenderType;
 
 	public ClientProxy() {
+	}
+
+	@Override
+	protected void registerBlocks() {
+		super.registerBlocks();
+
+		// ModelBakery.registerItemVariants(ItemUtils.getItem(HCoreLibMain.testBlock), HCoreLibMain.testBlock.getResourceLocation());
+		Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(ItemUtils.getItem(HCoreLibMain.testBlock), 0,
+		 		// new ModelResourceLocation(HCoreLibMain.testBlock.getResourceLocation().toString(), "inventory"));
+		 		new ModelResourceLocation(HCoreLibMain.assetDir + HCoreLibMain.testBlock.getName(), "inventory"));
 	}
 
 	@Override
