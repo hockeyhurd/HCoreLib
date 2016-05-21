@@ -13,7 +13,7 @@ import net.minecraft.util.ResourceLocation;
  * @author hockeyhurd
  * @version 4/18/16
  */
-public abstract class AbstractHCoreBlock extends Block {
+public abstract class AbstractHCoreBlock extends Block implements IHBlock {
 
     protected final String assetDir;
     protected String name;
@@ -32,7 +32,7 @@ public abstract class AbstractHCoreBlock extends Block {
         this.assetDir = assetDir;
         this.name = name;
 
-        if (creativeTab != null) this.setCreativeTab(creativeTab);
+        if (creativeTab != null) setCreativeTab(creativeTab);
         setUnlocalizedName(name);
         setRegistryName(name);
         setDefaultState(blockState.getBaseState());
@@ -42,30 +42,27 @@ public abstract class AbstractHCoreBlock extends Block {
         resourceLocation = new ResourceLocation(assetDir, name);
     }
 
+    @Override
     public ResourceLocation getResourceLocation() {
         return resourceLocation;
     }
 
+    @Override
     public String getName() {
         return name;
     }
 
+    @Override
     public ItemBlock getItemBlock() {
         return itemBlock != null ? itemBlock : (itemBlock = new ItemBlock(this));
     }
 
-    /**
-     * Gets the block hardness.
-     *
-     * @return float block hardness.
-     */
+
+    @Override
     public abstract float getBlockHardness();
 
-    /**
-     * Gets the block's harvest level.
-     *
-     * @return EnumHarvestLevel data.
-     */
+
+    @Override
     public abstract EnumHarvestLevel getHarvestLevel();
 
 }

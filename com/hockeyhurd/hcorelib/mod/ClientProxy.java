@@ -20,8 +20,7 @@ public class ClientProxy extends CommonProxy {
 
 		// ModelBakery.registerItemVariants(ItemUtils.getItem(HCoreLibMain.testBlock), HCoreLibMain.testBlock.getResourceLocation());
 		Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(ItemUtils.getItem(HCoreLibMain.testBlock), 0,
-		 		// new ModelResourceLocation(HCoreLibMain.testBlock.getResourceLocation().toString(), "inventory"));
-		 		new ModelResourceLocation(HCoreLibMain.assetDir + HCoreLibMain.testBlock.getName(), "inventory"));
+		 		new ModelResourceLocation(HCoreLibMain.testBlock.getResourceLocation(), "inventory"));
 	}
 
 	@Override

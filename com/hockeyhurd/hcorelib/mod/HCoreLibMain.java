@@ -36,7 +36,7 @@ public final class HCoreLibMain implements IForgeMod {
 	public static HCoreLibMain instance;
 	public static LogHelper logHelper;
 	public static final String modID = LibReference.MOD_NAME;
-	public static final String assetDir = modID.toLowerCase() + ':';
+	public static final String assetDir = modID.toLowerCase(); // + ':';
 	private TimeLapse tl;
 	
 	public static ConfigHandler configHandler;

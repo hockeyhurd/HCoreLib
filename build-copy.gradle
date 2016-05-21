@@ -106,7 +106,7 @@ task devjar(type: Jar) {
         exclude 'cofh/**'
         exclude '**/*.txt'
         exclude '**/*.md'
-        exclude '**/*.gradle'
+        // exclude '**/*.gradle'
     }
     appendix = 'deobf'
 }
@@ -116,8 +116,9 @@ task srcjar(type: Jar) {
         exclude 'cofh/**'
         exclude '**/*.txt'
         exclude '**/*.md'
-        exclude '**/*.gradle'
+        // exclude '**/*.gradle'
     }
+
     appendix = 'src'
 }
 

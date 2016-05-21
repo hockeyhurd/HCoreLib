@@ -2,8 +2,11 @@ package com.hockeyhurd.hcorelib.api.block;
 
 import com.hockeyhurd.hcorelib.api.creativetab.AbstractCreativeTab;
 import com.hockeyhurd.hcorelib.api.tileentity.AbstractTile;
+import com.hockeyhurd.hcorelib.api.util.enums.EnumHarvestLevel;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
+import net.minecraft.item.ItemBlock;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 
 /**
@@ -12,10 +15,12 @@ import net.minecraft.world.World;
  * @author hockeyhurd
  * @version 4/18/16
  */
-public abstract class AbstractHCoreBlockContainer extends BlockContainer {
+public abstract class AbstractHCoreBlockContainer extends BlockContainer implements IHBlock {
 
     protected final String assetDir;
     protected String name;
+    protected ItemBlock itemBlock;
+    protected final ResourceLocation resourceLocation;
 
     /**
      * @param material Material of block.
@@ -29,17 +34,36 @@ public abstract class AbstractHCoreBlockContainer extends BlockContainer {
         this.assetDir = assetDir;
         this.name = name;
 
-        this.setRegistryName(name);
-        this.setHardness(getBlockHardness());
-        if (creativeTab != null) this.setCreativeTab(creativeTab);
+        if (creativeTab != null) setCreativeTab(creativeTab);
+        setUnlocalizedName(name);
+        setRegistryName(name);
+        setDefaultState(blockState.getBaseState());;
+        setHardness(getBlockHardness());
+        setHarvestLevel(getHarvestLevel().getTypeName(), getHarvestLevel().getLevel());
+
+        resourceLocation = new ResourceLocation(assetDir, name);
     }
 
-    /**
-     * Gets the block hardness.
-     *
-     * @return float block hardness.
-     */
+    @Override
+    public ResourceLocation getResourceLocation() {
+        return resourceLocation;
+    }
+
+    @Override
+    public String getName() {
+        return name;
+    }
+
+    @Override
+    public ItemBlock getItemBlock() {
+        return itemBlock != null ? itemBlock : (itemBlock = new ItemBlock(this));
+    }
+
+    @Override
     public abstract float getBlockHardness();
+
+    @Override
+    public abstract EnumHarvestLevel getHarvestLevel();
 
     /**
      * Gets the created instance of AbstractTile child object.
