@@ -43,6 +43,11 @@ public abstract class AbstractHCoreBlock extends Block implements IHBlock {
     }
 
     @Override
+    public Block getBlock() {
+        return this;
+    }
+
+    @Override
     public ResourceLocation getResourceLocation() {
         return resourceLocation;
     }

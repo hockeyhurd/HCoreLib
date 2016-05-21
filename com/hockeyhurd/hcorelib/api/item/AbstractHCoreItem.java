@@ -2,6 +2,7 @@ package com.hockeyhurd.hcorelib.api.item;
 
 import com.hockeyhurd.hcorelib.api.creativetab.AbstractCreativeTab;
 import net.minecraft.item.Item;
+import net.minecraft.util.ResourceLocation;
 
 /**
  * Generalized item class.
@@ -9,37 +10,41 @@ import net.minecraft.item.Item;
  * @author hockeyhurd
  * @version 4/25/16
  */
-public abstract class AbstractHCoreItem extends Item {
+public abstract class AbstractHCoreItem extends Item implements IHItem {
 
-    protected final AbstractCreativeTab creativeTab;
-    protected final String name;
     protected final String assetDir;
+    protected String name;
+    protected final ResourceLocation resourceLocation;
+    protected final AbstractCreativeTab creativeTab;
 
     /**
      * @param creativeTab Creative tab to place item in.
-     * @param name Name of Item.
      * @param assetDir Asset directory for item texture.
+     * @param name Name of Item.
      */
-    public AbstractHCoreItem(AbstractCreativeTab creativeTab, String name, String assetDir) {
+    public AbstractHCoreItem(AbstractCreativeTab creativeTab, String assetDir, String name) {
         this.creativeTab = creativeTab;
         this.name = name;
         this.assetDir = assetDir;
 
         setUnlocalizedName(name);
-        setCreativeTab(creativeTab);
+        setRegistryName(name);
+        if (creativeTab != null) setCreativeTab(creativeTab);
+
+        resourceLocation = new ResourceLocation(assetDir, name);
     }
 
-    /*@Override
-    @SideOnly(Side.CLIENT)
-    public void registerIcons(IIconRegister reg) {
-        itemIcon = reg.registerIcon(assetDir + name);
-    }*/
+    @Override
+    public Item getItem() {
+        return this;
+    }
 
-    /**
-     * Gets the name of the Item.
-     *
-     * @return String name.
-     */
+    @Override
+    public ResourceLocation getResourceLocation() {
+        return resourceLocation;
+    }
+
+    @Override
     public String getName() {
         return name;
     }

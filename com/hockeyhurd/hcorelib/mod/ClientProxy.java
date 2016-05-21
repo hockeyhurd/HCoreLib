@@ -1,9 +1,7 @@
 package com.hockeyhurd.hcorelib.mod;
 
+import com.hockeyhurd.hcorelib.api.client.util.ModelRegistry;
 import com.hockeyhurd.hcorelib.api.handler.config.ConfigChangedEventHandler;
-import com.hockeyhurd.hcorelib.api.util.ItemUtils;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 
 public class ClientProxy extends CommonProxy {
@@ -19,8 +17,16 @@ public class ClientProxy extends CommonProxy {
 		super.registerBlocks();
 
 		// ModelBakery.registerItemVariants(ItemUtils.getItem(HCoreLibMain.testBlock), HCoreLibMain.testBlock.getResourceLocation());
-		Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(ItemUtils.getItem(HCoreLibMain.testBlock), 0,
-		 		new ModelResourceLocation(HCoreLibMain.testBlock.getResourceLocation(), "inventory"));
+		// minecraft.getRenderItem().getItemModelMesher().register(ItemUtils.getItem(HCoreLibMain.testBlock), 0,
+		//  		new ModelResourceLocation(HCoreLibMain.testBlock.getResourceLocation(), "inventory"));
+		ModelRegistry.registerBlock(HCoreLibMain.testBlock);
+	}
+
+	@Override
+	protected void registerItems() {
+		super.registerItems();
+
+		ModelRegistry.registerItem(HCoreLibMain.testItem);
 	}
 
 	@Override

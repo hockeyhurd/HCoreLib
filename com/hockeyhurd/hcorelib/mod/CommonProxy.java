@@ -29,6 +29,7 @@ public class CommonProxy implements IProxy {
 	public void init() {
 		registerMCForgeEventHandlers();
 		registerBlocks();
+		registerItems();
 	}
 	
 	protected void registerMCForgeEventHandlers() {
@@ -38,6 +39,10 @@ public class CommonProxy implements IProxy {
 		// GameRegistry.registerBlock(HCoreLibMain.white, "HiddenWhite");
 		GameRegistry.register(HCoreLibMain.testBlock);
 		GameRegistry.register(HCoreLibMain.testBlock.getItemBlock().setRegistryName(HCoreLibMain.testBlock.getRegistryName()));
+	}
+
+	protected void registerItems() {
+		GameRegistry.register(HCoreLibMain.testItem);
 	}
 
 	@Override

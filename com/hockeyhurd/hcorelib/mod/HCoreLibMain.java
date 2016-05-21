@@ -2,6 +2,7 @@ package com.hockeyhurd.hcorelib.mod;
 
 import com.hockeyhurd.hcorelib.api.block.AbstractHCoreBlock;
 import com.hockeyhurd.hcorelib.api.creativetab.AbstractCreativeTab;
+import com.hockeyhurd.hcorelib.api.item.AbstractHCoreItem;
 import com.hockeyhurd.hcorelib.api.math.TimeLapse;
 import com.hockeyhurd.hcorelib.api.util.LogHelper;
 import com.hockeyhurd.hcorelib.api.util.McModInfoDataInjector;
@@ -13,6 +14,7 @@ import com.hockeyhurd.hcorelib.mod.block.TestBlock;
 import com.hockeyhurd.hcorelib.mod.creativetab.ModCreativeTab;
 import com.hockeyhurd.hcorelib.mod.handler.CommandHandler;
 import com.hockeyhurd.hcorelib.mod.handler.config.ConfigHandler;
+import com.hockeyhurd.hcorelib.mod.item.TestItem;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
@@ -44,6 +46,7 @@ public final class HCoreLibMain implements IForgeMod {
 	
 	public static Block white;
 	public static AbstractHCoreBlock testBlock;
+	public static AbstractHCoreItem testItem;
 
 	@EventHandler
 	@Override
@@ -91,6 +94,7 @@ public final class HCoreLibMain implements IForgeMod {
 	private void loadObj() {
 		white = new BlockWhiteHidden(Material.rock, "HiddenWhite");
 		testBlock = new TestBlock();
+		testItem = new TestItem();
 	}
 	
 	@EventHandler

@@ -6,6 +6,8 @@ import com.hockeyhurd.hcorelib.mod.HCoreLibMain;
 import net.minecraft.block.material.Material;
 
 /**
+ * Example class on how to implement AbstractHCoreBlock.
+ *
  * @author hockeyhurd
  * @version 5/19/2016.
  */
