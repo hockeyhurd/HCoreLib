@@ -5,6 +5,7 @@ import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.util.EnumFacing;
 
 /**
  * Abstract tile entity class for containers.
@@ -132,12 +133,31 @@ public abstract class AbstractTileContainer extends AbstractTile implements ISid
      */
     public abstract boolean isItemValidForSlot(int slot, ItemStack stack);
 
+    @Override
+    public abstract int getField(int id);
+
+    @Override
+    public abstract void setField(int id, int value);
+
+    @Override
+    public abstract int getFieldCount();
+
+    @Override
+    public void clear() {
+        if (slots != null) {
+            for (int i = 0; i < slots.length; i++) {
+                slots[i] = null;
+            }
+        }
+    }
+
     /**
      * Determines if side of block is accessible from side of said block.
      *
      * @param side side id.
      */
-    public abstract int[] getAccessibleSlotsFromSide(int side);
+    @Override
+    public abstract int[] getSlotsForFace(EnumFacing side);
 
     /**
      * Determines if said itemstack can be placed in slot from side defined.
@@ -146,7 +166,8 @@ public abstract class AbstractTileContainer extends AbstractTile implements ISid
      * @param stack stack to insert.
      * @param side side id.
      */
-    public abstract boolean canInsertItem(int slot, ItemStack stack, int side);
+    @Override
+    public abstract boolean canInsertItem(int slot, ItemStack stack, EnumFacing side);
 
     /**
      * Determines if said itemstack can be pulled from in slot to side defined.
@@ -155,7 +176,8 @@ public abstract class AbstractTileContainer extends AbstractTile implements ISid
      * @param stack stack to insert.
      * @param side side id.
      */
-    public abstract boolean canExtractItem(int slot, ItemStack stack, int side);
+    @Override
+    public abstract boolean canExtractItem(int slot, ItemStack stack, EnumFacing side);
 
     @Override
     public void readNBT(NBTTagCompound comp) {
