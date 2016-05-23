@@ -1,6 +1,7 @@
 package com.hockeyhurd.hcorelib.api.block;
 
 import com.hockeyhurd.hcorelib.api.creativetab.AbstractCreativeTab;
+import com.hockeyhurd.hcorelib.api.util.enums.EnumHarvestLevel;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.Item;
@@ -30,6 +31,11 @@ public abstract class AbstractBlockOre extends AbstractHCoreBlock {
 	@Override
 	public float getBlockHardness() {
 		return hardness;
+	}
+
+	@Override
+	public EnumHarvestLevel getHarvestLevel() {
+		return EnumHarvestLevel.PICKAXE_STONE;
 	}
 
 	@Override

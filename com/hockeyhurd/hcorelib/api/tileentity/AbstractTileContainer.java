@@ -134,6 +134,17 @@ public abstract class AbstractTileContainer extends AbstractTile implements ISid
     public abstract boolean isItemValidForSlot(int slot, ItemStack stack);
 
     @Override
+    public ItemStack removeStackFromSlot(int slot) {
+        if (slots != null && slot >= 0 && slot < slots.length) {
+            ItemStack heldStack = slots[slot];
+            slots[slot] = null;
+            return heldStack;
+        }
+
+        return null;
+    }
+
+    @Override
     public abstract int getField(int id);
 
     @Override
