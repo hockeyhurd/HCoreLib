@@ -20,6 +20,7 @@ public class ClientProxy extends CommonProxy {
 		// minecraft.getRenderItem().getItemModelMesher().register(ItemUtils.getItem(HCoreLibMain.testBlock), 0,
 		//  		new ModelResourceLocation(HCoreLibMain.testBlock.getResourceLocation(), "inventory"));
 		ModelRegistry.registerBlock(HCoreLibMain.testBlock);
+		ModelRegistry.registerBlock(HCoreLibMain.testTile);
 	}
 
 	@Override

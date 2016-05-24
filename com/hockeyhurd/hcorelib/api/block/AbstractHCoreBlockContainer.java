@@ -5,7 +5,9 @@ import com.hockeyhurd.hcorelib.api.tileentity.AbstractTile;
 import com.hockeyhurd.hcorelib.api.util.enums.EnumHarvestLevel;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemBlock;
+import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 
@@ -37,7 +39,7 @@ public abstract class AbstractHCoreBlockContainer extends BlockContainer impleme
         if (creativeTab != null) setCreativeTab(creativeTab);
         setUnlocalizedName(name);
         setRegistryName(name);
-        setDefaultState(blockState.getBaseState());;
+        // setDefaultState(blockState.getBaseState());
         setHardness(getBlockHardness());
         setHarvestLevel(getHarvestLevel().getTypeName(), getHarvestLevel().getLevel());
 
@@ -75,6 +77,11 @@ public abstract class AbstractHCoreBlockContainer extends BlockContainer impleme
     @Override
     public AbstractTile createNewTileEntity(World world, int id) {
         return getTileEntity();
+    }
+
+    @Override
+    public EnumBlockRenderType getRenderType(IBlockState blockState) {
+        return EnumBlockRenderType.MODEL;
     }
 
 }

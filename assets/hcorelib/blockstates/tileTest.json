@@ -1,0 +1,46 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "textures": {
+      "up": "hcorelib:blocks/sideU",
+      "down": "hcorelib:blocks/sideD",
+      "north": "hcorelib:blocks/sideN",
+      "east": "hcorelib:blocks/sideE",
+      "west": "hcorelib:blocks/sideW",
+      "south": "hcorelib:blocks/sideS",
+      "particle": "hcorelib:blocks/sideN"
+    },
+    "model": "minecraft:cube",
+    "transform": "forge:default-block"
+  },
+  "variants": {
+    "inventory": [
+      {}
+    ],
+
+    "normal":[{}],
+
+    "facing": {
+      "west": {
+        "y": -90
+      },
+      "east": {
+        "y": 90
+      },
+      "north": {
+      },
+      "south": {
+        "y": 180
+      }
+    },
+    "working": {
+      "true": {
+        "textures": {
+          "north": "hcorelib:blocks/sideNOn"
+        }
+      },
+      "false": {
+      }
+    }
+  }
+}

@@ -102,6 +102,8 @@ public abstract class AbstractTile extends TileEntity {
      * NOTE: By default, the custom name is set to container.generic.
      * @param name new customized name.
      */
-    public abstract void setCustomName(String name);
+    public void setCustomName(String name) {
+        this.customName = name;
+    }
 
 }

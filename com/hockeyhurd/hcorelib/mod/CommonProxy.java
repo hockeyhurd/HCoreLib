@@ -3,6 +3,7 @@ package com.hockeyhurd.hcorelib.mod;
 import com.hockeyhurd.hcorelib.api.handler.NotifyPlayerOnJoinHandler;
 import com.hockeyhurd.hcorelib.api.handler.UpdateHandler;
 import com.hockeyhurd.hcorelib.api.util.interfaces.IProxy;
+import com.hockeyhurd.hcorelib.mod.block.TileEntityTest;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
@@ -29,6 +30,7 @@ public class CommonProxy implements IProxy {
 	public void init() {
 		registerMCForgeEventHandlers();
 		registerBlocks();
+		registerTileEntities();
 		registerItems();
 	}
 	
@@ -39,6 +41,13 @@ public class CommonProxy implements IProxy {
 		// GameRegistry.registerBlock(HCoreLibMain.white, "HiddenWhite");
 		GameRegistry.register(HCoreLibMain.testBlock);
 		GameRegistry.register(HCoreLibMain.testBlock.getItemBlock().setRegistryName(HCoreLibMain.testBlock.getRegistryName()));
+
+		GameRegistry.register(HCoreLibMain.testTile);
+		GameRegistry.register(HCoreLibMain.testTile.getItemBlock().setRegistryName(HCoreLibMain.testTile.getRegistryName()));
+	}
+
+	protected void registerTileEntities() {
+		GameRegistry.registerTileEntity(TileEntityTest.class, "testTile");
 	}
 
 	protected void registerItems() {
