@@ -3,10 +3,10 @@ package com.hockeyhurd.hcorelib.api.util;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 
 /**
  * Largely static class to further improve upon deprecated ItemHelper class.
- * @see com.hockeyhurd.hcorelib.api.util.ItemHelper
  *
  * @author hockeyhurd
  * @version 9/7/15
@@ -144,6 +144,24 @@ public final class ItemUtils {
 	 */
 	public static String getUnlocalizedName(Item item) {
 		return item != null ? item.getUnlocalizedName() : "This is not an item!";
+	}
+
+	/**
+	 * Handles getting or initializing NBTTagCompound bounded in this ItemStack.
+	 *
+	 * @param stack ItemStack.
+	 * @return NBTTagCompound.
+	 */
+	public static NBTTagCompound getOrInitNBT(ItemStack stack) {
+		NBTTagCompound comp;
+
+		if (stack.hasTagCompound()) comp = stack.getTagCompound();
+		else {
+			comp = new NBTTagCompound();
+			stack.setTagCompound(comp);
+		}
+
+		return comp;
 	}
 
 	@Override

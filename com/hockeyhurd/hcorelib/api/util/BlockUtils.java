@@ -90,6 +90,42 @@ public final class BlockUtils {
 	}
 
 	/**
+	 * Gets block metadata.
+	 *
+	 * @param world World.
+	 * @param x x-coordinate.
+	 * @param y y-coordinate.
+	 * @param z z-coordinate.
+	 * @return int metadata.
+	 */
+	public static int getBlockMetadata(World world, int x, int y, int z) {
+		return getBlockMetadata(world, createBlockPos(x, y, z));
+	}
+
+	/**
+	 * Gets block metadata.
+	 *
+	 * @param world World.
+	 * @param vec Vector3i position.
+	 * @return int metadata.
+	 */
+	public static int getBlockMetadata(World world, Vector3<Integer> vec) {
+		return getBlockMetadata(world, createBlockPos(vec));
+	}
+
+	/**
+	 * Gets block metadata.
+	 *
+	 * @param world World.
+	 * @param blockPos Block position.
+	 * @return int metadata.
+	 */
+	public static int getBlockMetadata(World world, BlockPos blockPos) {
+		IBlockState blockState = getBlock(world, blockPos);
+		return blockState.getBlock().getMetaFromState(blockState);
+	}
+
+	/**
 	 * Gets the TileEntity of type 'T' if successful else may return 'NULL'.
 	 *
 	 * @param world World object to reference.
@@ -503,6 +539,128 @@ public final class BlockUtils {
 	 */
 	public static String getUnlocalized(Block block) {
 		return block != null ? block.getUnlocalizedName() : "This is not a block!";
+	}
+
+	/**
+	 * Marks block for update.
+	 *
+	 * @param world World.
+	 * @param x x-coordinate.
+	 * @param y y-coordinate.
+	 * @param z z-coordinate.
+	 */
+	public static void markBlockForUpdate(World world, int x, int y, int z) {
+		markBlockForUpdate(world, createBlockPos(x, y, z));
+	}
+
+	/**
+	 * Marks block for update.
+	 *
+	 * @param world World.
+	 * @param vec Block position.
+	 */
+	public static void markBlockForUpdate(World world, Vector3<Integer> vec) {
+		markBlockForUpdate(world, createBlockPos(vec));
+	}
+
+	/**
+	 * Marks block for update.
+	 *
+	 * @param world World.
+	 * @param blockPos Block position.
+	 */
+	public static void markBlockForUpdate(World world, BlockPos blockPos) {
+		IBlockState blockState = getBlock(world, blockPos);
+		markBlockForUpdate(world, blockPos, blockState);
+	}
+
+	/**
+	 * Marks block for update.
+	 *
+	 * @param world World.
+	 * @param blockPos Block position.
+	 * @param blockState IBlockState.
+	 */
+	private static void markBlockForUpdate(World world, BlockPos blockPos, IBlockState blockState) {
+		world.notifyBlockOfStateChange(blockPos, blockState.getBlock());
+	}
+
+	/**
+	 * Notifies neighbors of block update.
+	 *
+	 * @param world World.
+	 * @param x x-coordinate.
+	 * @param y y-coordinate.
+	 * @param z z-coordinate.
+	 */
+	public static void notifyNeighborsOfBlockUpdate(World world, int x, int y, int z) {
+		notifyNeighborsOfBlockUpdate(world, createBlockPos(x, y, z));
+	}
+
+	/**
+	 * Notifies neighbors of block update.
+	 *
+	 * @param world World.
+	 * @param vec Block position.
+	 */
+	public static void notifyNeighborsOfBlockUpdate(World world, Vector3<Integer> vec) {
+		notifyNeighborsOfBlockUpdate(world, createBlockPos(vec));
+	}
+
+	/**
+	 * Notifies neighbors of block update.
+	 *
+	 * @param world World.
+	 * @param blockPos Block position.
+	 */
+	public static void notifyNeighborsOfBlockUpdate(World world, BlockPos blockPos) {
+		IBlockState blockState = getBlock(world, blockPos);
+		notifyNeighborsOfBlockUpdate(world, blockPos, blockState);
+	}
+
+	/**
+	 * Notifies neighbors of block update.
+	 *
+	 * @param world World.
+	 * @param blockPos Block position.
+	 * @param blockState IBlockState.
+	 */
+	private static void notifyNeighborsOfBlockUpdate(World world, BlockPos blockPos, IBlockState blockState) {
+		world.notifyNeighborsOfStateChange(blockPos, blockState.getBlock());
+	}
+
+	/**
+	 * Marks block for update and notifies neighbors in a single function call.
+	 *
+	 * @param world World.
+	 * @param x x-coordinate.
+	 * @param y y-coordinate.
+	 * @param z z-coordinate.
+	 */
+	public static void updateAndNotifyNeighborsOfBlockUpdate(World world, int x, int y, int z) {
+		updateAndNotifyNeighborsOfBlockUpdate(world, createBlockPos(x, y, z));
+	}
+
+	/**
+	 * Marks block for update and notifies neighbors in a single function call.
+	 *
+	 * @param world World.
+	 * @param vec Block position.
+	 */
+	public static void updateAndNotifyNeighborsOfBlockUpdate(World world, Vector3<Integer> vec) {
+		updateAndNotifyNeighborsOfBlockUpdate(world, createBlockPos(vec));
+	}
+
+	/**
+	 * Marks block for update and notifies neighbors in a single function call.
+	 *
+	 * @param world World.
+	 * @param blockPos Block position.
+	 */
+	public static void updateAndNotifyNeighborsOfBlockUpdate(World world, BlockPos blockPos) {
+		IBlockState blockState = getBlock(world, blockPos);
+		markBlockForUpdate(world, blockPos, blockState);
+		notifyNeighborsOfBlockUpdate(world, blockPos, blockState);
 	}
 
 	/**
