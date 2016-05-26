@@ -19,11 +19,26 @@ public abstract class AbstractArmor extends ItemArmor {
 	 * @param renderIndex render index of item.
 	 * @param armorType armor type.
 	 */
-	public AbstractArmor(ArmorMaterial material, int renderIndex, EnumArmorType armorType, String assetDir, String pathMat) {
+	public AbstractArmor(ArmorMaterial material, int renderIndex, EnumArmorType armorType, String assetDir, String name, String pathMat) {
 		super(material, renderIndex, armorType.getEquipmentSlot());
 		this.ASSET_DIR = assetDir;
 		this.PATH_MAT = pathMat;
 		this.armorType = armorType;
+
+		final String actualName = createRegistryName(name, armorType);
+		setUnlocalizedName(actualName);
+		setRegistryName(actualName);
+	}
+
+	/**
+	 * Creates the corrected registry name.
+	 *
+	 * @param name Base name of armor set.
+	 * @param armorType EnumArmorType.
+	 * @return Corrected registry name.
+	 */
+	protected static String createRegistryName(String name, EnumArmorType armorType) {
+		return name + '_' + armorType.name().charAt(0) + armorType.name().substring(1).toLowerCase();
 	}
 	
 	/**
