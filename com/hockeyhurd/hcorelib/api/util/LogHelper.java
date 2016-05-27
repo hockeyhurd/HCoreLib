@@ -19,7 +19,7 @@ public class LogHelper {
 		}
 		catch (Exception e) {
 			e.printStackTrace();
-		};
+		}
 	}
 	
 	/**
