@@ -19,6 +19,13 @@ public interface IHItem {
 	Item getItem();
 
 	/**
+	 * Gets the number of sub-items.
+	 *
+	 * @return number of sub-items.
+	 */
+	int getSizeOfSubItems();
+
+	/**
 	 * Gets the resouce location.
 	 *
 	 * @return ResourceLocation.

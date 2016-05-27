@@ -53,7 +53,14 @@ public final class ModelRegistry {
 	 * @param item Item to register.
 	 */
 	public static void registerItem(IHItem item) {
-		if (item != null) registerItem(item, DEFAULT_TAG);
+		if (item != null) {
+			if (!item.getItem().getHasSubtypes())
+				registerItem(item, 0, DEFAULT_TAG);
+			else {
+				for (int i = 0; i < item.getSizeOfSubItems(); i++)
+					registerItem(item, i, DEFAULT_TAG);
+			}
+		}
 	}
 
 	/**
@@ -62,9 +69,9 @@ public final class ModelRegistry {
 	 * @param item Item to register.
 	 * @param tag String tag to register with.
 	 */
-	public static void registerItem(IHItem item, String tag) {
+	public static void registerItem(IHItem item, int meta, String tag) {
 		if (item != null && StringUtils.nullCheckString(tag))
-			minecraft.getRenderItem().getItemModelMesher().register(item.getItem(), 0, getModelResourceLocation(item.getResourceLocation(), tag));
+			minecraft.getRenderItem().getItemModelMesher().register(item.getItem(), meta, getModelResourceLocation(item.getResourceLocation(), tag));
 	}
 
 	/**

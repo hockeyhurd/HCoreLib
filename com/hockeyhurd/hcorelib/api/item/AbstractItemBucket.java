@@ -50,6 +50,11 @@ public abstract class AbstractItemBucket extends ItemBucket implements IHItem {
 	}
 
 	@Override
+	public int getSizeOfSubItems() {
+		return 0;
+	}
+
+	@Override
 	public ResourceLocation getResourceLocation() {
 		return resourceLocation;
 	}
