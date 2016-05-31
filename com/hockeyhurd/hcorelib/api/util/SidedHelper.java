@@ -1,8 +1,10 @@
 package com.hockeyhurd.hcorelib.api.util;
 
 import net.minecraft.world.World;
+import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
  * Class used to help find the side of the world.
@@ -84,6 +86,11 @@ public final class SidedHelper {
 	 */
 	public static Side getSide() {
 		return commonHandler.getEffectiveSide();
+	}
+
+	@SideOnly(Side.CLIENT)
+	public static World getClientWorld() {
+		return FMLClientHandler.instance().getWorldClient();
 	}
 
 }

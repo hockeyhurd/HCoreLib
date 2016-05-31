@@ -1,6 +1,19 @@
 {
-  "parent": "block/cube_all",
+  "parent": "block/cube",
+  "display": {
+    "firstperson_righthand": {
+      "rotation": [ 0, 135, 0 ],
+      "translation": [ 0, 0, 0 ],
+      "scale": [ 0.40, 0.40, 0.40 ]
+    }
+  },
   "textures": {
-    "all": "hcorelib:blocks/tileTest"
+    "up": "hcorelib:blocks/sideU",
+    "down": "hcorelib:blocks/sideD",
+    "north": "hcorelib:blocks/sideN",
+    "east": "hcorelib:blocks/sideE",
+    "west": "hcorelib:blocks/sideW",
+    "south": "hcorelib:blocks/sideS",
+    "particle": "hcorelib:blocks/sideN"
   }
 }
