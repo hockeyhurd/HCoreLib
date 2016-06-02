@@ -28,4 +28,15 @@ public enum EnumArmorType {
 		return slots[ordinal()];
 	}
 
+	/**
+	 * Gets the formatted name typically used in resource locations.
+	 *
+	 * @return String formatted name.
+	 */
+	public String getFormattedName() {
+		final String name = name();
+
+		return name.charAt(0) + name.substring(1).toLowerCase();
+	}
+
 }

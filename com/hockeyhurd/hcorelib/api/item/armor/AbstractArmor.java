@@ -1,7 +1,9 @@
 package com.hockeyhurd.hcorelib.api.item.armor;
 
+import com.hockeyhurd.hcorelib.api.item.IHItem;
 import com.hockeyhurd.hcorelib.api.util.enums.EnumArmorType;
 import net.minecraft.item.ItemArmor;
+import net.minecraft.util.ResourceLocation;
 
 /**
  * Helper abstract claas for more easily creating item armor.
@@ -9,23 +11,25 @@ import net.minecraft.item.ItemArmor;
  * @author hockeyhurd
  * @version Jun 4, 2015
  */
-public abstract class AbstractArmor extends ItemArmor {
+public abstract class AbstractArmor extends ItemArmor implements IHItem {
 
-	public final String ASSET_DIR, PATH_MAT;
+	public final String ASSET_DIR;
 	protected final EnumArmorType armorType;
+	protected final String actualName;
+	protected final ResourceLocation resourceLocation;
 
 	/**
 	 * @param material armor material to use.
 	 * @param renderIndex render index of item.
 	 * @param armorType armor type.
 	 */
-	public AbstractArmor(ArmorMaterial material, int renderIndex, EnumArmorType armorType, String assetDir, String name, String pathMat) {
+	public AbstractArmor(ArmorMaterial material, int renderIndex, EnumArmorType armorType, String assetDir, String name) {
 		super(material, renderIndex, armorType.getEquipmentSlot());
 		this.ASSET_DIR = assetDir;
-		this.PATH_MAT = pathMat;
 		this.armorType = armorType;
 
-		final String actualName = createRegistryName(name, armorType);
+		this.actualName = createRegistryName(name, armorType);
+		this.resourceLocation = new ResourceLocation(assetDir, actualName);
 		setUnlocalizedName(actualName);
 		setRegistryName(actualName);
 	}
@@ -38,14 +42,27 @@ public abstract class AbstractArmor extends ItemArmor {
 	 * @return Corrected registry name.
 	 */
 	protected static String createRegistryName(String name, EnumArmorType armorType) {
-		return name + '_' + armorType.name().charAt(0) + armorType.name().substring(1).toLowerCase();
+		return name + armorType.getFormattedName();
 	}
 	
-	/**
-	 * @return suffix i.e. item.zPlatedHelmet -> Helmet
-	 */
-	protected String getSuffix() {
-		return getUnlocalizedName().substring(PATH_MAT.length());
+	@Override
+	public AbstractArmor getItem() {
+		return this;
+	}
+
+	@Override
+	public int getSizeOfSubItems() {
+		return 0;
+	}
+
+	@Override
+	public ResourceLocation getResourceLocation() {
+		return resourceLocation;
+	}
+
+	@Override
+	public String getName() {
+		return actualName;
 	}
 	
 }
