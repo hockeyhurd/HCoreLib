@@ -14,7 +14,7 @@ public abstract class AbstractHCoreItem extends Item implements IHItem {
 
     protected final String assetDir;
     protected String name;
-    protected final ResourceLocation resourceLocation;
+    protected ResourceLocation resourceLocation;
     protected final AbstractCreativeTab creativeTab;
 
     /**
@@ -45,7 +45,7 @@ public abstract class AbstractHCoreItem extends Item implements IHItem {
     }
 
     @Override
-    public ResourceLocation getResourceLocation() {
+    public ResourceLocation getResourceLocation(int meta) {
         return resourceLocation;
     }
 

@@ -16,7 +16,7 @@ public abstract class AbstractArmor extends ItemArmor implements IHItem {
 	public final String ASSET_DIR;
 	protected final EnumArmorType armorType;
 	protected final String actualName;
-	protected final ResourceLocation resourceLocation;
+	protected ResourceLocation resourceLocation;
 
 	/**
 	 * @param material armor material to use.
@@ -56,7 +56,7 @@ public abstract class AbstractArmor extends ItemArmor implements IHItem {
 	}
 
 	@Override
-	public ResourceLocation getResourceLocation() {
+	public ResourceLocation getResourceLocation(int meta) {
 		return resourceLocation;
 	}
 

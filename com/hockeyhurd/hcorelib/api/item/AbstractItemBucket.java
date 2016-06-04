@@ -22,7 +22,7 @@ public abstract class AbstractItemBucket extends ItemBucket implements IHItem {
 
 	protected final String name;
 	protected final String assetDir;
-	protected final ResourceLocation resourceLocation;
+	protected ResourceLocation resourceLocation;
 	protected final Block block;
 	protected final Item itemToReturn;
 
@@ -55,7 +55,7 @@ public abstract class AbstractItemBucket extends ItemBucket implements IHItem {
 	}
 
 	@Override
-	public ResourceLocation getResourceLocation() {
+	public ResourceLocation getResourceLocation(int meta) {
 		return resourceLocation;
 	}
 

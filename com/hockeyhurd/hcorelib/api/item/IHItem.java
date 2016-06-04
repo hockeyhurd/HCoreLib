@@ -28,9 +28,10 @@ public interface IHItem {
 	/**
 	 * Gets the resouce location.
 	 *
+	 * @param meta meta ID.
 	 * @return ResourceLocation.
 	 */
-	ResourceLocation getResourceLocation();
+	ResourceLocation getResourceLocation(int meta);
 
 	/**
 	 * Gets the name of the block.

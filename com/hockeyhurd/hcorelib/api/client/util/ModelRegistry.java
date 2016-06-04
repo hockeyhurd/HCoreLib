@@ -6,6 +6,7 @@ import com.hockeyhurd.hcorelib.api.util.StringUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -54,11 +55,12 @@ public final class ModelRegistry {
 	 */
 	public static void registerItem(IHItem item) {
 		if (item != null) {
-			if (!item.getItem().getHasSubtypes())
-				registerItem(item, 0, DEFAULT_TAG);
+			final boolean hasSubItems = item.getItem().getHasSubtypes();
+			if (!hasSubItems)
+				registerItem(item, 0, hasSubItems, DEFAULT_TAG);
 			else {
 				for (int i = 0; i < item.getSizeOfSubItems(); i++)
-					registerItem(item, i, DEFAULT_TAG);
+					registerItem(item, i, hasSubItems, DEFAULT_TAG);
 			}
 		}
 	}
@@ -69,9 +71,12 @@ public final class ModelRegistry {
 	 * @param item Item to register.
 	 * @param tag String tag to register with.
 	 */
-	public static void registerItem(IHItem item, int meta, String tag) {
+	public static void registerItem(IHItem item, int meta, boolean hasSubItems, String tag) {
 		if (item != null && StringUtils.nullCheckString(tag))
-			minecraft.getRenderItem().getItemModelMesher().register(item.getItem(), meta, getModelResourceLocation(item.getResourceLocation(), tag));
+			if (hasSubItems)
+				ModelLoader.setCustomModelResourceLocation(item.getItem(), meta, getModelResourceLocation(item.getResourceLocation(meta), tag));
+			else
+				minecraft.getRenderItem().getItemModelMesher().register(item.getItem(), meta, getModelResourceLocation(item.getResourceLocation(meta), tag));
 	}
 
 	/**
