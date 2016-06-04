@@ -47,7 +47,11 @@ public abstract class AbstractHCoreBlockContainer extends BlockContainer impleme
         setRegistryName(name);
         // setDefaultState(blockState.getBaseState());
         setHardness(getBlockHardness());
-        setHarvestLevel(getHarvestLevel().getTypeName(), getHarvestLevel().getLevel());
+
+        final EnumHarvestLevel harvestLevel = getHarvestLevel();
+        if (harvestLevel != EnumHarvestLevel.UNBREAKABLE)
+            setHarvestLevel(harvestLevel.getTypeName(), harvestLevel.getLevel());
+        else setBlockUnbreakable();
 
         resourceLocation = new ResourceLocation(assetDir, name);
     }

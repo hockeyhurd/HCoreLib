@@ -37,7 +37,11 @@ public abstract class AbstractHCoreBlock extends Block implements IHBlock {
         setRegistryName(name);
         setDefaultState(blockState.getBaseState());
         setHardness(getBlockHardness());
-        setHarvestLevel(getHarvestLevel().getTypeName(), getHarvestLevel().getLevel());
+
+        final EnumHarvestLevel harvestLevel = getHarvestLevel();
+        if (harvestLevel != EnumHarvestLevel.UNBREAKABLE)
+            setHarvestLevel(harvestLevel.getTypeName(), harvestLevel.getLevel());
+        else setBlockUnbreakable();
 
         resourceLocation = new ResourceLocation(assetDir, name);
     }
