@@ -52,6 +52,7 @@ public class CommonProxy implements IProxy {
 
 	protected void registerItems() {
 		GameRegistry.register(HCoreLibMain.testItem);
+		GameRegistry.register(HCoreLibMain.testMetaItem);
 	}
 
 	@Override

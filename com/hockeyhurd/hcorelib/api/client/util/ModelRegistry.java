@@ -3,7 +3,6 @@ package com.hockeyhurd.hcorelib.api.client.util;
 import com.hockeyhurd.hcorelib.api.block.IHBlock;
 import com.hockeyhurd.hcorelib.api.item.IHItem;
 import com.hockeyhurd.hcorelib.api.util.StringUtils;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.ModelLoader;
@@ -21,7 +20,6 @@ import static com.hockeyhurd.hcorelib.api.util.ItemUtils.getItem;
 @SideOnly(Side.CLIENT)
 public final class ModelRegistry {
 
-	private static final Minecraft minecraft = Minecraft.getMinecraft();
 	public static final String DEFAULT_TAG = "inventory";
 
 	private ModelRegistry() {
@@ -43,9 +41,9 @@ public final class ModelRegistry {
 	 * @param tag String tag to register with.
 	 */
 	public static void registerBlock(IHBlock block, String tag) {
-		if (block != null && StringUtils.nullCheckString(tag))
-			minecraft.getRenderItem().getItemModelMesher().register(getItem(block.getBlock()), 0,
-					getModelResourceLocation(block.getResourceLocation(), tag));
+		if (block != null && StringUtils.nullCheckString(tag)) {
+			ModelLoader.setCustomModelResourceLocation(getItem(block.getBlock()), 0, getModelResourceLocation(block.getResourceLocation(), tag));
+		}
 	}
 
 	/**
@@ -55,13 +53,8 @@ public final class ModelRegistry {
 	 */
 	public static void registerItem(IHItem item) {
 		if (item != null) {
-			final boolean hasSubItems = item.getItem().getHasSubtypes();
-			if (!hasSubItems)
-				registerItem(item, 0, hasSubItems, DEFAULT_TAG);
-			else {
-				for (int i = 0; i < item.getSizeOfSubItems(); i++)
-					registerItem(item, i, hasSubItems, DEFAULT_TAG);
-			}
+			if (!item.getItem().getHasSubtypes()) registerItem(item, DEFAULT_TAG);
+			else registerMetaItem(item, DEFAULT_TAG);
 		}
 	}
 
@@ -71,12 +64,24 @@ public final class ModelRegistry {
 	 * @param item Item to register.
 	 * @param tag String tag to register with.
 	 */
-	public static void registerItem(IHItem item, int meta, boolean hasSubItems, String tag) {
+	public static void registerItem(IHItem item, String tag) {
 		if (item != null && StringUtils.nullCheckString(tag))
-			if (hasSubItems)
-				ModelLoader.setCustomModelResourceLocation(item.getItem(), meta, getModelResourceLocation(item.getResourceLocation(meta), tag));
-			else
-				minecraft.getRenderItem().getItemModelMesher().register(item.getItem(), meta, getModelResourceLocation(item.getResourceLocation(meta), tag));
+			ModelLoader.setCustomModelResourceLocation(item.getItem(), 0, getModelResourceLocation(item.getResourceLocation(0), tag));
+	}
+
+	public static void registerMetaItem(IHItem item, String tag) {
+		if (item != null && StringUtils.nullCheckString(tag)) {
+			if (!item.getItem().getHasSubtypes()) return;
+
+			final ResourceLocation[] locations = new ResourceLocation[item.getSizeOfSubItems()];
+
+			for (int i = 0; i < locations.length; i++) {
+				locations[i] = item.getResourceLocation(i);
+				ModelLoader.setCustomModelResourceLocation(item.getItem(), i, getModelResourceLocation(locations[i], tag));
+			}
+
+			ModelLoader.registerItemVariants(item.getItem(), locations);
+		}
 	}
 
 	/**

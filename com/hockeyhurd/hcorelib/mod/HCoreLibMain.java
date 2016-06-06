@@ -17,6 +17,7 @@ import com.hockeyhurd.hcorelib.mod.creativetab.ModCreativeTab;
 import com.hockeyhurd.hcorelib.mod.handler.CommandHandler;
 import com.hockeyhurd.hcorelib.mod.handler.config.ConfigHandler;
 import com.hockeyhurd.hcorelib.mod.item.TestItem;
+import com.hockeyhurd.hcorelib.mod.item.TestMetaItem;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
@@ -25,11 +26,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
 import net.minecraftforge.fml.common.SidedProxy;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLServerStartedEvent;
-import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
+import net.minecraftforge.fml.common.event.*;
 import net.minecraftforge.fml.relauncher.Side;
 import org.apache.commons.lang3.JavaVersion;
 
@@ -54,6 +51,7 @@ public final class HCoreLibMain implements IForgeMod {
 	public static AbstractHCoreBlock testBlock;
 	public static AbstractHCoreBlockContainer testTile;
 	public static AbstractHCoreItem testItem;
+	public static AbstractHCoreItem testMetaItem;
 
 	@EventHandler
 	@Override
@@ -81,6 +79,9 @@ public final class HCoreLibMain implements IForgeMod {
 			else logHelper.warn("Injection was un-successful! mcmod.info is a liar!");
 		}
 
+		loadObj();
+		proxy.init();
+
 		logHelper.info("Pre-init finished successfully after", tl.getEffectiveTimeSince(), "ms!");
 	}
 	
@@ -90,8 +91,8 @@ public final class HCoreLibMain implements IForgeMod {
 		tl.resetStartTime();
 		logHelper.info("Init started, looking for config info!");
 
-		loadObj();
-		proxy.init();
+		// loadObj();
+		// proxy.init();
 		proxy.registerRenderInformation();
 		proxy.registerInputHandlers();
 
@@ -103,6 +104,7 @@ public final class HCoreLibMain implements IForgeMod {
 		testBlock = new TestBlock();
 		testTile = new TestTile();
 		testItem = new TestItem();
+		testMetaItem = new TestMetaItem("testMetaItem");
 	}
 	
 	@EventHandler

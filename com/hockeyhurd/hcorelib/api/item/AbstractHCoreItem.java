@@ -29,6 +29,7 @@ public abstract class AbstractHCoreItem extends Item implements IHItem {
 
         setUnlocalizedName(name);
         setRegistryName(name);
+
         if (creativeTab != null) setCreativeTab(creativeTab);
 
         resourceLocation = new ResourceLocation(assetDir, name);
