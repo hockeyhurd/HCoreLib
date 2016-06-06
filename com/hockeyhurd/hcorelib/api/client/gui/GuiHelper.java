@@ -10,6 +10,7 @@ import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.lwjgl.opengl.GL11;
 
 /**
  * Gui helper class.
@@ -22,6 +23,7 @@ public final class GuiHelper {
 
 	private static final Minecraft minecraft = Minecraft.getMinecraft();
 	private static final TextureManager textureManager = minecraft.getTextureManager();
+	public static final Color4f DEFAULT_COL = new Color4f(1.0f, 1.0f, 1.0f, 1.0f);
 
 	private GuiHelper() {
 	}
@@ -81,27 +83,29 @@ public final class GuiHelper {
 	/**
 	 * Attempts to draw model rectangle.
 	 *
-	 * @param gui Gui reference.
 	 * @param xp x-position.
 	 * @param yp y-position.
-	 * @param minU int.
-	 * @param minV int.
-	 * @param maxU int.
-	 * @param maxV int.
+	 * @param minU float.
+	 * @param minV float.
+	 * @param width int.
+	 * @param height int.
+	 * @param maxU float.
+	 * @param maxV float.
 	 */
-	public static void drawModelRect(Gui gui, int xp, int yp, int minU, int minV, int maxU, int maxV) {
-		gui.drawTexturedModalRect(xp, yp, minU, minV, maxU, maxV);
+	public static void drawModelRect(int xp, int yp, float minU, float minV, int width, int height, float maxU, float maxV) {
+		Gui.drawModalRectWithCustomSizedTexture(xp, yp, minU, minV, width, height, maxU, maxV);
 	}
 
 	/**
 	 * Attempts to draw model rectangle.
 	 *
-	 * @param gui Gui reference.
 	 * @param vec Vector2i position.
 	 * @param rect Rectangle to render.
 	 */
-	public static void drawModelRect(Gui gui, Vector2<Integer> vec, Rect<Integer> rect) {
-		gui.drawTexturedModalRect(vec.x, vec.y, rect.min.x, rect.min.y, rect.max.x, rect.max.y);
+	public static void drawModelRect(Vector2<Integer> vec, Rect<Integer> rect) {
+		// gui.drawTexturedModalRect(vec.x, vec.y, rect.min.x, rect.min.y, rect.max.x, rect.max.y);
+		Gui.drawModalRectWithCustomSizedTexture(vec.x, vec.y, (float) rect.min.x, (float) rect.min.y, rect.max.x, rect.max.y,
+				(float) rect.max.x, (float) rect.max.y);
 	}
 
 	/**
@@ -109,21 +113,22 @@ public final class GuiHelper {
 	 *
 	 * @see net.minecraft.client.renderer.GlStateManager
 	 *
-	 * @param gui Gui reference.
 	 * @param resourceLocation ResourceLocation.
 	 * @param color4f Color4f color.
 	 * @param xp x-position.
 	 * @param yp y-position.
-	 * @param minU int.
-	 * @param minV int.
-	 * @param maxU int.
-	 * @param maxV int.
+	 * @param minU float.
+	 * @param minV float.
+	 * @param maxU float.
+	 * @param maxV float.
 	 */
-	public static void simpleRenderGui(Gui gui, ResourceLocation resourceLocation, Color4f color4f, int xp, int yp,
-			int minU, int minV, int maxU, int maxV) {
+	public static void simpleRenderGui(ResourceLocation resourceLocation, Color4f color4f, int xp, int yp,
+			float minU, float minV, float maxU, float maxV) {
 
+		GL11.glPushMatrix();
 		preRenderInit(resourceLocation, color4f);
-		drawModelRect(gui, xp, yp, minU, minV, maxU, maxV);
+		drawModelRect(xp, yp, minU, minV, (int) maxU, (int) maxV, maxU, maxV);
+		GL11.glPopMatrix();
 	}
 
 	/**
@@ -131,15 +136,37 @@ public final class GuiHelper {
 	 *
 	 * @see net.minecraft.client.renderer.GlStateManager
 	 *
-	 * @param gui Gui reference.
 	 * @param resourceLocation ResourceLocation.
 	 * @param color4f Color4f color.
 	 * @param vec Vector2i positon.
 	 * @param rect Rectangle to render.
 	 */
-	public static void simpleRenderGui(Gui gui, ResourceLocation resourceLocation, Color4f color4f, Vector2<Integer> vec, Rect<Integer> rect) {
+	public static void simpleRenderGui(ResourceLocation resourceLocation, Color4f color4f, Vector2<Integer> vec, Rect<Integer> rect) {
 		preRenderInit(resourceLocation, color4f);
-		drawModelRect(gui, vec, rect);
+		drawModelRect(vec, rect);
+	}
+
+	/**
+	 * Handles generic set-up of GlStateManager and renders model rectangle.
+	 *
+	 * @see net.minecraft.client.renderer.GlStateManager
+	 *
+	 * @param resourceLocation ResourceLocation.
+	 * @param color4f Color4g color.
+	 * @param xp int.
+	 * @param yp int.
+	 * @param minU float.
+	 * @param minV float.
+	 * @param width int.
+	 * @param height int.
+	 * @param maxU float.
+	 * @param maxV float.
+	 */
+	public static void simpleRenderGui(ResourceLocation resourceLocation, Color4f color4f, int xp, int yp,
+			float minU, float minV, int width, int height, float maxU, float maxV) {
+
+		preRenderInit(resourceLocation, color4f);
+		drawModelRect(xp, yp, minU, minV, width, height, maxU, maxV);
 	}
 
 }
