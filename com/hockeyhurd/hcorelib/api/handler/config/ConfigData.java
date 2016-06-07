@@ -86,10 +86,11 @@ public final class ConfigData<T> {
 	 * @version 6/7/16
 	 */
 	private enum DataType {
-		BYTE, SHORT, INT, LONG, CHAR, STRING;
+		BOOLEAN, BYTE, SHORT, INT, LONG, CHAR, STRING;
 
 		static DataType getDataType(Object sample) {
 			if (sample == null) throw new NullPointerException("Sample objected was NULL!");
+			else if (sample instanceof Boolean) return BOOLEAN;
 			else if (sample instanceof Byte) return BYTE;
 			else if (sample instanceof Short) return SHORT;
 			else if (sample instanceof Integer) return INT;
@@ -109,7 +110,8 @@ public final class ConfigData<T> {
          */
 		@SuppressWarnings("unchecked")
 		static <T> T readBuf(ByteBuf buf, DataType dataType) {
-			if (dataType == BYTE) return (T) (Byte) buf.readByte();
+			if (dataType == BOOLEAN) return (T) (Boolean) buf.readBoolean();
+			else if (dataType == BYTE) return (T) (Byte) buf.readByte();
 			else if (dataType == SHORT) return (T) (Short) buf.readShort();
 			else if (dataType == INT) return (T) (Integer) buf.readInt();
 			else if (dataType == LONG) return (T) (Long) buf.readLong();
@@ -136,7 +138,8 @@ public final class ConfigData<T> {
          * @param data Data value to write.
          */
 		static void writeBuf(ByteBuf buf, DataType dataType, Object data) {
-			if (dataType == BYTE) buf.writeByte((Byte) data);
+			if (dataType == BOOLEAN) buf.writeBoolean((Boolean) data);
+			else if (dataType == BYTE) buf.writeByte((Byte) data);
 			else if (dataType == SHORT) buf.writeShort((Short) data);
 			else if (dataType == INT) buf.writeInt((Integer) data);
 			else if (dataType == LONG) buf.writeLong((Long) data);
