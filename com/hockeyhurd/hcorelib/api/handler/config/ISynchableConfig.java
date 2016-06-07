@@ -8,6 +8,27 @@ package com.hockeyhurd.hcorelib.api.handler.config;
  */
 public interface ISynchableConfig {
 
+	/**
+	 * Gets the config's instance.
+	 *
+	 * @return Config instance.
+     */
+	ISynchableConfig getInstance();
+
+	/**
+	 * Gets the config channel.
+	 *
+	 * @return ConfigChannel.
+     */
 	ConfigChannel getConfigChannel();
+
+	/**
+	 * Helper function verify config channel is compatible and
+	 * can write data to/from this particular config.
+	 *
+	 * @param configChannel ConfigChannel.
+	 * @return boolean result.
+     */
+	boolean isConfigChannelValid(ConfigChannel configChannel);
 
 }

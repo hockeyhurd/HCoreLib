@@ -2,10 +2,6 @@ package com.hockeyhurd.hcorelib.api.handler.config;
 
 import com.hockeyhurd.hcorelib.api.util.exceptions.InCompatibleTypeException;
 import io.netty.buffer.ByteBuf;
-import scala.Char;
-import scala.collection.mutable.StringBuilder;
-
-import static net.minecraft.init.Items.string;
 
 /**
  * Class used for containing relevant information to
@@ -21,10 +17,19 @@ public final class ConfigData<T> {
 	private T[] data;
 	private DataType dataType;
 
+	/**
+	 * @param field Field name identifier.
+	 * @param data Data value(s).
+     */
 	public ConfigData(String field, T... data) {
 		this(false, field, data);
 	}
 
+	/**
+	 * @param clientOnly boolean flag for whether data can only be sent server -> client.
+	 * @param field Field name identifier.
+	 * @param data Data value(s).
+     */
 	public ConfigData(boolean clientOnly, String field, T... data) {
 		if (data == null || data.length == 0)
 			throw new IllegalArgumentException("Illegal object data was injected. Was this an error???");
@@ -35,10 +40,20 @@ public final class ConfigData<T> {
 		this.data = data.clone();
 	}
 
+	/**
+	 * Function to validate data to be sent.
+	 *
+	 * @return boolean result.
+     */
 	public boolean validate() {
 		return field != null && data != null && data.length > 0;
 	}
 
+	/**
+	 * Reads buffer data.
+	 *
+	 * @param buf ByteBuf.
+     */
 	@SuppressWarnings("unchecked")
 	public void readBuf(ByteBuf buf) {
 		final int arrLen = buf.readInt();
@@ -50,6 +65,11 @@ public final class ConfigData<T> {
 		}
 	}
 
+	/**
+	 * Writes buffer data.
+	 *
+	 * @param buf ByteBuf.
+     */
 	public void writeBuf(ByteBuf buf) {
 		buf.writeInt(data.length);
 		buf.writeInt(dataType.ordinal());
@@ -59,6 +79,12 @@ public final class ConfigData<T> {
 		}
 	}
 
+	/**
+	 * Private enumeration for handling primitive data.
+	 *
+	 * @author hockeyhurd
+	 * @version 6/7/16
+	 */
 	private enum DataType {
 		BYTE, SHORT, INT, LONG, CHAR, STRING;
 
@@ -73,6 +99,14 @@ public final class ConfigData<T> {
 			else throw new InCompatibleTypeException("Invalid type used for interpretation!");
 		}
 
+		/**
+		 * Reads and returns data from ByteBuf.
+		 *
+		 * @param buf ByteBuf.
+		 * @param dataType The data's datatype.
+         * @param <T> Return type.
+         * @return read data.
+         */
 		@SuppressWarnings("unchecked")
 		static <T> T readBuf(ByteBuf buf, DataType dataType) {
 			if (dataType == BYTE) return (T) (Byte) buf.readByte();
@@ -94,6 +128,13 @@ public final class ConfigData<T> {
 			else throw new InCompatibleTypeException("Invalid type used for interpretation!");
 		}
 
+		/**
+		 * Writes buffer data.
+		 *
+		 * @param buf ByteBuf.
+		 * @param dataType Data's datatype to write.
+         * @param data Data value to write.
+         */
 		static void writeBuf(ByteBuf buf, DataType dataType, Object data) {
 			if (dataType == BYTE) buf.writeByte((Byte) data);
 			else if (dataType == SHORT) buf.writeShort((Short) data);

@@ -16,7 +16,7 @@ import static net.minecraft.util.text.TextFormatting.*;
 /**
  * Simple class for notifying player when they join the game about your mod's update!
  * To make use of this class, create a new instance of this class with the parameters
- * of your update handler's instance, a map of retrieved data (call myUpdateHandlerInstance.check(), followed by myUpdateHandlerInstance.getMap()),
+ * of your update handler's instance, a configCodeMap of retrieved data (call myUpdateHandlerInstance.check(), followed by myUpdateHandlerInstance.getMap()),
  * yourReferenceClass.class provided it extends AabstractReference class and you followed its directions,
  * followed lastly by a generic boolean that you got from calling myUpdateHandlerInstance.getUpToDate().
  * NOTE: All of this instantiating should be handled in your CommonProxy class!
@@ -37,7 +37,7 @@ public class NotifyPlayerOnJoinHandler {
 	 * Default constructor for instantiating your mod's update notifier.
 	 *
 	 * @param instance your created instance of UpdateHandler.
-	 * @param map map created by calling myUpdateHandlerInstance.check() followed by myUpdateHandlerInstance.getMap().
+	 * @param map configCodeMap created by calling myUpdateHandlerInstance.check() followed by myUpdateHandlerInstance.getMap().
 	 * @param referenceClass a reference to your created ReferenceClass.class that extends AbstractReference class and followed its directions.
 	 * @param updateFlag your created stored updateFlag boolean var obtained by calling myUpdateHandlerInstance.getUpToDate().
 	 * @param maskUrl Whether you wish to hide the url in the chat, NOTE: doesn't change what the user sees when prompted to open.

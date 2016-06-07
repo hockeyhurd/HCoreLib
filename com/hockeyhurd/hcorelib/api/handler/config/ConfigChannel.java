@@ -16,10 +16,18 @@ import java.util.List;
 public final class ConfigChannel {
 
 	public final String channelID;
+	public final long keyCode;
 	private final List<ConfigData> dataList;
 
-	public ConfigChannel(String channelID, ConfigData... configDatas) {
+	/**
+	 * Constructs a ConfigChannel.
+	 *
+	 * @param channelID String channel ID.
+	 * @param configDatas ConfigData to import.
+     */
+	public ConfigChannel(String channelID, long keyCode, ConfigData... configDatas) {
 		this.channelID = channelID;
+		this.keyCode = keyCode;
 		dataList = new LinkedList<ConfigData>();
 
 		for (ConfigData configData : configDatas) {
@@ -40,6 +48,11 @@ public final class ConfigChannel {
 		return configChannel != null && configChannel.validate();
 	}
 
+	/**
+	 * Handles reading of config data through channel.
+	 *
+	 * @param buf ByteBuf.
+     */
 	public void readBuf(ByteBuf buf) {
 		if (!validate()) return;
 
@@ -47,6 +60,11 @@ public final class ConfigChannel {
 			data.readBuf(buf);
 	}
 
+	/**
+	 * Handles writing of config data through channel.
+	 *
+	 * @param buf ByteBuf.
+     */
 	public void writeBuf(ByteBuf buf) {
 		if (!validate()) return;
 

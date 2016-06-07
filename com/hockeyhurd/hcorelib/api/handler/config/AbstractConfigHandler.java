@@ -8,7 +8,9 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -17,10 +19,12 @@ import java.util.Set;
  * @author hockeyhurd
  * @version 4/25/16
  */
-public abstract class AbstractConfigHandler {
+public abstract class AbstractConfigHandler implements ISynchableConfig {
 
 	protected final FMLPreInitializationEvent event;
 	protected Configuration config;
+	protected ConfigChannel configChannel;
+	protected static final Map<String, long[]> configCodeMap = new HashMap<String, long[]>();
 	public final String PATH;
 	protected String modID;
 
@@ -132,5 +136,38 @@ public abstract class AbstractConfigHandler {
 	 * Class you can use to call and set-UP own way of handling your config file.
 	 */
 	public abstract void handleConfiguration();
+
+	@Override
+	public AbstractConfigHandler getInstance() {
+		return this;
+	}
+
+	@Override
+	public ConfigChannel getConfigChannel() {
+		return configChannel;
+	}
+
+	@Override
+	public boolean isConfigChannelValid(ConfigChannel configChannel) {
+		if (configChannel == null || !configChannel.validate() ||
+				this.configChannel == null || !this.configChannel.validate() ||
+				configChannel.keyCode != this.configChannel.keyCode ||
+				!configChannel.channelID.equals(this.configChannel.channelID)) return false;
+
+		else if (configCodeMap.isEmpty()) return false;
+		else if (!configCodeMap.containsKey(configChannel.channelID)) return false;
+		else {
+			final long[] codeArr = configCodeMap.get(configChannel.channelID);
+
+			if (codeArr == null || codeArr.length == 0) return false;
+			else {
+				for (long l : codeArr) {
+					if (l == configChannel.keyCode) return true;
+				}
+
+				return false;
+			}
+		}
+	}
 
 }

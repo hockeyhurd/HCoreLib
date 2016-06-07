@@ -26,7 +26,11 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
 import net.minecraftforge.fml.common.SidedProxy;
-import net.minecraftforge.fml.common.event.*;
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLServerStartedEvent;
+import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import org.apache.commons.lang3.JavaVersion;
 
@@ -59,7 +63,7 @@ public final class HCoreLibMain implements IForgeMod {
 		tl = new TimeLapse();
 		logHelper = new LogHelper(LibReference.class);
 
-		final boolean result = JavaCompatibility.runCheck(JavaVersion.JAVA_1_6);
+		final boolean result = JavaCompatibility.runCheck(JavaVersion.JAVA_1_7);
 		if (result) logHelper.info("Java version is compatible!");
 
 		logHelper.info("Pre-init started, looking for config info!");
