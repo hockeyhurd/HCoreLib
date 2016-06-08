@@ -52,6 +52,11 @@ public abstract class AbstractHCoreBlock extends Block implements IHBlock {
     }
 
     @Override
+    public boolean hasSpecialRenderer() {
+        return false;
+    }
+
+    @Override
     public ResourceLocation getResourceLocation() {
         return resourceLocation;
     }

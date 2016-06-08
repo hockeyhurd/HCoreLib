@@ -57,6 +57,11 @@ public abstract class AbstractHCoreBlockContainer extends BlockContainer impleme
     }
 
     @Override
+    public boolean hasSpecialRenderer() {
+        return false;
+    }
+
+    @Override
     public ResourceLocation getResourceLocation() {
         return resourceLocation;
     }

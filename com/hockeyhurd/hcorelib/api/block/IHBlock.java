@@ -21,6 +21,13 @@ public interface IHBlock {
 	Block getBlock();
 
 	/**
+	 * Gets whether this block has a special renderer.
+	 *
+	 * @return boolean result.
+	 */
+	boolean hasSpecialRenderer();
+
+	/**
 	 * Gets the resouce location.
 	 *
 	 * @return ResourceLocation.
