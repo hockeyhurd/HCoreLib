@@ -31,7 +31,7 @@ public final class ModelRegistry {
 	 * @param block Block to register.
 	 */
 	public static void registerBlock(IHBlock block) {
-		if (block != null && !block.hasSpecialRenderer()) registerBlock(block, DEFAULT_TAG);
+		if (block != null /*&& !block.hasSpecialRenderer()*/) registerBlock(block, DEFAULT_TAG);
 	}
 
 	/**
