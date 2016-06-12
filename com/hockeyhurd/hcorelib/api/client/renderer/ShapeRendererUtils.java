@@ -1,6 +1,6 @@
 package com.hockeyhurd.hcorelib.api.client.renderer;
 
-import com.hockeyhurd.hcorelib.api.client.util.TessellatorHelper;
+import com.hockeyhurd.hcorelib.api.client.util.RenderHelper;
 import com.hockeyhurd.hcorelib.api.math.Color;
 import com.hockeyhurd.hcorelib.api.math.Color4i;
 import com.hockeyhurd.hcorelib.api.math.Vector3;
@@ -41,17 +41,17 @@ public class ShapeRendererUtils {
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 
 		GL11.glTranslatef(-offset.x, -offset.y, -offset.z);
-		TessellatorHelper.startDrawingQuads();
-		TessellatorHelper.setColorRGBA(col);
+		RenderHelper.startDrawingQuads();
+		RenderHelper.setColor(col);
 
 		if ((enumShape == EnumShape.RECT || enumShape == EnumShape.SQUARE) && vectors != null && vectors.length == 2) {
-			TessellatorHelper.addVert(vectors[1].x, vectors[0].y, vectors[0].z);
-			TessellatorHelper.addVert(vectors[1].x, vectors[0].y, vectors[1].z);
-			TessellatorHelper.addVert(vectors[0].x, vectors[0].y, vectors[1].z);
-			TessellatorHelper.addVert(vectors[0].x, vectors[0].y, vectors[0].z);
+			RenderHelper.addVert(vectors[1].x, vectors[0].y, vectors[0].z);
+			RenderHelper.addVert(vectors[1].x, vectors[0].y, vectors[1].z);
+			RenderHelper.addVert(vectors[0].x, vectors[0].y, vectors[1].z);
+			RenderHelper.addVert(vectors[0].x, vectors[0].y, vectors[0].z);
 		}
 
-		TessellatorHelper.draw();
+		RenderHelper.draw();
 
 		GL11.glPopMatrix();
 		GL11.glDisable(GL11.GL_BLEND);

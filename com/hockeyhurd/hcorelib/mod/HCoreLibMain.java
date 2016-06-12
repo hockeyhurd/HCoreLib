@@ -12,6 +12,7 @@ import com.hockeyhurd.hcorelib.api.util.exceptions.InCompatibleJavaException.Jav
 import com.hockeyhurd.hcorelib.api.util.interfaces.IForgeMod;
 import com.hockeyhurd.hcorelib.mod.block.BlockWhiteHidden;
 import com.hockeyhurd.hcorelib.mod.block.TestBlock;
+import com.hockeyhurd.hcorelib.mod.block.TestTESRTile;
 import com.hockeyhurd.hcorelib.mod.block.TestTile;
 import com.hockeyhurd.hcorelib.mod.creativetab.ModCreativeTab;
 import com.hockeyhurd.hcorelib.mod.handler.CommandHandler;
@@ -26,11 +27,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
 import net.minecraftforge.fml.common.SidedProxy;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLServerStartedEvent;
-import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
+import net.minecraftforge.fml.common.event.*;
 import net.minecraftforge.fml.relauncher.Side;
 import org.apache.commons.lang3.JavaVersion;
 
@@ -54,6 +51,7 @@ public final class HCoreLibMain implements IForgeMod {
 	public static Block white;
 	public static AbstractHCoreBlock testBlock;
 	public static AbstractHCoreBlockContainer testTile;
+	public static AbstractHCoreBlockContainer testTESRTile;
 	public static AbstractHCoreItem testItem;
 	public static AbstractHCoreItem testMetaItem;
 
@@ -107,6 +105,7 @@ public final class HCoreLibMain implements IForgeMod {
 		white = new BlockWhiteHidden(Material.rock, "HiddenWhite");
 		testBlock = new TestBlock();
 		testTile = new TestTile();
+		testTESRTile = new TestTESRTile();
 		testItem = new TestItem();
 		testMetaItem = new TestMetaItem("testMetaItem");
 	}

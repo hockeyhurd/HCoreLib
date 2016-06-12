@@ -1,4 +1,4 @@
-package com.hockeyhurd.hcorelib.mod.block;
+package com.hockeyhurd.hcorelib.mod.tileentity;
 
 import com.hockeyhurd.hcorelib.api.tileentity.AbstractTile;
 import net.minecraft.nbt.NBTTagCompound;

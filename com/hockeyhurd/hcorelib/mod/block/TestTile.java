@@ -3,6 +3,7 @@ package com.hockeyhurd.hcorelib.mod.block;
 import com.hockeyhurd.hcorelib.api.block.AbstractHCoreBlockContainer;
 import com.hockeyhurd.hcorelib.api.util.enums.EnumHarvestLevel;
 import com.hockeyhurd.hcorelib.mod.HCoreLibMain;
+import com.hockeyhurd.hcorelib.mod.tileentity.TileEntityTest;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyBool;
