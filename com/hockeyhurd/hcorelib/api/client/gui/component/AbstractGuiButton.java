@@ -17,7 +17,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public abstract class AbstractGuiButton extends GuiButton implements IGuiButton {
 
-    protected static final ResourceLocation DEFAULT_TEXTURE = buttonTextures;
+    protected static final ResourceLocation DEFAULT_TEXTURE = BUTTON_TEXTURES;
     protected ResourceLocation texture = DEFAULT_TEXTURE;
     protected boolean active;
 

@@ -7,7 +7,10 @@ public abstract class AbstractReference {
 	
 	/** Current version with included build number. */
 	public static String VERSION;
-	
+
+	/** Current Minecraft version. */
+	public static final String MINECRAFT_VERSION = "1.9.4";
+
 	/** Current mod name. */
 	public static String MOD_NAME;
 	

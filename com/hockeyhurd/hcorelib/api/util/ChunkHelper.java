@@ -68,7 +68,7 @@ public class ChunkHelper {
 					// Get the block id of the block being analyzed,
 					IBlockState block = BlockUtils.getBlock(world, chunkX + x, y, chunkZ + z);
 					// If the block id is not of 'air' and it matches the desired block, add it to the list.
-					if (block != null && block != Blocks.air && BlockUtils.blockListContains(block) && block == blockToFind) {
+					if (block != null && block != Blocks.AIR && BlockUtils.blockListContains(block) && block == blockToFind) {
 						Block block2 = blockToFind;
 						list.add(block2);
 					}

@@ -73,7 +73,7 @@ public final class ChatUtils {
         ITextComponent comp = createComponent(separateMessages, messages);
         comp.appendText(" " + (StringUtils.nullCheckString(maskURL) ? maskURL : url));
 
-        comp.getChatStyle().setChatClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, url));
+        comp.getStyle().setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, url));
 
         return comp;
     }
@@ -103,7 +103,7 @@ public final class ChatUtils {
 
         ITextComponent comp = createComponent(separateMessages, messages);
 
-        comp.getChatStyle().setChatClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND,
+        comp.getStyle().setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND,
                 command.getCommandUsage(null)));
 
         return comp;
@@ -123,7 +123,7 @@ public final class ChatUtils {
 
         ITextComponent comp = createComponent(separateMessages, messages);
 
-        comp.getChatStyle().setChatClickEvent(new ClickEvent(ClickEvent.Action.OPEN_FILE, file.getAbsolutePath()));
+        comp.getStyle().setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_FILE, file.getAbsolutePath()));
 
         return comp;
     }

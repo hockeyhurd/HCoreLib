@@ -24,7 +24,7 @@ import net.minecraft.world.World;
 public class TestTESRTile extends AbstractHCoreBlockContainer {
 
 	public TestTESRTile() {
-		super(Material.rock, HCoreLibMain.myCreativeTab, HCoreLibMain.assetDir, "testTESRTile");
+		super(Material.ROCK, HCoreLibMain.myCreativeTab, HCoreLibMain.assetDir, "testTESRTile");
 	}
 
 	@Override

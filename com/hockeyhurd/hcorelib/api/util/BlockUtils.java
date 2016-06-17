@@ -472,7 +472,7 @@ public final class BlockUtils {
 	 */
 	public static boolean blockExists(World world, int x, int y, int z) {
 		final Block block = getBlock(world, x, y, z).getBlock();
-		return block != null && block != Blocks.air;
+		return block != null && block != Blocks.AIR;
 	}
 
 	/**
@@ -506,7 +506,7 @@ public final class BlockUtils {
 	@Deprecated
 	public static boolean blockListContains(int id) {
 		Block block = Block.getBlockById(id);
-		return block != null && block != Blocks.air;
+		return block != null && block != Blocks.AIR;
 	}
 
 	/**
@@ -518,7 +518,7 @@ public final class BlockUtils {
 	public static boolean blockListContains(IBlockState block) {
 		int id = Block.getIdFromBlock(block.getBlock());
 		Block b = Block.getBlockById(id);
-		return b != null && b != Blocks.air;
+		return b != null && b != Blocks.AIR;
 	}
 
 	/**

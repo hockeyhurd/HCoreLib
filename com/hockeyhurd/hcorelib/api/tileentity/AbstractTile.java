@@ -71,9 +71,10 @@ public abstract class AbstractTile extends TileEntity {
      * NOTE: This method should be overridden as necessary.
      */
     @Override
-    public void writeToNBT(NBTTagCompound comp) {
+    public NBTTagCompound writeToNBT(NBTTagCompound comp) {
         super.writeToNBT(comp);
         saveNBT(comp);
+        return comp;
     }
 
     /**

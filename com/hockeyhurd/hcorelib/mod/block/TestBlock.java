@@ -14,7 +14,7 @@ import net.minecraft.block.material.Material;
 public class TestBlock extends AbstractHCoreBlock {
 
 	public TestBlock() {
-		super(Material.rock, HCoreLibMain.myCreativeTab, HCoreLibMain.assetDir, "testBlock");
+		super(Material.ROCK, HCoreLibMain.myCreativeTab, HCoreLibMain.assetDir, "testBlock");
 	}
 
 	@Override

@@ -30,7 +30,7 @@ public abstract class AbstractCreativeTab extends CreativeTabs {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public Item getTabIconItem() {
-		return Items.diamond;
+		return Items.DIAMOND;
 	}
 
 	@Override

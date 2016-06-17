@@ -68,13 +68,13 @@ public class Waila {
 
 	private void addBlockBlackList() {
 		// add(ExtraTools.glowTorch);
-		add(Blocks.torch);
-		add(Blocks.rail);
-		add(Blocks.activator_rail);
-		add(Blocks.detector_rail);
-		add(Blocks.golden_rail);
-		add(Blocks.bedrock);
-		add(Blocks.mob_spawner);
+		add(Blocks.TORCH);
+		add(Blocks.RAIL);
+		add(Blocks.ACTIVATOR_RAIL);
+		add(Blocks.DETECTOR_RAIL);
+		add(Blocks.GOLDEN_RAIL);
+		add(Blocks.BEDROCK);
+		add(Blocks.MOB_SPAWNER);
 
 		// TODO: Find solution to determine if a block has a hardness of -1 (unbreakable).
 		/*
@@ -327,9 +327,9 @@ public class Waila {
 	 */
 	public void tillLand(int x, int y, int z) {
 		// Get all needed block ids'
-		Block tilDir = Blocks.farmland;
-		Block dirt = Blocks.dirt;
-		Block grass = Blocks.grass;
+		Block tilDir = Blocks.FARMLAND;
+		Block dirt = Blocks.DIRT;
+		Block grass = Blocks.GRASS;
 
 		/*
 		 * Scan through block on the x and z axis, check if they can be tilled, till the land!

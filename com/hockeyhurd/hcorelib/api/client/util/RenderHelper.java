@@ -108,7 +108,7 @@ public final class RenderHelper {
 	 * Draws tessellated vertexes.
 	 */
 	public static void draw() {
-		if (!isDrawing)
+		if (isDrawing)
 			tessellator.draw();
 		else HCoreLibMain.logHelper.warn("Not drawing currently!");
 	}

@@ -70,7 +70,7 @@ public abstract class AbstractItemBucket extends ItemBucket implements IHItem {
 	 * @param block reference to block.
 	 */
 	public AbstractItemBucket(String name, String assetDir, Block block) {
-		this(name, assetDir, Items.bucket, block);
+		this(name, assetDir, Items.BUCKET, block);
 	}
 
 	@Override

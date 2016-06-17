@@ -30,7 +30,7 @@ public class TestTile extends AbstractHCoreBlockContainer {
 	protected static final PropertyBool WORKING = PropertyBool.create("working");
 
 	public TestTile() {
-		super(Material.rock, HCoreLibMain.myCreativeTab, HCoreLibMain.assetDir, "tileTest");
+		super(Material.ROCK, HCoreLibMain.myCreativeTab, HCoreLibMain.assetDir, "tileTest");
 		setDefaultState(blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH).withProperty(WORKING, false));
 	}
 

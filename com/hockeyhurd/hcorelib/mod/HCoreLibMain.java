@@ -32,7 +32,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import org.apache.commons.lang3.JavaVersion;
 
 @Mod(modid = LibReference.MOD_NAME, name = LibReference.MOD_NAME, version = LibReference.VERSION,
-		acceptedMinecraftVersions = "1.9", guiFactory = "com.hockeyhurd.hcorelib.mod.client.gui.HGuiFactory")
+		acceptedMinecraftVersions = LibReference.MINECRAFT_VERSION, guiFactory = "com.hockeyhurd.hcorelib.mod.client.gui.HGuiFactory")
 public final class HCoreLibMain implements IForgeMod {
 
 	@SidedProxy(clientSide = "com.hockeyhurd.hcorelib.mod.ClientProxy", serverSide = "com.hockeyhurd.hcorelib.mod.CommonProxy")
@@ -102,7 +102,7 @@ public final class HCoreLibMain implements IForgeMod {
 	}
 	
 	private void loadObj() {
-		white = new BlockWhiteHidden(Material.rock, "HiddenWhite");
+		white = new BlockWhiteHidden(Material.ROCK, "HiddenWhite");
 		testBlock = new TestBlock();
 		testTile = new TestTile();
 		testTESRTile = new TestTESRTile();

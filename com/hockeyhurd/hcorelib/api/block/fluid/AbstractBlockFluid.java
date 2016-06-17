@@ -23,7 +23,7 @@ public abstract class AbstractBlockFluid extends BlockFluidClassic {
 	 * @param fluid    reference to fluid.
 	 */
 	public AbstractBlockFluid(String name, String assetDir, Fluid fluid) {
-		this(name, assetDir, fluid, Material.water);
+		this(name, assetDir, fluid, Material.WATER);
 	}
 
 	/**
