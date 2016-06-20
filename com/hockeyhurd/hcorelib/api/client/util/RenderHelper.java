@@ -249,6 +249,130 @@ public final class RenderHelper {
 	}
 
 	/**
+	 * GL translation.
+	 *
+	 * @param x float.
+	 * @param y float.
+	 * @param z float.
+	 */
+	public static void translatef(float x, float y, float z) {
+		GL11.glTranslatef(x, y, z);
+	}
+
+	/**
+	 * GL translation.
+	 *
+	 * @param vec Vector3f.
+	 */
+	public static void translatef(Vector3<Float> vec) {
+		GL11.glTranslatef(vec.x, vec.y, vec.z);
+	}
+
+	/**
+	 * GL translation.
+	 *
+	 * @param x double.
+	 * @param y double.
+	 * @param z double.
+	 */
+	public static void translated(double x, double y, double z) {
+		GL11.glTranslated(x, y, z);
+	}
+
+	/**
+	 * GL translation.
+	 *
+	 * @param vec Vector3d.
+	 */
+	public static void translated(Vector3<Double> vec) {
+		GL11.glTranslated(vec.x, vec.y, vec.z);
+	}
+
+	/**
+	 * GL rotation.
+	 *
+	 * @param angle float.
+	 * @param x float.
+	 * @param y float.
+	 * @param z float.
+	 */
+	public static void rotatef(float angle, float x, float y, float z) {
+		GL11.glRotatef(angle, x, y, z);
+	}
+
+	/**
+	 * GL rotation.
+	 *
+	 * @param angle float.
+	 * @param vec Vector3f.
+	 */
+	public static void rotatef(float angle, Vector3<Float> vec) {
+		GL11.glRotatef(angle, vec.x, vec.y, vec.z);
+	}
+
+	/**
+	 * GL rotation.
+	 *
+	 * @param angle double.
+	 * @param x double.
+	 * @param y double.
+	 * @param z double.
+	 */
+	public static void rotated(double angle, double x, double y, double z) {
+		GL11.glRotated(angle, x, y, z);
+	}
+
+	/**
+	 * GL rotation.
+	 *
+	 * @param angle double.
+	 * @param vec Vector3d.
+	 */
+	public static void rotated(double angle, Vector3<Double> vec) {
+		GL11.glRotated(angle, vec.x, vec.y, vec.z);
+	}
+
+	/**
+	 * GL scale.
+	 *
+	 * @param x float.
+	 * @param y float.
+	 * @param z float.
+	 */
+	public static void scalef(float x, float y, float z) {
+		GL11.glScalef(x, y, z);
+	}
+
+	/**
+	 * GL scale.
+	 *
+	 * @param vec Vector3f.
+	 */
+	public static void scalef(Vector3<Float> vec) {
+		GL11.glScalef(vec.x, vec.y, vec.z);
+	}
+
+	/**
+	 * GL scale.
+	 *
+	 * @param x double.
+	 * @param y double.
+	 * @param z double.
+	 */
+	public static void rotated(double x, double y, double z) {
+		GL11.glScaled(x, y, z);
+	}
+
+	/**
+	 * GL scale.
+	 *
+	 * @param vec Vector3d.
+	 */
+	public static void rotated(Vector3<Double> vec) {
+		GL11.glScaled(vec.x, vec.y, vec.z);
+	}
+
+	/**
 	 * Draws quad at min/max vectors.
 	 *
 	 * @param minVec Vector3f.

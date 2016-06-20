@@ -1,6 +1,10 @@
 package com.hockeyhurd.hcorelib.api.block.fluid;
 
+import com.hockeyhurd.hcorelib.api.block.IHBlock;
+import com.hockeyhurd.hcorelib.api.util.enums.EnumHarvestLevel;
 import net.minecraft.block.material.Material;
+import net.minecraft.item.ItemBlock;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fluids.BlockFluidClassic;
 import net.minecraftforge.fluids.Fluid;
 
@@ -10,12 +14,15 @@ import net.minecraftforge.fluids.Fluid;
  * @author hockeyhurd
  * @version 7/22/2015.
  */
-public abstract class AbstractBlockFluid extends BlockFluidClassic {
+public abstract class AbstractBlockFluid extends BlockFluidClassic implements IHBlock {
 
 	protected final String name;
 	protected final String assetDir;
+	protected final ResourceLocation still, flowing;
+	protected ItemBlock stillItemBlock, flowingItemBlock;
 
-	protected static final String suffix = ".still";
+	protected static final String suffixStill = ".still";
+	protected static final String suffixFlowing = ".flowing";
 
 	/**
 	 * @param name     name of fluid block.
@@ -35,11 +42,85 @@ public abstract class AbstractBlockFluid extends BlockFluidClassic {
 	public AbstractBlockFluid(String name, String assetDir, Fluid fluid, Material material) {
 		super(fluid, material);
 
-		setRegistryName(name + suffix);
-		this.name = name + suffix;
+		this.name = name + suffixStill;
 		this.assetDir = assetDir;
+		setRegistryName(name + suffixStill);
+
+		still = new ResourceLocation(assetDir, name + suffixStill);
+		flowing = new ResourceLocation(assetDir, name + suffixFlowing);
 
 		if (fluid.getBlock() == null) fluid.setBlock(this);
+	}
+
+	@Override
+	public AbstractBlockFluid getBlock() {
+		return this;
+	}
+
+	@Override
+	public boolean hasSpecialRenderer() {
+		return false;
+	}
+
+	@Override
+	public ResourceLocation getResourceLocation() {
+		return still;
+	}
+
+	/**
+	 * Gets still ResourceLocation.
+	 *
+	 * @return ResourceLocation.
+	 */
+	public ResourceLocation getStill() {
+		return still;
+	}
+
+	/**
+	 * Gets flowing ResourceLocation.
+	 *
+	 * @return ResourceLocation.
+	 */
+	public ResourceLocation getFlowing() {
+		return flowing;
+	}
+
+	@Override
+	public String getName() {
+		return name;
+	}
+
+	@Override
+	public ItemBlock getItemBlock() {
+		return getStillItemBlock();
+	}
+
+	/**
+	 * Gets still itemblock.
+	 *
+	 * @return ItemBlock.
+	 */
+	public ItemBlock getStillItemBlock() {
+		return stillItemBlock != null ? stillItemBlock : (stillItemBlock = new ItemBlock(this));
+	}
+
+	/**
+	 * Gets flowing itemblock.
+	 *
+	 * @return ItemBlock.
+	 */
+	public ItemBlock getFlowingItemBlock() {
+		return flowingItemBlock != null ? flowingItemBlock : (flowingItemBlock = new ItemBlock(this));
+	}
+
+	@Override
+	public float getBlockHardness() {
+		return 0.0f;
+	}
+
+	@Override
+	public EnumHarvestLevel getHarvestLevel() {
+		return EnumHarvestLevel.PICKAXE_WOOD;
 	}
 
 }
