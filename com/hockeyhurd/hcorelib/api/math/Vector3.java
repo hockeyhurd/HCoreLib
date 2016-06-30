@@ -191,11 +191,8 @@ public class Vector3<N> {
 		final float cos = (float) Mathd.cos(radians);
 		final float sin = (float) Mathd.sin(radians);
 
-		final float y = vec.y * cos + vec.z * sin;
-		final float z = vec.z * cos - vec.y * sin;
-
-		vec.y = y;
-		vec.z = z;
+		vec.y = vec.y * cos + vec.z * sin;
+		vec.z = vec.z * cos - vec.y * sin;
 
 		return vec;
 	}
@@ -212,11 +209,8 @@ public class Vector3<N> {
 		final double cos = Mathd.cos(radians);
 		final double sin = Mathd.sin(radians);
 
-		final double y = vec.y * cos + vec.z * sin;
-		final double z = vec.z * cos - vec.y * sin;
-
-		vec.y = y;
-		vec.z = z;
+		vec.y = vec.y * cos + vec.z * sin;
+		vec.z = vec.z * cos - vec.y * sin;
 
 		return vec;
 	}
@@ -233,11 +227,8 @@ public class Vector3<N> {
 		final float cos = (float) Mathd.cos(radians);
 		final float sin = (float) Mathd.sin(radians);
 
-		final float x = vec.x * cos + vec.z * sin;
-		final float z = vec.z * cos - vec.x * sin;
-
-		vec.x = x;
-		vec.z = z;
+		vec.x = vec.x * cos + vec.z * sin;
+		vec.z = vec.z * cos - vec.x * sin;
 
 		return vec;
 	}
@@ -254,11 +245,8 @@ public class Vector3<N> {
 		final double cos = Mathd.cos(radians);
 		final double sin = Mathd.sin(radians);
 
-		final double x = vec.x * cos + vec.z * sin;
-		final double z = vec.z * cos - vec.x * sin;
-
-		vec.x = x;
-		vec.z = z;
+		vec.x = vec.x * cos + vec.z * sin;
+		vec.z = vec.z * cos - vec.x * sin;
 
 		return vec;
 	}
@@ -275,11 +263,8 @@ public class Vector3<N> {
 		final float cos = (float) Mathd.cos(radians);
 		final float sin = (float) Mathd.sin(radians);
 
-		final float x = vec.x * cos + vec.y * sin;
-		final float y = vec.y * cos - vec.x * sin;
-
-		vec.x = x;
-		vec.y = y;
+		vec.x = vec.x * cos + vec.y * sin;
+		vec.y = vec.y * cos - vec.x * sin;
 
 		return vec;
 	}
@@ -296,11 +281,8 @@ public class Vector3<N> {
 		final double cos = Mathd.cos(radians);
 		final double sin = Mathd.sin(radians);
 
-		final double x = vec.x * cos + vec.y * sin;
-		final double y = vec.y * cos - vec.x * sin;
-
-		vec.x = x;
-		vec.y = y;
+		vec.x = vec.x * cos + vec.y * sin;
+		vec.y = vec.y * cos - vec.x * sin;
 
 		return vec;
 	}
@@ -488,5 +470,5 @@ public class Vector3<N> {
 		else if (!z.equals(other.z)) return false;
 		return true;
 	}
-	
+
 }

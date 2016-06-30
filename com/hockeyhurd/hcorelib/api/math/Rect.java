@@ -52,6 +52,15 @@ public class Rect<N> {
 		this.max = this.min.copy().add(new Vector2<N>(width, height));
 		this.color = color;
 	}
+
+	/**
+	 * Gets a copy of the rectangle.
+	 *
+	 * @return Copied rectangle.
+	 */
+	public Rect<N> copy() {
+		return new Rect<N>(min.copy(), max.copy());
+	}
 	
 	/**
 	 * @return color of rectangle.
@@ -147,10 +156,28 @@ public class Rect<N> {
 	 * Translates corners by said vector.
 	 * 
 	 * @param vec vector quantity to translate.
+	 * @return this instance.
 	 */
-	public void translate(Vector2<N> vec) {
+	public Rect<N> translate(Vector2<N> vec) {
 		this.min.add(vec);
 		this.max.add(vec);
+
+		return this;
+	}
+
+	/**
+	 * Translates rectangle by said vector.
+	 *
+	 * @param magnitude vector quantity to translate.
+	 * @return this instance.
+	 */
+	public Rect<N> translate(N magnitude) {
+		final Vector2<N> translationVec = new Vector2<N>(magnitude, magnitude);
+
+		min.add(translationVec);
+		max.add(translationVec);
+
+		return this;
 	}
 	
 	/**
@@ -158,22 +185,28 @@ public class Rect<N> {
 	 * 
 	 * @param ref reference vector point to rotate about.
 	 * @param angle angle in degrees to rotate by.
+	 * @return this instance.
 	 */
-	public void rotate(Vector2<Double> ref, double angle) {
+	public Rect<N> rotate(Vector2<Double> ref, double angle) {
 		this.min.rotate(ref, angle);
 		this.max.rotate(ref, angle);
+
+		return this;
 	}
 	
 	/**
 	 * Rotates corners about center vector point of this rectangle with said angle in degrees.
 	 * 
 	 * @param angle angle in degrees to rotate by.
+	 * @return this instance.
 	 */
-	public void rotate(double angle) {
+	public Rect<N> rotate(double angle) {
 		Vector2<Double> center = getCenter();
 		
 		this.min.rotate(center, angle);
 		this.max.rotate(center, angle);
+
+		return this;
 	}
 
 	@Override

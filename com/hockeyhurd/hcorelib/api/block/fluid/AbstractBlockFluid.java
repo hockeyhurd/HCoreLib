@@ -21,8 +21,8 @@ public abstract class AbstractBlockFluid extends BlockFluidClassic implements IH
 	protected final ResourceLocation still, flowing;
 	protected ItemBlock stillItemBlock, flowingItemBlock;
 
-	protected static final String suffixStill = ".still";
-	protected static final String suffixFlowing = ".flowing";
+	protected static final String suffixStill = "_still";
+	protected static final String suffixFlowing = "_flowing";
 
 	/**
 	 * @param name     name of fluid block.
@@ -44,7 +44,10 @@ public abstract class AbstractBlockFluid extends BlockFluidClassic implements IH
 
 		this.name = name + suffixStill;
 		this.assetDir = assetDir;
-		setRegistryName(name + suffixStill);
+
+		final String unlocalizedName = name + suffixStill;
+		setUnlocalizedName(unlocalizedName);
+		setRegistryName(unlocalizedName);
 
 		still = new ResourceLocation(assetDir, name + suffixStill);
 		flowing = new ResourceLocation(assetDir, name + suffixFlowing);
