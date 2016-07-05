@@ -14,7 +14,7 @@ import java.util.Scanner;
 
 public class UpdateHandler {
 
-	private final short currentBuildNumber;
+	private final int currentBuildNumber;
 	private final String modName;
 	private final String currentBuild; //  = LibReference.BUILD;
 	private String latestBuild;
@@ -28,32 +28,19 @@ public class UpdateHandler {
 
 	/**
 	 * From created reference class, get data needed and store into memory.
-	 * @param reference = created reference class that extends AbstractReference.
+	 *
+	 * @param currentBuild int build number.
+	 * @param modName String mod name.
+	 * @param version String mod version.
+	 * @param versionURL String version URL.
+	 * @param changelogUrl String changlelog URL.
 	 */
-	public UpdateHandler(Class<? extends AbstractReference> reference) {
-		short currentVal = -1;
-		String modName = "";
-		String val = "";
-		String vUrl = "";
-		String clUrl = "";
-
-		try {
-			currentVal = reference.getDeclaredField("BUILD").getShort(reference);
-			modName = reference.getDeclaredField("MOD_NAME").get(reference).toString();
-			val = reference.getDeclaredField("VERSION").get(reference).toString();
-			vUrl = reference.getDeclaredField("MOD_URL").get(reference).toString();
-			clUrl = reference.getDeclaredField("CHANGELOG_URL").get(reference).toString();
-		}
-		
-		catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		this.currentBuildNumber = currentVal;
+	public UpdateHandler(int currentBuild, String modName, String version, String versionURL, String changelogUrl) {
+		this.currentBuildNumber = currentBuild;
 		this.modName = modName;
-		this.currentBuild = val;
-		this.url = vUrl;
-		this.changelogUrl = clUrl;
+		this.currentBuild = version;
+		this.url = versionURL;
+		this.changelogUrl = changelogUrl;
 
 		changelogList = new ArrayList<String>();
 	}
@@ -92,7 +79,7 @@ public class UpdateHandler {
 
 				this.latestBuild = sc.next();
 
-				short latestNumber = Short.parseShort(this.latestBuild.substring(this.latestBuild.lastIndexOf('.') + 1, this.latestBuild.length()));
+				int latestNumber = Integer.parseInt(this.latestBuild.substring(this.latestBuild.lastIndexOf('.') + 1, this.latestBuild.length()));
 
 				if (this.currentBuildNumber < latestNumber) {
 					this.upToDate = false;
@@ -246,7 +233,7 @@ public class UpdateHandler {
 	 * @return latest url.
 	 */
 	private String getAppropriateUrl() {
-		return this.url.substring(0, this.url.lastIndexOf('/')) + "/versions/" + this.modName + "-" + (this.latestBuild.substring(1, this.latestBuild.length())) + ".jar";
+		return url.substring(0, url.lastIndexOf('/')) + "/versions/" + modName + "-" + (latestBuild.substring(1, latestBuild.length())) + ".jar";
 	}
 
 }

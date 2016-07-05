@@ -14,10 +14,10 @@ import com.hockeyhurd.hcorelib.api.util.AbstractReference;
 public class LibReference extends AbstractReference {
 
 	/** Current build number. */
-	public static final short BUILD = 1;
+	public static final int BUILD = 1;
 
 	/** Current Subversion */
-	public static final byte SUB_VERSION = 2;
+	public static final int SUB_VERSION = 2;
 
 	/** Current version with included build number. */
 	public static final String VERSION = "v1." + SUB_VERSION + '.' + BUILD;
@@ -36,7 +36,11 @@ public class LibReference extends AbstractReference {
 	/** Not required but is available. NOTE: if not using it, set to null! */
 	public static final String CHANGELOG_URL = "https://dl.dropboxusercontent.com/u/276611945/minecraft/mods/" + MOD_NAME + "/changelog.txt";
 
-	private LibReference() {
+	/**
+	 * To use this class referencing, simple extend this class with your own and plug-in your own values.
+	 * NOTE: Class is mostly provided as a framework for this type of localized management.
+	 */
+	protected LibReference() {
 	}
 
 }

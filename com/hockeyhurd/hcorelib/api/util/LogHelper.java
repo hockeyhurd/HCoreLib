@@ -11,15 +11,10 @@ import org.apache.logging.log4j.Level;
  */
 public class LogHelper {
 
-	private String mod_name;
-	
-	public LogHelper(Class<? extends AbstractReference> reference) {
-		try {
-			mod_name = reference.getDeclaredField("MOD_NAME").get(reference).toString();
-		}
-		catch (Exception e) {
-			e.printStackTrace();
-		}
+	private String modName;
+
+	public LogHelper(String modName) {
+		this.modName = modName;
 	}
 	
 	/**
@@ -28,7 +23,7 @@ public class LogHelper {
 	 * @param object object to print
 	 */
 	public void log(Level logLevel, Object object) {
-		FMLLog.log(mod_name, logLevel, String.valueOf(object));
+		FMLLog.log(modName, logLevel, String.valueOf(object));
 	}
 
 	/**

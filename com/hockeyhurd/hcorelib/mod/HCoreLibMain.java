@@ -41,7 +41,11 @@ public final class HCoreLibMain implements IForgeMod {
 	@Instance(LibReference.MOD_NAME)
 	public static HCoreLibMain instance;
 	public static LogHelper logHelper;
+
+	// Same thing as Mod Name.
 	public static final String modID = LibReference.MOD_NAME;
+
+	// Mod name in lowercase
 	public static final String assetDir = modID.toLowerCase(); // + ':';
 	private TimeLapse tl;
 	
@@ -59,13 +63,13 @@ public final class HCoreLibMain implements IForgeMod {
 	@Override
 	public void preInit(FMLPreInitializationEvent event) {
 		tl = new TimeLapse();
-		logHelper = new LogHelper(LibReference.class);
+		logHelper = new LogHelper(modID);
 
 		final boolean result = JavaCompatibility.runCheck(JavaVersion.JAVA_1_7);
 		if (result) logHelper.info("Java version is compatible!");
 
 		logHelper.info("Pre-init started, looking for config info!");
-		configHandler = new ConfigHandler(event, LibReference.class);
+		configHandler = new ConfigHandler(event, modID);
 		configHandler.handleConfiguration();
 		logHelper.info("Config info handled successfully! Applying changes now!");
 

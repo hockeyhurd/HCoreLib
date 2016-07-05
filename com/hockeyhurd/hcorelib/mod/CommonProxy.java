@@ -61,12 +61,14 @@ public class CommonProxy implements IProxy {
 
 	@Override
 	public void registerUpdateHandler() {
-		updateHandler = new UpdateHandler(LibReference.class);
+		updateHandler = new UpdateHandler(LibReference.BUILD, LibReference.MOD_NAME, LibReference.VERSION,
+				LibReference.MOD_URL, LibReference.CHANGELOG_URL);
 		updateHandler.check();
 		updateMap = updateHandler.getMap();
 		updateFlag = updateHandler.getUpToDate();
 		
-		MinecraftForge.EVENT_BUS.register(new NotifyPlayerOnJoinHandler(updateHandler, updateMap, LibReference.class, updateFlag, true, HCoreLibMain.configHandler.allowUpdating()));
+		MinecraftForge.EVENT_BUS.register(new NotifyPlayerOnJoinHandler(updateHandler, updateMap, LibReference.MOD_NAME, updateFlag, true,
+				HCoreLibMain.configHandler.allowUpdating()));
 	}
 
 	@Override

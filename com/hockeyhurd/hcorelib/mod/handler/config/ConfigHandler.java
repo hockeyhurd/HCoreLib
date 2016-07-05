@@ -18,8 +18,8 @@ public class ConfigHandler extends AbstractConfigHandler {
 	private boolean updateCheck;
 	private boolean debugMode;
 	
-	public ConfigHandler(FMLPreInitializationEvent event, Class<? extends AbstractReference> classRef) {
-		super(event, classRef);
+	public ConfigHandler(FMLPreInitializationEvent event, String modId) {
+		super(event, modId);
 
 		final String modID = HCoreLibMain.modID;
 		final long keyCode = System.currentTimeMillis();

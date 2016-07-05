@@ -38,23 +38,18 @@ public class NotifyPlayerOnJoinHandler {
 	 *
 	 * @param instance your created instance of UpdateHandler.
 	 * @param map configCodeMap created by calling myUpdateHandlerInstance.check() followed by myUpdateHandlerInstance.getMap().
-	 * @param referenceClass a reference to your created ReferenceClass.class that extends AbstractReference class and followed its directions.
+	 * @param modName String mod name.
 	 * @param updateFlag your created stored updateFlag boolean var obtained by calling myUpdateHandlerInstance.getUpToDate().
 	 * @param maskUrl Whether you wish to hide the url in the chat, NOTE: doesn't change what the user sees when prompted to open.
 	 */
-	public NotifyPlayerOnJoinHandler(UpdateHandler instance, HashMap<String, String> map, Class<? extends AbstractReference> referenceClass, boolean updateFlag, boolean maskUrl, boolean allowUpdateCheck) {
+	public NotifyPlayerOnJoinHandler(UpdateHandler instance, HashMap<String, String> map, String modName, boolean updateFlag, boolean maskUrl, boolean allowUpdateCheck) {
 		this.instance = instance;
 		this.map = map;
 		this.updateFlag = updateFlag;
 		this.maskUrl = maskUrl;
 		this.allowUpdateCheck = allowUpdateCheck;
-		
-		try {
-			this.name = referenceClass.getDeclaredField("MOD_NAME").get(referenceClass).toString();
-		}
-		catch (Exception e) {
-			HCoreLibMain.logHelper.severe("Could not find mod's name! Please fix this mod dev!");
-		}
+
+		this.name = modName;
 	}
 
 	/**
@@ -62,7 +57,7 @@ public class NotifyPlayerOnJoinHandler {
 	 *
 	 * @param event event call.
 	 */
-	@SuppressWarnings("unchecked")
+	// @SuppressWarnings("unchecked")
 	@SubscribeEvent
 	public void onPlayerJoin(EntityJoinWorldEvent event) {
 		if (!(event.getEntity() instanceof EntityPlayerMP) || !allowUpdateCheck) return;
@@ -74,10 +69,10 @@ public class NotifyPlayerOnJoinHandler {
 
 				String changelogUrl = "";
 				
-				Iterator iter = map.entrySet().iterator();
+				Iterator<Entry<String, String>> iter = map.entrySet().iterator();
 				// Grabbing the first index of entry's keys and values and store this data. 'update/build numer'
 				if (iter.hasNext()) {
-					Entry<String, String> current = (Entry<String, String>) iter.next();
+					Entry<String, String> current = iter.next();
 					build = current.getKey();
 					updateUrl = current.getValue();
 				}

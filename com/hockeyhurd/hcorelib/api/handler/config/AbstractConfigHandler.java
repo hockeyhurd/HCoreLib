@@ -1,17 +1,12 @@
 package com.hockeyhurd.hcorelib.api.handler.config;
 
-import com.hockeyhurd.hcorelib.api.util.AbstractReference;
 import com.hockeyhurd.hcorelib.mod.HCoreLibMain;
 import net.minecraftforge.common.config.ConfigCategory;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Abstract class for creating configs.
@@ -32,21 +27,12 @@ public abstract class AbstractConfigHandler implements ISynchableConfig {
 	 * Abstract constructor used to initialize configs, paths, and mod related identification.
 	 *
 	 * @param event event to load from.
-	 * @param classRef class refernce to your pre-made Reference.class in which extends AbstractReference appropriately.
+	 * @param modID string mod id.
 	 */
-	public AbstractConfigHandler(FMLPreInitializationEvent event, Class<? extends AbstractReference> classRef) {
+	public AbstractConfigHandler(FMLPreInitializationEvent event, String modID) {
 		this.event = event;
-		
-		try {
-			this.modID = classRef.getDeclaredField("MOD_NAME").get(classRef).toString();
-		}
+		this.modID = modID;
 
-		catch (Exception e) {
-			HCoreLibMain.logHelper.severe("Could not find MOD_NAME! Please make sure you have an appropriate reference class!");
-			this.PATH = null;
-			return;
-		}
-		
 		this.PATH = event.getModConfigurationDirectory() + File.separator + modID + File.separator;
 		this.config = new Configuration(new File(PATH + event.getSuggestedConfigurationFile().getName()));
 		this.config.load();
@@ -59,19 +45,10 @@ public abstract class AbstractConfigHandler implements ISynchableConfig {
 	 *
 	 * @param name name of file with extension. ex: "wrenchables.cfg".
 	 */
-	public AbstractConfigHandler(FMLPreInitializationEvent event, Class<? extends AbstractReference> classRef, String name) {
+	public AbstractConfigHandler(FMLPreInitializationEvent event, String modID, String name) {
 		this.event = event;
-		
-		try {
-			this.modID = classRef.getDeclaredField("MOD_NAME").get(classRef).toString();
-		}
+		this.modID = modID;
 
-		catch (Exception e) {
-			HCoreLibMain.logHelper.severe("Could not find MOD_NAME! Please make sure you have an appropriate reference class!");
-			this.PATH = null;
-			return;
-		}
-		
 		this.PATH = event.getModConfigurationDirectory() + File.separator + modID + File.separator;
 		this.config = new Configuration(new File(this.PATH + name));
 		
