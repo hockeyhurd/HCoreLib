@@ -31,6 +31,8 @@ import net.minecraftforge.fml.common.event.*;
 import net.minecraftforge.fml.relauncher.Side;
 import org.apache.commons.lang3.JavaVersion;
 
+import static java.awt.Color.white;
+
 @Mod(modid = LibReference.MOD_NAME, name = LibReference.MOD_NAME, version = LibReference.VERSION,
 		acceptedMinecraftVersions = LibReference.MINECRAFT_VERSION, guiFactory = "com.hockeyhurd.hcorelib.mod.client.gui.HGuiFactory")
 public final class HCoreLibMain implements IForgeMod {
@@ -52,7 +54,7 @@ public final class HCoreLibMain implements IForgeMod {
 	public static ConfigHandler configHandler;
 	public static AbstractCreativeTab myCreativeTab = new ModCreativeTab(CreativeTabs.getNextID(), "HCoreLib");
 	
-	public static Block white;
+	// public static Block white;
 	public static AbstractHCoreBlock testBlock;
 	public static AbstractHCoreBlockContainer testTile;
 	public static AbstractHCoreBlockContainer testTESRTile;
@@ -106,7 +108,7 @@ public final class HCoreLibMain implements IForgeMod {
 	}
 	
 	private void loadObj() {
-		white = new BlockWhiteHidden(Material.ROCK, "HiddenWhite");
+		// white = new BlockWhiteHidden(Material.ROCK, "HiddenWhite");
 		testBlock = new TestBlock();
 		testTile = new TestTile();
 		testTESRTile = new TestTESRTile();
