@@ -61,8 +61,7 @@ public class CommonProxy implements IProxy {
 
 	@Override
 	public void registerUpdateHandler() {
-		updateHandler = new UpdateHandler(LibReference.BUILD, LibReference.MOD_NAME, LibReference.VERSION,
-				LibReference.MOD_URL, LibReference.CHANGELOG_URL);
+		updateHandler = new UpdateHandler(LibReference.MOD_NAME, LibReference.VERSION, LibReference.MOD_URL, LibReference.CHANGELOG_URL);
 		updateHandler.check();
 		updateMap = updateHandler.getMap();
 		updateFlag = updateHandler.getUpToDate();

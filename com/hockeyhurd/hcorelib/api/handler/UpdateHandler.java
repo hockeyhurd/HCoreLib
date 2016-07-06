@@ -1,6 +1,5 @@
 package com.hockeyhurd.hcorelib.api.handler;
 
-import com.hockeyhurd.hcorelib.api.util.AbstractReference;
 import com.hockeyhurd.hcorelib.mod.HCoreLibMain;
 
 import java.io.IOException;
@@ -14,10 +13,10 @@ import java.util.Scanner;
 
 public class UpdateHandler {
 
-	private final int currentBuildNumber;
+	private static final String REGEX = "[.]";
 	private final String modName;
-	private final String currentBuild; //  = LibReference.BUILD;
 	private String latestBuild;
+	private int[] cachedVersioning;
 	private boolean upToDate = true;
 	
 	// NOTE: Just add build number + .jar
@@ -29,20 +28,24 @@ public class UpdateHandler {
 	/**
 	 * From created reference class, get data needed and store into memory.
 	 *
-	 * @param currentBuild int build number.
 	 * @param modName String mod name.
 	 * @param version String mod version.
 	 * @param versionURL String version URL.
 	 * @param changelogUrl String changlelog URL.
 	 */
-	public UpdateHandler(int currentBuild, String modName, String version, String versionURL, String changelogUrl) {
-		this.currentBuildNumber = currentBuild;
+	public UpdateHandler(String modName, String version, String versionURL, String changelogUrl) {
 		this.modName = modName;
-		this.currentBuild = version;
 		this.url = versionURL;
 		this.changelogUrl = changelogUrl;
 
 		changelogList = new ArrayList<String>();
+
+		final String[] split = version.split(REGEX);
+		split[0] = split[0].substring(1);
+
+		cachedVersioning = new int[split.length];
+		for (int i = 0; i < split.length; i++)
+			cachedVersioning[i] = Integer.parseInt(split[i]);
 	}
 
 	/**
@@ -66,25 +69,46 @@ public class UpdateHandler {
 
 			catch (MalformedURLException e) {
 				e.printStackTrace();
-				HCoreLibMain.logHelper.warn("URL:", this.url, "doesn't exist!");
+				HCoreLibMain.logHelper.warn("URL:", url, "doesn't exist!");
 			}
 
 			if (link == null) {
-				this.upToDate = true;
+				upToDate = true;
 				return;
 			}
 
 			try {
-				Scanner sc = new Scanner(link.openStream());
+				final Scanner sc = new Scanner(link.openStream());
 
-				this.latestBuild = sc.next();
+				latestBuild = sc.next();
 
-				int latestNumber = Integer.parseInt(this.latestBuild.substring(this.latestBuild.lastIndexOf('.') + 1, this.latestBuild.length()));
+				final String[] segments = latestBuild.split(REGEX);
 
-				if (this.currentBuildNumber < latestNumber) {
-					this.upToDate = false;
-					this.latestUrl = getAppropriateUrl();
+				if (segments.length != cachedVersioning.length) {
+					upToDate = true;
+					sc.close();
+					return;
 				}
+
+				segments[0] = segments[0].substring(1);
+
+				final int[] segmentVersioning = new int[segments.length];
+
+				for (int i = 0; i < segments.length; i++) {
+					segmentVersioning[i] = Integer.parseInt(segments[i]);
+
+					if (segmentVersioning[i] > cachedVersioning[i]) {
+						upToDate = false;
+						break;
+					}
+
+					else if (segmentVersioning[i] < cachedVersioning[i]) {
+						upToDate = true;
+						break;
+					}
+				}
+
+				latestUrl = getAppropriateUrl();
 
 				sc.close();
 			}
@@ -96,7 +120,7 @@ public class UpdateHandler {
 
 		else {
 			HCoreLibMain.logHelper.warn("Error url doesn't exist!");
-			this.upToDate = true;
+			upToDate = true;
 		}
 	}
 
