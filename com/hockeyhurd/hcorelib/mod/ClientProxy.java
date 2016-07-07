@@ -3,7 +3,9 @@ package com.hockeyhurd.hcorelib.mod;
 import com.hockeyhurd.hcorelib.api.client.util.ModelRegistry;
 import com.hockeyhurd.hcorelib.api.handler.config.ConfigChangedEventHandler;
 import com.hockeyhurd.hcorelib.mod.client.renderer.TESRTileRenderer;
+import com.hockeyhurd.hcorelib.mod.handler.ItemTooltipEventHandler;
 import com.hockeyhurd.hcorelib.mod.tileentity.TileEntityTESRTest;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 
@@ -59,6 +61,13 @@ public class ClientProxy extends CommonProxy {
 		// MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(HCoreLibMain.white), new ItemRendererHiddenWhite(HCoreLibMain.white.getBlockTextureFromSide(0)));
 
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityTESRTest.class, new TESRTileRenderer());
+	}
+
+	@Override
+	public void registerEventHandlers() {
+		super.registerEventHandlers();
+
+		MinecraftForge.EVENT_BUS.register(ItemTooltipEventHandler.getInstance());
 	}
 
 	@Override

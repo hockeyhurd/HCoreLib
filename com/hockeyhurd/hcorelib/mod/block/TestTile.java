@@ -1,6 +1,8 @@
 package com.hockeyhurd.hcorelib.mod.block;
 
 import com.hockeyhurd.hcorelib.api.block.AbstractHCoreBlockContainer;
+import com.hockeyhurd.hcorelib.api.block.IBlockTooltip;
+import com.hockeyhurd.hcorelib.api.block.IHBlock;
 import com.hockeyhurd.hcorelib.api.util.enums.EnumHarvestLevel;
 import com.hockeyhurd.hcorelib.mod.HCoreLibMain;
 import com.hockeyhurd.hcorelib.mod.tileentity.TileEntityTest;
@@ -17,14 +19,17 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+
+import java.util.List;
 
 /**
  * @author hockeyhurd
  * @version 5/23/2016.
  */
-public class TestTile extends AbstractHCoreBlockContainer {
+public class TestTile extends AbstractHCoreBlockContainer implements IBlockTooltip {
 
 	protected static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
 	protected static final PropertyBool WORKING = PropertyBool.create("working");
@@ -96,4 +101,33 @@ public class TestTile extends AbstractHCoreBlockContainer {
 		return false;
 	}
 
+	@Override
+	public IHBlock getIHBlock() {
+		return this;
+	}
+
+	@Override
+	public boolean hasShiftInformation() {
+		return true;
+	}
+
+	@Override
+	public boolean hasControlInformation() {
+		return true;
+	}
+
+	@Override
+	public void addInformation(List<String> list, ItemStack itemStack) {
+		list.add(TextFormatting.RED + "This is random information!");
+	}
+
+	@Override
+	public void addShiftInformation(List<String> list, ItemStack itemStack) {
+		list.add(TextFormatting.WHITE + "This is shift information!");
+	}
+
+	@Override
+	public void addControlInformation(List<String> list, ItemStack itemStack) {
+		list.add(TextFormatting.BLUE + "This is control information!");
+	}
 }

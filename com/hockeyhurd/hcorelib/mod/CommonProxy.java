@@ -33,6 +33,7 @@ public class CommonProxy implements IProxy {
 		registerBlocks();
 		registerTileEntities();
 		registerItems();
+		registerEventHandlers();
 	}
 	
 	protected void registerMCForgeEventHandlers() {
@@ -68,6 +69,10 @@ public class CommonProxy implements IProxy {
 		
 		MinecraftForge.EVENT_BUS.register(new NotifyPlayerOnJoinHandler(updateHandler, updateMap, LibReference.MOD_NAME, updateFlag, true,
 				HCoreLibMain.configHandler.allowUpdating()));
+	}
+
+	@Override
+	public void registerEventHandlers() {
 	}
 
 	@Override

@@ -38,4 +38,9 @@ public interface IProxy {
      */
     void registerUpdateHandler();
 
+	/**
+	 * Registers event handlers.
+     */
+    void registerEventHandlers();
+
 }
