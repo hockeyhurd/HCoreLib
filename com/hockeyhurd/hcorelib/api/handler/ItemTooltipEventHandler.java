@@ -1,4 +1,4 @@
-package com.hockeyhurd.hcorelib.mod.handler;
+package com.hockeyhurd.hcorelib.api.handler;
 
 import com.hockeyhurd.hcorelib.api.block.IBlockTooltip;
 import com.hockeyhurd.hcorelib.api.util.BlockUtils;
@@ -15,6 +15,8 @@ import org.lwjgl.input.Keyboard;
 import java.util.List;
 
 /**
+ * Item tooltip event handler.
+ *
  * @author hockeyhurd
  * @version 7/7/2016.
  */
@@ -27,20 +29,42 @@ public final class ItemTooltipEventHandler {
 	private static final String controlInfoTag = TextFormatting.GRAY + "<" + TextFormatting.WHITE + TextFormatting.ITALIC + "Ctrl" +
 			TextFormatting.RESET + TextFormatting.GRAY + ">";
 
-	private static final Minecraft minecraft = Minecraft.getMinecraft();
 	private static final ItemTooltipEventHandler handler = new ItemTooltipEventHandler();
 
 	private ItemTooltipEventHandler() {
 	}
 
+	/**
+	 * Gets the static instance.
+	 * @return Class static instance.
+	 */
 	public static ItemTooltipEventHandler getInstance() {
 		return handler;
 	}
 
+	/**
+	 * Inserts an empty line into tooltip list.
+	 *
+	 * @param list String list of tooltip info.
+	 */
+	public static void insertEmptyLine(List<String> list) {
+		if (list != null) list.add("");
+	}
+
+	/**
+	 * Gets if the shift key on client side is held.
+	 *
+	 * @return boolean result.
+	 */
 	private static boolean isShiftKeyDown() {
 		return Keyboard.isKeyDown(42) || Keyboard.isKeyDown(54);
 	}
 
+	/**
+	 * Gets if the ctrl key on client side is held.
+	 *
+	 * @return boolean result.
+	 */
 	private static boolean isControlKeyDown() {
 		return Minecraft.IS_RUNNING_ON_MAC ? Keyboard.isKeyDown(219) || Keyboard.isKeyDown(220) : Keyboard.isKeyDown(29) || Keyboard.isKeyDown(157);
 	}
@@ -51,7 +75,7 @@ public final class ItemTooltipEventHandler {
 		if (itemStack == null) return;
 
 		final Block block = BlockUtils.getBlockFromItem(itemStack.getItem());
-		if (/*block == null ||*/ !(block instanceof IBlockTooltip)) return;
+		if (!(block instanceof IBlockTooltip)) return;
 
 		final IBlockTooltip blockTooltip = (IBlockTooltip) block;
 		final List<String> list = event.getToolTip();
@@ -67,9 +91,8 @@ public final class ItemTooltipEventHandler {
 			else list.add(shiftInfoTag);
 		}
 
-		else list.add("");
-
 		if (hasControlInfo) {
+			if (!hasShiftInfo) list.add("");
 			if (isControlKeyDown()) blockTooltip.addControlInformation(list, itemStack);
 			else list.add(controlInfoTag);
 		}
