@@ -14,6 +14,7 @@ import com.hockeyhurd.hcorelib.mod.block.BlockWhiteHidden;
 import com.hockeyhurd.hcorelib.mod.block.TestBlock;
 import com.hockeyhurd.hcorelib.mod.block.TestTESRTile;
 import com.hockeyhurd.hcorelib.mod.block.TestTile;
+import com.hockeyhurd.hcorelib.mod.block.multiblock.BlockMultiblockController;
 import com.hockeyhurd.hcorelib.mod.creativetab.ModCreativeTab;
 import com.hockeyhurd.hcorelib.mod.handler.CommandHandler;
 import com.hockeyhurd.hcorelib.mod.handler.config.ConfigHandler;
@@ -53,11 +54,16 @@ public final class HCoreLibMain implements IForgeMod {
 	
 	public static ConfigHandler configHandler;
 	public static AbstractCreativeTab myCreativeTab = new ModCreativeTab(CreativeTabs.getNextID(), "HCoreLib");
-	
+
+	// Blocks:
 	// public static Block white;
 	public static AbstractHCoreBlock testBlock;
 	public static AbstractHCoreBlockContainer testTile;
 	public static AbstractHCoreBlockContainer testTESRTile;
+	public static AbstractHCoreBlockContainer multiblockController;
+	public static AbstractHCoreBlockContainer multiblockComponent;
+
+	// Items:
 	public static AbstractHCoreItem testItem;
 	public static AbstractHCoreItem testMetaItem;
 
@@ -107,11 +113,16 @@ public final class HCoreLibMain implements IForgeMod {
 		logHelper.info("Init finished successfully after", tl.getEffectiveTimeSince(), "ms!");
 	}
 	
-	private void loadObj() {
+	private static void loadObj() {
+
+		// Blocks:
 		// white = new BlockWhiteHidden(Material.ROCK, "HiddenWhite");
 		testBlock = new TestBlock();
 		testTile = new TestTile();
 		testTESRTile = new TestTESRTile();
+		multiblockController = new BlockMultiblockController(Material.ROCK, "multiblockController");
+
+		// Items:
 		testItem = new TestItem();
 		testMetaItem = new TestMetaItem("testMetaItem");
 	}

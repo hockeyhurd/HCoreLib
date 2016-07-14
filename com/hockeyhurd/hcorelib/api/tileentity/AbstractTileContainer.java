@@ -1,5 +1,6 @@
 package com.hockeyhurd.hcorelib.api.tileentity;
 
+import com.hockeyhurd.hcorelib.api.util.StringUtils;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
@@ -41,6 +42,16 @@ public abstract class AbstractTileContainer extends AbstractTile implements ISid
 
         initContentsArray();
         initSlotsArray();
+    }
+
+    @Override
+    public String getName() {
+        return customName;
+    }
+
+    @Override
+    public boolean hasCustomName() {
+        return StringUtils.nullCheckString(customName);
     }
 
     /**

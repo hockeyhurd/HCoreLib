@@ -23,11 +23,11 @@ import java.util.List;
 @SideOnly(Side.CLIENT)
 public final class ItemTooltipEventHandler {
 
-	private static final String shiftInfoTag = TextFormatting.GRAY + "<" + TextFormatting.WHITE + TextFormatting.ITALIC + "Shift" +
-			TextFormatting.RESET + TextFormatting.GRAY + ">";
+	private static final String shiftInfoTag = TextFormatting.WHITE + "Hold " + TextFormatting.GRAY + "<" + TextFormatting.WHITE +
+			TextFormatting.ITALIC + "Shift" + TextFormatting.RESET + TextFormatting.GRAY + "> " + TextFormatting.WHITE + "for details";
 
-	private static final String controlInfoTag = TextFormatting.GRAY + "<" + TextFormatting.WHITE + TextFormatting.ITALIC + "Ctrl" +
-			TextFormatting.RESET + TextFormatting.GRAY + ">";
+	private static final String controlInfoTag = TextFormatting.WHITE + "Hold " + TextFormatting.GRAY + "<" + TextFormatting.WHITE +
+			TextFormatting.ITALIC + "Ctrl" + TextFormatting.RESET + TextFormatting.GRAY + "> " + TextFormatting.WHITE + "for details";
 
 	private static final ItemTooltipEventHandler handler = new ItemTooltipEventHandler();
 
