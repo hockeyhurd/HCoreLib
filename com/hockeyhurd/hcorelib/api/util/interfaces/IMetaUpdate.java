@@ -6,10 +6,12 @@ import net.minecraft.world.World;
 /**
  * Simple interface to allow updating of block metadata through method call.
  * <br><bold>NOTE: </bold>This interface should be implemented in block's class.
- * 
+ *
+ * @deprecated As of 7/17/16, Use IStateUpdate instead.
  * @author hockeyhurd
  * @version Jun 4, 2015
  */
+@Deprecated
 public interface IMetaUpdate {
 
 	/**
@@ -29,5 +31,5 @@ public interface IMetaUpdate {
 	 * @param vec world vector coordinate.
 	 */
 	void updateMeta(int meta, World world, Vector3<Integer> vec);
-	
+
 }

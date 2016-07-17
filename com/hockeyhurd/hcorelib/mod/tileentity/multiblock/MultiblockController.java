@@ -12,7 +12,8 @@ import net.minecraft.util.EnumFacing;
  */
 public class MultiblockController extends AbstractTileContainer implements IMultiblockable<MultiblockController> {
 
-
+	private IMultiblockManager multiblockManager;
+	private IMultiblockable<MultiblockController> master;
 
 	public MultiblockController() {
 		super("multiblockController");
@@ -72,12 +73,13 @@ public class MultiblockController extends AbstractTileContainer implements IMult
 
 	@Override
 	public IMultiblockManager getManager() {
-		return null;
+		return multiblockManager;
 	}
 
 	@Override
 	public boolean setManager(IMultiblockManager manager) {
-		return false;
+		this.multiblockManager = manager;
+		return manager != null;
 	}
 
 	@Override
@@ -92,6 +94,7 @@ public class MultiblockController extends AbstractTileContainer implements IMult
 
 	@Override
 	public void setMaster(IMultiblockable<MultiblockController> tile) {
+		this.master = tile;
 	}
 
 	@Override
@@ -101,6 +104,6 @@ public class MultiblockController extends AbstractTileContainer implements IMult
 
 	@Override
 	public int getRequiredAmount() {
-		return 0;
+		return -1;
 	}
 }

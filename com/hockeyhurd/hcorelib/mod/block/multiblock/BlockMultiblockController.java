@@ -3,12 +3,15 @@ package com.hockeyhurd.hcorelib.mod.block.multiblock;
 import com.hockeyhurd.hcorelib.api.block.AbstractHCoreBlockContainer;
 import com.hockeyhurd.hcorelib.api.block.multiblock.IMultiblockManager;
 import com.hockeyhurd.hcorelib.api.block.multiblock.IMultiblockable;
+import com.hockeyhurd.hcorelib.api.math.Vector3;
 import com.hockeyhurd.hcorelib.api.math.VectorHelper;
 import com.hockeyhurd.hcorelib.api.tileentity.AbstractTile;
+import com.hockeyhurd.hcorelib.api.util.BlockUtils;
 import com.hockeyhurd.hcorelib.api.util.enums.EnumHarvestLevel;
+import com.hockeyhurd.hcorelib.api.util.interfaces.IStateUpdate;
 import com.hockeyhurd.hcorelib.mod.HCoreLibMain;
 import com.hockeyhurd.hcorelib.mod.tileentity.multiblock.MultiblockController;
-import net.minecraft.block.Block;
+import com.hockeyhurd.hcorelib.mod.tileentity.multiblock.managers.TestMultiblockManager;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.state.BlockStateContainer;
@@ -32,14 +35,25 @@ import java.util.List;
  * @author hockeyhurd
  * @version 7/13/2016.
  */
-public class BlockMultiblockController extends AbstractHCoreBlockContainer {
+public class BlockMultiblockController extends AbstractHCoreBlockContainer implements IStateUpdate {
 
-	private static final PropertyBool IS_MULTIBLOCK = PropertyBool.create("isMultiblock");
+	private static final PropertyBool IS_MULTIBLOCK = PropertyBool.create("multiblock");
 
 	public BlockMultiblockController(Material material, String name) {
 		super(material, HCoreLibMain.myCreativeTab, HCoreLibMain.assetDir, name);
 
 		setDefaultState(blockState.getBaseState().withProperty(IS_MULTIBLOCK, false));
+	}
+
+	@Override
+	public void updateState(AbstractTile tileEntity, World world, Vector3<Integer> vec, Object... data) {
+		if (!(tileEntity instanceof MultiblockController)) return;
+
+		final boolean status = (Boolean) data[0];
+		IBlockState blockState = BlockUtils.getBlock(world, vec);
+		blockState = blockState.withProperty(IS_MULTIBLOCK, status);
+
+		BlockUtils.setBlock(world, vec, blockState, 2);
 	}
 
 	@Override
@@ -58,8 +72,8 @@ public class BlockMultiblockController extends AbstractHCoreBlockContainer {
 	}
 
 	@Override
-	public AbstractTile getTileEntity() {
-		return null;
+	public MultiblockController getTileEntity() {
+		return new MultiblockController();
 	}
 
 	@Override
@@ -67,7 +81,8 @@ public class BlockMultiblockController extends AbstractHCoreBlockContainer {
 		final MultiblockController tile = (MultiblockController) world.getTileEntity(blockPos);
 		if (tile == null) return;
 
-		// tile.setManager() // TODO: implement.
+		tile.setManager(new TestMultiblockManager(tile));
+		tile.setMaster(tile);
 		final List<IMultiblockManager> adjacentManagers = new LinkedList<IMultiblockManager>();
 
 		for (EnumFacing dir : EnumFacing.VALUES) {
@@ -94,9 +109,20 @@ public class BlockMultiblockController extends AbstractHCoreBlockContainer {
 	public IBlockState getActualState(IBlockState blockState, IBlockAccess world, BlockPos blockPos) {
 		final MultiblockController tile = (MultiblockController) world.getTileEntity(blockPos);
 
-		if (tile != null) return blockState.withProperty(IS_MULTIBLOCK, tile.getManager().isCompleteMultiblock());
+		if (tile != null && tile.getManager() != null)
+			return blockState.withProperty(IS_MULTIBLOCK, tile.getManager().isCompleteMultiblock());
 
 		return blockState;
+	}
+
+	@Override
+	public int getMetaFromState(IBlockState blockState) {
+		return blockState.getValue(IS_MULTIBLOCK) ? 1 : 0;
+	}
+
+	@Deprecated
+	public IBlockState getStateFromMeta(int meta) {
+		return blockState.getBaseState().withProperty(IS_MULTIBLOCK, meta == 1);
 	}
 
 	@Override

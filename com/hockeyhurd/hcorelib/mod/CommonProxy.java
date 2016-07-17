@@ -48,6 +48,8 @@ public class CommonProxy implements IProxy {
 		GameRegistry.register(HCoreLibMain.testTESRTile);
 		GameRegistry.register(HCoreLibMain.testTile.getItemBlock().setRegistryName(HCoreLibMain.testTile.getRegistryName()));
 		GameRegistry.register(HCoreLibMain.testTESRTile.getItemBlock().setRegistryName(HCoreLibMain.testTESRTile.getRegistryName()));
+		GameRegistry.register(HCoreLibMain.multiblockController);
+		GameRegistry.register(HCoreLibMain.multiblockController.getItemBlock().setRegistryName(HCoreLibMain.multiblockController.getRegistryName()));
 	}
 
 	protected void registerTileEntities() {

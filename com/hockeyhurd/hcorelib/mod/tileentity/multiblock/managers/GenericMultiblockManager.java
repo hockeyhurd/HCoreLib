@@ -7,9 +7,6 @@ import com.hockeyhurd.hcorelib.api.math.Vector3;
 import java.util.LinkedList;
 import java.util.List;
 
-import static net.minecraft.realms.Tezzelator.t;
-import static sun.management.snmp.jvminstr.JvmThreadInstanceEntryImpl.ThreadStateMap.Byte1.other;
-
 /**
  * @author hockeyhurd
  * @version 7/13/2016.
@@ -28,12 +25,13 @@ public abstract class GenericMultiblockManager implements IMultiblockManager {
 	}
 
 	@Override
-	public abstract IMultiblockable[] getAcceptedTiles();
+	public abstract Class<? extends IMultiblockable>[] getAcceptedTiles();
 
 	@Override
 	public boolean canAddTile(IMultiblockable tile) {
-		for (IMultiblockable other : getAcceptedTiles())
-			if (tile.equals(other)) return true;
+		for (Class<? extends IMultiblockable> clazz : getAcceptedTiles())
+			if (clazz.isInstance(tile)) return true;
+
 
 		return false;
 	}

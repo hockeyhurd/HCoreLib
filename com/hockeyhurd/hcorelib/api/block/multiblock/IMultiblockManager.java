@@ -8,7 +8,8 @@ import java.util.List;
  */
 public interface IMultiblockManager extends Comparable<IMultiblockManager> {
 
-	IMultiblockable[] getAcceptedTiles();
+	// IMultiblockable[] getAcceptedTiles();
+	Class<? extends IMultiblockable>[] getAcceptedTiles();
 
 	boolean canAddTile(IMultiblockable tile);
 

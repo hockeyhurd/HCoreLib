@@ -27,6 +27,7 @@ public class ClientProxy extends CommonProxy {
 		ModelRegistry.registerBlock(HCoreLibMain.testBlock);
 		ModelRegistry.registerBlock(HCoreLibMain.testTile);
 		ModelRegistry.registerBlock(HCoreLibMain.testTESRTile);
+		ModelRegistry.registerBlock(HCoreLibMain.multiblockController);
 	}
 
 	@Override
