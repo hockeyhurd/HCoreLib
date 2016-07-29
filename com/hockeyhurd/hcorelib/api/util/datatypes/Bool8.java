@@ -23,16 +23,20 @@ public final class Bool8 extends Bool {
 	}
 
 	@Override
-	public void set(boolean flag) {
+	public Bool8 set(boolean flag) {
 		this.value = (byte) (flag ? 0xff : 0);
+
+		return this;
 	}
 
 	@Override
-	public void set(boolean flag, int index) {
+	public Bool8 set(boolean flag, int index) {
 		index %= 7;
 
 		if (flag) value |= 1 << index;
 		else value &= ~(1 << index);
+
+		return this;
 	}
 
 	@Override
@@ -79,6 +83,37 @@ public final class Bool8 extends Bool {
 			output[i] = get(i);
 
 		return output;
+	}
+
+	@Override
+	public Bool8 and(Bool bool) {
+		if (bool instanceof Bool8)
+			value &= ((Bool8) bool).value;
+
+		return this;
+	}
+
+	@Override
+	public Bool8 or(Bool bool) {
+		if (bool instanceof Bool8)
+			value |= ((Bool8) bool).value;
+
+		return this;
+	}
+
+	@Override
+	public Bool8 xor(Bool bool) {
+		if (bool instanceof Bool8)
+			value ^= ((Bool8) bool).value;
+
+		return this;
+	}
+
+	@Override
+	public Bool8 not() {
+		value = (byte) ~value;
+
+		return this;
 	}
 
 	@Override

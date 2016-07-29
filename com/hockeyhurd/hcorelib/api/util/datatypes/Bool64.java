@@ -23,16 +23,20 @@ public final class Bool64 extends Bool {
 	}
 
 	@Override
-	public void set(boolean flag) {
+	public Bool64 set(boolean flag) {
 		this.value = flag ? 0xffffffffffffffffL : 0L;
+
+		return this;
 	}
 
 	@Override
-	public void set(boolean flag, int index) {
+	public Bool64 set(boolean flag, int index) {
 		index %= 0x3f;
 
 		if (flag) value |= 1 << index;
 		else value &= ~(1 << index);
+
+		return this;
 	}
 
 	@Override
@@ -79,6 +83,37 @@ public final class Bool64 extends Bool {
 			output[i] = get(i);
 
 		return output;
+	}
+
+	@Override
+	public Bool64 and(Bool bool) {
+		if (bool instanceof Bool64)
+			value &= ((Bool64) bool).value;
+
+		return this;
+	}
+
+	@Override
+	public Bool64 or(Bool bool) {
+		if (bool instanceof Bool64)
+			value |= ((Bool64) bool).value;
+
+		return this;
+	}
+
+	@Override
+	public Bool64 xor(Bool bool) {
+		if (bool instanceof Bool64)
+			value ^= ((Bool64) bool).value;
+
+		return this;
+	}
+
+	@Override
+	public Bool64 not() {
+		value = ~value;
+
+		return this;
 	}
 
 	@Override

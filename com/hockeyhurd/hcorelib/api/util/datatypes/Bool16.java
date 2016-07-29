@@ -23,16 +23,20 @@ public final class Bool16 extends Bool {
 	}
 
 	@Override
-	public void set(boolean flag) {
+	public Bool16 set(boolean flag) {
 		this.value = (short) (flag ? 0xffff : 0);
+
+		return this;
 	}
 
 	@Override
-	public void set(boolean flag, int index) {
+	public Bool16 set(boolean flag, int index) {
 		index %= 0xf;
 
 		if (flag) value |= 1 << index;
 		else value &= ~(1 << index);
+
+		return this;
 	}
 
 	@Override
@@ -81,6 +85,37 @@ public final class Bool16 extends Bool {
 		return output;
 	}
 
+	@Override
+	public Bool16 and(Bool bool) {
+		if (bool instanceof Bool16)
+			value &= ((Bool16) bool).value;
+
+		return this;
+	}
+
+	@Override
+	public Bool16 or(Bool bool) {
+		if (bool instanceof Bool16)
+			value |= ((Bool16) bool).value;
+
+		return this;
+	}
+
+	@Override
+	public Bool16 xor(Bool bool) {
+		if (bool instanceof Bool16)
+			value ^= ((Bool16) bool).value;
+
+		return this;
+	}
+
+	@Override
+	public Bool16 not() {
+		value = (short) ~value;
+
+		return this;
+	}
+	
 	@Override
 	public int hashCode() {
 		return ((Short) value).hashCode();

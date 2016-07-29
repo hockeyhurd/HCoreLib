@@ -17,7 +17,7 @@ public abstract class Bool {
 	 *
 	 * @param flag boolean value to set.
 	 */
-	public abstract void set(boolean flag);
+	public abstract Bool set(boolean flag);
 
 	/**
 	 * Sets the boolean value at index.
@@ -25,7 +25,7 @@ public abstract class Bool {
 	 * @param flag boolean value to set.
 	 * @param index int index to set at.
 	 */
-	public abstract void set(boolean flag, int index);
+	public abstract Bool set(boolean flag, int index);
 
 	/**
 	 * Gets the boolean value at the index.
@@ -58,5 +58,13 @@ public abstract class Bool {
 	 * @return boolean array.
 	 */
 	public abstract boolean[] values();
+
+	public abstract Bool and(Bool bool);
+
+	public abstract Bool or(Bool bool);
+
+	public abstract Bool xor(Bool bool);
+
+	public abstract Bool not();
 
 }
