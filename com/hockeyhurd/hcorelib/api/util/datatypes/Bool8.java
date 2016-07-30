@@ -23,6 +23,11 @@ public final class Bool8 extends Bool {
 	}
 
 	@Override
+	protected Byte getOffsetValue(int index) {
+		return (byte) (1 << index);
+	}
+
+	@Override
 	public Bool8 set(boolean flag) {
 		this.value = (byte) (flag ? 0xff : 0);
 
@@ -41,7 +46,8 @@ public final class Bool8 extends Bool {
 
 	@Override
 	public boolean get(int index) {
-		return value << (index % 7) == 1;
+		index %= 0x7;
+		return (value & getOffsetValue(index) >> index) == 1;
 	}
 
 	@Override
@@ -59,7 +65,7 @@ public final class Bool8 extends Bool {
 	@Override
 	public boolean[] get(int startIndex, int endIndex) {
 		if (startIndex < 0) startIndex = 0;
-		if (endIndex > 7) endIndex = 7;
+		if (endIndex > 0x8) endIndex = 0x8;
 		if (startIndex > endIndex) {
 			startIndex ^= endIndex;
 			endIndex ^= startIndex;
@@ -69,7 +75,7 @@ public final class Bool8 extends Bool {
 		final boolean[] output = new boolean[endIndex - startIndex + 1];
 		int counter = 0;
 
-		for (int i = startIndex; i <= endIndex; i++)
+		for (int i = startIndex; i < endIndex; i++)
 			output[counter++] = get(i);
 
 		return output;

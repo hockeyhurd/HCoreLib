@@ -23,6 +23,11 @@ public final class Bool16 extends Bool {
 	}
 
 	@Override
+	protected Short getOffsetValue(int index) {
+		return (short) (1 << index);
+	}
+
+	@Override
 	public Bool16 set(boolean flag) {
 		this.value = (short) (flag ? 0xffff : 0);
 
@@ -41,7 +46,8 @@ public final class Bool16 extends Bool {
 
 	@Override
 	public boolean get(int index) {
-		return value << (index % 0xf) == 1;
+		index %= 0xf;
+		return (value & getOffsetValue(index) >> index) == 1;
 	}
 
 	@Override
@@ -59,7 +65,7 @@ public final class Bool16 extends Bool {
 	@Override
 	public boolean[] get(int startIndex, int endIndex) {
 		if (startIndex < 0) startIndex = 0;
-		if (endIndex > 0xf) endIndex = 0xf;
+		if (endIndex > 0x10) endIndex = 0x10;
 		if (startIndex > endIndex) {
 			startIndex ^= endIndex;
 			endIndex ^= startIndex;
@@ -69,7 +75,7 @@ public final class Bool16 extends Bool {
 		final boolean[] output = new boolean[endIndex - startIndex + 1];
 		int counter = 0;
 
-		for (int i = startIndex; i <= endIndex; i++)
+		for (int i = startIndex; i < endIndex; i++)
 			output[counter++] = get(i);
 
 		return output;

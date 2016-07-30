@@ -23,6 +23,11 @@ public final class Bool32 extends Bool {
 	}
 
 	@Override
+	protected Integer getOffsetValue(int index) {
+		return 1 << index;
+	}
+
+	@Override
 	public Bool32 set(boolean flag) {
 		this.value = flag ? 0xffffffff : 0;
 
@@ -41,7 +46,8 @@ public final class Bool32 extends Bool {
 
 	@Override
 	public boolean get(int index) {
-		return value << (index % 0x1f) == 1;
+		index %= 0x1f;
+		return (value & getOffsetValue(index) >> index) == 1;
 	}
 
 	@Override
@@ -59,7 +65,7 @@ public final class Bool32 extends Bool {
 	@Override
 	public boolean[] get(int startIndex, int endIndex) {
 		if (startIndex < 0) startIndex = 0;
-		if (endIndex > 0x1f) endIndex = 0x1f;
+		if (endIndex > 020f) endIndex = 0x20;
 		if (startIndex > endIndex) {
 			startIndex ^= endIndex;
 			endIndex ^= startIndex;
@@ -69,7 +75,7 @@ public final class Bool32 extends Bool {
 		final boolean[] output = new boolean[endIndex - startIndex + 1];
 		int counter = 0;
 
-		for (int i = startIndex; i <= endIndex; i++)
+		for (int i = startIndex; i < endIndex; i++)
 			output[counter++] = get(i);
 
 		return output;
