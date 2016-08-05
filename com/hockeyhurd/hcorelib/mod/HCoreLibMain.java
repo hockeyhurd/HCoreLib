@@ -10,17 +10,16 @@ import com.hockeyhurd.hcorelib.api.util.McModInfoDataInjector;
 import com.hockeyhurd.hcorelib.api.util.SystemInfo;
 import com.hockeyhurd.hcorelib.api.util.exceptions.InCompatibleJavaException.JavaCompatibility;
 import com.hockeyhurd.hcorelib.api.util.interfaces.IForgeMod;
-import com.hockeyhurd.hcorelib.mod.block.BlockWhiteHidden;
 import com.hockeyhurd.hcorelib.mod.block.TestBlock;
 import com.hockeyhurd.hcorelib.mod.block.TestTESRTile;
 import com.hockeyhurd.hcorelib.mod.block.TestTile;
+import com.hockeyhurd.hcorelib.mod.block.multiblock.BlockMultiblockComponent;
 import com.hockeyhurd.hcorelib.mod.block.multiblock.BlockMultiblockController;
 import com.hockeyhurd.hcorelib.mod.creativetab.ModCreativeTab;
 import com.hockeyhurd.hcorelib.mod.handler.CommandHandler;
 import com.hockeyhurd.hcorelib.mod.handler.config.ConfigHandler;
 import com.hockeyhurd.hcorelib.mod.item.TestItem;
 import com.hockeyhurd.hcorelib.mod.item.TestMetaItem;
-import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraftforge.fml.common.FMLCommonHandler;
@@ -31,8 +30,6 @@ import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.*;
 import net.minecraftforge.fml.relauncher.Side;
 import org.apache.commons.lang3.JavaVersion;
-
-import static java.awt.Color.white;
 
 @Mod(modid = LibReference.MOD_NAME, name = LibReference.MOD_NAME, version = LibReference.VERSION,
 		acceptedMinecraftVersions = LibReference.MINECRAFT_VERSION, guiFactory = "com.hockeyhurd.hcorelib.mod.client.gui.HGuiFactory")
@@ -121,6 +118,7 @@ public final class HCoreLibMain implements IForgeMod {
 		testTile = new TestTile();
 		testTESRTile = new TestTESRTile();
 		multiblockController = new BlockMultiblockController(Material.ROCK, "multiblockController");
+		multiblockComponent = new BlockMultiblockComponent(Material.ROCK, "multiblockComponent");
 
 		// Items:
 		testItem = new TestItem();

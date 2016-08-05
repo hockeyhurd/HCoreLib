@@ -8,15 +8,14 @@ import net.minecraft.util.EnumFacing;
 
 /**
  * @author hockeyhurd
- * @version 7/13/2016.
+ * @version 8/4/2016.
  */
-public class MultiblockController extends AbstractTileContainer implements IMultiblockable<MultiblockController> {
+public class MultiblockComponent extends AbstractTileContainer implements IMultiblockable<MultiblockComponent> {
 
 	private IMultiblockManager multiblockManager;
-	private IMultiblockable<MultiblockController> master;
 
-	public MultiblockController() {
-		super("multiblockController");
+	public MultiblockComponent() {
+		super("multiblockComponent");
 	}
 
 	@Override
@@ -25,16 +24,18 @@ public class MultiblockController extends AbstractTileContainer implements IMult
 
 	@Override
 	protected void initSlotsArray() {
+		slots = new ItemStack[1];
 	}
 
 	@Override
 	public int getInventoryStackLimit() {
-		return 0;
+		return 0x40;
 	}
 
 	@Override
 	public boolean isItemValidForSlot(int slot, ItemStack stack) {
-		return false;
+		return slot == 0 && (slots[0] == null || (stack != null && slots[0].stackSize + stack.stackSize <= slots[0].getMaxStackSize() &&
+				slots[0].isItemEqual(stack)));
 	}
 
 	@Override
@@ -58,16 +59,21 @@ public class MultiblockController extends AbstractTileContainer implements IMult
 
 	@Override
 	public boolean canInsertItem(int slot, ItemStack stack, EnumFacing side) {
-		return false;
+		return isItemValidForSlot(slot, stack);
 	}
 
 	@Override
 	public boolean canExtractItem(int slot, ItemStack stack, EnumFacing side) {
-		return false;
+		return slot == 0 && slots[0] != null && slots[0].stackSize > 0;
 	}
 
+	/*@Override
+	public ItemStack getStackInSlot(int slot) {
+		return slot == 0 ? slots[0] : null;
+	}*/
+
 	@Override
-	public MultiblockController getTile() {
+	public MultiblockComponent getTile() {
 		return this;
 	}
 
@@ -84,27 +90,25 @@ public class MultiblockController extends AbstractTileContainer implements IMult
 
 	@Override
 	public boolean canBeMaster() {
-		return true;
+		return false;
 	}
 
 	@Override
 	public boolean isMaster() {
-		return canBeMaster() && master != null && master.getTile().worldVec().equals(worldVec());
+		return false;
 	}
 
 	@Override
-	public void setMaster(IMultiblockable<MultiblockController> tile) {
-		this.master = tile;
+	public void setMaster(IMultiblockable<MultiblockComponent> tile) {
 	}
 
 	@Override
-	public IMultiblockable<MultiblockController> getMaster() {
-		return master;
+	public IMultiblockable getMaster() {
+		return multiblockManager != null ? multiblockManager.getMasterTile() : null;
 	}
 
 	@Override
 	public int getRequiredAmount() {
-		return 1;
+		return -1;
 	}
-
 }

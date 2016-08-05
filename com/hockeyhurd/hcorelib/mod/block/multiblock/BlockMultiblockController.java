@@ -23,6 +23,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.Explosion;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
@@ -30,7 +31,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * Test class for testing multiblocks.
+ * Test class for testing multiblock controllers.
  *
  * @author hockeyhurd
  * @version 7/13/2016.
@@ -78,31 +79,97 @@ public class BlockMultiblockController extends AbstractHCoreBlockContainer imple
 
 	@Override
 	public void onBlockPlacedBy(World world, BlockPos blockPos, IBlockState blockState, EntityLivingBase placer, ItemStack stack) {
-		final MultiblockController tile = (MultiblockController) world.getTileEntity(blockPos);
-		if (tile == null) return;
+		if (!world.isRemote) {
+			final MultiblockController tile = (MultiblockController) world.getTileEntity(blockPos);
+			if (tile == null) return;
 
-		tile.setManager(new TestMultiblockManager(tile));
-		tile.setMaster(tile);
-		final List<IMultiblockManager> adjacentManagers = new LinkedList<IMultiblockManager>();
+			tile.setManager(new TestMultiblockManager(tile));
+			tile.setMaster(tile);
+			final List<IMultiblockManager> adjacentManagers = new LinkedList<IMultiblockManager>();
 
-		for (EnumFacing dir : EnumFacing.VALUES) {
-			final BlockPos atPos = VectorHelper.toBlockPos(blockPos.getX() + dir.getFrontOffsetX(), blockPos.getY() + dir.getFrontOffsetY(),
-					blockPos.getZ() + dir.getFrontOffsetZ());
-			final TileEntity tileEntity = world.getTileEntity(atPos);
+			for (EnumFacing dir : EnumFacing.VALUES) {
+				final BlockPos atPos = VectorHelper.toBlockPos(blockPos.getX() + dir.getFrontOffsetX(), blockPos.getY() + dir.getFrontOffsetY(),
+						blockPos.getZ() + dir.getFrontOffsetZ());
+				final TileEntity tileEntity = world.getTileEntity(atPos);
 
-			if (tileEntity != null && tileEntity instanceof IMultiblockable)
-				adjacentManagers.add(((IMultiblockable) tileEntity).getManager());
+				if (tileEntity != null && tileEntity instanceof IMultiblockable) {
+					final IMultiblockManager manager = ((IMultiblockable) tileEntity).getManager();
+					if (manager == null) continue; // Can't add a 'NULL' manager!
+					adjacentManagers.add(((IMultiblockable) tileEntity).getManager());
+				}
+			}
+
+			for (IMultiblockManager otherManager : adjacentManagers)
+				tile.getManager().mergeSubMultiblocks(otherManager);
+
+			blockState = blockState.withProperty(IS_MULTIBLOCK, tile.getManager().isCompleteMultiblock());
+			BlockUtils.setBlock(world, blockPos, blockState, 2);
+			// BlockUtils.markBlockForUpdate(world, blockPos);
+
+			HCoreLibMain.logHelper.info("Is master:", tile.isMaster());
+			HCoreLibMain.logHelper.info("Manager size:", tile.getManager().size());
+			HCoreLibMain.logHelper.info("# of managers to merge:", adjacentManagers.size());
+		}
+	}
+
+	@Override
+	public void onBlockDestroyedByPlayer(World world, BlockPos blockPos, IBlockState blockState) {
+		if (!world.isRemote) {
+			final MultiblockController controller = (MultiblockController) world.getTileEntity(blockPos);
+			if (controller != null && controller.getManager() != null) {
+				controller.getManager().removeTile(controller);
+			}
 		}
 
-		for (IMultiblockManager otherManager : adjacentManagers)
-			tile.getManager().mergeSubMultiblocks(otherManager);
+		super.onBlockDestroyedByPlayer(world, blockPos, blockState);
+	}
 
+	@Override
+	public void onBlockDestroyedByExplosion(World world, BlockPos blockPos, Explosion explosion) {
+		if (!world.isRemote) {
+			final MultiblockController controller = (MultiblockController) world.getTileEntity(blockPos);
+			if (controller != null && controller.getManager() != null) {
+				controller.getManager().removeTile(controller);
+			}
+		}
+
+		super.onBlockDestroyedByExplosion(world, blockPos, explosion);
 	}
 
 	@Override
 	public boolean onBlockActivated(World world, BlockPos blockPos, IBlockState blockState, EntityPlayer player, EnumHand hand, ItemStack stack,
 			EnumFacing sideHit, float hitX, float hitY, float hitZ) {
-		return false;
+
+		if (!world.isRemote) {
+			final MultiblockController controller = (MultiblockController) world.getTileEntity(blockPos);
+			// if (controller == null || controller.getManager() == null) return false;
+			if (controller == null) return false;
+
+			boolean hasManager = controller.getManager() != null;
+
+			if (!hasManager) {
+				HCoreLibMain.logHelper.severe("Manager is null! Fixing!");
+				/*controller.setManager(new TestMultiblockManager(controller));
+				controller.setMaster(controller);
+				hasManager = true;*/
+			}
+
+			else if (player.getHeldItem(hand) != null && controller.getManager().size() > 1) {
+				HCoreLibMain.logHelper.info("Tile size:", controller.getManager().size());
+				final ItemStack handStack = player.getHeldItem(hand);
+
+				final IMultiblockable destTile = controller.getManager().getMultiblockTiles().get(1);
+				final IStateUpdate destBlock = (IStateUpdate) BlockUtils.getBlock(world, destTile.getTile().worldVec()).getBlock();
+				destBlock.updateState(destTile.getTile(), world, destTile.getTile().worldVec(), handStack);
+			}
+
+			blockState = blockState.withProperty(IS_MULTIBLOCK, hasManager && controller.getManager().isCompleteMultiblock());
+			BlockUtils.setBlock(world, blockPos, blockState);
+			BlockUtils.updateAndNotifyNeighborsOfBlockUpdate(world, blockPos);
+			// BlockUtils.updateAndNotifyNeighborsOfBlockUpdate(world, blockPos);
+		}
+
+		return true;
 	}
 
 	@Override

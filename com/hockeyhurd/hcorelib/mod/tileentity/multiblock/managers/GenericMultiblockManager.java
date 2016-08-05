@@ -50,7 +50,10 @@ public abstract class GenericMultiblockManager implements IMultiblockManager {
 
 	@Override
 	public void addTile(IMultiblockable tile) {
-		if (tile != null) blockList.add(tile);
+		if (tile != null) {
+			tile.setManager(this);
+			blockList.add(tile);
+		}
 	}
 
 	@Override
@@ -110,7 +113,7 @@ public abstract class GenericMultiblockManager implements IMultiblockManager {
 	public boolean mergeSubMultiblocks(IMultiblockManager other) {
 		if (other == null) return false;
 
-		for (IMultiblockable tile : other.getMultiblockTiles()) {
+		for (IMultiblockable<?> tile : other.getMultiblockTiles()) {
 			if (tile == null) return false;
 
 			blockList.add(tile);
@@ -125,9 +128,17 @@ public abstract class GenericMultiblockManager implements IMultiblockManager {
 	public abstract boolean isCompleteMultiblock();
 
 	@Override
+	public IMultiblockable getMasterTile() {
+		return masterTile;
+	}
+
+	@Override
 	public int size() {
 		return blockList.size();
 	}
+
+	@Override
+	public abstract int getMaxSize();
 
 	@Override
 	public int compareTo(IMultiblockManager other) {

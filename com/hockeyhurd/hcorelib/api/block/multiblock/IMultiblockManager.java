@@ -27,7 +27,11 @@ public interface IMultiblockManager extends Comparable<IMultiblockManager> {
 
 	boolean isCompleteMultiblock();
 
+	IMultiblockable getMasterTile();
+
 	int size();
+
+	int getMaxSize();
 
 	@Override
 	int compareTo(IMultiblockManager other);

@@ -2,8 +2,11 @@ package com.hockeyhurd.hcorelib.api.tileentity;
 
 import com.hockeyhurd.hcorelib.api.block.AbstractHCoreBlock;
 import com.hockeyhurd.hcorelib.api.math.Vector3;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 
 /**
  * Generalized abstract tile entity class.
@@ -47,6 +50,11 @@ public abstract class AbstractTile extends TileEntity {
      */
     public Vector3<Integer> worldVec() {
         return new Vector3<Integer>(pos.getX(), pos.getY(), pos.getZ());
+    }
+
+    @Override
+    public boolean shouldRefresh(World world, BlockPos blockPos, IBlockState oldState, IBlockState newState) {
+        return oldState.getBlock() != newState.getBlock();
     }
 
     /**
