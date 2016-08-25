@@ -28,6 +28,11 @@ public final class Bool64 extends Bool {
 	}
 
 	@Override
+	protected int getBitWidth() {
+		return 0x40;
+	}
+
+	@Override
 	public Bool64 set(boolean flag) {
 		this.value = flag ? 0xffffffffffffffffL : 0L;
 
@@ -36,7 +41,7 @@ public final class Bool64 extends Bool {
 
 	@Override
 	public Bool64 set(boolean flag, int index) {
-		index %= 0x3f;
+		index %= getBitWidth() - 1;
 
 		if (flag) value |= 1 << index;
 		else value &= ~(1 << index);
@@ -46,8 +51,8 @@ public final class Bool64 extends Bool {
 
 	@Override
 	public boolean get(int index) {
-		index %= 0x3f;
-		return (value & getOffsetValue(index) >> index) == 1;
+		index %= getBitWidth() - 1;
+		return ((value >> index) & 1) != 0;
 	}
 
 	@Override
@@ -58,35 +63,6 @@ public final class Bool64 extends Bool {
 
 		for (int i = 0; i < output.length; i++)
 			output[i] = get(indicies[i]);
-
-		return output;
-	}
-
-	@Override
-	public boolean[] get(int startIndex, int endIndex) {
-		if (startIndex < 0) startIndex = 0;
-		if (endIndex > 0x40) endIndex = 0x40;
-		if (startIndex > endIndex) {
-			startIndex ^= endIndex;
-			endIndex ^= startIndex;
-			startIndex ^= endIndex;
-		}
-
-		final boolean[] output = new boolean[endIndex - startIndex + 1];
-		int counter = 0;
-
-		for (int i = startIndex; i < endIndex; i++)
-			output[counter++] = get(i);
-
-		return output;
-	}
-
-	@Override
-	public boolean[] values() {
-		final boolean[] output = new boolean[0x40];
-
-		for (int i = 0; i < output.length; i++)
-			output[i] = get(i);
 
 		return output;
 	}
@@ -120,6 +96,11 @@ public final class Bool64 extends Bool {
 		value = ~value;
 
 		return this;
+	}
+
+	@Override
+	public String toString() {
+		return String.format("%64s", Long.toBinaryString(value)).replace(' ', '0');
 	}
 
 	@Override

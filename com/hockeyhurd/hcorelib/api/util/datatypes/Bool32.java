@@ -28,6 +28,11 @@ public final class Bool32 extends Bool {
 	}
 
 	@Override
+	protected int getBitWidth() {
+		return 0x20;
+	}
+
+	@Override
 	public Bool32 set(boolean flag) {
 		this.value = flag ? 0xffffffff : 0;
 
@@ -36,7 +41,7 @@ public final class Bool32 extends Bool {
 
 	@Override
 	public Bool32 set(boolean flag, int index) {
-		index %= 0x1f;
+		index %= getBitWidth() - 1;
 
 		if (flag) value |= 1 << index;
 		else value &= ~(1 << index);
@@ -46,8 +51,8 @@ public final class Bool32 extends Bool {
 
 	@Override
 	public boolean get(int index) {
-		index %= 0x1f;
-		return (value & getOffsetValue(index) >> index) == 1;
+		index %= getBitWidth() - 1;
+		return ((value >> index) & 1) != 0;
 	}
 
 	@Override
@@ -58,35 +63,6 @@ public final class Bool32 extends Bool {
 
 		for (int i = 0; i < output.length; i++)
 			output[i] = get(indicies[i]);
-
-		return output;
-	}
-
-	@Override
-	public boolean[] get(int startIndex, int endIndex) {
-		if (startIndex < 0) startIndex = 0;
-		if (endIndex > 020f) endIndex = 0x20;
-		if (startIndex > endIndex) {
-			startIndex ^= endIndex;
-			endIndex ^= startIndex;
-			startIndex ^= endIndex;
-		}
-
-		final boolean[] output = new boolean[endIndex - startIndex + 1];
-		int counter = 0;
-
-		for (int i = startIndex; i < endIndex; i++)
-			output[counter++] = get(i);
-
-		return output;
-	}
-
-	@Override
-	public boolean[] values() {
-		final boolean[] output = new boolean[0x20];
-
-		for (int i = 0; i < output.length; i++)
-			output[i] = get(i);
 
 		return output;
 	}

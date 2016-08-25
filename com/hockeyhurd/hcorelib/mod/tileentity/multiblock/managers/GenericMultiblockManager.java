@@ -3,6 +3,9 @@ package com.hockeyhurd.hcorelib.mod.tileentity.multiblock.managers;
 import com.hockeyhurd.hcorelib.api.block.multiblock.IMultiblockManager;
 import com.hockeyhurd.hcorelib.api.block.multiblock.IMultiblockable;
 import com.hockeyhurd.hcorelib.api.math.Vector3;
+import com.hockeyhurd.hcorelib.api.math.VectorHelper;
+import com.hockeyhurd.hcorelib.mod.HCoreLibMain;
+import net.minecraft.nbt.NBTTagCompound;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -12,6 +15,8 @@ import java.util.List;
  * @version 7/13/2016.
  */
 public abstract class GenericMultiblockManager implements IMultiblockManager {
+
+	protected static final String[] NBTTAGS = { "MasterX", "MasterY", "MasterZ", "IsMaster" };
 
 	protected IMultiblockable masterTile;
 	protected final List<IMultiblockable> blockList;
@@ -147,6 +152,42 @@ public abstract class GenericMultiblockManager implements IMultiblockManager {
 			return blockList.size() > other.size() ? 1 : blockList.size() < other.size() ? -1 : 0;
 
 		return other.compareTo(this);
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public void readNBT(NBTTagCompound comp, IMultiblockable tile) {
+		if (comp == null || tile == null) return;
+
+		final Vector3<Integer> masterVec = new Vector3<Integer>();
+
+		masterVec.x = comp.getInteger(NBTTAGS[0]);
+		masterVec.y = comp.getInteger(NBTTAGS[1]);
+		masterVec.z = comp.getInteger(NBTTAGS[2]);
+
+		final boolean isMaster = comp.getBoolean(NBTTAGS[3]);
+		final IMultiblockable master = (IMultiblockable) tile.getTile().getWorld().getTileEntity(VectorHelper.toBlockPos(masterVec));
+
+		if (master == null) {
+			HCoreLibMain.logHelper.warn("Error parsing multiblock master at vec3i:", masterVec.toString());
+			return;
+		}
+
+		if (isMaster) this.masterTile = master;
+
+		tile.setMaster(master);
+	}
+
+	@Override
+	public void saveNBT(NBTTagCompound comp, IMultiblockable tile) {
+		if (comp == null || tile == null || masterTile == null) return;
+
+		final Vector3<Integer> masterVec = masterTile.getTile().worldVec();
+
+		comp.setInteger(NBTTAGS[0], masterVec.x);
+		comp.setInteger(NBTTAGS[1], masterVec.y);
+		comp.setInteger(NBTTAGS[2], masterVec.z);
+		comp.setBoolean(NBTTAGS[3], tile.isMaster());
 	}
 
 }

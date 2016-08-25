@@ -13,6 +13,7 @@ import net.minecraft.util.EnumFacing;
 public class MultiblockComponent extends AbstractTileContainer implements IMultiblockable<MultiblockComponent> {
 
 	private IMultiblockManager multiblockManager;
+	private int internalSize;
 
 	public MultiblockComponent() {
 		super("multiblockComponent");
@@ -71,6 +72,52 @@ public class MultiblockComponent extends AbstractTileContainer implements IMulti
 	public ItemStack getStackInSlot(int slot) {
 		return slot == 0 ? slots[0] : null;
 	}*/
+
+	public boolean putStack(ItemStack stack) {
+		if (stack == null || !canInsertItem(0, stack, EnumFacing.UP)) return false;
+		if (slots[0] == null) {
+			slots[0] = stack.copy();
+			return true;
+		}
+
+		else if (stack.isItemEqual(slots[0])) {
+			int left = slots[0].getMaxStackSize() - slots[0].stackSize;
+			left -= stack.stackSize;
+			slots[0].stackSize += stack.stackSize;
+
+			internalSize = slots[0].stackSize + left;
+			return true;
+		}
+
+		return false;
+	}
+
+	public ItemStack pullStack(int amount) {
+		if (amount < 0 || slots[0] == null) return null;
+		final ItemStack copy = slots[0].copy();
+
+		amount = Math.min(amount, slots[0].getMaxStackSize());
+
+		int amountToPull = Math.min(slots[0].stackSize, amount);
+		amountToPull = Math.min(amountToPull, internalSize);
+
+		if (amountToPull < internalSize) {
+			internalSize -= amountToPull;
+			slots[0].stackSize = internalSize;
+		}
+
+		else if (amountToPull == internalSize) {
+			internalSize = 0;
+			slots[0] = null;
+		}
+
+		else return null; // Error should have occurred if this is reached!
+
+		// Adjust stack size according to the amount of was pulled.
+		copy.stackSize = amountToPull;
+
+		return copy;
+	}
 
 	@Override
 	public MultiblockComponent getTile() {

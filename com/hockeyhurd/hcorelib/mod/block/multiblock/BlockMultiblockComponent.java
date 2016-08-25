@@ -6,7 +6,6 @@ import com.hockeyhurd.hcorelib.api.math.Vector3;
 import com.hockeyhurd.hcorelib.api.math.VectorHelper;
 import com.hockeyhurd.hcorelib.api.tileentity.AbstractTile;
 import com.hockeyhurd.hcorelib.api.util.BlockUtils;
-import com.hockeyhurd.hcorelib.api.util.WorldUtils;
 import com.hockeyhurd.hcorelib.api.util.enums.EnumHarvestLevel;
 import com.hockeyhurd.hcorelib.api.util.interfaces.IStateUpdate;
 import com.hockeyhurd.hcorelib.mod.HCoreLibMain;
@@ -128,13 +127,14 @@ public class BlockMultiblockComponent extends AbstractHCoreBlockContainer implem
 			EnumFacing sideHit, float hitX, float hitY, float hitZ) {
 
 		if (!world.isRemote) {
+			// HCoreLibMain.logHelper.info("Hand:", hand.name());
+
 			final MultiblockComponent component = (MultiblockComponent) world.getTileEntity(blockPos);
 			if (component == null) return false;
 
 			boolean hasManager = component.getManager() != null;
 
 			if (!hasManager) {
-				HCoreLibMain.logHelper.severe("Manager is null! Fixing!");
 
 				for (EnumFacing dir : EnumFacing.VALUES) {
 					final IMultiblockable adjTile = (IMultiblockable) world.getTileEntity(VectorHelper.toBlockPos(blockPos.getX() + dir.getFrontOffsetX(),
@@ -153,7 +153,7 @@ public class BlockMultiblockComponent extends AbstractHCoreBlockContainer implem
 				if (compStack.stackSize - 1 > 0) compStack.stackSize--;
 				else component.setInventorySlotContents(0, null);
 
-				WorldUtils.spawnItemEntity(world, VectorHelper.toVector3i(blockPos), compStack);
+				// WorldUtils.spawnItemEntity(world, VectorHelper.toVector3i(blockPos), compStack);
 			}
 
 			blockState = blockState.withProperty(IS_MULTIBLOCK, hasManager && component.getManager().isCompleteMultiblock());
@@ -162,6 +162,25 @@ public class BlockMultiblockComponent extends AbstractHCoreBlockContainer implem
 		}
 
 		return true;
+	}
+
+	@Override
+	public void onBlockClicked(World world, BlockPos blockPos, EntityPlayer player) {
+
+		if (!world.isRemote) {
+			// HCoreLibMain.logHelper.info("onBlockClicked");
+
+			final MultiblockComponent component = (MultiblockComponent) world.getTileEntity(blockPos);
+			if (component == null) return;
+
+			// If the tileentity has something contained:
+			final ItemStack stack = component.getStackInSlot(0);
+			if (stack != null) {
+
+			}
+		}
+
+		super.onBlockClicked(world, blockPos, player);
 	}
 
 	@Override

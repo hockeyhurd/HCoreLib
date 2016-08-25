@@ -13,6 +13,13 @@ public abstract class Bool {
 	public static final int TRUE = 1;
 
 	/**
+	 * Gets the bit width.
+	 *
+	 * @return int bit width.
+	 */
+	protected abstract int getBitWidth();
+
+	/**
 	 * Gets the offset value by index.
 	 *
 	 * @param index int index.
@@ -58,14 +65,37 @@ public abstract class Bool {
 	 * @param endIndex int end index.
 	 * @return boolean array.
 	 */
-	public abstract boolean[] get(int startIndex, int endIndex);
+	public boolean[] get(int startIndex, int endIndex) {
+		if (startIndex < 0) startIndex = 0;
+		if (endIndex > getBitWidth()) endIndex = getBitWidth();
+		if (startIndex > endIndex) {
+			startIndex ^= endIndex;
+			endIndex ^= startIndex;
+			startIndex ^= endIndex;
+		}
+
+		final boolean[] output = new boolean[endIndex - startIndex + 1];
+		int counter = 0;
+
+		for (int i = startIndex; i < endIndex; i++)
+			output[counter++] = get(i);
+
+		return output;
+	}
 
 	/**
 	 * Gets boolean array representation contained in int.
 	 *
 	 * @return boolean array.
 	 */
-	public abstract boolean[] values();
+	public boolean[] values() {
+		final boolean[] output = new boolean[getBitWidth()];
+
+		for (int i = 0; i < output.length; i++)
+			output[i] = get(i);
+
+		return output;
+	}
 
 	/**
 	 * Ands two booleans together.

@@ -1,5 +1,7 @@
 package com.hockeyhurd.hcorelib.api.block.multiblock;
 
+import net.minecraft.nbt.NBTTagCompound;
+
 import java.util.List;
 
 /**
@@ -35,5 +37,9 @@ public interface IMultiblockManager extends Comparable<IMultiblockManager> {
 
 	@Override
 	int compareTo(IMultiblockManager other);
+
+	void readNBT(NBTTagCompound comp, IMultiblockable tile);
+
+	void saveNBT(NBTTagCompound comp, IMultiblockable tile);
 
 }
