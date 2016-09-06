@@ -6,6 +6,7 @@ import com.hockeyhurd.hcorelib.api.math.Vector3;
 import com.hockeyhurd.hcorelib.api.math.VectorHelper;
 import com.hockeyhurd.hcorelib.api.tileentity.AbstractTile;
 import com.hockeyhurd.hcorelib.api.util.BlockUtils;
+import com.hockeyhurd.hcorelib.api.util.WorldUtils;
 import com.hockeyhurd.hcorelib.api.util.enums.EnumHarvestLevel;
 import com.hockeyhurd.hcorelib.api.util.interfaces.IStateUpdate;
 import com.hockeyhurd.hcorelib.mod.HCoreLibMain;
@@ -122,6 +123,7 @@ public class BlockMultiblockComponent extends AbstractHCoreBlockContainer implem
 	public void onBlockDestroyedByExplosion(World world, BlockPos blockPos, Explosion explosion) {
 	}
 
+	// Right click on block.
 	@Override
 	public boolean onBlockActivated(World world, BlockPos blockPos, IBlockState blockState, EntityPlayer player, EnumHand hand, ItemStack stack,
 			EnumFacing sideHit, float hitX, float hitY, float hitZ) {
@@ -148,12 +150,23 @@ public class BlockMultiblockComponent extends AbstractHCoreBlockContainer implem
 				}
 			}
 
-			else if (component.getStackInSlot(0) != null) {
+			/*else if (component.getStackInSlot(0) != null) {
 				ItemStack compStack = component.getStackInSlot(0);
+				HCoreLibMain.logHelper.info("Here!", compStack.stackSize);
 				if (compStack.stackSize - 1 > 0) compStack.stackSize--;
 				else component.setInventorySlotContents(0, null);
 
 				// WorldUtils.spawnItemEntity(world, VectorHelper.toVector3i(blockPos), compStack);
+			}*/
+
+			else {
+				if (stack != null && stack.stackSize > 0) {
+					// HCoreLibMain.logHelper.info("Here!", stack, stack.stackSize);
+					component.pushStack(stack, false);
+					// HCoreLibMain.logHelper.info("After put stack:", component.getStackInSlot(0));
+				}
+
+				else if (component.getStackInSlot(0) != null) HCoreLibMain.logHelper.info(component.getStackInSlot(0));
 			}
 
 			blockState = blockState.withProperty(IS_MULTIBLOCK, hasManager && component.getManager().isCompleteMultiblock());
@@ -164,6 +177,7 @@ public class BlockMultiblockComponent extends AbstractHCoreBlockContainer implem
 		return true;
 	}
 
+	// Left click on block.
 	@Override
 	public void onBlockClicked(World world, BlockPos blockPos, EntityPlayer player) {
 
@@ -176,7 +190,11 @@ public class BlockMultiblockComponent extends AbstractHCoreBlockContainer implem
 			// If the tileentity has something contained:
 			final ItemStack stack = component.getStackInSlot(0);
 			if (stack != null) {
+				// final ItemStack stackPull = component.pullStack(Math.min(component.size(), stack.getMaxStackSize()), false);
+				final ItemStack stackPull = component.pullStack(Math.min(component.size(), stack.getMaxStackSize()), true);
 
+				HCoreLibMain.logHelper.info(stack, component.getTile().size());
+				WorldUtils.spawnItemEntity(world, VectorHelper.toVector3i(blockPos), stackPull);
 			}
 		}
 

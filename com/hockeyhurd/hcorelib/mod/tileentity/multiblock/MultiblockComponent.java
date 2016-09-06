@@ -4,6 +4,7 @@ import com.hockeyhurd.hcorelib.api.block.multiblock.IMultiblockManager;
 import com.hockeyhurd.hcorelib.api.block.multiblock.IMultiblockable;
 import com.hockeyhurd.hcorelib.api.tileentity.AbstractTileContainer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 
 /**
@@ -73,7 +74,7 @@ public class MultiblockComponent extends AbstractTileContainer implements IMulti
 		return slot == 0 ? slots[0] : null;
 	}*/
 
-	public boolean putStack(ItemStack stack) {
+	public boolean pushStack(ItemStack stack, boolean simulate) {
 		if (stack == null || !canInsertItem(0, stack, EnumFacing.UP)) return false;
 		if (slots[0] == null) {
 			slots[0] = stack.copy();
@@ -83,16 +84,19 @@ public class MultiblockComponent extends AbstractTileContainer implements IMulti
 		else if (stack.isItemEqual(slots[0])) {
 			int left = slots[0].getMaxStackSize() - slots[0].stackSize;
 			left -= stack.stackSize;
-			slots[0].stackSize += stack.stackSize;
 
-			internalSize = slots[0].stackSize + left;
+			if (!simulate) {
+				slots[0].stackSize += stack.stackSize;
+				internalSize = slots[0].stackSize + left;
+			}
+
 			return true;
 		}
 
 		return false;
 	}
 
-	public ItemStack pullStack(int amount) {
+	public ItemStack pullStack(int amount, boolean simulate) {
 		if (amount < 0 || slots[0] == null) return null;
 		final ItemStack copy = slots[0].copy();
 
@@ -101,22 +105,35 @@ public class MultiblockComponent extends AbstractTileContainer implements IMulti
 		int amountToPull = Math.min(slots[0].stackSize, amount);
 		amountToPull = Math.min(amountToPull, internalSize);
 
-		if (amountToPull < internalSize) {
-			internalSize -= amountToPull;
-			slots[0].stackSize = internalSize;
-		}
+		if (!simulate) {
+			if (amountToPull < internalSize) {
+				internalSize -= amountToPull;
+				slots[0].stackSize = internalSize;
+			}
 
-		else if (amountToPull == internalSize) {
-			internalSize = 0;
-			slots[0] = null;
-		}
+			else if (amountToPull == internalSize) {
+				internalSize = 0;
+				slots[0] = null;
+			}
 
-		else return null; // Error should have occurred if this is reached!
+			else return null; // Error should have occurred if this is reached!
+		}
 
 		// Adjust stack size according to the amount of was pulled.
 		copy.stackSize = amountToPull;
 
 		return copy;
+	}
+
+	public int size() {
+		return internalSize;
+	}
+
+	@Override
+	public void readNBT(NBTTagCompound comp) {
+		super.readNBT(comp);
+
+
 	}
 
 	@Override

@@ -7,8 +7,11 @@ import com.hockeyhurd.hcorelib.api.math.VectorHelper;
 import com.hockeyhurd.hcorelib.mod.HCoreLibMain;
 import net.minecraft.nbt.NBTTagCompound;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map.Entry;
 
 /**
  * @author hockeyhurd
@@ -17,6 +20,10 @@ import java.util.List;
 public abstract class GenericMultiblockManager implements IMultiblockManager {
 
 	protected static final String[] NBTTAGS = { "MasterX", "MasterY", "MasterZ", "IsMaster" };
+	// protected List<List<Integer>> vecList;
+	protected HashMap<Integer, HashMap<Integer, List<Integer>>> yLayer;
+	protected final int vecMapSize;
+	protected static final float vecMapRatio = 2.0f / 3.0f;
 
 	protected IMultiblockable masterTile;
 	protected final List<IMultiblockable> blockList;
@@ -27,6 +34,9 @@ public abstract class GenericMultiblockManager implements IMultiblockManager {
 		this.masterTile = masterTile;
 		blockList = new LinkedList<IMultiblockable>();
 		blockList.add(masterTile);
+
+		vecMapSize = (getMaxSize() / 0x10 + 1) << 1;
+		yLayer = new HashMap<Integer, HashMap<Integer, List<Integer>>>(vecMapSize, vecMapRatio);
 	}
 
 	@Override
@@ -173,7 +183,9 @@ public abstract class GenericMultiblockManager implements IMultiblockManager {
 			return;
 		}
 
-		if (isMaster) this.masterTile = master;
+		if (isMaster) {
+			this.masterTile = master;
+		}
 
 		tile.setMaster(master);
 	}
@@ -188,6 +200,39 @@ public abstract class GenericMultiblockManager implements IMultiblockManager {
 		comp.setInteger(NBTTAGS[1], masterVec.y);
 		comp.setInteger(NBTTAGS[2], masterVec.z);
 		comp.setBoolean(NBTTAGS[3], tile.isMaster());
+
+		if (tile.isMaster() && !blockList.isEmpty()) {
+			for (IMultiblockable multiblockable : blockList) {
+				final Vector3<Integer> vec = multiblockable.getTile().worldVec();
+				HashMap<Integer, List<Integer>> xLayer = yLayer.get(vec.y);
+
+				if (xLayer == null) xLayer = new HashMap<Integer, List<Integer>>();
+
+				List<Integer> zLayer = xLayer.get(vec.x);
+				if (zLayer == null) zLayer = new ArrayList<Integer>(vecMapSize >> 1);
+
+				zLayer.add(vec.z);
+				xLayer.put(vec.x, zLayer);
+				yLayer.put(vec.y, xLayer);
+			}
+
+			if (!yLayer.isEmpty()) {
+				final Vector3<Integer> vec = new Vector3<Integer>();
+				for (Entry<Integer, HashMap<Integer, List<Integer>>> xLayerEntry : yLayer.entrySet()) {
+					vec.y = xLayerEntry.getKey();
+
+					for (Entry<Integer, List<Integer>> zLayerEntry : xLayerEntry.getValue().entrySet()) {
+						vec.x = zLayerEntry.getKey();
+
+						for (int z : zLayerEntry.getValue()) {
+							vec.z = z;
+						}
+					}
+				}
+			}
+
+		}
+
 	}
 
 }
