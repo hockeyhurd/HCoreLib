@@ -1,6 +1,8 @@
 package com.hockeyhurd.hcorelib.mod;
 
 import com.hockeyhurd.hcorelib.api.command.HCommand;
+import com.hockeyhurd.hcorelib.api.math.expressions.Expression;
+import com.hockeyhurd.hcorelib.api.math.expressions.Interpreter;
 import com.hockeyhurd.hcorelib.api.util.ChatUtils;
 import com.hockeyhurd.hcorelib.api.util.NumberParser;
 import com.hockeyhurd.hcorelib.api.util.SystemInfo;
@@ -21,7 +23,7 @@ public final class HServerCommands extends HCommand {
 
 	@Override
 	protected void init() {
-        commandArgs = new String[] { "tps", "uptime" };
+        commandArgs = new String[] { "tps", "uptime", "hcalc" };
     }
 
 	@Override
@@ -54,6 +56,22 @@ public final class HServerCommands extends HCommand {
 			if (args.length == 1)
 				sender.addChatMessage(ChatUtils.createComponent(SystemInfo.instance().getSystemUpTime()));
 			else sender.addChatMessage(ChatUtils.createComponent(getCommandUsage(sender)));
+		}
+
+		else if (args[0].equalsIgnoreCase(commandArgs[2])) {
+			if (args.length == 1)
+				sender.addChatMessage(ChatUtils.createComponent(getCommandUsage(sender)));
+			else {
+				StringBuilder builder = new StringBuilder(0x20);
+
+				for (int i = 1; i < args.length; i++)
+					builder.append(args[i]);
+
+				Interpreter interpreter = new Interpreter();
+				double result = interpreter.processExpression(new Expression(builder.toString()));
+
+				sender.addChatMessage(ChatUtils.createComponent("Result:", "" + result));
+			}
 		}
 
 		else sender.addChatMessage(ChatUtils.createComponent(getCommandUsage(sender)));

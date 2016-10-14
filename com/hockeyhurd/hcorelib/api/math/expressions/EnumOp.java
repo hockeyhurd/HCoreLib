@@ -40,4 +40,13 @@ enum EnumOp {
 		return false;
 	}
 
+	static EnumOp getOperatorFromString(String string) {
+		if (string == null || string.length() == 0) return NO_OP;
+
+		for (EnumOp op : values())
+			if (op.getType().equals(string)) return op;
+
+		return NO_OP;
+	}
+
 }
