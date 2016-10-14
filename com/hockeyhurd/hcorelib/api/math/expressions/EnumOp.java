@@ -7,18 +7,19 @@ package com.hockeyhurd.hcorelib.api.math.expressions;
  * @version 10/13/2016.
  */
 enum EnumOp {
-	PLUS("+", 3), MINUS("-", 3), MULTIPLY("*", 2), DIVIDE("/", 2), MODULUS("%", 2), EXPONENT("^", 1),
-	PARENTHESIS("()", 4), SQUARE_BRACKET("[]", 4), CURLY_BRACKET("{}", 4), NO_OP("null", -1);
+	PLUS('+', 4), MINUS('-', 4), MULTIPLY('*', 3), DIVIDE('/', 3), MODULUS('%', 3), EXPONENT('^', 2),
+	PARENTHESIS_L('(', 5), PARENTHESIS_R(')', 5), SQUARE_BRACKET_L('[', 5), SQUARE_BRACKET_R(']', 5),
+	CURLY_BRACKET_L('{', 5), CURLY_BRACKET_R('}', 5), FACTORIAL('!', 1), NO_OP('0', -1);
 
-	private final String type;
+	private final char type;
 	private final int prec;
 
-	EnumOp(String type, int prec) {
+	EnumOp(char type, int prec) {
 		this.type = type;
 		this.prec = prec;
 	}
 
-	String getType() {
+	char getType() {
 		return type;
 	}
 
@@ -28,23 +29,22 @@ enum EnumOp {
 
 	@Override
 	public String toString() {
-		return type;
+		return Character.toString(type);
 	}
 
-	static boolean isOp(String op) {
-		if (op == null || op.isEmpty() || op.length() > 2) return false;
-
+	static boolean isOp(char op) {
 		for (EnumOp operator : values())
-			if (operator.getType().equals(op)) return true;
+			if (operator.getType() == op) return true;
 
 		return false;
 	}
 
 	static EnumOp getOperatorFromString(String string) {
-		if (string == null || string.length() == 0) return NO_OP;
+		if (string == null || string.length() != 1) return NO_OP;
 
+		final char ch = string.charAt(0);
 		for (EnumOp op : values())
-			if (op.getType().equals(string)) return op;
+			if (op.getType() == ch) return op;
 
 		return NO_OP;
 	}

@@ -45,4 +45,7 @@ abstract class EToken {
 	 */
 	abstract double evaluate();
 
+	@Override
+	public abstract String toString();
+
 }

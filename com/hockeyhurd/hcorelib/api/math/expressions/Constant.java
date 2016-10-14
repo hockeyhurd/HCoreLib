@@ -30,4 +30,9 @@ class Constant extends EToken {
 		return value;
 	}
 
+	@Override
+	public String toString() {
+		return Double.toString(value);
+	}
+
 }

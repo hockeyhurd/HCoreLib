@@ -1,5 +1,7 @@
 package com.hockeyhurd.hcorelib.api.math.expressions;
 
+import com.hockeyhurd.hcorelib.api.math.Mathd;
+
 /**
  * Expression Node
  *
@@ -106,6 +108,7 @@ abstract class ENode implements Comparable<ENode> {
 			else if (op.isAdd()) return left.evaluate() + right.evaluate();
 			else if (op.isMinus()) return left.evaluate() - right.evaluate();
 			else if (op.isExponent()) return Math.pow(left.evaluate(), right.evaluate());
+			else if (op.isFactorial()) return Mathd.factorial(right.evaluate());
 
 			return Double.NaN;
 		}

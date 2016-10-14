@@ -58,4 +58,27 @@ public final class ETree {
 		root = null;
 	}
 
+	private String inOrderToString() {
+		if (root == null) return "<empty>";
+
+		final StringBuilder builder = new StringBuilder(0x20);
+		inOrderToString(root, builder);
+
+		return builder.toString();
+	}
+
+	private void inOrderToString(ENode stem, StringBuilder builder) {
+		if (stem == null) return;
+		else if (stem.hasNodeLeft()) inOrderToString(stem.left, builder);
+
+		builder.append(stem.value);
+
+		if (stem.hasNodeRight()) inOrderToString(stem.right, builder);
+	}
+
+	@Override
+	public String toString() {
+		return inOrderToString();
+	}
+
 }

@@ -47,13 +47,26 @@ class Operator extends EToken {
 		return op == EnumOp.EXPONENT;
 	}
 
-	boolean isParenthesisType() {
-		return op == EnumOp.PARENTHESIS || op == EnumOp.SQUARE_BRACKET || op == EnumOp.CURLY_BRACKET;
+	boolean isFactorial() {
+		return op == EnumOp.FACTORIAL;
+	}
+
+	boolean isParenthesisLeft() {
+		return op == EnumOp.PARENTHESIS_L || op == EnumOp.SQUARE_BRACKET_L || op == EnumOp.CURLY_BRACKET_L;
+	}
+
+	boolean isParenthesisRight() {
+		return op == EnumOp.PARENTHESIS_R || op == EnumOp.SQUARE_BRACKET_R || op == EnumOp.CURLY_BRACKET_R;
 	}
 
 	@Override
 	double evaluate() {
 		return 0.0;
+	}
+
+	@Override
+	public String toString() {
+		return op.toString();
 	}
 
 }

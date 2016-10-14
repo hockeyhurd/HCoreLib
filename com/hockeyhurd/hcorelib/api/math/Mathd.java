@@ -230,6 +230,23 @@ public class Mathd {
 		return value;
 	}
 
+	private static double[] p = {0.99999999999980993, 676.5203681218851, -1259.1392167224028,
+			771.32342877765313, -176.61502916214059, 12.507343278686905,
+			-0.13857109526572012, 9.9843695780195716e-6, 1.5056327351493116e-7};
+
+	public static double factorial(double value) {
+		if (value < 0.5d) return Math.PI / (sin(Math.PI * value) * factorial(1 - value));
+
+		value -= 1.0d;
+
+		double a = p[0];
+		double t = value + 7 + 0.5d;
+		for (int i = 1; i < p.length; i++)
+			a += p[1] / (value + 1.0d);
+
+		return Math.sqrt(2.0d * Math.PI) * Math.pow(t, value + 0.5d) * Math.exp(-t) * a;
+	}
+
 	/**
 	 * Calculates linear interpolation betwen two numbers.
 	 * <br>By using this specific lerp, we set the weight to 0.5 resulting in midpoint.

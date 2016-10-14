@@ -21,7 +21,7 @@ public final class Interpreter {
 
 	private static DoubleResult isValidDouble(String string) {
 		if (string == null || string.isEmpty()) return DoubleResult.getFailCondition();
-		else if (string.length() == 1 && EnumOp.isOp(string)) return DoubleResult.getFailCondition();
+		else if (string.length() == 1 && EnumOp.isOp(string.charAt(0))) return DoubleResult.getFailCondition();
 
 		try {
 			double result = Double.parseDouble(string);
@@ -35,7 +35,7 @@ public final class Interpreter {
 		return DoubleResult.getFailCondition();
 	}
 
-	public double processExpression(Expression expression) {
+	public double processExpressionDouble(Expression expression) {
 		Stack<ENode> randStack = new Stack<ENode>();
 		Stack<ENode.OperatorNode> opStack = new Stack<ENode.OperatorNode>();
 		ENode.OperatorNode lastNode = null;
@@ -77,17 +77,16 @@ public final class Interpreter {
 				}
 
 				else if (c == ')' || c == ']' || c == '}') {
-					EnumOp operator = ((Operator) opStack.peek().value).getOperator();
-					while (operator != EnumOp.PARENTHESIS && operator != EnumOp.SQUARE_BRACKET &&
-							operator != EnumOp.CURLY_BRACKET && pushResult) {
+					while (!((Operator) opStack.peek().value).isParenthesisLeft() && pushResult) {
 						// lastNode = opStack.pop();
-						pushResult = pushOpNode(randStack, opStack.pop());
+						pushResult = pushOpNode(randStack, opStack.peek());
+						opStack.pop();
 					}
 
 					opStack.pop();
 				}
 
-				else if (EnumOp.isOp(buf)) {
+				else if (EnumOp.isOp(c)) {
 					Operator operator = new Operator(EnumOp.getOperatorFromString(buf));
 
 					while (!opStack.isEmpty() && ((Operator) opStack.peek().getValue()).getOperator().getPrecedance() <=
@@ -132,11 +131,17 @@ public final class Interpreter {
 
 			else HCoreLibMain.logHelper.severe("Errored and aborted!");
 
-			tree.clear();
+			// tree.clear();
 			errored = false;
 		}
 
 		return 0.0;
+	}
+
+	public String processExpressionString(Expression expression) {
+		final double result = processExpressionDouble(expression);
+
+		return expression.toString() + " = " + result;
 	}
 
 	private boolean pushOpNode(Stack<ENode> randStack, ENode.OperatorNode n) {

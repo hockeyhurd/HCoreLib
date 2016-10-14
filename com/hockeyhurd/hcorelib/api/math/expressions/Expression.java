@@ -66,7 +66,7 @@ public final class Expression {
 		}
 
 		private static boolean isValidChar(char c) {
-			return EnumOp.isOp("" + c) || (c >= '0' && c <= '9');
+			return EnumOp.isOp(c) || (c >= '0' && c <= '9');
 		}
 
 		ExpressionResult preProcessInput() {
