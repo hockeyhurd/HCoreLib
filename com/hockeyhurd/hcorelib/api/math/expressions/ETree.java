@@ -10,22 +10,47 @@ public final class ETree {
 
 	private ENode root;
 
+	/**
+	 * Creates an empty expression binary tree.
+	 */
 	public ETree() {
 		this(null);
 	}
 
+	/**
+	 * Creates an expression binary tree with its root node.
+	 *
+	 * @param root ENode root.
+	 */
 	public ETree(ENode root) {
 		this.root = root;
 	}
 
+	/**
+	 * Function checks if the expression tree is empty.
+	 *
+	 * @return boolean result.
+	 */
 	public boolean isEmpty() {
 		return root == null;
 	}
 
+	/**
+	 * Sets the root node of the expression tree.
+	 *
+	 * @param root ENode root.
+	 */
 	public void setRoot(ENode root) {
 		this.root = root;
 	}
 
+	/**
+	 * Adds a node to a stem/subtree root.
+	 *
+	 * @param stem ENode.
+	 * @param node ENode.
+	 * @return boolean result.
+	 */
 	private boolean add(ENode stem, ENode node) {
 		assert(node != null);
 		if (stem == null) {
@@ -40,6 +65,12 @@ public final class ETree {
 		return false;
 	}
 
+	/**
+	 * Adds a node to expression tree.
+	 *
+	 * @param node ENode.
+	 * @return boolean result.
+	 */
 	public boolean add(ENode node) {
 		if (node == null) return false;
 		else if (root == null) {
@@ -50,14 +81,27 @@ public final class ETree {
 		return add(root, node);
 	}
 
+	/**
+	 * Attempts to evaluate an expression tree.
+	 *
+	 * @return double result.
+	 */
 	public double evaluate() {
 		return root != null ? root.evaluate() : Double.NaN;
 	}
 
+	/**
+	 * Clears/nulls out expression tree.
+	 */
 	public void clear() {
 		root = null;
 	}
 
+	/**
+	 * Helper function to get the tree in the form of an in-order string.
+	 *
+	 * @return String expression.
+	 */
 	private String inOrderToString() {
 		if (root == null) return "<empty>";
 
@@ -67,6 +111,12 @@ public final class ETree {
 		return builder.toString();
 	}
 
+	/**
+	 * Helper function to get the tree in the form of an in-order string.
+	 *
+	 * @param stem ENode subtree.
+	 * @param builder StringBuilder to append.
+	 */
 	private void inOrderToString(ENode stem, StringBuilder builder) {
 		if (stem == null) return;
 		else if (stem.hasNodeLeft()) inOrderToString(stem.left, builder);

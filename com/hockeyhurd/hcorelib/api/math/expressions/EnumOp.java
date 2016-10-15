@@ -19,11 +19,21 @@ enum EnumOp {
 		this.prec = prec;
 	}
 
+	/**
+	 * Gets the op type.
+	 *
+	 * @return char.
+	 */
 	char getType() {
 		return type;
 	}
 
-	int getPrecedance() {
+	/**
+	 * Gets the precedence of the operator.
+	 *
+	 * @return int.
+	 */
+	int getPrecedence() {
 		return prec;
 	}
 
@@ -39,6 +49,12 @@ enum EnumOp {
 		return false;
 	}
 
+	/**
+	 * Attempts to parse a string into its appropriate EnumOp value.
+	 *
+	 * @param string String to parse.
+	 * @return EnumOp result.
+	 */
 	static EnumOp getOperatorFromString(String string) {
 		if (string == null || string.length() != 1) return NO_OP;
 

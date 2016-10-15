@@ -15,10 +15,19 @@ public final class Interpreter {
 
 	private ETree tree;
 
+	/**
+	 * Constructs the interpreter and initializes an empty expression tree.
+	 */
 	public Interpreter() {
 		tree = new ETree();
 	}
 
+	/**
+	 * Helper function used for parsing strings into doubles.
+	 *
+	 * @param string String to parse.
+	 * @return DoubleResult result.
+	 */
 	private static DoubleResult isValidDouble(String string) {
 		if (string == null || string.isEmpty()) return DoubleResult.getFailCondition();
 		else if (string.length() == 1 && EnumOp.isOp(string.charAt(0))) return DoubleResult.getFailCondition();
@@ -35,6 +44,12 @@ public final class Interpreter {
 		return DoubleResult.getFailCondition();
 	}
 
+	/**
+	 * Attempts to process an expression to a double result.
+	 *
+	 * @param expression Expression to interpret.
+	 * @return double result.
+	 */
 	public double processExpressionDouble(Expression expression) {
 		Stack<ENode> randStack = new Stack<ENode>();
 		Stack<ENode.OperatorNode> opStack = new Stack<ENode.OperatorNode>();
@@ -89,8 +104,8 @@ public final class Interpreter {
 				else if (EnumOp.isOp(c)) {
 					Operator operator = new Operator(EnumOp.getOperatorFromString(buf));
 
-					while (!opStack.isEmpty() && ((Operator) opStack.peek().getValue()).getOperator().getPrecedance() <=
-							operator.getOperator().getPrecedance() && pushResult) {
+					while (!opStack.isEmpty() && ((Operator) opStack.peek().getValue()).getOperator().getPrecedence() <=
+							operator.getOperator().getPrecedence() && pushResult) {
 						lastNode = opStack.pop();
 						pushResult = pushOpNode(randStack, lastNode);
 					}
@@ -138,14 +153,27 @@ public final class Interpreter {
 		return 0.0;
 	}
 
+	/**
+	 * Attempts to process an expression to a String result.
+	 *
+	 * @param expression Expression to interpret.
+	 * @return String result.
+	 */
 	public String processExpressionString(Expression expression) {
 		final double result = processExpressionDouble(expression);
 
 		return expression.toString() + " = " + result;
 	}
 
-	private boolean pushOpNode(Stack<ENode> randStack, ENode.OperatorNode n) {
-		if (randStack.size() < 2) return false;
+	/**
+	 * Helper function to push operator nodes onto an operand stack.
+	 *
+	 * @param randStack Operand stack.
+	 * @param n OperatorNode to push.
+	 * @return boolean result.
+	 */
+	private static boolean pushOpNode(Stack<ENode> randStack, ENode.OperatorNode n) {
+		if (n == null || randStack == null || randStack.size() < 2) return false;
 
 		n.right = randStack.pop();
 		n.left = randStack.pop();
@@ -155,6 +183,12 @@ public final class Interpreter {
 		return true;
 	}
 
+	/**
+	 * Helper struct for DoubleResult.
+	 *
+	 * @author hockeyhurd
+	 * @version 10/13/2016
+	 */
 	private static class DoubleResult {
 		boolean result;
 		double value;

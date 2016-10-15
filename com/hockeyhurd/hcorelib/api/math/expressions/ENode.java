@@ -10,6 +10,9 @@ import com.hockeyhurd.hcorelib.api.math.Mathd;
  */
 abstract class ENode implements Comparable<ENode> {
 
+	/**
+	 * Enumeration for representing the different nodes.
+	 */
 	enum EnumNodeType {
 		CONSTANT, OPERATOR
 	}
@@ -17,10 +20,19 @@ abstract class ENode implements Comparable<ENode> {
 	ENode left, right;
 	EToken value;
 
+	/**
+	 * @param value EToken value.
+	 */
 	ENode(EToken value) {
 		this(value, null, null);
 	}
 
+	/**
+	 *
+	 * @param value EToken value.
+	 * @param left Left node.
+	 * @param right Right node.
+	 */
 	ENode(EToken value, ENode left, ENode right) {
 		assert(value != null);
 		this.value = value;
@@ -28,18 +40,38 @@ abstract class ENode implements Comparable<ENode> {
 		this.right = right;
 	}
 
+	/**
+	 * Checks if has a left node.
+	 *
+	 * @return true if has left node, else returns false.
+	 */
 	boolean hasNodeLeft() {
 		return left != null;
 	}
 
+	/**
+	 * Checks if has a right node.
+	 *
+	 * @return true if has right node, else returns false.
+	 */
 	boolean hasNodeRight() {
 		return right != null;
 	}
 
+	/**
+	 * Gets the EToken value.
+	 *
+	 * @return EToken.
+	 */
 	EToken getValue() {
 		return value;
 	}
 
+	/**
+	 * Helper function for deleting nodes.
+	 *
+	 * @param node ENode to delete.
+	 */
 	static void deleteNode(ENode node) {
 		if (node == null) return;
 
@@ -56,15 +88,36 @@ abstract class ENode implements Comparable<ENode> {
 		node.value = null;
 	}
 
+	/**
+	 * Abstract function for evaluating entire nodes and its subtree(s).
+	 *
+	 * @return double result.
+	 */
 	abstract double evaluate();
 
+	/**
+	 * Abstract function to get the node's type.
+	 *
+	 * @return EnumNodeType.
+	 */
 	abstract EnumNodeType getNodeType();
 
 	@Override
 	public abstract int compareTo(ENode other);
 
+	/**
+	 * Constant containing node.
+	 *
+	 * @author hockeyhurd
+	 * @version 10/13/2016
+	 */
 	static class ConstantNode extends ENode {
 
+		/**
+		 * Constructs a ConstantNode with its containing constant value.
+		 *
+		 * @param constant Constant.
+		 */
 		ConstantNode(Constant constant) {
 			super(constant);
 		}
@@ -89,8 +142,19 @@ abstract class ENode implements Comparable<ENode> {
 		}
 	}
 
+	/**
+	 * Operator containing node.
+	 *
+	 * @author hockeyhurd
+	 * @version 10/13/2016
+	 */
 	static class OperatorNode extends ENode {
 
+		/**
+		 * Constructs a OperatorNode with its containing operator value.
+		 *
+		 * @param operator Operator.
+		 */
 		OperatorNode(Operator operator) {
 			super(operator);
 		}
@@ -123,8 +187,8 @@ abstract class ENode implements Comparable<ENode> {
 			if (other == null || other.getNodeType() != EnumNodeType.OPERATOR)
 				return EnumNodeType.OPERATOR.ordinal() - other.getNodeType().ordinal();
 
-			final double thisVal = ((Operator) value).getOperator().getPrecedance();
-			final double otherVal = ((Operator) other.value).getOperator().getPrecedance();
+			final double thisVal = ((Operator) value).getOperator().getPrecedence();
+			final double otherVal = ((Operator) other.value).getOperator().getPrecedence();
 
 			return thisVal > otherVal ? 1 : thisVal < otherVal ? -1 : 0;
 		}

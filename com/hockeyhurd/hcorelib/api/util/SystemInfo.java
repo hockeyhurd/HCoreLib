@@ -7,7 +7,9 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.WorldServer;
+import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.fml.server.FMLServerHandler;
 
 import java.util.ArrayList;
@@ -146,7 +148,7 @@ public final class SystemInfo {
         long sum = 0;
         long counter = 0;
 
-        for (long l : FMLServerHandler.instance().getServer().worldTickTimes.get(world.provider.getDimension())) {
+        for (long l : world.getMinecraftServer().worldTickTimes.get(world.provider.getDimension())) {
             sum += l;
             counter++;
         }
@@ -165,7 +167,7 @@ public final class SystemInfo {
         long sum = 0L;
         int counter = 0;
 
-        for (long l : FMLServerHandler.instance().getServer().worldTickTimes.get(world.provider.getDimension())) {
+        for (long l : world.getMinecraftServer().worldTickTimes.get(world.provider.getDimension())) {
             sum += l;
             counter++;
         }
@@ -177,9 +179,11 @@ public final class SystemInfo {
      * Gets a list of data for the running server.
      *
      * @return List< String />.
+     * @param server
      */
-    public List<String> getServerTPSSummary() {
-        final WorldServer[] worldServers =  FMLServerHandler.instance().getServer().worldServers;
+    public List<String> getServerTPSSummary(MinecraftServer server) {
+        // final WorldServer[] worldServers =  FMLServerHandler.instance().getServer().worldServers;
+        final WorldServer[] worldServers = DimensionManager.getWorlds();
         final List<String> list = new ArrayList<String>(3 + worldServers.length);
         int chunksLoaded = 0;
 
@@ -201,7 +205,7 @@ public final class SystemInfo {
         long sum = 0L;
         int counter = 0;
 
-        for (long l : FMLServerHandler.instance().getServer().tickTimeArray) {
+        for (long l : server.tickTimeArray) {
             sum += l;
             counter++;
         }
@@ -313,7 +317,7 @@ public final class SystemInfo {
      * @return String of player names in world if applicable else returns "Empty".
      */
     private static String getPlayersForDimension(final int dimension) {
-        List<EntityPlayer> players = FMLServerHandler.instance().getServer().worldServerForDimension(dimension).playerEntities;
+        List<EntityPlayer> players = DimensionManager.getWorld(dimension).playerEntities;
 
         if (players.isEmpty()) return "<Empty>";
 

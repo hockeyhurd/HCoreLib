@@ -32,7 +32,7 @@ public final class HServerCommands extends HCommand {
 			sender.addChatMessage(ChatUtils.createComponent(getCommandUsage(sender)));
 		else if (args[0].equalsIgnoreCase(commandArgs[0])) {
 			if (args.length == 1) {
-				List<String> textToSend = SystemInfo.instance().getServerTPSSummary();
+				List<String> textToSend = SystemInfo.instance().getServerTPSSummary(server);
 
 				for (String str : textToSend) {
 					sender.addChatMessage(ChatUtils.createComponent(str));
