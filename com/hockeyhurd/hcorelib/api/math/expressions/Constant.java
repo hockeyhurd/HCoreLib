@@ -8,6 +8,9 @@ package com.hockeyhurd.hcorelib.api.math.expressions;
  */
 class Constant extends EToken {
 
+	public static double MATH_PI = Math.PI;
+	public static double MATH_E = Math.E;
+
 	private double value;
 
 	/**
