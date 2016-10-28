@@ -66,7 +66,7 @@ public final class ItemTooltipEventHandler {
 	 * @return boolean result.
 	 */
 	private static boolean isControlKeyDown() {
-		return Minecraft.IS_RUNNING_ON_MAC ? Keyboard.isKeyDown(219) || Keyboard.isKeyDown(220) : Keyboard.isKeyDown(29) || Keyboard.isKeyDown(157);
+		return !Minecraft.IS_RUNNING_ON_MAC ? Keyboard.isKeyDown(219) || Keyboard.isKeyDown(220) : Keyboard.isKeyDown(29) || Keyboard.isKeyDown(157);
 	}
 
 	@SubscribeEvent

@@ -9,6 +9,7 @@ import net.minecraft.item.ItemStack;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 
 /**
@@ -22,10 +23,22 @@ public final class InventoryUtils {
     private InventoryUtils() {
     }
 
+    /**
+     * Gets the size of the container.
+     *
+     * @param container Container.
+     * @return int size of container.
+     */
     public static int getSizeInventory(Container container) {
         return container != null ? container.inventorySlots.size() : 0;
     }
 
+    /**
+     * Gets all non-null ItemStacks in the provided container and returns the array.
+     *
+     * @param container Container.
+     * @return ItemStack array.
+     */
     public static ItemStack[] getStacksInContainer(Container container) {
         final int size = getSizeInventory(container);
 
@@ -34,11 +47,31 @@ public final class InventoryUtils {
         List<ItemStack> list = new ArrayList<ItemStack>(size);
 
         for (int i = 0; i < size; i++) {
-            Slot slot = (Slot) container.inventorySlots;
+            Slot slot = container.inventorySlots.get(i);
             if (slot.getHasStack()) list.add(slot.getStack());
         }
 
         return list.toArray(new ItemStack[list.size()]);
+    }
+
+    /**
+     * Gets all ItemStacks in the provided container preserving null/empty ItemStacks
+     * with respect to their slot index and returns the array.
+     *
+     * @param container Container.
+     * @return ItemStack array.
+     */
+    public static ItemStack[] getRawStacksInContainer(Container container) {
+        final int size = getSizeInventory(container);
+
+        if (size == 0) return new ItemStack[0];
+
+        ItemStack[] stacks = new ItemStack[size];
+
+        for (int i = 0; i < size; i++)
+            stacks[i] = container.inventorySlots.get(i).getStack();
+
+        return stacks;
     }
 
     /**
@@ -92,15 +125,50 @@ public final class InventoryUtils {
      * @param itemStack ItemStack to find.
      * @return HashMap of current container.
      */
-    public static HashMap<Integer, ItemStack> getMapOfItemStacks(Container container, ItemStack itemStack) {
+    public static Map<Integer, ItemStack> getMapOfItemStacks(Container container, final ItemStack itemStack) {
         if (container == null || itemStack == null || itemStack.stackSize < 1) return null;
 
-        HashMap<Integer, ItemStack> map = new HashMap<Integer, ItemStack>(container.inventorySlots.size());
+        HashMap<Integer, ItemStack> map = new HashMap<Integer, ItemStack>(container.inventorySlots.size() << 1);
 
         for (int i = 0; i < container.inventorySlots.size(); i++) {
-            Slot slot = (Slot) container.inventorySlots.get(i);
+            Slot slot = container.inventorySlots.get(i);
             ItemStack stack = slot.getStack();
             if (itemStack.isItemEqual(stack)) map.put(i, stack);
+        }
+
+        return map;
+    }
+
+    /**
+     * Gets a mapping of multiple ItemStacks with a key being the referenced ItemStack in the passed array.
+     *
+     * @param container Container to check.
+     * @param stacks ItemStacks to search for.
+     * @return Mapping result.
+     */
+    public static Map<ItemStack, HashMap<Integer, ItemStack>> getMapOfItemStacks(Container container, final ItemStack... stacks) {
+        if (container == null || stacks == null || stacks.length == 0) return null;
+
+        final int capacity = container.inventorySlots.size() << 1;
+        Map<ItemStack, HashMap<Integer, ItemStack>> map = new HashMap<ItemStack, HashMap<Integer, ItemStack>>(capacity);
+
+            for (int i = 0; i < container.inventorySlots.size(); i++) {
+                final Slot slot = container.inventorySlots.get(i);
+                final ItemStack stack = slot.getStack();
+
+                for (ItemStack searchStack : stacks) {
+                    if (searchStack == null || searchStack.stackSize == 0) continue;
+
+                    if (searchStack.isItemEqual(stack)) {
+                        HashMap<Integer, ItemStack> innerMap;
+
+                        if (!map.containsKey(stack)) innerMap = new HashMap<Integer, ItemStack>(capacity);
+                        else innerMap = map.get(stack);
+
+                        innerMap.put(i, stack);
+                        map.put(searchStack, innerMap);
+                    }
+            }
         }
 
         return map;
@@ -124,7 +192,7 @@ public final class InventoryUtils {
 
         // If allowed to merge:
         if (mergeFirst) {
-            final HashMap<Integer, ItemStack> map = getMapOfItemStacks(container, addStack);
+            final Map<Integer, ItemStack> map = getMapOfItemStacks(container, addStack);
 
             // First pass, see if we can add to existing stack:
             for (Entry<Integer, ItemStack> entry : map.entrySet()) {
@@ -146,7 +214,7 @@ public final class InventoryUtils {
 
         // Second pass, try to add remainder to empty slot:
         for (int i = 0; i < invSize; i++) {
-            Slot slot = (Slot) container.inventorySlots.get(i);
+            Slot slot = container.inventorySlots.get(i);
 
             if (!slot.getHasStack()) {
                 addStack.stackSize = amountLeft;
@@ -190,7 +258,7 @@ public final class InventoryUtils {
     public static int removeByStack(Container container, ItemStack stackToRemove) {
         if (container == null || stackToRemove == null || stackToRemove.stackSize < 1) return 0;
 
-        HashMap<Integer, ItemStack> map = getMapOfItemStacks(container, stackToRemove);
+        Map<Integer, ItemStack> map = getMapOfItemStacks(container, stackToRemove);
 
         final int itemsAtStart = stackToRemove.stackSize;
         int itemsLeft = itemsAtStart;

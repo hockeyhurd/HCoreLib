@@ -174,7 +174,7 @@ public class Mathd {
 	/**
 	 * Absolute value function
 	 * @param value = value input
-	 * @return Absoulute value of inputted number.
+	 * @return Absolute value of inputted number.
 	 */
 	public static double abs(double value) {
 		return value >= 0.0d ? value : value * -1;
@@ -197,16 +197,12 @@ public class Mathd {
 	 */
 	public static double round(double value, int decPlaces) {
 		if (decPlaces < 1) decPlaces = 1;
-		
-		String valString = "1";
-		for (int i = 0; i < decPlaces; i++) {
-			valString += "0";
-		}
-		valString += ".0";
-		
-		double val = Double.parseDouble(valString);
-		double ret = Math.round(value * val) / val;
-		return ret;
+
+		double power = 10.0;
+		while (--decPlaces > 0)
+			power *= 10.0;
+
+		return Math.round(value * power) / power;
 	}
 	
 	/**
