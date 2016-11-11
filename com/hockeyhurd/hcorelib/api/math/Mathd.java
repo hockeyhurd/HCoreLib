@@ -208,22 +208,22 @@ public class Mathd {
 	/**
 	 * Function used to exponentiate any value to any exponent.
 	 *
-	 * @param value = value to raise to power.
-	 * @param exp = exponent value or power to raise to.
+	 * @param value value to raise to power.
+	 * @param exp exponent value or power to raise to.
 	 * @return value raised to exponent.
 	 */
 	public static double pow(double value, int exp) {
-		if (exp == 0) return 1;
+		return exp == 0 ? 1 : exp > 0 ? powRecursive(value, exp) : 1.0d / powRecursive(value, -exp);
+	}
+
+	private static double powRecursive(double value, int exp) {
+		if (exp == 0) return 1.0d;
 		else if (exp == 1) return value;
-		else if (exp == -1) return 1d / value; 
-		
-		final double copyVal = value;
-		final int offset = exp < -1 ? 1 : -1;
-		for (int i = 0; i < Math.abs(exp) + offset; i++) {
-			value *= exp < -1 ? (1.0d / copyVal) : copyVal;
-		}
-		
-		return value;
+
+		final double x = powRecursive(value, exp >> 1);
+
+		if (exp % 2 == 0) return x * x;
+		return x * x * value;
 	}
 
 	private static double[] p = {0.99999999999980993, 676.5203681218851, -1259.1392167224028,

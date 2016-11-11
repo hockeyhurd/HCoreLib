@@ -37,6 +37,7 @@ public class ClientProxy extends CommonProxy {
 
 		ModelRegistry.registerItem(HCoreLibMain.testItem);
 		ModelRegistry.registerItem(HCoreLibMain.testMetaItem);
+		ModelRegistry.registerItem(HCoreLibMain.itemCalculator);
 	}
 
 	@Override

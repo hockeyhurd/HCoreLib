@@ -18,6 +18,7 @@ import com.hockeyhurd.hcorelib.mod.block.multiblock.BlockMultiblockController;
 import com.hockeyhurd.hcorelib.mod.creativetab.ModCreativeTab;
 import com.hockeyhurd.hcorelib.mod.handler.CommandHandler;
 import com.hockeyhurd.hcorelib.mod.handler.config.ConfigHandler;
+import com.hockeyhurd.hcorelib.mod.item.ItemCalculator;
 import com.hockeyhurd.hcorelib.mod.item.TestItem;
 import com.hockeyhurd.hcorelib.mod.item.TestMetaItem;
 import net.minecraft.block.material.Material;
@@ -27,7 +28,11 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
 import net.minecraftforge.fml.common.SidedProxy;
-import net.minecraftforge.fml.common.event.*;
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLServerStartedEvent;
+import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import org.apache.commons.lang3.JavaVersion;
 
@@ -47,10 +52,10 @@ public final class HCoreLibMain implements IForgeMod {
 
 	// Mod name in lowercase
 	public static final String assetDir = modID.toLowerCase(); // + ':';
-	private TimeLapse tl;
+	private static TimeLapse tl;
 	
 	public static ConfigHandler configHandler;
-	public static AbstractCreativeTab myCreativeTab = new ModCreativeTab(CreativeTabs.getNextID(), "HCoreLib");
+	public static final AbstractCreativeTab myCreativeTab = new ModCreativeTab(CreativeTabs.getNextID(), "HCoreLib");
 
 	// Blocks:
 	// public static Block white;
@@ -63,6 +68,7 @@ public final class HCoreLibMain implements IForgeMod {
 	// Items:
 	public static AbstractHCoreItem testItem;
 	public static AbstractHCoreItem testMetaItem;
+	public static AbstractHCoreItem itemCalculator;
 
 	@EventHandler
 	@Override
@@ -123,6 +129,7 @@ public final class HCoreLibMain implements IForgeMod {
 		// Items:
 		testItem = new TestItem();
 		testMetaItem = new TestMetaItem("testMetaItem");
+		itemCalculator = new ItemCalculator("itemCalculator");
 	}
 	
 	@EventHandler

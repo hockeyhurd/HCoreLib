@@ -3,11 +3,13 @@ package com.hockeyhurd.hcorelib.mod;
 import com.hockeyhurd.hcorelib.api.handler.NotifyPlayerOnJoinHandler;
 import com.hockeyhurd.hcorelib.api.handler.UpdateHandler;
 import com.hockeyhurd.hcorelib.api.util.interfaces.IProxy;
+import com.hockeyhurd.hcorelib.mod.handler.GuiHandler;
 import com.hockeyhurd.hcorelib.mod.tileentity.TileEntityTESRTest;
 import com.hockeyhurd.hcorelib.mod.tileentity.TileEntityTest;
 import com.hockeyhurd.hcorelib.mod.tileentity.multiblock.MultiblockComponent;
 import com.hockeyhurd.hcorelib.mod.tileentity.multiblock.MultiblockController;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 import java.util.HashMap;
@@ -16,6 +18,7 @@ public class CommonProxy implements IProxy {
 
 	protected UpdateHandler updateHandler;
 	protected HashMap<String, String> updateMap;
+	protected static GuiHandler guiHandler;
 	public boolean updateFlag;
 	
 	public CommonProxy() {
@@ -35,6 +38,7 @@ public class CommonProxy implements IProxy {
 		registerBlocks();
 		registerTileEntities();
 		registerItems();
+		registerGuiHandler();
 		registerEventHandlers();
 	}
 	
@@ -66,6 +70,15 @@ public class CommonProxy implements IProxy {
 	protected void registerItems() {
 		GameRegistry.register(HCoreLibMain.testItem);
 		GameRegistry.register(HCoreLibMain.testMetaItem);
+		GameRegistry.register(HCoreLibMain.itemCalculator);
+	}
+
+	protected void registerGuiHandler() {
+		if (guiHandler != null) NetworkRegistry.INSTANCE.registerGuiHandler(HCoreLibMain.instance, guiHandler);
+		else {
+			guiHandler = new GuiHandler();
+			NetworkRegistry.INSTANCE.registerGuiHandler(HCoreLibMain.instance, guiHandler);
+		}
 	}
 
 	@Override
