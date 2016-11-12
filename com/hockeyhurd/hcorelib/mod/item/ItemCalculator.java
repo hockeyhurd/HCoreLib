@@ -34,4 +34,5 @@ public final class ItemCalculator extends AbstractHCoreItem {
 
         return super.onItemRightClick(stack, world, player, hand);
     }
+
 }
