@@ -66,13 +66,13 @@ public final class GuiCalculator extends GuiScreen {
 
         // final int bw = xSize / 10;
         // final int bh = ySize / 10;
-        final int bw = 0xc;
-        final int bh = 0xc;
+        final int bw = 0x14;
+        final int bh = 0x14;
 
         for (int y = 0; y < 3; y++) {
             for (int x = 0; x < 3; x++) {
-                GuiButton button = new GuiButton(x + y * 3, guiLeft + (((x + 1) * bw) << 1),
-                        height - guiTop - (((3 - y) * bh) << 1), Integer.toString(1 + x + y * 3));
+                GuiButton button = new GuiButton(x + y * 3, guiLeft + ((x + 1) * (bw + 4)) + (bw >> 1),
+                        height - guiTop - ((3 - y) * (bh + 4)) - (bh >> 2), Integer.toString(1 + x + y * 3));
                 button.width = bw;
                 button.height = bh;
 
@@ -81,9 +81,9 @@ public final class GuiCalculator extends GuiScreen {
             }
         }
 
-        clearButton = new GuiButton(buttonList.size(), guiLeft + (bw >> 1), height - guiTop - (bh << 1), bw, bh, "C");
+        clearButton = new GuiButton(buttonList.size(), numPad[0].xPosition - bw - 4, numPad[7].yPosition, bw, bh, "C");
         buttonList.add(clearButton);
-        deleteButton = new GuiButton(buttonList.size(), guiLeft + (bw >> 1), height - guiTop - (bh << 2), bw, bh, "<-");
+        deleteButton = new GuiButton(buttonList.size(), clearButton.xPosition, numPad[4].yPosition, bw, bh, "<-");
         buttonList.add(deleteButton);
     }
 
@@ -102,13 +102,17 @@ public final class GuiCalculator extends GuiScreen {
     }
 
     public void drawGuiContainerForegroundLayer(int x, int y) {
-        fontRendererObj.drawString(drawString, xSize - (width >> 1), guiTop, 0x0);
+        fontRendererObj.drawString(drawString, xSize - (width >> 1) - 8, guiTop, 0xffffffff);
     }
 
     public void drawGuiContainerBackgroundLayer(float f, int x, int y) {
         GL11.glColor4f(1f, 1f, 1f, 1f);
         Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
         drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
+
+        final int size = fontRendererObj.getCharWidth('0');
+        drawRect(guiLeft + xSize - (width >> 1) - (size >> 1) - 8, (guiTop << 1) - (size >> 1), size * 53 - 8,
+                ((guiTop << 1) + (size << 1)) - (size >> 1), 0xff000000);
     }
 
     @Override
