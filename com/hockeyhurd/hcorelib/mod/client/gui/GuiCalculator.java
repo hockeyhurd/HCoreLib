@@ -62,7 +62,8 @@ public final class GuiCalculator extends GuiScreen {
         this.guiLeft = (this.width - this.xSize) >> 1;
         this.guiTop = (this.height - this.ySize) >> 1;
 
-        if (numPad == null) numPad = new GuiButton[9];
+        // if (numPad == null) numPad = new GuiButton[9];
+        if (numPad == null) numPad = new GuiButton[12];
 
         // final int bw = xSize / 10;
         // final int bh = ySize / 10;
@@ -72,14 +73,20 @@ public final class GuiCalculator extends GuiScreen {
         for (int y = 0; y < 3; y++) {
             for (int x = 0; x < 3; x++) {
                 GuiButton button = new GuiButton(x + y * 3, guiLeft + ((x + 1) * (bw + 4)) + (bw >> 1),
-                        height - guiTop - ((3 - y) * (bh + 4)) - (bh >> 2), Integer.toString(1 + x + y * 3));
-                button.width = bw;
-                button.height = bh;
+                        height - guiTop - ((4 - y) * (bh + 4)) - (bh >> 2), bw, bh, Integer.toString(1 + x + y * 3));
 
                 numPad[x + y * 3] = button;
                 buttonList.add(button);
             }
         }
+
+        numPad[9] = new GuiButton(9, numPad[6].xPosition, numPad[6].yPosition + bh + 4, bw, bh, "(");
+        numPad[10] = new GuiButton(10, numPad[7].xPosition, numPad[7].yPosition + bh + 4, bw, bh, Integer.toString(0));
+        numPad[11] = new GuiButton(11, numPad[8].xPosition, numPad[8].yPosition + bh + 4, bw, bh, ")");
+
+        buttonList.add(numPad[9]);
+        buttonList.add(numPad[10]);
+        buttonList.add(numPad[11]);
 
         clearButton = new GuiButton(buttonList.size(), numPad[0].xPosition - bw - 4, numPad[7].yPosition, bw, bh, "C");
         buttonList.add(clearButton);
@@ -102,7 +109,8 @@ public final class GuiCalculator extends GuiScreen {
     }
 
     public void drawGuiContainerForegroundLayer(int x, int y) {
-        fontRendererObj.drawString(drawString, xSize - (width >> 1) - 8, guiTop, 0xffffffff);
+        // fontRendererObj.drawString(drawString, xSize - (width >> 1) - 8, guiTop, 0xffffffff);
+        fontRendererObj.drawString(drawString, (xSize >> 3) - (fontRendererObj.getStringWidth("00") >> 1), (guiTop - (ySize >> 4)) >> 1, 0xffffffff);
     }
 
     public void drawGuiContainerBackgroundLayer(float f, int x, int y) {
@@ -110,9 +118,9 @@ public final class GuiCalculator extends GuiScreen {
         Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
         drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 
-        final int size = fontRendererObj.getCharWidth('0');
+        /*final int size = fontRendererObj.getCharWidth('0');
         drawRect(guiLeft + xSize - (width >> 1) - (size >> 1) - 8, (guiTop << 1) - (size >> 1), size * 53 - 8,
-                ((guiTop << 1) + (size << 1)) - (size >> 1), 0xff000000);
+                ((guiTop << 1) + (size << 1)) - (size >> 1), 0xff000000);*/
     }
 
     @Override
@@ -144,7 +152,8 @@ public final class GuiCalculator extends GuiScreen {
         // Is num key:
         if (button.id < numPad.length) {
             if (charIndex < drawBuffer.length) {
-                drawBuffer[charIndex++] = (char) ('0' + button.id + 1);
+                // drawBuffer[charIndex++] = (char) ('0' + button.id + 1);
+                drawBuffer[charIndex++] = button.displayString.charAt(0);
                 drawString = new String(drawBuffer);
             }
         }
