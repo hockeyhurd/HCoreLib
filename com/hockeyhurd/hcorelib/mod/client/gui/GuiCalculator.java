@@ -1,5 +1,7 @@
 package com.hockeyhurd.hcorelib.mod.client.gui;
 
+import com.hockeyhurd.hcorelib.api.math.expressions.Expression;
+import com.hockeyhurd.hcorelib.api.math.expressions.Interpreter;
 import com.hockeyhurd.hcorelib.mod.HCoreLibMain;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
@@ -13,6 +15,9 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.opengl.GL11;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Gui interface for ItemCalculator.
@@ -34,6 +39,7 @@ public final class GuiCalculator extends GuiScreen {
 
     private GuiButton[] numPad;
     private GuiButton deleteButton, clearButton;
+    private Map<String, GuiButton> buttonMap;
 
     public GuiCalculator() {
         this.xSize = 248;
@@ -41,6 +47,8 @@ public final class GuiCalculator extends GuiScreen {
         this.drawBuffer = new char[0x20];
         this.charIndex = 0;
         this.drawString = "";
+
+        buttonMap = new HashMap<String, GuiButton>();
     }
 
     @Override
@@ -92,6 +100,20 @@ public final class GuiCalculator extends GuiScreen {
         buttonList.add(clearButton);
         deleteButton = new GuiButton(buttonList.size(), clearButton.xPosition, numPad[4].yPosition, bw, bh, "<-");
         buttonList.add(deleteButton);
+
+        // equalsButtons = new GuiButton(buttonList.size(), numPad[11].xPosition + bw + 4, numPad[11].yPosition, bw, bh, "=");
+        // buttonList.add(equalsButtons);
+        buttonMap.put("=", new GuiButton(buttonList.size(), clearButton.xPosition, numPad[11].yPosition, bw, bh, "="));
+        buttonMap.put("+", new GuiButton(buttonList.size(), numPad[11].xPosition + bw + 4, numPad[11].yPosition, bw, bh, "+"));
+        buttonMap.put("-", new GuiButton(buttonList.size(), numPad[8].xPosition + bw + 4, numPad[8].yPosition, bw, bh, "-"));
+        buttonMap.put("*", new GuiButton(buttonList.size(), numPad[5].xPosition + bw + 4, numPad[5].yPosition, bw, bh, "*"));
+        buttonMap.put("/", new GuiButton(buttonList.size(), numPad[2].xPosition + bw + 4, numPad[2].yPosition, bw, bh, "/"));
+
+        for (GuiButton button : buttonMap.values()) {
+            button.id = buttonList.size();
+            buttonList.add(button);
+        }
+
     }
 
     @Override
@@ -150,7 +172,7 @@ public final class GuiCalculator extends GuiScreen {
     @Override
     public void actionPerformed(GuiButton button) {
         // Is num key:
-        if (button.id < numPad.length) {
+        if (button.id < numPad.length || (!button.displayString.equals("=") && buttonMap.containsKey(button.displayString))) {
             if (charIndex < drawBuffer.length) {
                 // drawBuffer[charIndex++] = (char) ('0' + button.id + 1);
                 drawBuffer[charIndex++] = button.displayString.charAt(0);
@@ -170,6 +192,19 @@ public final class GuiCalculator extends GuiScreen {
             if (charIndex > 0) {
                 drawBuffer[--charIndex] = 0;
                 drawString = new String(drawBuffer);
+            }
+        }
+
+        // else if (button.id == equalsButtons.id) {
+        else if (button.id == buttonMap.get("=").id) {
+            if (drawString.contains("=")) return;
+
+            Interpreter iterpreter = new Interpreter();
+            String result = iterpreter.processExpressionString(new Expression(drawString.substring(0, charIndex)));
+
+            if (result != null && !result.isEmpty()) {
+                drawString = result;
+                // charIndex = result.length() - 1;
             }
         }
     }
