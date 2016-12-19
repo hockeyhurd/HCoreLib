@@ -2,6 +2,7 @@ package com.hockeyhurd.hcorelib.mod.client.gui;
 
 import com.hockeyhurd.hcorelib.api.math.expressions.Expression;
 import com.hockeyhurd.hcorelib.api.math.expressions.Interpreter;
+import com.hockeyhurd.hcorelib.api.math.expressions.InterpreterResult;
 import com.hockeyhurd.hcorelib.mod.HCoreLibMain;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
@@ -40,6 +41,8 @@ public final class GuiCalculator extends GuiScreen {
     private GuiButton[] numPad;
     private GuiButton deleteButton, clearButton;
     private Map<String, GuiButton> buttonMap;
+    private MemoryBuffer memoryBuffer;
+    private InterpreterResult lastResult;
 
     public GuiCalculator() {
         this.xSize = 248;
@@ -49,6 +52,7 @@ public final class GuiCalculator extends GuiScreen {
         this.drawString = "";
 
         buttonMap = new HashMap<String, GuiButton>();
+        memoryBuffer = new MemoryBuffer();
     }
 
     @Override
@@ -61,6 +65,14 @@ public final class GuiCalculator extends GuiScreen {
             if (comp != null) {
                 drawString = comp.getString("CalculatorInput");
                 charIndex = comp.getInteger("CalculatorInputCharCount");
+
+                memoryBuffer.store(comp.getDouble("CalculatorMemoryBuffer"));
+                if (lastResult == null) lastResult = new InterpreterResult();
+                lastResult.updateResult(comp.getString("CalculatorLastResultString"), comp.getDouble("CalculatorLastResult"));
+
+                // comp.setDouble("CalculatorMemoryBuffer", memoryBuffer.read());
+                // comp.setDouble("CalculatorLastResult", lastResult.getResult());
+                // comp.setString("CalculatorLastResultString", lastResult.getExpressionString());
 
                 for (int i = 0; i < charIndex; i++)
                     drawBuffer[i] = drawString.charAt(i);
@@ -96,18 +108,26 @@ public final class GuiCalculator extends GuiScreen {
         buttonList.add(numPad[10]);
         buttonList.add(numPad[11]);
 
-        clearButton = new GuiButton(buttonList.size(), numPad[0].xPosition - bw - 4, numPad[7].yPosition, bw, bh, "C");
+        clearButton = new GuiButton(buttonList.size(), numPad[0].xPosition - bw - 4, numPad[4].yPosition, bw, bh, "C");
         buttonList.add(clearButton);
-        deleteButton = new GuiButton(buttonList.size(), clearButton.xPosition, numPad[4].yPosition, bw, bh, "<-");
+        deleteButton = new GuiButton(buttonList.size(), clearButton.xPosition, numPad[1].yPosition, bw, bh, "<-");
         buttonList.add(deleteButton);
 
         // equalsButtons = new GuiButton(buttonList.size(), numPad[11].xPosition + bw + 4, numPad[11].yPosition, bw, bh, "=");
         // buttonList.add(equalsButtons);
-        buttonMap.put("=", new GuiButton(buttonList.size(), clearButton.xPosition, numPad[11].yPosition, bw, bh, "="));
+        buttonMap.put("=", new GuiButton(buttonList.size(), clearButton.xPosition, numPad[7].yPosition, bw, bh, "="));
+        buttonMap.put(".", new GuiButton(buttonList.size(), clearButton.xPosition, numPad[11].yPosition, bw, bh, "."));
         buttonMap.put("+", new GuiButton(buttonList.size(), numPad[11].xPosition + bw + 4, numPad[11].yPosition, bw, bh, "+"));
         buttonMap.put("-", new GuiButton(buttonList.size(), numPad[8].xPosition + bw + 4, numPad[8].yPosition, bw, bh, "-"));
         buttonMap.put("*", new GuiButton(buttonList.size(), numPad[5].xPosition + bw + 4, numPad[5].yPosition, bw, bh, "*"));
         buttonMap.put("/", new GuiButton(buttonList.size(), numPad[2].xPosition + bw + 4, numPad[2].yPosition, bw, bh, "/"));
+        buttonMap.put("M+", new GuiButton(buttonList.size(), numPad[11].xPosition + (bw + 4 << 1), numPad[11].yPosition, bw, bh, "M+"));
+        buttonMap.put("M-", new GuiButton(buttonList.size(), numPad[8].xPosition + (bw + 4 << 1), numPad[8].yPosition, bw, bh, "M-"));
+        buttonMap.put("M*", new GuiButton(buttonList.size(), numPad[5].xPosition + (bw + 4 << 1), numPad[5].yPosition, bw, bh, "M*"));
+        buttonMap.put("M/", new GuiButton(buttonList.size(), numPad[2].xPosition + (bw + 4 << 1), numPad[2].yPosition, bw, bh, "M/"));
+        buttonMap.put("MC", new GuiButton(buttonList.size(), numPad[0].xPosition, numPad[0].yPosition - bh - 4, bw, bh, "MC"));
+        buttonMap.put("MR", new GuiButton(buttonList.size(), numPad[1].xPosition, numPad[1].yPosition - bh - 4, bw, bh, "MR"));
+        buttonMap.put("MS", new GuiButton(buttonList.size(), numPad[2].xPosition, numPad[2].yPosition - bh - 4, bw, bh, "MS"));
 
         for (GuiButton button : buttonMap.values()) {
             button.id = buttonList.size();
@@ -127,6 +147,9 @@ public final class GuiCalculator extends GuiScreen {
 
             comp.setString("CalculatorInput", drawString);
             comp.setInteger("CalculatorInputCharCount", charIndex);
+            comp.setDouble("CalculatorMemoryBuffer", memoryBuffer.read());
+            comp.setDouble("CalculatorLastResult", lastResult.getResult());
+            comp.setString("CalculatorLastResultString", lastResult.getExpressionString());
         }
     }
 
@@ -172,7 +195,9 @@ public final class GuiCalculator extends GuiScreen {
     @Override
     public void actionPerformed(GuiButton button) {
         // Is num key:
-        if (button.id < numPad.length || (!button.displayString.equals("=") && buttonMap.containsKey(button.displayString))) {
+        if (button.id < numPad.length || (!button.displayString.equals("=")
+                && !button.displayString.startsWith("M") && buttonMap.containsKey(button.displayString))) {
+
             if (charIndex < drawBuffer.length) {
                 // drawBuffer[charIndex++] = (char) ('0' + button.id + 1);
                 drawBuffer[charIndex++] = button.displayString.charAt(0);
@@ -200,12 +225,112 @@ public final class GuiCalculator extends GuiScreen {
             if (drawString.contains("=")) return;
 
             Interpreter iterpreter = new Interpreter();
-            String result = iterpreter.processExpressionString(new Expression(drawString.substring(0, charIndex)));
+            lastResult = iterpreter.processExpressionString(new Expression(drawString.substring(0, charIndex)));
 
-            if (result != null && !result.isEmpty()) {
-                drawString = result;
+            if (!lastResult.isEmpty()) {
+                drawString = lastResult.getExpressionString();
                 // charIndex = result.length() - 1;
             }
+        }
+
+        else if (button.displayString.startsWith("M")) {
+            final char secondChar = button.displayString.charAt(1);
+            final double lastValue = lastResult != null ? lastResult.getResult() : 0.0d;
+
+            switch (secondChar) {
+                case '+':
+                    memoryBuffer.add(lastValue);
+                    break;
+
+                case '-':
+                    memoryBuffer.subtract(lastValue);
+                    break;
+
+                case '*':
+                    memoryBuffer.multiply(lastValue);
+                    break;
+
+                case '/':
+                    if (lastValue != 0.0d) memoryBuffer.divide(lastValue);
+                    break;
+
+                case 'C':
+                    memoryBuffer.clear();
+                    break;
+
+                case 'R':
+                    drawString = Double.toString(memoryBuffer.read());
+                    charIndex = drawString.length();
+
+                    int i;
+                    for (i = 0; i < charIndex; i++)
+                        drawBuffer[i] = drawString.charAt(i);
+
+                    for ( ; i < drawBuffer.length; i++)
+                        drawBuffer[i] = '\0';
+
+                    break;
+
+                case 'S':
+                    memoryBuffer.store(lastValue);
+                    break;
+
+                default:
+
+            }
+        }
+    }
+
+    /**
+     * Static class for storing values and emulating the
+     * memory buffer function of calculators.
+     *
+     * @author hockeyhurd
+     * @version 12/19/16
+     */
+    private static class MemoryBuffer {
+        private double value;
+
+        MemoryBuffer() {
+            this(0.0d);
+        }
+
+        MemoryBuffer(double value) {
+            if (value != Double.NaN)
+                this.value = value;
+        }
+
+        void add(double value) {
+            if (value != Double.NaN)
+                this.value += value;
+        }
+
+        void subtract(double value) {
+            if (value != Double.NaN)
+                this.value -= value;
+        }
+
+        void multiply(double value) {
+            if (value != Double.NaN)
+                this.value *= value;
+        }
+
+        void divide(double value) {
+            if (value != Double.NaN)
+                this.value /= value;
+        }
+
+        void store(double value) {
+            if (value != Double.NaN)
+                this.value = value;
+        }
+
+        double read() {
+            return value;
+        }
+
+        void clear() {
+            value = 0.0d;
         }
     }
 

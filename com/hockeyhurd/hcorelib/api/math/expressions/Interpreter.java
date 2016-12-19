@@ -157,12 +157,12 @@ public final class Interpreter {
 	 * Attempts to process an expression to a String result.
 	 *
 	 * @param expression Expression to interpret.
-	 * @return String result.
+	 * @return InterpreterResult result.
 	 */
-	public String processExpressionString(Expression expression) {
+	public InterpreterResult processExpressionString(Expression expression) {
 		final double result = processExpressionDouble(expression);
 
-		return expression.toString() + " = " + result;
+		return new InterpreterResult(expression.toString() + " = " + result, result);
 	}
 
 	/**
