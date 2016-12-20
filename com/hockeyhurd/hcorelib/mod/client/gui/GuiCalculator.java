@@ -148,8 +148,16 @@ public final class GuiCalculator extends GuiScreen {
             comp.setString("CalculatorInput", drawString);
             comp.setInteger("CalculatorInputCharCount", charIndex);
             comp.setDouble("CalculatorMemoryBuffer", memoryBuffer.read());
-            comp.setDouble("CalculatorLastResult", lastResult.getResult());
-            comp.setString("CalculatorLastResultString", lastResult.getExpressionString());
+
+            if (lastResult != null) {
+                comp.setDouble("CalculatorLastResult", lastResult.getResult());
+                comp.setString("CalculatorLastResultString", lastResult.getExpressionString());
+            }
+
+            else {
+                comp.setDouble("CalculatorLastResult", 0.0d);
+                comp.setString("CalculatorLastResultString", "0.0");
+            }
         }
     }
 
@@ -222,14 +230,17 @@ public final class GuiCalculator extends GuiScreen {
 
         // else if (button.id == equalsButtons.id) {
         else if (button.id == buttonMap.get("=").id) {
-            if (drawString.contains("=")) return;
+            // if (drawString.contains("=")) return;
 
             Interpreter iterpreter = new Interpreter();
             lastResult = iterpreter.processExpressionString(new Expression(drawString.substring(0, charIndex)));
 
             if (!lastResult.isEmpty()) {
-                drawString = lastResult.getExpressionString();
-                // charIndex = result.length() - 1;
+                // drawString = lastResult.getExpressionString();
+                drawString = Double.toString(lastResult.getResult());
+                charIndex = drawString.length();
+
+                synchStringBuffer();
             }
         }
 
@@ -262,12 +273,7 @@ public final class GuiCalculator extends GuiScreen {
                     drawString = Double.toString(memoryBuffer.read());
                     charIndex = drawString.length();
 
-                    int i;
-                    for (i = 0; i < charIndex; i++)
-                        drawBuffer[i] = drawString.charAt(i);
-
-                    for ( ; i < drawBuffer.length; i++)
-                        drawBuffer[i] = '\0';
+                    synchStringBuffer();
 
                     break;
 
@@ -279,6 +285,20 @@ public final class GuiCalculator extends GuiScreen {
 
             }
         }
+    }
+
+    /**
+     * Synchronizes the drawBuffer with the drawString.
+     */
+    private void synchStringBuffer() {
+        if (drawString == null || drawString.isEmpty()) return;
+
+        int i;
+        for (i = 0; i < drawString.length(); i++)
+            drawBuffer[i] = drawString.charAt(i);
+
+        for ( ; i < drawBuffer.length; i++)
+            drawBuffer[i] = '\0';
     }
 
     /**

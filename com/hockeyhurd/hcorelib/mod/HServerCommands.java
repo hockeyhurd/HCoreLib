@@ -3,6 +3,7 @@ package com.hockeyhurd.hcorelib.mod;
 import com.hockeyhurd.hcorelib.api.command.HCommand;
 import com.hockeyhurd.hcorelib.api.math.expressions.Expression;
 import com.hockeyhurd.hcorelib.api.math.expressions.Interpreter;
+import com.hockeyhurd.hcorelib.api.math.expressions.InterpreterResult;
 import com.hockeyhurd.hcorelib.api.util.ChatUtils;
 import com.hockeyhurd.hcorelib.api.util.NumberParser;
 import com.hockeyhurd.hcorelib.api.util.SystemInfo;
@@ -68,9 +69,9 @@ public final class HServerCommands extends HCommand {
 					builder.append(args[i]);
 
 				Interpreter interpreter = new Interpreter();
-				String result = interpreter.processExpressionString(new Expression(builder.toString()));
+				InterpreterResult result = interpreter.processExpressionString(new Expression(builder.toString()));
 
-				sender.addChatMessage(ChatUtils.createComponent("Result:", result));
+				sender.addChatMessage(ChatUtils.createComponent("Result:", result.getExpressionString()));
 			}
 		}
 

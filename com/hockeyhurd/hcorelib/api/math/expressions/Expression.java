@@ -130,6 +130,8 @@ public final class Expression {
 					else {
 						if (arrayList.isEmpty()) {
 							isNum = false;
+							arrayList.add('0');
+							arrayList.add(' ');
 							arrayList.add(c);
 							continue;
 						}

@@ -140,7 +140,7 @@ public final class Interpreter {
 			if (!errored) {
 				double result = tree.evaluate();
 
-				if (result == Double.NaN) result = 0.0;
+				if (result == Double.NaN) result = 0.0d;
 				return result;
 			}
 
