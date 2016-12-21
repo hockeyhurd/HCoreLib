@@ -1,6 +1,7 @@
 package com.hockeyhurd.hcorelib.mod.client.gui;
 
 import com.hockeyhurd.hcorelib.api.math.expressions.Expression;
+import com.hockeyhurd.hcorelib.api.math.expressions.GlobalConstants;
 import com.hockeyhurd.hcorelib.api.math.expressions.Interpreter;
 import com.hockeyhurd.hcorelib.api.math.expressions.InterpreterResult;
 import com.hockeyhurd.hcorelib.mod.HCoreLibMain;
@@ -113,6 +114,8 @@ public final class GuiCalculator extends GuiScreen {
         deleteButton = new GuiButton(buttonList.size(), clearButton.xPosition, numPad[1].yPosition, bw, bh, "<-");
         buttonList.add(deleteButton);
 
+        GuiButton bufferButton;
+
         // equalsButtons = new GuiButton(buttonList.size(), numPad[11].xPosition + bw + 4, numPad[11].yPosition, bw, bh, "=");
         // buttonList.add(equalsButtons);
         buttonMap.put("=", new GuiButton(buttonList.size(), clearButton.xPosition, numPad[7].yPosition, bw, bh, "="));
@@ -121,13 +124,17 @@ public final class GuiCalculator extends GuiScreen {
         buttonMap.put("-", new GuiButton(buttonList.size(), numPad[8].xPosition + bw + 4, numPad[8].yPosition, bw, bh, "-"));
         buttonMap.put("*", new GuiButton(buttonList.size(), numPad[5].xPosition + bw + 4, numPad[5].yPosition, bw, bh, "*"));
         buttonMap.put("/", new GuiButton(buttonList.size(), numPad[2].xPosition + bw + 4, numPad[2].yPosition, bw, bh, "/"));
-        buttonMap.put("M+", new GuiButton(buttonList.size(), numPad[11].xPosition + (bw + 4 << 1), numPad[11].yPosition, bw, bh, "M+"));
+        buttonMap.put("M+", bufferButton = new GuiButton(buttonList.size(), numPad[11].xPosition + (bw + 4 << 1), numPad[11].yPosition, bw, bh, "M+"));
         buttonMap.put("M-", new GuiButton(buttonList.size(), numPad[8].xPosition + (bw + 4 << 1), numPad[8].yPosition, bw, bh, "M-"));
         buttonMap.put("M*", new GuiButton(buttonList.size(), numPad[5].xPosition + (bw + 4 << 1), numPad[5].yPosition, bw, bh, "M*"));
         buttonMap.put("M/", new GuiButton(buttonList.size(), numPad[2].xPosition + (bw + 4 << 1), numPad[2].yPosition, bw, bh, "M/"));
         buttonMap.put("MC", new GuiButton(buttonList.size(), numPad[0].xPosition, numPad[0].yPosition - bh - 4, bw, bh, "MC"));
         buttonMap.put("MR", new GuiButton(buttonList.size(), numPad[1].xPosition, numPad[1].yPosition - bh - 4, bw, bh, "MR"));
         buttonMap.put("MS", new GuiButton(buttonList.size(), numPad[2].xPosition, numPad[2].yPosition - bh - 4, bw, bh, "MS"));
+        buttonMap.put("^", new GuiButton(buttonList.size(), numPad[2].xPosition + bw + 4, numPad[2].yPosition - bh - 4, bw, bh, "^"));
+        buttonMap.put("" + GlobalConstants.SQ_ROOT_CHAR, new GuiButton(buttonList.size(), numPad[2].xPosition + (bw + 4 << 1), numPad[2].yPosition - bh - 4, bw, bh, "" + GlobalConstants.SQ_ROOT_CHAR));
+        buttonMap.put("e", bufferButton = new GuiButton(buttonList.size(), bufferButton.xPosition + bw + 4, numPad[11].yPosition, bw, bh, "e"));
+        buttonMap.put("" + GlobalConstants.PI_CHAR, new GuiButton(buttonList.size(), bufferButton.xPosition, numPad[8].yPosition, bw, bh, "" + GlobalConstants.PI_CHAR));
 
         for (GuiButton button : buttonMap.values()) {
             button.id = buttonList.size();
@@ -204,7 +211,8 @@ public final class GuiCalculator extends GuiScreen {
     public void actionPerformed(GuiButton button) {
         // Is num key:
         if (button.id < numPad.length || (!button.displayString.equals("=")
-                && !button.displayString.startsWith("M") && buttonMap.containsKey(button.displayString))) {
+                && !button.displayString.startsWith("M") && !button.displayString.startsWith("\u221A")
+                && buttonMap.containsKey(button.displayString))) {
 
             if (charIndex < drawBuffer.length) {
                 // drawBuffer[charIndex++] = (char) ('0' + button.id + 1);
@@ -232,16 +240,27 @@ public final class GuiCalculator extends GuiScreen {
         else if (button.id == buttonMap.get("=").id) {
             // if (drawString.contains("=")) return;
 
-            Interpreter iterpreter = new Interpreter();
-            lastResult = iterpreter.processExpressionString(new Expression(drawString.substring(0, charIndex)));
+            Interpreter interpreter = new Interpreter();
+            lastResult = interpreter.processExpressionString(new Expression(drawString.substring(0, charIndex)));
 
             if (!lastResult.isEmpty()) {
                 // drawString = lastResult.getExpressionString();
                 drawString = Double.toString(lastResult.getResult());
                 charIndex = drawString.length();
 
-                synchStringBuffer();
+                syncStringBuffer();
             }
+        }
+
+        else if (button.displayString.startsWith("\u221A")) {
+            drawBuffer[charIndex++] = '^';
+            drawBuffer[charIndex++] = '(';
+            drawBuffer[charIndex++] = '1';
+            drawBuffer[charIndex++] = '/';
+            drawBuffer[charIndex++] = '2';
+            drawBuffer[charIndex++] = ')';
+
+            drawString = new String(drawBuffer);
         }
 
         else if (button.displayString.startsWith("M")) {
@@ -273,7 +292,7 @@ public final class GuiCalculator extends GuiScreen {
                     drawString = Double.toString(memoryBuffer.read());
                     charIndex = drawString.length();
 
-                    synchStringBuffer();
+                    syncStringBuffer();
 
                     break;
 
@@ -290,7 +309,7 @@ public final class GuiCalculator extends GuiScreen {
     /**
      * Synchronizes the drawBuffer with the drawString.
      */
-    private void synchStringBuffer() {
+    private void syncStringBuffer() {
         if (drawString == null || drawString.isEmpty()) return;
 
         int i;

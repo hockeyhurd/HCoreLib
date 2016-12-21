@@ -67,7 +67,8 @@ public final class Expression {
 
 		private static boolean isValidChar(char c) {
 			return EnumOp.isOp(c) || c == '.' || c == 'e' || c == 'E'
-					|| c == 'p' || c == 'P' || c == 'i' || c == 'I' || (c >= '0' && c <= '9');
+					|| c == 'p' || c == 'P' || c == 'i' || c == 'I' ||
+					c == GlobalConstants.PI_CHAR || (c >= '0' && c <= '9');
 		}
 
 		ExpressionResult preProcessInput() {
@@ -100,7 +101,7 @@ public final class Expression {
 						if (isNum) return getFailCondition();
 						else arrayList.add(' ');
 
-						final String e = Double.toString(Constant.MATH_E);
+						final String e = Double.toString(GlobalConstants.MATH_E);
 
 						for (char ch : e.toCharArray())
 							arrayList.add(ch);
@@ -110,12 +111,12 @@ public final class Expression {
 					}
 
 					else if (c == 'p' || c == 'P') lastChar = 'p';
-					else if (c == 'i' || c == 'I') {
-						if (lastChar == 'p') {
+					else if (c == 'i' || c == 'I' || c == GlobalConstants.PI_CHAR) {
+						if (lastChar == 'p' || c == GlobalConstants.PI_CHAR) {
 							if (isNum) return getFailCondition();
 							else arrayList.add(' ');
 
-							final String pi = Double.toString(Constant.MATH_PI);
+							final String pi = Double.toString(GlobalConstants.MATH_PI);
 
 							for (char ch : pi.toCharArray())
 								arrayList.add(ch);
