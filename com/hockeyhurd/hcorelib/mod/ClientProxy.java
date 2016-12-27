@@ -1,8 +1,8 @@
 package com.hockeyhurd.hcorelib.mod;
 
 import com.hockeyhurd.hcorelib.api.client.util.ModelRegistry;
-import com.hockeyhurd.hcorelib.api.handler.ItemTooltipEventHandler;
 import com.hockeyhurd.hcorelib.api.handler.config.ConfigChangedEventHandler;
+import com.hockeyhurd.hcorelib.api.handler.tooltip.ItemTooltipEventHandler;
 import com.hockeyhurd.hcorelib.mod.client.renderer.TESRTileRenderer;
 import com.hockeyhurd.hcorelib.mod.tileentity.TileEntityTESRTest;
 import net.minecraftforge.common.MinecraftForge;

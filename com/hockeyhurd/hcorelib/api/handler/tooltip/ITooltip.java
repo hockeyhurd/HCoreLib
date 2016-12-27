@@ -1,24 +1,38 @@
-package com.hockeyhurd.hcorelib.api.block;
+package com.hockeyhurd.hcorelib.api.handler.tooltip;
 
 import net.minecraft.item.ItemStack;
 
 import java.util.List;
 
 /**
- * Interfacing for blocks that require additional
+ * Generic interfacing for blocks/items that require additional
  * tooltip information.
  *
  * @author hockeyhurd
- * @version 7/7/2016.
+ * @version 12/26/2016.
  */
-public interface IBlockTooltip {
+public interface ITooltip<T> {
 
 	/**
-	 * Get the IHBlock instance.
+	 * Gets the type.
 	 *
-	 * @return IHBlock instance.
+	 * @return Object type.
 	 */
-	IHBlock getIHBlock();
+	T getType();
+
+	/**
+	 * Gets if this is a block instance.
+	 *
+	 * @return boolean result.
+	 */
+	boolean isBlock();
+
+	/**
+	 * Gets if this is a item instance.
+	 *
+	 * @return boolean result.
+	 */
+	boolean isItem();
 
 	/**
 	 * Flag whether this block has shift information.

@@ -1,6 +1,5 @@
-package com.hockeyhurd.hcorelib.api.handler;
+package com.hockeyhurd.hcorelib.api.handler.tooltip;
 
-import com.hockeyhurd.hcorelib.api.block.IBlockTooltip;
 import com.hockeyhurd.hcorelib.api.util.BlockUtils;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
@@ -74,26 +73,31 @@ public final class ItemTooltipEventHandler {
 		final ItemStack itemStack = event.getItemStack();
 		if (itemStack == null) return;
 
+		ITooltip<?> tooltip;
+
 		final Block block = BlockUtils.getBlockFromItem(itemStack.getItem());
-		if (!(block instanceof IBlockTooltip)) return;
+		if (block instanceof IBlockTooltip) tooltip = (IBlockTooltip) block;
+		else if (itemStack.getItem() instanceof ITooltip<?>) tooltip = (ITooltip<?>) itemStack.getItem();
+		else return;
 
-		final IBlockTooltip blockTooltip = (IBlockTooltip) block;
+		// ITooltip<?> tooltip = (IBlockTooltip) block;
+		// final ITooltip<?> tooltip = (IBlockTooltip) itemStack.getItem();
 		final List<String> list = event.getToolTip();
-		final boolean hasShiftInfo = blockTooltip.hasShiftInformation();
-		final boolean hasControlInfo = blockTooltip.hasControlInformation();
+		final boolean hasShiftInfo = tooltip.hasShiftInformation();
+		final boolean hasControlInfo = tooltip.hasControlInformation();
 
-		blockTooltip.addInformation(list, itemStack);
+		tooltip.addInformation(list, itemStack);
 
 		if (hasShiftInfo) {
 			list.add("");
 
-			if (isShiftKeyDown()) blockTooltip.addShiftInformation(list, itemStack);
+			if (isShiftKeyDown()) tooltip.addShiftInformation(list, itemStack);
 			else list.add(shiftInfoTag);
 		}
 
 		if (hasControlInfo) {
 			if (!hasShiftInfo) list.add("");
-			if (isControlKeyDown()) blockTooltip.addControlInformation(list, itemStack);
+			if (isControlKeyDown()) tooltip.addControlInformation(list, itemStack);
 			else list.add(controlInfoTag);
 		}
 	}
