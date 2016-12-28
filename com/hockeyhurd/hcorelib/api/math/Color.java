@@ -9,17 +9,24 @@ package com.hockeyhurd.hcorelib.api.math;
 public abstract class Color {
 
 	/**
-	 * Get hexdecimal int for ARGB.
+	 * Get hexadecimal int for ARGB.
 	 *
 	 * @return ARGB.
 	 */
 	public abstract int getARGB();
 
 	/**
-	 * Get hexdecimal int for RGBA.
+	 * Get hexadecimal int for RGBA.
 	 *
 	 * @return RGBA.
 	 */
 	public abstract int getRGBA();
+
+	/**
+	 * Gets a copy of the object.
+	 *
+	 * @return Color copy.
+	 */
+	public abstract Color copy();
 
 }

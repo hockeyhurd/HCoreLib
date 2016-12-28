@@ -14,10 +14,14 @@ public final class Color4f extends Color {
 	 * Generic constructor which defaults all channel values to '0.0f'.
 	 */
 	public Color4f() {
+		this.r = 0.0f;
+		this.g = 0.0f;
+		this.b = 0.0f;
+		this.a = 1.0f;
 	}
 
 	/**
-	 * Constructor from hexdecimal.
+	 * Constructor from hexadecimal.
 	 *
 	 * @param hex hexdecimal (must be in 'ARGB'!) to use.
 	 */
@@ -62,6 +66,18 @@ public final class Color4f extends Color {
 		this.g = colorCorrect(g);
 		this.b = colorCorrect(b);
 		this.a = colorCorrect(a);
+	}
+
+	/**
+	 * Simple copy constructor.
+	 *
+	 * @param color Color4f reference.
+	 */
+	private Color4f(Color4f color) {
+		this.r = color.r;
+		this.g = color.g;
+		this.b = color.b;
+		this.a = color.a;
 	}
 
 	/**
@@ -133,6 +149,7 @@ public final class Color4f extends Color {
 	/**
 	 * @return color int represented in rgba as decimal number.
 	 */
+	@Override
 	public int getRGBA() {
 		int r = (int) Math.floor(this.r * Color4i.MAX_VALUE);
 		int g = (int) Math.floor(this.g * Color4i.MAX_VALUE);
@@ -145,6 +162,7 @@ public final class Color4f extends Color {
 	/**
 	 * @return color int represented in argb as decimal number.
 	 */
+	@Override
 	public int getARGB() {
 		int r = (int) Math.floor(this.r * Color4i.MAX_VALUE);
 		int g = (int) Math.floor(this.g * Color4i.MAX_VALUE);
@@ -152,6 +170,11 @@ public final class Color4f extends Color {
 		int a = (int) Math.floor(this.a * Color4i.MAX_VALUE);
 
 		return (a << 0x18) + (r << 0x10) + (g << 0x8) + b;
+	}
+
+	@Override
+	public Color4f copy() {
+		return new Color4f(this);
 	}
 
 	@Override

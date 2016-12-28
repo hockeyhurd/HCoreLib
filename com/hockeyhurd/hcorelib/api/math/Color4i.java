@@ -58,6 +58,15 @@ public final class Color4i extends Color {
 		else if (hex <= 0) rgba = 0;
 		else rgba = hex;
 	}
+
+	/**
+	 * Private copy constructor.
+	 *
+	 * @param color Color4i reference.
+	 */
+	private Color4i(Color4i color) {
+		this.rgba = color.rgba;
+	}
 	
 	/**
 	 * @return the r channel.
@@ -132,6 +141,7 @@ public final class Color4i extends Color {
 	/**
 	 * @return color int represented in rgba as decimal number.
 	 */
+	@Override
 	public int getRGBA() {
 		return rgba;
 	}
@@ -139,9 +149,15 @@ public final class Color4i extends Color {
 	/**
 	 * @return color int represented in argb as decimal number.
 	 */
+	@Override
 	public int getARGB() {
 		return ((rgba & 0xff) << 0x18) + (((rgba >> 0x8) & 0xff) << 0x10) +
 				(((rgba >> 0x10) & 0xff) << 0x8) + ((rgba >> 0x18) & 0xff);
+	}
+
+	@Override
+	public Color4i copy() {
+		return new Color4i(this);
 	}
 
 	@Override
