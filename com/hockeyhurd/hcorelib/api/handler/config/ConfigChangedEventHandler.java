@@ -25,7 +25,10 @@ public class ConfigChangedEventHandler {
 
 	@SubscribeEvent
 	public void onConfigChangedEvent(ConfigChangedEvent event) {
-		if (event.getModID().equals(modID)) configHandler.saveConfig();
+		if (event.getModID().equals(modID)) {
+			configHandler.saveConfig();
+			configHandler.handleConfiguration();
+		}
 	}
 
 }

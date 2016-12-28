@@ -100,8 +100,15 @@ public final class Color4f extends Color {
 	/**
 	 * @param r the r to set
 	 */
-	public void setR(int r) {
+	public void setR(float r) {
 		this.r = colorCorrect(r);
+	}
+
+	/**
+	 * @param r the r to set
+	 */
+	public void setR(int r) {
+		setR(r / 255.0f);
 	}
 
 	/**
@@ -114,8 +121,15 @@ public final class Color4f extends Color {
 	/**
 	 * @param g the g to set
 	 */
-	public void setG(int g) {
+	public void setG(float g) {
 		this.g = colorCorrect(g);
+	}
+
+	/**
+	 * @param g the g to set
+	 */
+	public void setG(int g) {
+		setG(g / 255.0f);
 	}
 
 	/**
@@ -128,8 +142,15 @@ public final class Color4f extends Color {
 	/**
 	 * @param b the b to set
 	 */
-	public void setB(int b) {
+	public void setB(float b) {
 		this.b = colorCorrect(b);
+	}
+
+	/**
+	 * @param b the a to set
+	 */
+	public void setB(int b) {
+		setB(b / 255.0f);
 	}
 
 	/**
@@ -142,8 +163,15 @@ public final class Color4f extends Color {
 	/**
 	 * @param a the a to set
 	 */
-	public void setA(int a) {
+	public void setA(float a) {
 		this.a = colorCorrect(a);
+	}
+
+	/**
+	 * @param a the r to set
+	 */
+	public void setA(int a) {
+		setA(a / 255.0f);
 	}
 
 	/**
