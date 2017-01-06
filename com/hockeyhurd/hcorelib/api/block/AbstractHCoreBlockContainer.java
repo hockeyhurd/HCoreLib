@@ -10,6 +10,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
@@ -106,4 +107,16 @@ public abstract class AbstractHCoreBlockContainer extends BlockContainer impleme
     public abstract boolean onBlockActivated(World world, BlockPos blockPos, IBlockState blockState, EntityPlayer player, EnumHand hand,
             ItemStack stack, EnumFacing sideHit, float hitX, float hitY, float hitZ);
 
+    @Override
+    public void breakBlock(World world, BlockPos blockPos, IBlockState blockState) {
+        TileEntity tileEntity = world.getTileEntity(blockPos);
+
+        if (tileEntity instanceof AbstractTile)
+            onBlockDestroyed(world, (AbstractTile) tileEntity, blockPos, blockState);
+
+        super.breakBlock(world, blockPos, blockState);
+    }
+
+    protected void onBlockDestroyed(World world, AbstractTile tileEntity, BlockPos blockPos, IBlockState blockState) {
+    }
 }

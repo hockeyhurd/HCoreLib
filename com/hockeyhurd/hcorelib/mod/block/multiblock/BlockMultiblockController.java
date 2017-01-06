@@ -23,7 +23,6 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.Explosion;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
@@ -113,27 +112,14 @@ public class BlockMultiblockController extends AbstractHCoreBlockContainer imple
 	}
 
 	@Override
-	public void onBlockDestroyedByPlayer(World world, BlockPos blockPos, IBlockState blockState) {
-		if (!world.isRemote) {
+	protected void onBlockDestroyed(World world, AbstractTile tileEntity, BlockPos blockPos, IBlockState blockState) {
+		if (!world.isRemote && tileEntity instanceof MultiblockController) {
 			final MultiblockController controller = (MultiblockController) world.getTileEntity(blockPos);
-			if (controller != null && controller.getManager() != null) {
+
+			if (controller.getManager() != null) {
 				controller.getManager().removeTile(controller);
 			}
 		}
-
-		super.onBlockDestroyedByPlayer(world, blockPos, blockState);
-	}
-
-	@Override
-	public void onBlockDestroyedByExplosion(World world, BlockPos blockPos, Explosion explosion) {
-		if (!world.isRemote) {
-			final MultiblockController controller = (MultiblockController) world.getTileEntity(blockPos);
-			if (controller != null && controller.getManager() != null) {
-				controller.getManager().removeTile(controller);
-			}
-		}
-
-		super.onBlockDestroyedByExplosion(world, blockPos, explosion);
 	}
 
 	@Override
@@ -167,6 +153,13 @@ public class BlockMultiblockController extends AbstractHCoreBlockContainer imple
 			BlockUtils.setBlock(world, blockPos, blockState);
 			BlockUtils.updateAndNotifyNeighborsOfBlockUpdate(world, blockPos);
 			// BlockUtils.updateAndNotifyNeighborsOfBlockUpdate(world, blockPos);
+
+			HCoreLibMain.logHelper.info("Is master:", controller.isMaster());
+			HCoreLibMain.logHelper.info("Manager size:", controller.getManager().size());
+
+			final List<IMultiblockable> tiles = controller.getManager().getMultiblockTiles();
+			for (IMultiblockable comp : tiles)
+				HCoreLibMain.logHelper.info("Component @:", comp.getTile().worldVec());
 		}
 
 		return true;

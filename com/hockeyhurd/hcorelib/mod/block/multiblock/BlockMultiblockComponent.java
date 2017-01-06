@@ -1,6 +1,7 @@
 package com.hockeyhurd.hcorelib.mod.block.multiblock;
 
 import com.hockeyhurd.hcorelib.api.block.AbstractHCoreBlockContainer;
+import com.hockeyhurd.hcorelib.api.block.multiblock.IMultiblockManager;
 import com.hockeyhurd.hcorelib.api.block.multiblock.IMultiblockable;
 import com.hockeyhurd.hcorelib.api.math.Vector3;
 import com.hockeyhurd.hcorelib.api.math.VectorHelper;
@@ -21,7 +22,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.Explosion;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
@@ -116,11 +116,20 @@ public class BlockMultiblockComponent extends AbstractHCoreBlockContainer implem
 	}
 
 	@Override
-	public void onBlockDestroyedByPlayer(World world, BlockPos blockPos, IBlockState blockState) {
-	}
+	protected void onBlockDestroyed(World world, AbstractTile tileEntity, BlockPos blockPos, IBlockState blockState) {
+		if (!world.isRemote && tileEntity instanceof MultiblockComponent) {
 
-	@Override
-	public void onBlockDestroyedByExplosion(World world, BlockPos blockPos, Explosion explosion) {
+			final MultiblockComponent tile = (MultiblockComponent) tileEntity;
+
+			IMultiblockManager manager = tile.getManager();
+			tile.getManager().removeTile(tile);
+
+			for (IMultiblockable comp : manager.getMultiblockTiles()) {
+				HCoreLibMain.logHelper.info("Comp @:", comp.getTile().worldVec());
+			}
+		}
+
+		super.onBlockDestroyedByPlayer(world, blockPos, blockState);
 	}
 
 	// Right click on block.

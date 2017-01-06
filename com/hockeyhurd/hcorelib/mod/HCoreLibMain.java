@@ -7,6 +7,7 @@ import com.hockeyhurd.hcorelib.api.item.AbstractHCoreItem;
 import com.hockeyhurd.hcorelib.api.math.TimeLapse;
 import com.hockeyhurd.hcorelib.api.util.LogHelper;
 import com.hockeyhurd.hcorelib.api.util.McModInfoDataInjector;
+import com.hockeyhurd.hcorelib.api.util.ModsLoadedHelper;
 import com.hockeyhurd.hcorelib.api.util.SystemInfo;
 import com.hockeyhurd.hcorelib.api.util.exceptions.InCompatibleJavaException.JavaCompatibility;
 import com.hockeyhurd.hcorelib.api.util.interfaces.IForgeMod;
@@ -28,11 +29,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
 import net.minecraftforge.fml.common.SidedProxy;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLServerStartedEvent;
-import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
+import net.minecraftforge.fml.common.event.*;
 import net.minecraftforge.fml.relauncher.Side;
 import org.apache.commons.lang3.JavaVersion;
 
@@ -96,8 +93,13 @@ public final class HCoreLibMain implements IForgeMod {
 			else logHelper.warn("Injection was un-successful! mcmod.info is a liar!");
 		}
 
+		logHelper.info("Loading mod objects");
 		loadObj();
+		logHelper.info("Done!");
+
+		logHelper.info("Initializing proxy");
 		proxy.init();
+		logHelper.info("Done!");
 
 		logHelper.info("Pre-init finished successfully after", tl.getEffectiveTimeSince(), "ms!");
 	}
@@ -108,10 +110,19 @@ public final class HCoreLibMain implements IForgeMod {
 		tl.resetStartTime();
 		logHelper.info("Init started, looking for config info!");
 
+		logHelper.info("Checking for loaded mods...");
+		ModsLoadedHelper.getInstance().init();
+		logHelper.info("... Complete! Here are the results", ModsLoadedHelper.getInstance().toString());
+
 		// loadObj();
 		// proxy.init();
+		logHelper.info("Registering render information");
 		proxy.registerRenderInformation();
+		logHelper.info("Done!");
+
+		logHelper.info("Registering input handlers");
 		proxy.registerInputHandlers();
+		logHelper.info("Done!");
 
 		logHelper.info("Init finished successfully after", tl.getEffectiveTimeSince(), "ms!");
 	}
