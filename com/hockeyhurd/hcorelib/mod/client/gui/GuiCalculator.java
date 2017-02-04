@@ -170,7 +170,7 @@ public final class GuiCalculator extends GuiScreen {
 
     public void drawGuiContainerForegroundLayer(int x, int y) {
         // fontRendererObj.drawString(drawString, xSize - (width >> 1) - 8, guiTop, 0xffffffff);
-        fontRendererObj.drawString(drawString, (xSize >> 3) - (fontRendererObj.getStringWidth("00") >> 1), (guiTop - (ySize >> 4)) >> 1, 0xffffffff);
+        fontRendererObj.drawString(drawString, (xSize >> 3) - (fontRendererObj.getStringWidth("00") >> 1), (ySize >> 3), 0xffffffff);
     }
 
     public void drawGuiContainerBackgroundLayer(float f, int x, int y) {
