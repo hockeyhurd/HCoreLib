@@ -32,12 +32,10 @@ public class LibReference extends AbstractReference {
 	public static final String MOD_NAME = "HCoreLib";
 
 	/** Not required but is available. NOTE: if not using it, set to null! */
-	// public static final String MOD_URL = "http://73.17.180.186:8080/downloads/" + MOD_NAME.toLowerCase() + "/versions/HCoreLib-1.1.";
-	// public static final String MOD_URL = "https://www.dropbox.com/home/public/minecraft/mods/" + MOD_NAME + "/versions/HCoreLib-1.1.";
-	public static final String MOD_URL = "https://dl.dropboxusercontent.com/u/276611945/minecraft/mods/" + MOD_NAME + "/version.txt";
+	public static final String MOD_URL = "https://dl.dropboxusercontent.com/u/276611945/minecraft/mods/" + MOD_NAME + "/versions/1.10.2/version.txt";
 
 	/** Not required but is available. NOTE: if not using it, set to null! */
-	public static final String CHANGELOG_URL = "https://dl.dropboxusercontent.com/u/276611945/minecraft/mods/" + MOD_NAME + "/changelog.txt";
+	public static final String CHANGELOG_URL = "https://dl.dropboxusercontent.com/u/276611945/minecraft/mods/" + MOD_NAME + "/versions/1.10.2/changelog.txt";
 
 	/**
 	 * To use this class referencing, simple extend this class with your own and plug-in your own values.
