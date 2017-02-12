@@ -126,7 +126,7 @@ public final class SystemInfo {
      * @return String.
      */
     public String getPercentageMemoryUsed() {
-        return NumberFormatter.format((float) runtime.totalMemory() / (float) runtime.maxMemory() * 100.0f);
+        return NumberFormatter.format((float) (runtime.totalMemory() - runtime.freeMemory()) / (float) runtime.maxMemory() * 100.0f) + "%%";
     }
 
     /**
@@ -243,6 +243,23 @@ public final class SystemInfo {
         list.add("TPS: " + NumberFormatter.millisecondsAsString((long) getWorldTickTime(world)) + "ms[" + getWorldTPS(world) + ']');
 
         return list.toArray(new String[list.size()]);
+    }
+
+    /**
+     * Gets the memory details.
+     *
+     * @return String array of interesting details.
+     */
+    public String[] getMemoryDetails() {
+        String[] arr = new String[5];
+
+        arr[0] = "Memory usage:     " + getUsedMemory();
+        arr[1] = "Memory total:       " + getTotalMemory();
+        arr[2] = "Memory %%:           " + getPercentageMemoryUsed();
+        arr[3] = "Memory allocated: " + getAllocatedMemory();
+        arr[4] = "Memory max:        " + getMaxMemory();
+
+        return arr;
     }
 
 	/**

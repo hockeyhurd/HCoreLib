@@ -19,14 +19,15 @@ import java.util.List;
  * @author hockeyhurd
  * @version 7/7/2016.
  */
-@SideOnly(Side.CLIENT)
-public final class ItemTooltipEventHandler {
+@SideOnly(Side.CLIENT) public final class ItemTooltipEventHandler {
 
-	private static final String shiftInfoTag = TextFormatting.WHITE + "Hold " + TextFormatting.GRAY + "<" + TextFormatting.WHITE +
-			TextFormatting.ITALIC + "Shift" + TextFormatting.RESET + TextFormatting.GRAY + "> " + TextFormatting.WHITE + "for details";
+	private static final String shiftInfoTag =
+			TextFormatting.WHITE + "Hold " + TextFormatting.GRAY + "<" + TextFormatting.WHITE + TextFormatting.ITALIC + "Shift" + TextFormatting.RESET
+					+ TextFormatting.GRAY + "> " + TextFormatting.WHITE + "for details";
 
-	private static final String controlInfoTag = TextFormatting.WHITE + "Hold " + TextFormatting.GRAY + "<" + TextFormatting.WHITE +
-			TextFormatting.ITALIC + "Ctrl" + TextFormatting.RESET + TextFormatting.GRAY + "> " + TextFormatting.WHITE + "for details";
+	private static final String controlInfoTag =
+			TextFormatting.WHITE + "Hold " + TextFormatting.GRAY + "<" + TextFormatting.WHITE + TextFormatting.ITALIC + "Ctrl" + TextFormatting.RESET
+					+ TextFormatting.GRAY + "> " + TextFormatting.WHITE + "for details";
 
 	private static final ItemTooltipEventHandler handler = new ItemTooltipEventHandler();
 
@@ -35,6 +36,7 @@ public final class ItemTooltipEventHandler {
 
 	/**
 	 * Gets the static instance.
+	 *
 	 * @return Class static instance.
 	 */
 	public static ItemTooltipEventHandler getInstance() {
@@ -65,7 +67,7 @@ public final class ItemTooltipEventHandler {
 	 * @return boolean result.
 	 */
 	private static boolean isControlKeyDown() {
-		return !Minecraft.IS_RUNNING_ON_MAC ? Keyboard.isKeyDown(219) || Keyboard.isKeyDown(220) : Keyboard.isKeyDown(29) || Keyboard.isKeyDown(157);
+		return Minecraft.IS_RUNNING_ON_MAC ? Keyboard.isKeyDown(219) || Keyboard.isKeyDown(220) : Keyboard.isKeyDown(29) || Keyboard.isKeyDown(157);
 	}
 
 	@SubscribeEvent

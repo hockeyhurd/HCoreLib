@@ -4,14 +4,10 @@ import com.hockeyhurd.hcorelib.api.command.HCommand;
 import com.hockeyhurd.hcorelib.api.math.TimeLapse;
 import com.hockeyhurd.hcorelib.api.util.LogicHelper;
 import com.hockeyhurd.hcorelib.mod.HCoreLibMain;
-import com.hockeyhurd.hcorelib.mod.HServerCommands;
+import com.hockeyhurd.hcorelib.mod.command.HServerCommands;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
 
 /**

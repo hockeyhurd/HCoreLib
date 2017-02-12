@@ -15,7 +15,7 @@ import net.minecraftforge.fml.relauncher.Side;
  */
 public final class PacketHandler {
 
-	private static final SimpleNetworkWrapper INSTANCE = NetworkRegistry.INSTANCE.newSimpleChannel(LibReference.MOD_NAME);
+	public static final SimpleNetworkWrapper NETWORK_WRAPPER = NetworkRegistry.INSTANCE.newSimpleChannel(LibReference.MOD_NAME);
 	private static int id = 0;
 
 	private static final PacketHandler clazzInstance = new PacketHandler();
@@ -38,7 +38,7 @@ public final class PacketHandler {
 	private static <REQ extends IMessage, REPLY extends IMessage> void registerMessageHandler(Class<? extends IMessageHandler<REQ, REPLY>> messageHandler,
 			Class<REQ> requestMessageType, int discriminator, Side side) {
 
-		INSTANCE.registerMessage(messageHandler, requestMessageType, discriminator, side);
+		NETWORK_WRAPPER.registerMessage(messageHandler, requestMessageType, discriminator, side);
 	}
 
 	private static int getNextID() {
