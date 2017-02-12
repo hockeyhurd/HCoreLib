@@ -194,9 +194,9 @@ public final class SystemInfo {
             chunksLoaded += world.getChunkProvider().getLoadedChunkCount();
 
             dimID = world.provider.getDimension();
-            dimName = world.getProviderName();
+            // dimName = world.getProviderName();
 
-            list.add("[" + dimID + "]" + dimName + ": " + NumberFormatter.formatTime(getWorldTickTime(world)) +
+            list.add("[" + dimID + "]" /*+ dimName*/ + ": " + NumberFormatter.formatTime(getWorldTickTime(world)) +
                     "ms [" + NumberFormatter.formatTime(getWorldTPS(world)) + "]");
         }
 

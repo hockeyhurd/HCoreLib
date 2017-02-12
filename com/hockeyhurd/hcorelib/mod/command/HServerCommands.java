@@ -38,12 +38,13 @@ public final class HServerCommands extends HCommand {
 			sender.addChatMessage(ChatUtils.createComponent(getCommandUsage(sender)));
 		else if (args[0].equalsIgnoreCase(commandArgs[0])) {
 			if (args.length == 1 || args[1].equals(SERVER_TAG)) {
-				if (HCoreLibMain.proxy.isClient() && !(sender instanceof MinecraftServer)) {
+				if (/*HCoreLibMain.proxy.isClient() &&*/ !(sender instanceof MinecraftServer)) {
 					// server.getCommandManager().executeCommand(sender, HCoreLibMain.modID + " " + commandArgs[0]);
 					server.getCommandManager().executeCommand(server, MOD_ABREV + ' ' + commandArgs[0] + ' ' + SERVER_TAG + ' ' + sender.getName());
 				}
 
 				else {
+					HCoreLibMain.logHelper.info(args);
 					EntityPlayerMP player = server.getPlayerList().getPlayerByUsername(args[2]);
 
 					if (player == null) {
@@ -75,7 +76,7 @@ public final class HServerCommands extends HCommand {
 
 		else if (args[0].equalsIgnoreCase(commandArgs[1])) {
 			if (args.length == 1 || args[1].equals(SERVER_TAG)) {
-				if (HCoreLibMain.proxy.isClient() && !(sender instanceof MinecraftServer)) {
+				if (/*HCoreLibMain.proxy.isClient() &&*/ !(sender instanceof MinecraftServer)) {
 					// sender.addChatMessage(ChatUtils.createComponent(SystemInfo.instance().getSystemUpTime()));
 					server.getCommandManager().executeCommand(server, MOD_ABREV + ' ' + commandArgs[1] + ' ' + SERVER_TAG + ' ' + sender.getName());
 				}
@@ -113,7 +114,7 @@ public final class HServerCommands extends HCommand {
 
 		else if (args[0].equalsIgnoreCase(commandArgs[3])) {
 			if (args.length == 1 || args[1].equals(SERVER_TAG)) {
-				if (HCoreLibMain.proxy.isClient() && !(sender instanceof MinecraftServer)) {
+				if (/*HCoreLibMain.proxy.isClient() &&*/ !(sender instanceof MinecraftServer)) {
 					server.getCommandManager().executeCommand(server, MOD_ABREV + ' ' + commandArgs[3] + ' ' + SERVER_TAG + ' ' + sender.getName());
 				}
 

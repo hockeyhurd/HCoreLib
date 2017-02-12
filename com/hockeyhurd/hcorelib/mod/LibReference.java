@@ -20,7 +20,7 @@ public class LibReference extends AbstractReference {
 	public static final int SUB_VERSION = 2;
 
 	/** Current major version. */
-	public static final int MAJOR_VERSION = 1;
+	public static final int MAJOR_VERSION = 2;
 
 	/** Current version with included build number. */
 	public static final String VERSION = "v" + MAJOR_VERSION + '.' + SUB_VERSION + '.' + BUILD;
