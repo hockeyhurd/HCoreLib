@@ -31,6 +31,15 @@ public class RecipePattern {
         associativeMap = new TreeMap<Character, Object>();
     }
 
+    /**
+     * Constructs a RecipePattern.
+     * <br>null strings are treated as 3-empty spaced string.
+     *
+     * @param top String top row.
+     * @param middle String middle row.
+     * @param bottom String bottom row.
+     * @param shapedRecipe boolean recipe type.
+     */
     public RecipePattern(String top, String middle, String bottom, boolean shapedRecipe) {
         this.shapedRecipe = shapedRecipe;
         pattern = new String[3];
@@ -42,6 +51,12 @@ public class RecipePattern {
         associativeMap = new TreeMap<Character, Object>();
     }
 
+    /**
+     * Copy constructor.
+     * <br><bold>NOTE:</bold> result ItemStack is <bold>NOT</bold> copied.
+     *
+     * @param other RecipePattern to copy.
+     */
     public RecipePattern(RecipePattern other) {
         shapedRecipe = other.shapedRecipe;
         pattern = new String[3];
@@ -52,10 +67,20 @@ public class RecipePattern {
         associativeMap = new TreeMap<Character, Object>();
     }
 
+    /**
+     * Creates a copy of the current RecipePattern.
+     *
+     * @return RecipePattern copy.
+     */
     public RecipePattern copy() {
         return new RecipePattern(this);
     }
 
+    /**
+     * Validates the crafting pattern.
+     *
+     * @return boolean result.
+     */
     public boolean validateRecipe() {
         if (pattern == null || pattern.length != 3 || associativeMap.isEmpty() ||
                 resultStack == null || resultStack.stackSize == 0) return false;
@@ -70,23 +95,37 @@ public class RecipePattern {
         return emptyRowCount <= 1;
     }
 
+    /**
+     * Associates a char value with an object (either
+     * an Item or Block).
+     *
+     * @param c char.
+     * @param obj Object (Item or Block).
+     * @return Recipe pattern instance.
+     */
     public RecipePattern addAssociation(char c, Object obj) {
-        if (obj instanceof String || obj instanceof Item || obj instanceof Block) {
+        if (obj instanceof String || obj instanceof Item || obj instanceof Block)
             associativeMap.put(c, obj);
 
-            // return true;
-        }
-
-        // return false;
         return this;
     }
 
-    public RecipePattern addResultStack(ItemStack stack) {
+    /**
+     * Sets the resulting ItemStack to the crafting recipe.
+     *
+     * @param stack ItemStack result.
+     * @return Recipe pattern instance.
+     */
+    public RecipePattern setResultStack(ItemStack stack) {
         if (stack != null && stack.stackSize > 0) resultStack = stack.copy();
 
         return this;
     }
 
+    /**
+     * Checks if recipe pattern is valid and registers
+     * crafting pattern accordingly.
+     */
     public void registerRecipe() {
         if (validateRecipe()) {
             Object[] objects = new Object[associativeMap.size() << 1];

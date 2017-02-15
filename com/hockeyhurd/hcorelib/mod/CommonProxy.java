@@ -1,7 +1,9 @@
 package com.hockeyhurd.hcorelib.mod;
 
 import com.hockeyhurd.hcorelib.api.handler.NotifyPlayerOnJoinHandler;
+import com.hockeyhurd.hcorelib.api.handler.RecipePattern;
 import com.hockeyhurd.hcorelib.api.handler.UpdateHandler;
+import com.hockeyhurd.hcorelib.api.util.interfaces.ICraftableRecipe;
 import com.hockeyhurd.hcorelib.api.util.interfaces.IProxy;
 import com.hockeyhurd.hcorelib.mod.handler.GuiHandler;
 import com.hockeyhurd.hcorelib.mod.tileentity.TileEntityTESRTest;
@@ -49,6 +51,10 @@ public class CommonProxy implements IProxy {
 		// GameRegistry.registerBlock(HCoreLibMain.white, "HiddenWhite");
 		GameRegistry.register(HCoreLibMain.testBlock);
 		GameRegistry.register(HCoreLibMain.testBlock.getItemBlock().setRegistryName(HCoreLibMain.testBlock.getRegistryName()));
+
+		for (RecipePattern pattern : ((ICraftableRecipe) HCoreLibMain.testBlock).getRecipePatterns()) {
+			if (pattern != null) pattern.registerRecipe();
+		}
 
 		GameRegistry.register(HCoreLibMain.testTile);
 		GameRegistry.register(HCoreLibMain.testTESRTile);

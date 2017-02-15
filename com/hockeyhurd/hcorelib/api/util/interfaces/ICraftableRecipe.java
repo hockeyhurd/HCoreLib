@@ -11,6 +11,11 @@ import com.hockeyhurd.hcorelib.api.handler.RecipePattern;
  */
 public interface ICraftableRecipe {
 
+    /**
+     * Gets the crafting recipe patterns.
+     *
+     * @return RecipePattern array.
+     */
     RecipePattern[] getRecipePatterns();
 
 }
