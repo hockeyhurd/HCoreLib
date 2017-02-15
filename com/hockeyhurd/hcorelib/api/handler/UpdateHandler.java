@@ -257,7 +257,7 @@ public class UpdateHandler {
 	 * @return latest url.
 	 */
 	private String getAppropriateUrl() {
-		return url.substring(0, url.lastIndexOf('/')) + "/versions/" + modName + "-" + (latestBuild.substring(1, latestBuild.length())) + ".jar";
+		return url.substring(0, url.lastIndexOf('/')) + "/" + modName + "-" + (latestBuild.substring(1, latestBuild.length())) + ".jar";
 	}
 
 }

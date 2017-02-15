@@ -14,13 +14,13 @@ import com.hockeyhurd.hcorelib.api.util.AbstractReference;
 public class LibReference extends AbstractReference {
 
 	/** Current build number. */
-	public static final int BUILD = 1;
+	public static final int BUILD = 3;
 
 	/** Current Subversion */
 	public static final int SUB_VERSION = 2;
 
 	/** Current major version. */
-	public static final int MAJOR_VERSION = 2;
+	public static final int MAJOR_VERSION = 1;
 
 	/** Current version with included build number. */
 	public static final String VERSION = "v" + MAJOR_VERSION + '.' + SUB_VERSION + '.' + BUILD;
