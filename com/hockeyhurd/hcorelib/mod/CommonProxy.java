@@ -87,6 +87,10 @@ public class CommonProxy implements IProxy {
 		}
 	}
 
+	public void registerCraftingRecipes() {
+
+	}
+
 	@Override
 	public void registerUpdateHandler() {
 		updateHandler = new UpdateHandler(LibReference.MOD_NAME, LibReference.VERSION, LibReference.MOD_URL, LibReference.CHANGELOG_URL);

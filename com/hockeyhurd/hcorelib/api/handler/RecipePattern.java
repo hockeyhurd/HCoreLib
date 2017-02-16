@@ -128,31 +128,34 @@ public class RecipePattern {
      */
     public void registerRecipe() {
         if (validateRecipe()) {
-            Object[] objects = new Object[associativeMap.size() << 1];
-            int counter = 0;
+            Object[] objects = new Object[(associativeMap.size() << 1) + pattern.length];
+
+            int i;
+            for (i = 0; i < pattern.length; i++)
+                objects[i] = pattern[i];
 
             for (Entry<Character, Object> e : associativeMap.entrySet()) {
-                objects[counter++] = e.getKey();
-                objects[counter++] = e.getValue();
+                objects[i++] = e.getKey();
+                objects[i++] = e.getValue();
             }
 
             if (shapedRecipe)
-                GameRegistry.addRecipe(createShapedRecipe(resultStack, pattern[0], pattern[1], pattern[2], objects));
+                GameRegistry.addRecipe(createShapedRecipe(resultStack, objects));
             else
-                GameRegistry.addRecipe(createShapelessRecipe(resultStack, pattern[0], pattern[1], pattern[2], objects));
+                GameRegistry.addRecipe(createShapelessRecipe(resultStack, objects));
         }
     }
 
-    protected static ShapedOreRecipe createShapedRecipe(ItemStack result, String top, String middle, String bottom, Object... objects) {
-        if (objects == null || objects.length == 0 || objects.length % 2 != 0) return null;
+    protected static ShapedOreRecipe createShapedRecipe(ItemStack result, Object... objects) {
+        if (objects == null || objects.length == 0) return null;
 
-        return new ShapedOreRecipe(result, top, middle, bottom, objects);
+        return new ShapedOreRecipe(result, objects);
     }
 
-    protected static ShapelessOreRecipe createShapelessRecipe(ItemStack resultStack, String top, String middle, String bottom, Object... objects) {
-        if (objects == null || objects.length == 0 || objects.length % 2 != 0) return null;
+    protected static ShapelessOreRecipe createShapelessRecipe(ItemStack resultStack, Object... objects) {
+        if (objects == null || objects.length == 0) return null;
 
-        return new ShapelessOreRecipe(resultStack, top, middle, bottom, objects);
+        return new ShapelessOreRecipe(resultStack, objects);
     }
 
 }
