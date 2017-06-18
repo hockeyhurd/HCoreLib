@@ -1,0 +1,19 @@
+{
+  "parent": "block/cube",
+  "display": {
+    "firstperson_righthand": {
+      "rotation": [ 0, 135, 0 ],
+      "translation": [ 0, 0, 0 ],
+      "scale": [ 0.40, 0.40, 0.40 ]
+    }
+  },
+  "textures": {
+    "up": "minecraft:blocks/furnace_top",
+    "down": "minecraft:blocks/furnace_top",
+    "north": "minecraft:blocks/furnace_front_off",
+    "east": "minecraft:blocks/furnace_side",
+    "west": "minecraft:blocks/furnace_side",
+    "south": "minecraft:blocks/furnace_side",
+    "particle": "minecraft:blocks/furnace_side"
+  }
+}

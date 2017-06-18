@@ -33,6 +33,7 @@ public final class PacketHandler {
 	}
 
 	public void init() {
+		registerMessageHandler(PacketFurnace.class, PacketFurnace.class, getNextID(), Side.CLIENT);
 	}
 
 	private static <REQ extends IMessage, REPLY extends IMessage> void registerMessageHandler(Class<? extends IMessageHandler<REQ, REPLY>> messageHandler,

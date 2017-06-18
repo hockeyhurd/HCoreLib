@@ -8,6 +8,7 @@ import com.hockeyhurd.hcorelib.api.util.interfaces.IProxy;
 import com.hockeyhurd.hcorelib.mod.handler.GuiHandler;
 import com.hockeyhurd.hcorelib.mod.tileentity.TileEntityTESRTest;
 import com.hockeyhurd.hcorelib.mod.tileentity.TileEntityTest;
+import com.hockeyhurd.hcorelib.mod.tileentity.TileFurnace;
 import com.hockeyhurd.hcorelib.mod.tileentity.multiblock.MultiblockComponent;
 import com.hockeyhurd.hcorelib.mod.tileentity.multiblock.MultiblockController;
 import net.minecraftforge.common.MinecraftForge;
@@ -58,8 +59,10 @@ public class CommonProxy implements IProxy {
 
 		GameRegistry.register(HCoreLibMain.testTile);
 		GameRegistry.register(HCoreLibMain.testTESRTile);
+		GameRegistry.register(HCoreLibMain.testFurnace);
 		GameRegistry.register(HCoreLibMain.testTile.getItemBlock().setRegistryName(HCoreLibMain.testTile.getRegistryName()));
 		GameRegistry.register(HCoreLibMain.testTESRTile.getItemBlock().setRegistryName(HCoreLibMain.testTESRTile.getRegistryName()));
+		GameRegistry.register(HCoreLibMain.testFurnace.getItemBlock().setRegistryName(HCoreLibMain.testFurnace.getRegistryName()));
 		GameRegistry.register(HCoreLibMain.multiblockController);
 		GameRegistry.register(HCoreLibMain.multiblockController.getItemBlock().setRegistryName(HCoreLibMain.multiblockController.getRegistryName()));
 		GameRegistry.register(HCoreLibMain.multiblockComponent);
@@ -69,6 +72,7 @@ public class CommonProxy implements IProxy {
 	protected void registerTileEntities() {
 		GameRegistry.registerTileEntity(TileEntityTest.class, "testTile");
 		GameRegistry.registerTileEntity(TileEntityTESRTest.class, "testTESRTile");
+		GameRegistry.registerTileEntity(TileFurnace.class, "testFurnaceTile");
 		GameRegistry.registerTileEntity(MultiblockController.class, "multiblockController");
 		GameRegistry.registerTileEntity(MultiblockComponent.class, "multiblockComponent");
 	}

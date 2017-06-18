@@ -14,7 +14,7 @@ abstract class ENode implements Comparable<ENode> {
 	 * Enumeration for representing the different nodes.
 	 */
 	enum EnumNodeType {
-		CONSTANT, OPERATOR
+		CONSTANT, VARIABLE, OPERATOR
 	}
 
 	ENode left, right;
@@ -106,6 +106,42 @@ abstract class ENode implements Comparable<ENode> {
 	public abstract int compareTo(ENode other);
 
 	/**
+	 * Variable containing node.
+	 *
+	 * @author hockeyhurd
+	 * @version 04/15/2017
+	 */
+	static class VariableNode extends ENode {
+
+		/**
+		 * Constructs a VariableNode with its containing variable.
+		 *
+		 * @param variable Variable.
+		 */
+		VariableNode(Variable variable) {
+			super(variable);
+		}
+
+		@Override
+		double evaluate() {
+			return value != null ? value.evaluate() : 0.0d;
+		}
+
+		@Override
+		EnumNodeType getNodeType() {
+			return EnumNodeType.VARIABLE;
+		}
+
+		@Override
+		public int compareTo(ENode other) {
+			if (other == null || other.getNodeType() != EnumNodeType.VARIABLE) return 0;
+
+			return value.toString().compareTo(other.value.toString());
+		}
+
+	}
+
+	/**
 	 * Constant containing node.
 	 *
 	 * @author hockeyhurd
@@ -124,7 +160,7 @@ abstract class ENode implements Comparable<ENode> {
 
 		@Override
 		double evaluate() {
-			return value != null ? value.evaluate() : 0.0;
+			return value != null ? value.evaluate() : 0.0d;
 		}
 
 		@Override
