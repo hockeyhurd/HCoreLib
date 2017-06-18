@@ -7,9 +7,9 @@ package com.hockeyhurd.hcorelib.api.math.expressions;
  * @version 10/13/2016.
  */
 enum EnumOp {
-	PLUS('+', 4), MINUS('-', 4), MULTIPLY('*', 3), DIVIDE('/', 3), MODULUS('%', 3), EXPONENT('^', 2),
-	PARENTHESIS_L('(', 5), PARENTHESIS_R(')', 5), SQUARE_BRACKET_L('[', 5), SQUARE_BRACKET_R(']', 5),
-	CURLY_BRACKET_L('{', 5), CURLY_BRACKET_R('}', 5), FACTORIAL('!', 1), NO_OP('\0', -1);
+	EQUALS('=', 1), PLUS('+', 5), MINUS('-', 5), MULTIPLY('*', 4), DIVIDE('/', 4), MODULUS('%', 4), EXPONENT('^', 3),
+	PARENTHESIS_L('(', 6), PARENTHESIS_R(')', 6), SQUARE_BRACKET_L('[', 6), SQUARE_BRACKET_R(']', 6),
+	CURLY_BRACKET_L('{', 6), CURLY_BRACKET_R('}', 6), FACTORIAL('!', 2), NO_OP('\0', -1);
 
 	private final char type;
 	private final int prec;

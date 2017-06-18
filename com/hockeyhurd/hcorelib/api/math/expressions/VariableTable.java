@@ -12,12 +12,27 @@ import java.util.TreeMap;
  */
 public final class VariableTable {
 
+    static final Variable VAR_PI = new Variable(Character.toString(GlobalConstants.PI_CHAR), GlobalConstants.MATH_PI);
+    static final Variable VAR_E = new Variable("e", GlobalConstants.MATH_E);
+
     private static final VariableTable inst = new VariableTable();
 
     private Map<Integer, Map<String, Variable>> table;
 
+    /*private static Map<String, Variable> publicTable;
+
+    static {
+        publicTable = new HashMap<String, Variable>();
+        publicTable.put(VAR_PI.toString(), VAR_PI);
+        publicTable.put(VAR_E.toString(), VAR_E);
+    }*/
+
     private VariableTable() {
         table = new TreeMap<Integer,  Map<String, Variable>>();
+    }
+
+    public static VariableTable getInstance() {
+        return inst;
     }
 
     public boolean put(int accessID, Variable variable) {
@@ -26,8 +41,10 @@ public final class VariableTable {
 
         Map<String, Variable> varMapping = table.get(accessID);
 
-        if (varMapping == null)
+        if (varMapping == null) {
             varMapping = new HashMap<String, Variable>(0x40, 2.0f / 3.0f);
+            table.put(accessID, varMapping);
+        }
 
         return varMapping.put(variable.toString(), variable) != null;
     }
@@ -36,8 +53,11 @@ public final class VariableTable {
         if (var == null || var.isEmpty())
             return null;
 
-        else if (var.equals("pi") || var.equals("" + GlobalConstants.PI_CHAR))
-            return GlobalConstants
+        else if (var.equals("pi") || var.equals(Character.toString(GlobalConstants.PI_CHAR)))
+            return VAR_PI;
+
+        else if (var.equals(VAR_E.toString()))
+            return VAR_E;
 
         Map<String, Variable> varMapping = table.get(accessID);
 

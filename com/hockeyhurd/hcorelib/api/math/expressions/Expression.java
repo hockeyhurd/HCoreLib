@@ -2,6 +2,7 @@ package com.hockeyhurd.hcorelib.api.math.expressions;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 
 import static com.hockeyhurd.hcorelib.api.math.expressions.Expression.ExpressionBuilder.ExpressionResult.getFailCondition;
 
@@ -30,7 +31,7 @@ public final class Expression {
 	}
 
 	static class ExpressionBuilder {
-		private LinkedList<Character> list;
+		private List<Character> list;
 
 		static class ExpressionResult {
 			boolean result;
@@ -65,24 +66,37 @@ public final class Expression {
 				list.add(c);
 		}
 
-		private static boolean isValidChar(char c) {
-			return EnumOp.isOp(c) || c == '.' || c == 'e' || c == 'E'
+		// TODO: Should we expose this to the Interpreter?
+		static boolean isValidChar(char c) {
+			/*return EnumOp.isOp(c) || c == '.' || c == 'e' || c == 'E'
 					|| c == 'p' || c == 'P' || c == 'i' || c == 'I' ||
-					c == GlobalConstants.PI_CHAR || (c >= '0' && c <= '9');
+					c == GlobalConstants.PI_CHAR || (c >= '0' && c <= '9');*/
+
+			return EnumOp.isOp(c) || isAlpha(c) || isNumeric(c) || c == GlobalConstants.PI_CHAR;
+		}
+
+		private static boolean isAlpha(char c) {
+			return (c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z');
+		}
+
+		private static boolean isNumeric(char c) {
+			return (c >= '0' && c <= '9');
 		}
 
 		ExpressionResult preProcessInput() {
-			if (list.isEmpty()) return getFailCondition();
+			if (list.isEmpty())
+				return getFailCondition();
 
-			ArrayList<Character> arrayList = new ArrayList<Character>(list.size() << 1);
+			List<Character> arrayList = new ArrayList<Character>(list.size() << 1);
 			boolean isNum = false;
 			char lastChar = 0;
 
 			for (char c : list) {
 				if (c == ' ') continue;
-				else if (!isValidChar(c)) return getFailCondition();
+				else if (!isValidChar(c))
+					return getFailCondition();
 				else {
-					if (c == '.' || (c >= '0' && c <= '9')) {
+					if (c == '.' || isNumeric(c)) {
 						if (arrayList.isEmpty()) {
 							isNum = true;
 							arrayList.add(c);
@@ -126,6 +140,15 @@ public final class Expression {
 						}
 
 						else return getFailCondition();
+					}
+
+					// TODO: Move to new sequences technique!
+					else if (isAlpha(c)) {
+						arrayList.add(c);
+						arrayList.add(' ');
+
+						lastChar = c;
+						isNum = false;
 					}
 
 					else {

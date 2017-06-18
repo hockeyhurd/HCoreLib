@@ -9,6 +9,7 @@ package com.hockeyhurd.hcorelib.api.math.expressions;
 public final class ETree {
 
 	private ENode root;
+	private double cachedResult;
 
 	/**
 	 * Creates an empty expression binary tree.
@@ -24,6 +25,10 @@ public final class ETree {
 	 */
 	public ETree(ENode root) {
 		this.root = root;
+	}
+
+	public boolean isAssignment() {
+		return root.toString().equals(EnumOp.EQUALS.toString());
 	}
 
 	/**
@@ -87,7 +92,13 @@ public final class ETree {
 	 * @return double result.
 	 */
 	public double evaluate() {
-		return root != null ? root.evaluate() : Double.NaN;
+		// return root != null ? root.evaluate() : Double.NaN;
+		if (root == null)
+			return Double.NaN;
+
+		cachedResult = root.evaluate();
+
+		return cachedResult;
 	}
 
 	/**
@@ -95,6 +106,7 @@ public final class ETree {
 	 */
 	public void clear() {
 		root = null;
+		cachedResult = 0.0d;
 	}
 
 	/**
@@ -129,6 +141,22 @@ public final class ETree {
 	@Override
 	public String toString() {
 		return inOrderToString();
+	}
+
+	static class AssignmentResult {
+
+		Variable var;
+		double result;
+
+		AssignmentResult(Variable var, double result) {
+			this.var = var;
+			this.result = result;
+		}
+
+		boolean isAssignment() {
+			return var != null;
+		}
+
 	}
 
 }

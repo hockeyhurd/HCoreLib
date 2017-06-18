@@ -106,7 +106,7 @@ public final class HServerCommands extends HCommand {
 					builder.append(args[i]);
 
 				Interpreter interpreter = new Interpreter();
-				InterpreterResult result = interpreter.processExpressionString(new Expression(builder.toString()));
+				InterpreterResult result = interpreter.processExpressionString(new Expression(builder.toString()), 0);
 
 				sender.addChatMessage(ChatUtils.createComponent("Result:", result.getExpressionString()));
 			}

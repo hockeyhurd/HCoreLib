@@ -105,6 +105,15 @@ class Operator extends EToken {
 	}
 
 	/**
+	 * Function to see if this is an equals function.
+	 *
+	 * @return boolean result.
+	 */
+	boolean isEquals() {
+		return op == EnumOp.EQUALS;
+	}
+
+	/**
 	 * Function to see if this is an parenthesis left function.
 	 *
 	 * @return boolean result.

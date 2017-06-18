@@ -5,7 +5,9 @@ import com.hockeyhurd.hcorelib.api.handler.config.ConfigChangedEventHandler;
 import com.hockeyhurd.hcorelib.api.handler.tooltip.ItemTooltipEventHandler;
 import com.hockeyhurd.hcorelib.mod.client.renderer.TESRTileRenderer;
 import com.hockeyhurd.hcorelib.mod.tileentity.TileEntityTESRTest;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 
@@ -77,6 +79,10 @@ public class ClientProxy extends CommonProxy {
 	@Override
 	public boolean isClient() {
 		return true;
+	}
+
+	public static EntityPlayer getPlayer() {
+		return FMLClientHandler.instance().getClientPlayerEntity();
 	}
 
 }

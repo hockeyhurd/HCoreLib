@@ -4,6 +4,7 @@ import com.hockeyhurd.hcorelib.api.math.expressions.Expression;
 import com.hockeyhurd.hcorelib.api.math.expressions.GlobalConstants;
 import com.hockeyhurd.hcorelib.api.math.expressions.Interpreter;
 import com.hockeyhurd.hcorelib.api.math.expressions.InterpreterResult;
+import com.hockeyhurd.hcorelib.mod.ClientProxy;
 import com.hockeyhurd.hcorelib.mod.HCoreLibMain;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
@@ -241,7 +242,7 @@ public final class GuiCalculator extends GuiScreen {
             // if (drawString.contains("=")) return;
 
             Interpreter interpreter = new Interpreter();
-            lastResult = interpreter.processExpressionString(new Expression(drawString.substring(0, charIndex)));
+            lastResult = interpreter.processExpressionString(new Expression(drawString.substring(0, charIndex)), ClientProxy.getPlayer().getUniqueID().hashCode());
 
             if (!lastResult.isEmpty()) {
                 // drawString = lastResult.getExpressionString();

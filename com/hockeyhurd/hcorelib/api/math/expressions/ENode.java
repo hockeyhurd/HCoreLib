@@ -197,18 +197,35 @@ abstract class ENode implements Comparable<ENode> {
 
 		@Override
 		double evaluate() {
-			if (hasNodeLeft() && !hasNodeRight()) return left.evaluate();
-			else if (!hasNodeLeft() && hasNodeRight()) return right.evaluate();
-			else if (!hasNodeLeft() && !hasNodeRight()) return Double.NaN;
+			if (hasNodeLeft() && !hasNodeRight())
+				return left.evaluate();
+			else if (!hasNodeLeft() && hasNodeRight())
+				return right.evaluate();
+			else if (!hasNodeLeft() && !hasNodeRight())
+				return Double.NaN;
 
 			final Operator op = (Operator) value;
-			if (op.isMultiply()) return left.evaluate() * right.evaluate();
-			else if (op.isDivide()) return left.evaluate() / right.evaluate();
-			else if (op.isModulus()) return left.evaluate() % right.evaluate();
-			else if (op.isAdd()) return left.evaluate() + right.evaluate();
-			else if (op.isMinus()) return left.evaluate() - right.evaluate();
-			else if (op.isExponent()) return Math.pow(left.evaluate(), right.evaluate());
-			else if (op.isFactorial()) return Mathd.factorial(right.evaluate());
+
+			if (op.isMultiply())
+				return left.evaluate() * right.evaluate();
+			else if (op.isDivide())
+				return left.evaluate() / right.evaluate();
+			else if (op.isModulus())
+				return left.evaluate() % right.evaluate();
+			else if (op.isAdd())
+				return left.evaluate() + right.evaluate();
+			else if (op.isMinus())
+				return left.evaluate() - right.evaluate();
+			else if (op.isExponent())
+				return Math.pow(left.evaluate(), right.evaluate());
+			else if (op.isFactorial())
+				return Mathd.factorial(right.evaluate());
+			else if (op.isEquals()) {
+				// TODO: Do assignment here?
+				// final double result = right.evaluate();
+				// return result;
+				return right.evaluate();
+			}
 
 			return Double.NaN;
 		}

@@ -29,8 +29,10 @@ public final class Interpreter {
 	 * @return DoubleResult result.
 	 */
 	private static DoubleResult isValidDouble(String string) {
-		if (string == null || string.isEmpty()) return DoubleResult.getFailCondition();
-		else if (string.length() == 1 && EnumOp.isOp(string.charAt(0))) return DoubleResult.getFailCondition();
+		if (string == null || string.isEmpty())
+			return DoubleResult.getFailCondition();
+		else if (string.length() == 1 && EnumOp.isOp(string.charAt(0)))
+			return DoubleResult.getFailCondition();
 
 		try {
 			double result = Double.parseDouble(string);
@@ -38,26 +40,41 @@ public final class Interpreter {
 		}
 
 		catch (NumberFormatException e) {
-			e.printStackTrace();
+			if (HCoreLibMain.configHandler.isDebugMode()) {
+				// e.printStackTrace();
+				HCoreLibMain.logHelper.warn("Caught exception while parsing input:", string);
+			}
 		}
 
 		return DoubleResult.getFailCondition();
+	}
+
+	private static boolean isValidVariable(String string) {
+		char[] arr = string.toCharArray();
+
+		for (char c : arr) {
+			if (!Expression.ExpressionBuilder.isValidChar(c))
+				return false;
+		}
+
+		return true;
 	}
 
 	/**
 	 * Attempts to process an expression to a double result.
 	 *
 	 * @param expression Expression to interpret.
+	 * @param accessID Access ID used for retrieving data stored in the expression table per ID.
 	 * @return double result.
 	 */
-	public double processExpressionDouble(Expression expression) {
+	public double processExpressionDouble(Expression expression, int accessID) {
 		Stack<ENode> randStack = new Stack<ENode>();
 		Stack<ENode.OperatorNode> opStack = new Stack<ENode.OperatorNode>();
 		ENode.OperatorNode lastNode = null;
 		boolean firstPass = true;
 		boolean errored = false;
 
-		String buf = "";
+		String buf;
 
 		Expression.ExpressionBuilder expressionBuilder = new Expression.ExpressionBuilder();
 		expressionBuilder.addString(expression.toString());
@@ -115,6 +132,19 @@ public final class Interpreter {
 
 					opStack.push(operatorNode);
 				}
+
+				// Must be variable?
+				else if (isValidVariable(buf)) {
+					// example (from above constant): randStack.push(new ENode.ConstantNode(new Constant(doubleResult.value)));
+					Variable var = VariableTable.getInstance().getVariable(accessID, buf);
+
+					if (var == null) {
+						var = new Variable(buf);
+						VariableTable.getInstance().put(accessID, var);
+					}
+
+					randStack.push(new ENode.VariableNode(var));
+				}
 			}
 
 			// An error has occurred!?!?
@@ -140,7 +170,11 @@ public final class Interpreter {
 			if (!errored) {
 				double result = tree.evaluate();
 
-				if (result == Double.NaN) result = 0.0d;
+				if (result == Double.NaN)
+					result = 0.0d;
+				if (tree.isAssignment())
+
+
 				return result;
 			}
 
@@ -157,10 +191,11 @@ public final class Interpreter {
 	 * Attempts to process an expression to a String result.
 	 *
 	 * @param expression Expression to interpret.
+	 * @param accessID Access ID used for retrieving data stored in the expression table per ID.
 	 * @return InterpreterResult result.
 	 */
-	public InterpreterResult processExpressionString(Expression expression) {
-		final double result = processExpressionDouble(expression);
+	public InterpreterResult processExpressionString(Expression expression, int accessID) {
+		final double result = processExpressionDouble(expression, accessID);
 
 		return new InterpreterResult(expression.toString() + " = " + result, result);
 	}
