@@ -1,8 +1,11 @@
 package com.hockeyhurd.hcorelib.mod.item;
 
+import com.hockeyhurd.hcorelib.api.handler.RecipePattern;
 import com.hockeyhurd.hcorelib.api.item.AbstractHCoreItem;
+import com.hockeyhurd.hcorelib.api.util.interfaces.ICraftableRecipe;
 import com.hockeyhurd.hcorelib.mod.HCoreLibMain;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumHand;
@@ -14,7 +17,9 @@ import net.minecraft.world.World;
  * @author hockeyhurd
  * @version 11/10/16
  */
-public final class ItemCalculator extends AbstractHCoreItem {
+public final class ItemCalculator extends AbstractHCoreItem implements ICraftableRecipe {
+
+    private RecipePattern[] recipePatterns;
 
     public ItemCalculator(String name) {
         super(HCoreLibMain.myCreativeTab, HCoreLibMain.assetDir, name);
@@ -35,4 +40,15 @@ public final class ItemCalculator extends AbstractHCoreItem {
         return super.onItemRightClick(stack, world, player, hand);
     }
 
+    @Override
+    public RecipePattern[] getRecipePatterns() {
+        if (recipePatterns == null) {
+            recipePatterns = new RecipePattern[1];
+
+            recipePatterns[0] = new RecipePattern("ili", "iri", "ili", true).addAssociation('i', "ingotIron").addAssociation('l',
+                    "dyeBlue").addAssociation('r', Items.REDSTONE).setResultStack(new ItemStack(this, 1));
+        }
+
+        return recipePatterns;
+    }
 }

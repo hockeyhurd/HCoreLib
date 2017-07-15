@@ -54,7 +54,8 @@ public class CommonProxy implements IProxy {
 		GameRegistry.register(HCoreLibMain.testBlock.getItemBlock().setRegistryName(HCoreLibMain.testBlock.getRegistryName()));
 
 		for (RecipePattern pattern : ((ICraftableRecipe) HCoreLibMain.testBlock).getRecipePatterns()) {
-			if (pattern != null) pattern.registerRecipe();
+			if (pattern != null)
+				pattern.registerRecipe();
 		}
 
 		GameRegistry.register(HCoreLibMain.testTile);
@@ -81,6 +82,11 @@ public class CommonProxy implements IProxy {
 		GameRegistry.register(HCoreLibMain.testItem);
 		GameRegistry.register(HCoreLibMain.testMetaItem);
 		GameRegistry.register(HCoreLibMain.itemCalculator);
+
+		for (RecipePattern pattern : ((ICraftableRecipe) HCoreLibMain.itemCalculator).getRecipePatterns()) {
+			if (pattern != null)
+				pattern.registerRecipe();
+		}
 	}
 
 	protected void registerGuiHandler() {

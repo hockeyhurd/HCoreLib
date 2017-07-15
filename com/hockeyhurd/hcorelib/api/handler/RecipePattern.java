@@ -88,8 +88,10 @@ public class RecipePattern {
         int emptyRowCount = 0;
 
         for (String str : pattern) {
-            if (str.isEmpty() || str.length() > 3) return false;
-            else if (str.equals(EMPTY_ROW)) emptyRowCount++;
+            if (str.isEmpty() || str.length() > 3)
+                return false;
+            else if (str.equals(EMPTY_ROW))
+                emptyRowCount++;
         }
 
         return emptyRowCount <= 1;
