@@ -246,6 +246,11 @@ abstract class ENode implements Comparable<ENode> {
 			return thisVal > otherVal ? 1 : thisVal < otherVal ? -1 : 0;
 		}
 
+		@Override
+		public String toString() {
+			return value.toString();
+		}
+
 	}
 
 }

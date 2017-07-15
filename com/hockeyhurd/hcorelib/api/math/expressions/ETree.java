@@ -29,6 +29,7 @@ public final class ETree {
 
 	public boolean isAssignment() {
 		return root.toString().equals(EnumOp.EQUALS.toString());
+		// return root != null && root.hasNodeLeft() && root.left.toString().equals(En)
 	}
 
 	/**
@@ -99,6 +100,19 @@ public final class ETree {
 		cachedResult = root.evaluate();
 
 		return cachedResult;
+	}
+
+	/**
+	 * Gets the root node.
+	 *
+	 * @return ENode.
+	 */
+	ENode getRootNode() {
+		return root;
+	}
+
+	boolean isRootAVariable() {
+		return root != null && root instanceof ENode.VariableNode;
 	}
 
 	/**

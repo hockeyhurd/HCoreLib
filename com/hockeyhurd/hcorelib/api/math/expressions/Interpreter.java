@@ -89,7 +89,9 @@ public final class Interpreter {
 			boolean pushResult = true;
 
 			if (firstPass) {
-				if (!tree.isEmpty()) tree.clear();
+				if (!tree.isEmpty())
+					tree.clear();
+
 				firstPass = false;
 			}
 
@@ -102,7 +104,12 @@ public final class Interpreter {
 				final char c = buf.charAt(0);
 				if (c ==  '(' || c == '[' || c == '{') {
 					ENode.OperatorNode operatorNode = new ENode.OperatorNode(new Operator(EnumOp.getOperatorFromString(buf)));
-					if (tree.isEmpty()) tree.add(operatorNode);
+
+					if (tree.isEmpty())
+						tree.add(operatorNode);
+					else if (tree.isRootAVariable())
+						tree.setRoot(operatorNode);
+
 					lastNode = operatorNode;
 
 					opStack.push(operatorNode);
@@ -128,7 +135,11 @@ public final class Interpreter {
 					}
 
 					ENode.OperatorNode operatorNode = new ENode.OperatorNode(operator);
-					if (tree.isEmpty()) tree.add(operatorNode);
+
+					if (tree.isEmpty())
+						tree.add(operatorNode);
+					else if (tree.isRootAVariable())
+						tree.setRoot(operatorNode);
 
 					opStack.push(operatorNode);
 				}
@@ -143,7 +154,12 @@ public final class Interpreter {
 						VariableTable.getInstance().put(accessID, var);
 					}
 
-					randStack.push(new ENode.VariableNode(var));
+					final ENode.VariableNode variableNode = new ENode.VariableNode(var);
+
+					if (tree.isEmpty())
+						tree.add(variableNode);
+
+					randStack.push(variableNode);
 				}
 			}
 
@@ -172,8 +188,12 @@ public final class Interpreter {
 
 				if (result == Double.NaN)
 					result = 0.0d;
-				if (tree.isAssignment())
+				if (tree.isAssignment()) {
+					final Variable var = (Variable) tree.getRootNode().left.getValue();
+					var.setValue(result);
 
+					VariableTable.getInstance().put(accessID, var);
+				}
 
 				return result;
 			}

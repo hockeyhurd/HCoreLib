@@ -92,7 +92,8 @@ public final class Expression {
 			char lastChar = 0;
 
 			for (char c : list) {
-				if (c == ' ') continue;
+				if (c == ' ')
+					continue;
 				else if (!isValidChar(c))
 					return getFailCondition();
 				else {
@@ -112,8 +113,10 @@ public final class Expression {
 					}
 
 					else if (c == 'e' || c == 'E') {
-						if (isNum) return getFailCondition();
-						else arrayList.add(' ');
+						if (isNum)
+							return getFailCondition();
+						else
+							arrayList.add(' ');
 
 						final String e = Double.toString(GlobalConstants.MATH_E);
 
@@ -127,8 +130,10 @@ public final class Expression {
 					else if (c == 'p' || c == 'P') lastChar = 'p';
 					else if (c == 'i' || c == 'I' || c == GlobalConstants.PI_CHAR) {
 						if (lastChar == 'p' || c == GlobalConstants.PI_CHAR) {
-							if (isNum) return getFailCondition();
-							else arrayList.add(' ');
+							if (isNum)
+								return getFailCondition();
+							else
+								arrayList.add(' ');
 
 							final String pi = Double.toString(GlobalConstants.MATH_PI);
 
@@ -144,8 +149,8 @@ public final class Expression {
 
 					// TODO: Move to new sequences technique!
 					else if (isAlpha(c)) {
-						arrayList.add(c);
 						arrayList.add(' ');
+						arrayList.add(c);
 
 						lastChar = c;
 						isNum = false;

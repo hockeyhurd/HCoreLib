@@ -26,6 +26,15 @@ class Variable extends EToken {
         this.value = value;
     }
 
+    /**
+     * Sets the value.
+     *
+     * @param value double.
+     */
+    public void setValue(double value) {
+        this.value = value;
+    }
+
     @Override
     double evaluate() {
         return value;
