@@ -9,6 +9,7 @@ import com.hockeyhurd.hcorelib.api.util.LogHelper;
 import com.hockeyhurd.hcorelib.api.util.McModInfoDataInjector;
 import com.hockeyhurd.hcorelib.api.util.ModsLoadedHelper;
 import com.hockeyhurd.hcorelib.api.util.SystemInfo;
+import com.hockeyhurd.hcorelib.api.util.enums.EnumArmorType;
 import com.hockeyhurd.hcorelib.api.util.exceptions.InCompatibleJavaException.JavaCompatibility;
 import com.hockeyhurd.hcorelib.api.util.interfaces.IForgeMod;
 import com.hockeyhurd.hcorelib.mod.block.TestBlock;
@@ -21,10 +22,13 @@ import com.hockeyhurd.hcorelib.mod.creativetab.ModCreativeTab;
 import com.hockeyhurd.hcorelib.mod.handler.CommandHandler;
 import com.hockeyhurd.hcorelib.mod.handler.config.ConfigHandler;
 import com.hockeyhurd.hcorelib.mod.item.ItemCalculator;
+import com.hockeyhurd.hcorelib.mod.item.ItemWitchHat;
 import com.hockeyhurd.hcorelib.mod.item.TestItem;
 import com.hockeyhurd.hcorelib.mod.item.TestMetaItem;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.init.SoundEvents;
+import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
@@ -73,6 +77,8 @@ public final class HCoreLibMain implements IForgeMod {
 	public static AbstractHCoreItem testMetaItem;
 	public static AbstractHCoreItem itemCalculator;
 
+	public static ItemWitchHat witchHat;
+
 	@EventHandler
 	@Override
 	public void preInit(FMLPreInitializationEvent event) {
@@ -80,7 +86,8 @@ public final class HCoreLibMain implements IForgeMod {
 		logHelper = new LogHelper(modID);
 
 		final boolean result = JavaCompatibility.runCheck(JavaVersion.JAVA_1_7);
-		if (result) logHelper.info("Java version is compatible!");
+		if (result)
+			logHelper.info("Java version is compatible!");
 
 		logHelper.info("Pre-init started, looking for config info!");
 		configHandler = new ConfigHandler(event, modID);
@@ -148,6 +155,10 @@ public final class HCoreLibMain implements IForgeMod {
 		testItem = new TestItem();
 		testMetaItem = new TestMetaItem("testMetaItem");
 		itemCalculator = new ItemCalculator("itemCalculator");
+
+		witchHat = new ItemWitchHat(EnumHelper.addArmorMaterial("witchMat", assetDir + ":" + ItemWitchHat.NAME, 100,
+				new int[] { 1, 1, 1, 1}, 1, SoundEvents.ITEM_ARMOR_EQUIP_IRON, 1.0f), 0, EnumArmorType.HELMET,
+				HCoreLibMain.assetDir);
 	}
 	
 	@EventHandler
