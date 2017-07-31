@@ -175,8 +175,16 @@ public final class Interpreter {
 			pushOpNode(randStack, opStack.pop());
 		}
 
+		boolean wasAssignmentPre = false;
+		Variable variablePre = null;
+
 		if (lastNode != null) {
 			if (!tree.isEmpty()) {
+				if (tree.isAssignment()) {
+					wasAssignmentPre = true;
+					variablePre = (Variable) tree.getRootNode().left.getValue();
+				}
+
 				ENode node = randStack.pop();
 				tree.setRoot(node);
 			}
@@ -188,8 +196,8 @@ public final class Interpreter {
 
 				if (result == Double.NaN)
 					result = 0.0d;
-				if (tree.isAssignment()) {
-					final Variable var = (Variable) tree.getRootNode().left.getValue();
+				if (wasAssignmentPre || tree.isAssignment()) {
+					final Variable var = wasAssignmentPre ? variablePre : (Variable) tree.getRootNode().left.getValue();
 					var.setValue(result);
 
 					VariableTable.getInstance().put(accessID, var);
