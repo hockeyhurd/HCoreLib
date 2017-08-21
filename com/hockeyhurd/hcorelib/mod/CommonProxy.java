@@ -82,9 +82,15 @@ public class CommonProxy implements IProxy {
 		GameRegistry.register(HCoreLibMain.testItem);
 		GameRegistry.register(HCoreLibMain.testMetaItem);
 		GameRegistry.register(HCoreLibMain.itemCalculator);
+		GameRegistry.register(HCoreLibMain.itemMeasureTape);
 		GameRegistry.register(HCoreLibMain.witchHat);
 
 		for (RecipePattern pattern : ((ICraftableRecipe) HCoreLibMain.itemCalculator).getRecipePatterns()) {
+			if (pattern != null)
+				pattern.registerRecipe();
+		}
+
+		for (RecipePattern pattern : ((ICraftableRecipe) HCoreLibMain.itemMeasureTape).getRecipePatterns()) {
 			if (pattern != null)
 				pattern.registerRecipe();
 		}

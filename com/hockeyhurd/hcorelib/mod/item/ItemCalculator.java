@@ -19,7 +19,7 @@ import net.minecraft.world.World;
  */
 public final class ItemCalculator extends AbstractHCoreItem implements ICraftableRecipe {
 
-    private RecipePattern[] recipePatterns;
+    private static RecipePattern[] recipePatterns;
 
     public ItemCalculator(String name) {
         super(HCoreLibMain.myCreativeTab, HCoreLibMain.assetDir, name);

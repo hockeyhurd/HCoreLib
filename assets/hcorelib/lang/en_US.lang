@@ -2,6 +2,7 @@ tile.testBlock.name=Test Block
 tile.tileTest.name=Tile Entity Test
 item.testItem.name=Test Item
 item.itemCalculator.name=Calculator Ti - 1.10.2
+item.itemMeasureTape.name=Measuring Tape
 item.testMetaItem_0.name=Test Meta Item - 0
 item.testMetaItem_1.name=Test Meta Item - 1
 item.testMetaItem_2.name=Test Meta Item - 2
