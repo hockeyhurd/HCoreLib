@@ -78,8 +78,8 @@ public final class ItemMeasureTape extends AbstractHCoreItem implements ICraftab
                 savedVec.z = comp.getInteger("tapePosZ");
 
                 player.addChatComponentMessage(ChatUtils.createComponent(true, "Euclidian distance: " +
-                        NumberFormatter.format(Double.toString(Mathd.round(vec.getNetDifference(savedVec))),
-                        "Manhattan distance:" + vec.getDifference(savedVec).toString())));
+                        NumberFormatter.format((Mathd.round(vec.getNetDifference(savedVec)))),
+                        "Manhattan distance:" + vec.getDifference(savedVec).toString()));
 
                 stack.setTagCompound(null);
             }
