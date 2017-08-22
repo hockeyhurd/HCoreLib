@@ -14,7 +14,7 @@ import com.hockeyhurd.hcorelib.api.util.AbstractReference;
 public class LibReference extends AbstractReference {
 
 	/** Current build number. */
-	public static final int BUILD = 5;
+	public static final int BUILD = 6;
 
 	/** Current Subversion */
 	public static final int SUB_VERSION = 2;

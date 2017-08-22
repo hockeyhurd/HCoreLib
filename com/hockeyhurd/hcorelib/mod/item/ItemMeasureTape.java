@@ -57,6 +57,8 @@ public final class ItemMeasureTape extends AbstractHCoreItem implements ICraftab
             waila.finder(false);
 
             final Vector3<Integer> vec = waila.getVector3i();
+            player.addChatComponentMessage(ChatUtils.createComponent("Set: " + vec.toString()));
+
             NBTTagCompound comp = null;
 
             if (!stack.hasTagCompound()) {
@@ -66,8 +68,6 @@ public final class ItemMeasureTape extends AbstractHCoreItem implements ICraftab
                 comp.setInteger("tapePosX", vec.x);
                 comp.setInteger("tapePosY", vec.y);
                 comp.setInteger("tapePosZ", vec.z);
-
-                player.addChatComponentMessage(ChatUtils.createComponent("Set: " + vec.toString()));
             }
 
             else {
