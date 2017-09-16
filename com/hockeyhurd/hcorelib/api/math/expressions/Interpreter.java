@@ -190,6 +190,10 @@ public final class Interpreter {
 			}
 		}
 
+		else if (randStack.size() == 1) {
+			tree.setRoot(randStack.peek());
+		}
+
 		if (tree != null) {
 			if (!errored) {
 				double result = tree.evaluate();
