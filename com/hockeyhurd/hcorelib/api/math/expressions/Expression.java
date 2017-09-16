@@ -72,7 +72,7 @@ public final class Expression {
 					|| c == 'p' || c == 'P' || c == 'i' || c == 'I' ||
 					c == GlobalConstants.PI_CHAR || (c >= '0' && c <= '9');*/
 
-			return EnumOp.isOp(c) || isAlpha(c) || isNumeric(c) || c == GlobalConstants.PI_CHAR;
+			return EnumOp.isOp(c) || isAlpha(c) || isNumeric(c) || c == '.' || c == GlobalConstants.PI_CHAR;
 		}
 
 		private static boolean isAlpha(char c) {

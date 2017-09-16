@@ -76,6 +76,7 @@ public class ClientProxy extends CommonProxy {
 		super.registerEventHandlers();
 
 		MinecraftForge.EVENT_BUS.register(ItemTooltipEventHandler.getInstance());
+		// MinecraftForge.EVENT_BUS.register(PlayerRenderer.getInstance());
 	}
 
 	@Override
