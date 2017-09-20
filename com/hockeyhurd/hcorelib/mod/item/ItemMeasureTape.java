@@ -4,9 +4,9 @@ import com.hockeyhurd.hcorelib.api.handler.RecipePattern;
 import com.hockeyhurd.hcorelib.api.item.AbstractHCoreItem;
 import com.hockeyhurd.hcorelib.api.math.Mathd;
 import com.hockeyhurd.hcorelib.api.math.Vector3;
+import com.hockeyhurd.hcorelib.api.math.VectorHelper;
 import com.hockeyhurd.hcorelib.api.util.ChatUtils;
 import com.hockeyhurd.hcorelib.api.util.NumberFormatter;
-import com.hockeyhurd.hcorelib.api.util.Waila;
 import com.hockeyhurd.hcorelib.api.util.interfaces.ICraftableRecipe;
 import com.hockeyhurd.hcorelib.mod.HCoreLibMain;
 import net.minecraft.entity.player.EntityPlayer;
@@ -53,10 +53,7 @@ public final class ItemMeasureTape extends AbstractHCoreItem implements ICraftab
                                       EnumFacing facing, float hitX, float hitY, float hitZ) {
 
         if (!world.isRemote) {
-            final Waila waila = new Waila(null, world, player, null, 3);
-            waila.finder(false);
-
-            final Vector3<Integer> vec = waila.getVector3i();
+            final Vector3<Integer> vec = VectorHelper.toVector3i(pos);
             player.addChatComponentMessage(ChatUtils.createComponent("Set: " + vec.toString()));
 
             NBTTagCompound comp = null;
