@@ -26,23 +26,29 @@ public class ClientProxy extends CommonProxy {
 		// ModelBakery.registerItemVariants(ItemUtils.getItem(HCoreLibMain.testBlock), HCoreLibMain.testBlock.getResourceLocation());
 		// minecraft.getRenderItem().getItemModelMesher().register(ItemUtils.getItem(HCoreLibMain.testBlock), 0,
 		//  		new ModelResourceLocation(HCoreLibMain.testBlock.getResourceLocation(), "inventory"));
-		ModelRegistry.registerBlock(HCoreLibMain.testBlock);
-		ModelRegistry.registerBlock(HCoreLibMain.testTile);
-		ModelRegistry.registerBlock(HCoreLibMain.testTESRTile);
-		ModelRegistry.registerBlock(HCoreLibMain.testFurnace);
-		ModelRegistry.registerBlock(HCoreLibMain.multiblockController);
-		ModelRegistry.registerBlock(HCoreLibMain.multiblockComponent);
+
+		if (HCoreLibMain.configHandler.isDebugMode()) {
+			ModelRegistry.registerBlock(HCoreLibMain.testBlock);
+			ModelRegistry.registerBlock(HCoreLibMain.testTile);
+			ModelRegistry.registerBlock(HCoreLibMain.testTESRTile);
+			ModelRegistry.registerBlock(HCoreLibMain.testFurnace);
+			ModelRegistry.registerBlock(HCoreLibMain.multiblockController);
+			ModelRegistry.registerBlock(HCoreLibMain.multiblockComponent);
+		}
 	}
 
 	@Override
 	protected void registerItems() {
 		super.registerItems();
 
-		ModelRegistry.registerItem(HCoreLibMain.testItem);
-		ModelRegistry.registerItem(HCoreLibMain.testMetaItem);
 		ModelRegistry.registerItem(HCoreLibMain.itemCalculator);
 		ModelRegistry.registerItem(HCoreLibMain.itemMeasureTape);
-		ModelRegistry.registerItem(HCoreLibMain.witchHat);
+
+		if (HCoreLibMain.configHandler.isDebugMode()) {
+			ModelRegistry.registerItem(HCoreLibMain.testItem);
+			ModelRegistry.registerItem(HCoreLibMain.testMetaItem);
+			ModelRegistry.registerItem(HCoreLibMain.witchHat);
+		}
 	}
 
 	@Override
@@ -68,7 +74,9 @@ public class ClientProxy extends CommonProxy {
 		// RenderingRegistry.registerBlockHandler(new WhiteBlockRenderer(hiddenBlockRenderType, Blocks.gold_block.getBlockTextureFromSide(0), new Color4i(0, 127, 255)));
 		// MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(HCoreLibMain.white), new ItemRendererHiddenWhite(HCoreLibMain.white.getBlockTextureFromSide(0)));
 
-		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityTESRTest.class, new TESRTileRenderer());
+		if (HCoreLibMain.configHandler.isDebugMode()) {
+			ClientRegistry.bindTileEntitySpecialRenderer(TileEntityTESRTest.class, new TESRTileRenderer());
+		}
 	}
 
 	@Override
