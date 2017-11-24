@@ -1,5 +1,6 @@
 package com.hockeyhurd.hcorelib.api.item.armor;
 
+import com.hockeyhurd.hcorelib.api.creativetab.AbstractCreativeTab;
 import com.hockeyhurd.hcorelib.api.item.IHItem;
 import com.hockeyhurd.hcorelib.api.util.enums.EnumArmorType;
 import net.minecraft.item.ItemArmor;
@@ -23,7 +24,7 @@ public abstract class AbstractArmor extends ItemArmor implements IHItem {
 	 * @param renderIndex render index of item.
 	 * @param armorType armor type.
 	 */
-	public AbstractArmor(ArmorMaterial material, int renderIndex, EnumArmorType armorType, String assetDir, String name) {
+	public AbstractArmor(ArmorMaterial material, int renderIndex, EnumArmorType armorType, String assetDir, String name, AbstractCreativeTab creativeTab) {
 		super(material, renderIndex, armorType.getEquipmentSlot());
 		this.ASSET_DIR = assetDir;
 		this.armorType = armorType;
@@ -32,6 +33,9 @@ public abstract class AbstractArmor extends ItemArmor implements IHItem {
 		this.resourceLocation = new ResourceLocation(assetDir, actualName);
 		setUnlocalizedName(actualName);
 		setRegistryName(actualName);
+
+		if (creativeTab != null)
+			setCreativeTab(creativeTab);
 	}
 
 	/**

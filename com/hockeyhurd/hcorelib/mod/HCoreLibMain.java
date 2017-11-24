@@ -159,7 +159,7 @@ public final class HCoreLibMain implements IForgeMod {
 		itemCalculator = new ItemCalculator("itemCalculator");
 		itemMeasureTape = new ItemMeasureTape("itemMeasureTape");
 
-		witchHat = new ItemWitchHat(EnumHelper.addArmorMaterial("witchMat", assetDir + ":" + ItemWitchHat.NAME, 100,
+		witchHat = new ItemWitchHat(EnumHelper.addArmorMaterial("witchHat", assetDir + ":" + ItemWitchHat.NAME, 100,
 				new int[] { 1, 1, 1, 1}, 1, SoundEvents.ITEM_ARMOR_EQUIP_IRON, 1.0f), 0, EnumArmorType.HELMET,
 				HCoreLibMain.assetDir);
 	}

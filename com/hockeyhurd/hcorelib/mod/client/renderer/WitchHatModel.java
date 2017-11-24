@@ -1,64 +1,59 @@
 package com.hockeyhurd.hcorelib.mod.client.renderer;
 
+import net.minecraft.client.model.ModelBiped;
+import net.minecraft.client.model.ModelRenderer;
+import net.minecraft.entity.Entity;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+
 /**
  * @author hockeyhurd
  * @version 9/3/17
  */
-import net.minecraft.client.model.ModelBase;
-import net.minecraft.client.model.ModelRenderer;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.entity.Entity;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-import org.lwjgl.opengl.GL11;
-
-/**
- * Witch by Unknown
- */
 @SideOnly(Side.CLIENT)
-public final class WitchHatModel extends ModelBase {
+public class WitchHatModel extends ModelBiped {
 
-    public ModelRenderer witchHat;
-    public ModelRenderer witchHat_0;
-    public ModelRenderer witchHat_0_0;
-    public ModelRenderer witchHat_0_0_0;
+    private ModelRenderer witchHat;
 
     public WitchHatModel() {
-        this.textureWidth = 64;
-        this.textureHeight = 128;
+        this.bipedHead = new ModelRenderer(this, 0, 0);
 
-        this.witchHat = new ModelRenderer(this, 0, 64);
+        this.witchHat = (new ModelRenderer(this)).setTextureSize(64, 128);
         this.witchHat.setRotationPoint(-5.0F, -10.03125F, -5.0F);
-        this.witchHat.addBox(0.0F, 0.0F, 0.0F, 10, 2, 10);
-        this.witchHat_0 = new ModelRenderer(this, 0, 76);
-        this.witchHat_0.setRotationPoint(1.75F, -4.0F, 2.0F);
-        this.witchHat_0.addBox(0.0F, 0.0F, 0.0F, 7, 4, 7);
-        this.setRotationAngles(this.witchHat_0, -0.05235987755982988F, 0.0F, 0.02617993877991494F);
-        this.witchHat.addChild(this.witchHat_0);
-        this.witchHat_0_0 = new ModelRenderer(this, 0, 87);
-        this.witchHat_0_0.setRotationPoint(1.75F, -4.0F, 2.0F);
-        this.witchHat_0_0.addBox(0.0F, 0.0F, 0.0F, 4, 4, 4);
-        this.setRotationAngles(this.witchHat_0_0, -0.10471975511965977F, 0.0F, 0.05235987755982988F);
-        this.witchHat_0.addChild(this.witchHat_0_0);
-        this.witchHat_0_0_0 = new ModelRenderer(this, 0, 95);
-        this.witchHat_0_0_0.setRotationPoint(1.75F, -2.0F, 2.0F);
-        this.witchHat_0_0_0.addBox(0.0F, 0.0F, 0.0F, 1, 2, 1);
-        this.setRotationAngles(this.witchHat_0_0_0, -0.20943951023931953F, 0.0F, 0.10471975511965977F);
-        this.witchHat_0_0.addChild(this.witchHat_0_0_0);
+        this.witchHat.setTextureOffset(0, 64).addBox(0.0F, 0.0F, 0.0F, 10, 2, 10);
+
+        ModelRenderer modelRendererLayerBottom = (new ModelRenderer(this)).setTextureSize(64, 128);
+        modelRendererLayerBottom.setRotationPoint(1.75F, -4.0F, 2.0F);
+        modelRendererLayerBottom.setTextureOffset(0, 76).addBox(0.0F, 0.0F, 0.0F, 7, 4, 7);
+        modelRendererLayerBottom.rotateAngleX = -0.05235988F;
+        modelRendererLayerBottom.rotateAngleZ = 0.02617994F;
+
+        this.witchHat.addChild(modelRendererLayerBottom);
+
+        ModelRenderer modelRendererLayerMiddle = (new ModelRenderer(this)).setTextureSize(64, 128);
+        modelRendererLayerMiddle.setRotationPoint(1.75F, -4.0F, 2.0F);
+        modelRendererLayerMiddle.setTextureOffset(0, 87).addBox(0.0F, 0.0F, 0.0F, 4, 4, 4);
+        modelRendererLayerMiddle.rotateAngleX = -0.10471976F;
+        modelRendererLayerMiddle.rotateAngleZ = 0.05235988F;
+        modelRendererLayerBottom.addChild(modelRendererLayerMiddle);
+
+        ModelRenderer modelRendererLayerTop = (new ModelRenderer(this)).setTextureSize(64, 128);
+        modelRendererLayerTop.setRotationPoint(1.75F, -2.0F, 2.0F);
+        modelRendererLayerTop.setTextureOffset(0, 95).addBox(0.0F, 0.0F, 0.0F, 1, 2, 1, 0.25F);
+        modelRendererLayerTop.rotateAngleX = -0.20943952F;
+        modelRendererLayerTop.rotateAngleZ = 0.10471976F;
+
+        modelRendererLayerMiddle.addChild(modelRendererLayerTop);
+
+        this.bipedHead.addChild(witchHat);
+
     }
 
-    @Override
     public void render(Entity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float rotationYaw, float rotationPitch, float scale) {
-        GlStateManager.enableBlend();
-        GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-        GlStateManager.color(1.0F, 1.0F, 1.0F, 0.0F);
-        this.witchHat.render(scale);
-        GlStateManager.disableBlend();
+        this.setRotationAngles(limbSwing, limbSwingAmount, ageInTicks, rotationYaw, rotationPitch, scale, entity);
+
+        this.bipedHead.render(scale);
+
     }
 
-    public void setRotationAngles(ModelRenderer modelRenderer, float x, float y, float z) {
-        modelRenderer.rotateAngleX = x;
-        modelRenderer.rotateAngleY = y;
-        modelRenderer.rotateAngleZ = z;
-    }
 }
