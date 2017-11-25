@@ -14,11 +14,11 @@ apply plugin: 'net.minecraftforge.gradle.forge'
 sourceSets {
     main {
         java { srcDirs = ["$projectDir/src"] }
-        org.gradle.util.Resources { srcDirs = ["$projectDir/src"] }
+        Resources { srcDirs = ["$projectDir/src"] }
     }
 }
 
-version = "1.2.7"
+version = "1.2.8"
 group = "com.hockeyhurd.hcorelib" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "HCoreLib"
 
@@ -28,7 +28,7 @@ compileJava {
 }
 
 minecraft {
-    version = "1.10.2-12.18.3.2185"
+    version = "1.10.2-12.18.3.2511"
     runDir = "run"
 
     // the mappings can be changed at any time, and must be in the following format.

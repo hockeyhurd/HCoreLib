@@ -43,11 +43,12 @@ public class ClientProxy extends CommonProxy {
 
 		ModelRegistry.registerItem(HCoreLibMain.itemCalculator);
 		ModelRegistry.registerItem(HCoreLibMain.itemMeasureTape);
+		ModelRegistry.registerItem(HCoreLibMain.buildersWand);
+		ModelRegistry.registerItem(HCoreLibMain.witchHat);
 
 		if (HCoreLibMain.configHandler.isDebugMode()) {
 			ModelRegistry.registerItem(HCoreLibMain.testItem);
 			ModelRegistry.registerItem(HCoreLibMain.testMetaItem);
-			ModelRegistry.registerItem(HCoreLibMain.witchHat);
 		}
 	}
 
