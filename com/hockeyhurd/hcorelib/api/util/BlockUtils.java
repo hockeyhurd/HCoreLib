@@ -472,7 +472,8 @@ public final class BlockUtils {
 	 */
 	public static boolean blockExists(World world, int x, int y, int z) {
 		final Block block = getBlock(world, x, y, z).getBlock();
-		return block != null && block != Blocks.AIR;
+
+		return block != Blocks.AIR;
 	}
 
 	/**

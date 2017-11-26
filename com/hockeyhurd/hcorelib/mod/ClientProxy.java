@@ -1,6 +1,7 @@
 package com.hockeyhurd.hcorelib.mod;
 
 import com.hockeyhurd.hcorelib.api.client.util.ModelRegistry;
+import com.hockeyhurd.hcorelib.api.handler.client.DrawBlockSelectionHandler;
 import com.hockeyhurd.hcorelib.api.handler.config.ConfigChangedEventHandler;
 import com.hockeyhurd.hcorelib.api.handler.tooltip.ItemTooltipEventHandler;
 import com.hockeyhurd.hcorelib.mod.client.renderer.TESRTileRenderer;
@@ -74,6 +75,8 @@ public class ClientProxy extends CommonProxy {
 		// hiddenBlockRenderType = RenderingRegistry.getNextAvailableRenderId();
 		// RenderingRegistry.registerBlockHandler(new WhiteBlockRenderer(hiddenBlockRenderType, Blocks.gold_block.getBlockTextureFromSide(0), new Color4i(0, 127, 255)));
 		// MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(HCoreLibMain.white), new ItemRendererHiddenWhite(HCoreLibMain.white.getBlockTextureFromSide(0)));
+
+		MinecraftForge.EVENT_BUS.register(new DrawBlockSelectionHandler());
 
 		if (HCoreLibMain.configHandler.isDebugMode()) {
 			ClientRegistry.bindTileEntitySpecialRenderer(TileEntityTESRTest.class, new TESRTileRenderer());
