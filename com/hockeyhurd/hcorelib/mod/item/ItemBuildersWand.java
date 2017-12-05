@@ -36,7 +36,7 @@ public final class ItemBuildersWand extends AbstractHCoreItem implements ICrafta
     private static RecipePattern[] recipePatterns;
     protected int MAX_RADII = 3;
 
-    @SideOnly(Side.CLIENT)
+    // @SideOnly(Side.CLIENT)
     protected static Color4f color = new Color4f(1.0f, 1.0f, 1.0f, 1.0f);
 
     /**

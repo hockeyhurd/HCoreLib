@@ -14,7 +14,7 @@ apply plugin: 'net.minecraftforge.gradle.forge'
 sourceSets {
     main {
         java { srcDirs = ["$projectDir/src"] }
-        Resources { srcDirs = ["$projectDir/src"] }
+        resources { srcDirs = ["$projectDir/src"] }
     }
 }
 

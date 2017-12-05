@@ -188,7 +188,7 @@ public final class SystemInfo {
         int chunksLoaded = 0;
 
         int dimID;
-        String dimName;
+        // String dimName;
 
         for (WorldServer world : worldServers) {
             chunksLoaded += world.getChunkProvider().getLoadedChunkCount();
@@ -226,7 +226,7 @@ public final class SystemInfo {
      */
     @SuppressWarnings("unchecked")
     public String[] getTPSDetails(final int dimension) {
-        List<String> list = new ArrayList<String>(11);
+        List<String> list = new ArrayList<String>(0x10);
 
         WorldServer world = FMLServerHandler.instance().getServer().worldServerForDimension(dimension);
         List<Entity> entities = world.getLoadedEntityList();

@@ -103,7 +103,8 @@ public final class CommandHandler {
      */
     @SuppressWarnings("unchecked")
     public List<String> doesCommandStartWith(String string) {
-        if (!LogicHelper.nullCheckString(string)) return null;
+        if (!LogicHelper.nullCheckString(string))
+            return null;
 
         final int size = Math.max(commandMap.size(), 0x10);
 

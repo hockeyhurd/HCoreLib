@@ -45,18 +45,21 @@ public final class HServerCommands extends HCommand {
 
 				else {
 					HCoreLibMain.logHelper.info(args);
-					EntityPlayerMP player = server.getPlayerList().getPlayerByUsername(args[2]);
-
-					if (player == null) {
-						HCoreLibMain.logHelper.severe("Error player not found!");
-						return;
-					}
+					EntityPlayerMP player = args.length == 3 ? server.getPlayerList().getPlayerByUsername(args[2]) : null;
 
 					List<String> textToSend = SystemInfo.instance().getServerTPSSummary(server);
 
-					for (String str : textToSend) {
-						// sender.addChatMessage(ChatUtils.createComponent(str));
-						player.addChatComponentMessage(ChatUtils.createComponent(str));
+					if (player != null) {
+
+						for (String str : textToSend) {
+							player.addChatComponentMessage(ChatUtils.createComponent(str));
+						}
+					}
+
+					else {
+						for (String str : textToSend) {
+							server.addChatMessage(ChatUtils.createComponent(str));
+						}
 					}
 				}
 			}
@@ -82,14 +85,15 @@ public final class HServerCommands extends HCommand {
 				}
 
 				else {
-					EntityPlayerMP player = server.getPlayerList().getPlayerByUsername(args[2]);
+					EntityPlayerMP player = args.length == 3 ? server.getPlayerList().getPlayerByUsername(args[2]) : null;
 
-					if (player == null) {
-						HCoreLibMain.logHelper.severe("Error player not found!");
-						return;
+					if (player != null) {
+						player.addChatComponentMessage(ChatUtils.createComponent(SystemInfo.instance().getSystemUpTime()));
 					}
 
-					player.addChatComponentMessage(ChatUtils.createComponent(SystemInfo.instance().getSystemUpTime()));
+					else {
+						server.addChatMessage(ChatUtils.createComponent(SystemInfo.instance().getSystemUpTime()));
+					}
 				}
 			}
 
@@ -119,17 +123,20 @@ public final class HServerCommands extends HCommand {
 				}
 
 				else {
-					EntityPlayerMP player = server.getPlayerList().getPlayerByUsername(args[2]);
-
-					if (player == null) {
-						HCoreLibMain.logHelper.severe("Error player not found!");
-						return;
-					}
+					EntityPlayerMP player = args.length == 3 ? server.getPlayerList().getPlayerByUsername(args[2]) : null;
 
 					String[] output = SystemInfo.instance().getMemoryDetails();
 
-					for (String str : output)
-						player.addChatComponentMessage(ChatUtils.createComponent(str));
+					if (player != null) {
+						for (String str : output)
+							player.addChatComponentMessage(ChatUtils.createComponent(str));
+					}
+
+					else {
+						for (String str : output)
+							server.addChatMessage(ChatUtils.createComponent(str));
+					}
+
 				}
 			}
 
@@ -146,9 +153,11 @@ public final class HServerCommands extends HCommand {
 
 	@Override
 	public List<String> getTabCompletionOptions(MinecraftServer server, ICommandSender sender, String[] words, BlockPos pos) {
-		if (words == null || words.length == 0) return null;
+		if (words == null || words.length == 0)
+			return null;
 
-		if (words.length == 1) return CommandHandler.instance().doesCommandStartWith(words[0]);
+		if (words.length == 1)
+			return CommandHandler.instance().doesCommandStartWith(words[0]);
 
 		return null;
 	}
