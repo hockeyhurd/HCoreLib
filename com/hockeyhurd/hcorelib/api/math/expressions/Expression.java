@@ -1,7 +1,6 @@
 package com.hockeyhurd.hcorelib.api.math.expressions;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 import static com.hockeyhurd.hcorelib.api.math.expressions.Expression.ExpressionBuilder.ExpressionResult.getFailCondition;
@@ -48,7 +47,8 @@ public final class Expression {
 		}
 
 		ExpressionBuilder() {
-			this.list = new LinkedList<Character>();
+			// this.list = new LinkedList<Character>();
+			this.list = new ArrayList<Character>(0x20);
 		}
 
 		void clear() {
@@ -97,7 +97,7 @@ public final class Expression {
 				else if (!isValidChar(c))
 					return getFailCondition();
 				else {
-					if (c == '.' || isNumeric(c)) {
+					if (c == '.' || c == 'E' || isNumeric(c)) {
 						if (arrayList.isEmpty()) {
 							isNum = true;
 							arrayList.add(c);
@@ -112,7 +112,7 @@ public final class Expression {
 						arrayList.add(c);
 					}
 
-					else if (c == 'e' || c == 'E') {
+					else if (c == 'e' /*|| c == 'E'*/) {
 						if (isNum)
 							return getFailCondition();
 						else

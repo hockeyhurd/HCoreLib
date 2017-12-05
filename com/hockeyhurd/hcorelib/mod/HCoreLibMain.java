@@ -25,6 +25,7 @@ import com.hockeyhurd.hcorelib.mod.item.ItemBuildersWand;
 import com.hockeyhurd.hcorelib.mod.item.ItemCalculator;
 import com.hockeyhurd.hcorelib.mod.item.ItemMeasureTape;
 import com.hockeyhurd.hcorelib.mod.item.ItemWitchHat;
+import com.hockeyhurd.hcorelib.mod.item.ItemWrench;
 import com.hockeyhurd.hcorelib.mod.item.TestItem;
 import com.hockeyhurd.hcorelib.mod.item.TestMetaItem;
 import net.minecraft.block.material.Material;
@@ -80,6 +81,7 @@ public final class HCoreLibMain implements IForgeMod {
 	public static AbstractHCoreItem itemCalculator;
 	public static AbstractHCoreItem itemMeasureTape;
 	public static AbstractHCoreItem buildersWand;
+	public static AbstractHCoreItem wrench;
 
 	public static ItemWitchHat witchHat;
 
@@ -161,6 +163,7 @@ public final class HCoreLibMain implements IForgeMod {
 		itemCalculator = new ItemCalculator("itemCalculator");
 		itemMeasureTape = new ItemMeasureTape("itemMeasureTape");
 		buildersWand = new ItemBuildersWand("buildersWand");
+		wrench = new ItemWrench("wrench");
 
 		witchHat = new ItemWitchHat(EnumHelper.addArmorMaterial("witchHat", assetDir + ":" + ItemWitchHat.NAME, 100,
 				new int[] { 1, 1, 1, 1}, 1, SoundEvents.ITEM_ARMOR_EQUIP_IRON, 1.0f), 0, EnumArmorType.HELMET,
