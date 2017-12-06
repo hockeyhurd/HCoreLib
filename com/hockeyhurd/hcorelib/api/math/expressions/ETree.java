@@ -28,7 +28,7 @@ public final class ETree {
 	}
 
 	public boolean isAssignment() {
-		return root.toString().equals(EnumOp.EQUALS.toString());
+		return root != null && root.toString().equals(EnumOp.EQUALS.toString());
 		// return root != null && root.hasNodeLeft() && root.left.toString().equals(En)
 	}
 

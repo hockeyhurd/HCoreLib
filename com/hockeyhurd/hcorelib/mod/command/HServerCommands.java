@@ -50,7 +50,6 @@ public final class HServerCommands extends HCommand {
 					List<String> textToSend = SystemInfo.instance().getServerTPSSummary(server);
 
 					if (player != null) {
-
 						for (String str : textToSend) {
 							player.addChatComponentMessage(ChatUtils.createComponent(str));
 						}
