@@ -210,10 +210,12 @@ public abstract class AbstractTileContainer extends AbstractTile implements ISid
             NBTTagCompound temp = (NBTTagCompound) tagList.getCompoundTagAt(i);
             byte b0 = temp.getByte("Slot");
 
-            if (b0 >= 0 && b0 < this.slots.length) this.slots[b0] = ItemStack.loadItemStackFromNBT(temp);
+            if (b0 >= 0 && b0 < this.slots.length)
+                this.slots[b0] = ItemStack.loadItemStackFromNBT(temp);
         }
 
-        if (comp.hasKey("CustomName")) this.customName = comp.getString("CustomName");
+        if (comp.hasKey("CustomName"))
+            this.customName = comp.getString("CustomName");
     }
 
     @Override
@@ -233,7 +235,8 @@ public abstract class AbstractTileContainer extends AbstractTile implements ISid
             comp.setTag("Items", tagList);
         }
 
-        if (this.hasCustomInventoryName()) comp.setString("CustomName", this.customName);
+        if (this.hasCustomInventoryName())
+            comp.setString("CustomName", this.customName);
     }
 
 }

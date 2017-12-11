@@ -87,7 +87,8 @@ public class CommonProxy implements IProxy {
 	protected void registerItems() {
 		GameRegistry.register(HCoreLibMain.itemCalculator);
 		GameRegistry.register(HCoreLibMain.itemMeasureTape);
-		GameRegistry.register(HCoreLibMain.buildersWand);
+		// GameRegistry.register(HCoreLibMain.buildersWand);
+        GameRegistry.register(HCoreLibMain.wrench);
 		GameRegistry.register(HCoreLibMain.witchHat);
 
 		for (RecipePattern pattern : ((ICraftableRecipe) HCoreLibMain.itemCalculator).getRecipePatterns()) {
@@ -100,10 +101,10 @@ public class CommonProxy implements IProxy {
 				pattern.registerRecipe();
 		}
 
-		for (RecipePattern pattern : ((ICraftableRecipe) HCoreLibMain.buildersWand).getRecipePatterns()) {
-			if (pattern != null)
-				pattern.registerRecipe();
-		}
+        for (RecipePattern pattern : ((ICraftableRecipe) HCoreLibMain.wrench).getRecipePatterns()) {
+            if (pattern != null)
+                pattern.registerRecipe();
+        }
 
 		for (RecipePattern pattern : ((ICraftableRecipe) HCoreLibMain.witchHat).getRecipePatterns()) {
 			if (pattern != null)
@@ -113,6 +114,13 @@ public class CommonProxy implements IProxy {
 		if (HCoreLibMain.configHandler.isDebugMode()) {
 			GameRegistry.register(HCoreLibMain.testItem);
 			GameRegistry.register(HCoreLibMain.testMetaItem);
+
+            GameRegistry.register(HCoreLibMain.buildersWand);
+
+            for (RecipePattern pattern : ((ICraftableRecipe) HCoreLibMain.buildersWand).getRecipePatterns()) {
+                if (pattern != null)
+                    pattern.registerRecipe();
+            }
 		}
 	}
 

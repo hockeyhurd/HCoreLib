@@ -5,6 +5,7 @@ import com.hockeyhurd.hcorelib.api.item.AbstractHCoreItem;
 import com.hockeyhurd.hcorelib.api.item.IWrench;
 import com.hockeyhurd.hcorelib.api.item.IWrenchable;
 import com.hockeyhurd.hcorelib.api.math.VectorHelper;
+import com.hockeyhurd.hcorelib.api.tileentity.WrenchableWrapper;
 import com.hockeyhurd.hcorelib.api.util.BlockUtils;
 import com.hockeyhurd.hcorelib.api.util.WorldUtils;
 import com.hockeyhurd.hcorelib.api.util.interfaces.ICraftableRecipe;
@@ -14,6 +15,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
@@ -48,21 +50,28 @@ public class ItemWrench extends AbstractHCoreItem implements ICraftableRecipe, I
             if (world.isRemote)
                 return EnumActionResult.PASS;
 
-            final IWrenchable wrenchable = (IWrenchable) world.getTileEntity(blockPos);
-            if (wrenchable == null)
-                return EnumActionResult.FAIL;
+            final TileEntity tileEntity = world.getTileEntity(blockPos);
+            IWrenchable wrenchable = tileEntity instanceof IWrenchable ? (IWrenchable) tileEntity : null;
+
+            // If not a generic wrenchable, see if a wrapper exists for it.
+            if (wrenchable == null) {
+                wrenchable = WrenchableWrapper.WrenchableWrapperChecker.getInstance().getWrenchable(tileEntity);
+
+                if (wrenchable == null)
+                    return EnumActionResult.FAIL;
+            }
 
             if (!player.isSneaking()) {
                 normalWrench(stack, player, world, blockPos, blockState, wrenchable, side);
             }
 
-            else if (player.isSneaking()) {
+            else {
                 sneakWrench(stack, player, world, blockPos, blockState, wrenchable, side);
             }
 
             wrenchable.onInteract(stack, player, world, VectorHelper.toVector3i(blockPos));
 
-            return EnumActionResult.PASS;
+            return EnumActionResult.SUCCESS;
         }
 
         return EnumActionResult.FAIL;
@@ -135,7 +144,7 @@ public class ItemWrench extends AbstractHCoreItem implements ICraftableRecipe, I
     @Override
     public RecipePattern[] getRecipePatterns() {
         if (recipePatterns == null) {
-            recipePatterns = new RecipePattern[0];
+            recipePatterns = new RecipePattern[1];
 
             recipePatterns[0] = new RecipePattern("i i", "iii", " i ", true).addAssociation('i',
                     "ingotIron").setResultStack(new ItemStack(this, 1));
