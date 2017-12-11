@@ -52,25 +52,12 @@ public class ItemWrench extends AbstractHCoreItem implements ICraftableRecipe, I
             if (wrenchable == null)
                 return EnumActionResult.FAIL;
 
-            if (player.isSneaking()) {
-                sneakWrench(stack, player, world, blockPos, blockState, wrenchable, side);
+            if (!player.isSneaking()) {
+                normalWrench(stack, player, world, blockPos, blockState, wrenchable, side);
             }
 
-            else if (player.isSneaking() && wrenchable.canSaveDataOnPickup()) {
-                ItemStack itemToDrop = new ItemStack(blockState.getBlock(), 1);
-
-                NBTTagCompound comp;
-                if (itemToDrop.hasTagCompound())
-                    comp = itemToDrop.getTagCompound();
-                else {
-                    comp = new NBTTagCompound();
-                    itemToDrop.setTagCompound(comp);
-                }
-
-                wrenchable.saveNBT(comp);
-
-                BlockUtils.setBlockToAir(world, blockPos);
-                WorldUtils.addItemDrop(itemToDrop, world, blockPos.getX(), blockPos.getY(), blockPos.getZ());
+            else if (player.isSneaking()) {
+                sneakWrench(stack, player, world, blockPos, blockState, wrenchable, side);
             }
 
             wrenchable.onInteract(stack, player, world, VectorHelper.toVector3i(blockPos));
@@ -112,6 +99,28 @@ public class ItemWrench extends AbstractHCoreItem implements ICraftableRecipe, I
     public void sneakWrench(ItemStack stack, EntityPlayer player, World world, BlockPos blockPos, IBlockState blockState,
                             IWrenchable wrenchable, EnumFacing sideHit) {
 
+        ItemStack itemToDrop = new ItemStack(blockState.getBlock(), 1);
+
+        if (wrenchable.canSaveDataOnPickup()) {
+            NBTTagCompound comp;
+            if (itemToDrop.hasTagCompound())
+                comp = itemToDrop.getTagCompound();
+            else {
+                comp = new NBTTagCompound();
+                itemToDrop.setTagCompound(comp);
+            }
+
+            wrenchable.saveNBT(comp);
+        }
+
+        BlockUtils.setBlockToAir(world, blockPos);
+        WorldUtils.addItemDrop(itemToDrop, world, blockPos.getX(), blockPos.getY(), blockPos.getZ());
+    }
+
+    @Override
+    public void normalWrench(ItemStack stack, EntityPlayer player, World world, BlockPos blockPos, IBlockState blockState,
+                             IWrenchable wrenchable, EnumFacing sideHit) {
+
         // TODO: Update rotation code, again...
         if ((blockState = blockState.getBlock().withRotation(blockState, getRotation(sideHit.getOpposite(),
                 wrenchable.getCurrentFacing()))) != null) {
@@ -121,13 +130,6 @@ public class ItemWrench extends AbstractHCoreItem implements ICraftableRecipe, I
         }
 
         wrenchable.setFrontFacing(sideHit.getOpposite());
-    }
-
-    @Override
-    public void normalWrench(ItemStack stack, EntityPlayer player, World world, BlockPos blockPos, IBlockState blockState,
-                             IWrenchable wrenchable, EnumFacing sideHit) {
-
-
     }
 
     @Override
