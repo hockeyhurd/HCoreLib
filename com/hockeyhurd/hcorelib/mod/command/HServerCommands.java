@@ -157,7 +157,6 @@ public final class HServerCommands extends HCommand {
 
                     final List<Entity> loadedEntityList = server.getEntityWorld().getLoadedEntityList();
                     final List<EntityMob> removeList = new ArrayList<EntityMob>(loadedEntityList.size());
-                    final Map<String, Integer> killMap = new TreeMap<String, Integer>();
 
                     for (Entity entity : loadedEntityList) {
                         if (entity instanceof EntityMob)
@@ -165,6 +164,8 @@ public final class HServerCommands extends HCommand {
                     }
 
                     if (!removeList.isEmpty()) {
+                        final Map<String, Integer> killMap = new TreeMap<String, Integer>();
+
                         for (EntityMob mob : removeList) {
                             if (killMap.containsKey(mob.getName())) {
                                 killMap.put(mob.getName(), killMap.get(mob.getName()) + 1);
