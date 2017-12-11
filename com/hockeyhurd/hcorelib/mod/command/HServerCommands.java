@@ -15,6 +15,8 @@ import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.WorldServer;
+import net.minecraftforge.common.DimensionManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -155,12 +157,15 @@ public final class HServerCommands extends HCommand {
 
 				else {
 
-                    final List<Entity> loadedEntityList = server.getEntityWorld().getLoadedEntityList();
-                    final List<EntityMob> removeList = new ArrayList<EntityMob>(loadedEntityList.size());
+                    final List<EntityMob> removeList = new ArrayList<EntityMob>(0x40);
 
-                    for (Entity entity : loadedEntityList) {
-                        if (entity instanceof EntityMob)
-                            removeList.add((EntityMob) entity);
+                    for (WorldServer worldServer : DimensionManager.getWorlds()) {
+                        final List<Entity> loadedEntityList = worldServer.loadedEntityList;
+
+                        for (Entity entity : loadedEntityList) {
+                            if (entity instanceof EntityMob)
+                                removeList.add((EntityMob) entity);
+                        }
                     }
 
                     if (!removeList.isEmpty()) {

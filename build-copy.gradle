@@ -18,7 +18,7 @@ sourceSets {
     }
 }
 
-version = "1.2.8"
+version = "1.2.9"
 group = "com.hockeyhurd.hcorelib" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "HCoreLib"
 
