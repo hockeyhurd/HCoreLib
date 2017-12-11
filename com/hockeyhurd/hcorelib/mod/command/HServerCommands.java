@@ -10,11 +10,16 @@ import com.hockeyhurd.hcorelib.api.util.SystemInfo;
 import com.hockeyhurd.hcorelib.mod.HCoreLibMain;
 import com.hockeyhurd.hcorelib.mod.handler.CommandHandler;
 import net.minecraft.command.ICommandSender;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * Server commands for HCoreLib.
@@ -29,7 +34,7 @@ public final class HServerCommands extends HCommand {
 
 	@Override
 	protected void init() {
-        commandArgs = new String[] { "tps", "uptime", "hcalc", "mem" };
+        commandArgs = new String[] { "tps", "uptime", "hcalc", "mem", "killall" };
     }
 
 	@Override
@@ -136,6 +141,68 @@ public final class HServerCommands extends HCommand {
 							server.addChatMessage(ChatUtils.createComponent(str));
 					}
 
+				}
+			}
+
+			else sender.addChatMessage(ChatUtils.createComponent(getCommandUsage(sender)));
+		}
+
+		else if (args[0].equalsIgnoreCase(commandArgs[4])) {
+			if (args.length == 1 || args[1].equals(SERVER_TAG)) {
+				if (/*HCoreLibMain.proxy.isClient() &&*/ !(sender instanceof MinecraftServer)) {
+					server.getCommandManager().executeCommand(server, MOD_ABREV + ' ' + commandArgs[4] + ' ' + SERVER_TAG + ' ' + sender.getName());
+				}
+
+				else {
+
+                    final List<Entity> loadedEntityList = server.getEntityWorld().getLoadedEntityList();
+                    final List<EntityMob> removeList = new ArrayList<EntityMob>(loadedEntityList.size());
+                    final Map<String, Integer> killMap = new TreeMap<String, Integer>();
+
+                    for (Entity entity : loadedEntityList) {
+                        if (entity instanceof EntityMob)
+                            removeList.add((EntityMob) entity);
+                    }
+
+                    if (!removeList.isEmpty()) {
+                        for (EntityMob mob : removeList) {
+                            if (killMap.containsKey(mob.getName())) {
+                                killMap.put(mob.getName(), killMap.get(mob.getName()) + 1);
+                            }
+
+                            else {
+                                killMap.put(mob.getName(), 1);
+                            }
+
+                            mob.setDead();
+                        }
+
+                        final StringBuilder outputString = new StringBuilder();
+                        outputString.append("Killed: ");
+
+                        for (Map.Entry<String, Integer> entry : killMap.entrySet()) {
+                            outputString.append(entry.getKey());
+                            outputString.append('x');
+                            outputString.append(entry.getValue());
+                            outputString.append(' ');
+                        }
+
+                        final EntityPlayerMP player = args.length == 3 ? server.getPlayerList().getPlayerByUsername(args[2]) : null;
+
+                        if (player == null)
+                            sender.addChatMessage(ChatUtils.createComponent(outputString.toString()));
+                        else
+                            player.addChatMessage(ChatUtils.createComponent(outputString.toString()));
+                    }
+
+                    else {
+                        final EntityPlayerMP player = args.length == 3 ? server.getPlayerList().getPlayerByUsername(args[2]) : null;
+
+                        if (player == null)
+                            sender.addChatMessage(ChatUtils.createComponent("No mobs to kill"));
+                        else
+                            player.addChatMessage(ChatUtils.createComponent("No mobs to kill"));
+                    }
 				}
 			}
 
