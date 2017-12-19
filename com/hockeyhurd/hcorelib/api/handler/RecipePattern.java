@@ -142,7 +142,7 @@ public class RecipePattern {
             }
 
             if (shapedRecipe)
-                GameRegistry.addRecipe(createShapedRecipe(resultStack, objects));
+                GameRegistry.addShapedRecipe(createShapedRecipe(resultStack, objects));
             else
                 GameRegistry.addRecipe(createShapelessRecipe(resultStack, objects));
         }

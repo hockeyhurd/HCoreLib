@@ -1,6 +1,7 @@
 package com.hockeyhurd.hcorelib.api.client.gui;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraftforge.fml.client.IModGuiFactory;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -21,15 +22,10 @@ public abstract class AbstractGuiFactory implements IModGuiFactory {
     }
 
     @Override
-    public abstract Class<? extends ModGuiConfig> mainConfigGuiClass();
+    public abstract GuiScreen createConfigGui(GuiScreen parentScreen);
 
     @Override
     public Set<RuntimeOptionCategoryElement> runtimeGuiCategories() {
-        return null;
-    }
-
-    @Override
-    public RuntimeOptionGuiHandler getHandlerFor(RuntimeOptionCategoryElement element) {
         return null;
     }
 

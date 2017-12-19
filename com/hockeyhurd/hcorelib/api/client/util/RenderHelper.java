@@ -3,9 +3,9 @@ package com.hockeyhurd.hcorelib.api.client.util;
 import com.hockeyhurd.hcorelib.api.math.*;
 import com.hockeyhurd.hcorelib.mod.HCoreLibMain;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.ResourceLocation;
@@ -24,7 +24,7 @@ import org.lwjgl.opengl.GL11;
 public final class RenderHelper {
 
 	public static final Tessellator tessellator = Tessellator.getInstance();
-	private static final VertexBuffer vertexBuf = tessellator.getBuffer();
+	private static final BufferBuilder vertexBuf = tessellator.getBuffer();
 	private static final TextureManager textureManager = Minecraft.getMinecraft().getTextureManager();
 	public static final float DRAW_OFFSET = 0.0001f;
 	private static boolean isDrawing = false;

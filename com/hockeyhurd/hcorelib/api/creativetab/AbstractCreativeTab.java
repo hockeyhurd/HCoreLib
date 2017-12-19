@@ -3,6 +3,7 @@ package com.hockeyhurd.hcorelib.api.creativetab;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -29,8 +30,8 @@ public abstract class AbstractCreativeTab extends CreativeTabs {
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public Item getTabIconItem() {
-		return Items.DIAMOND;
+	public ItemStack getTabIconItem() {
+		return new ItemStack(Items.DIAMOND, 1);
 	}
 
 	@Override

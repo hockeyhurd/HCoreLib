@@ -80,6 +80,20 @@ public abstract class AbstractTileContainer extends AbstractTile implements ISid
         return slots != null ? slots.length : 0;
     }
 
+    protected boolean isInventoryEmpty() {
+        for (ItemStack stack : slots) {
+            if (!stack.isEmpty())
+                return false;
+        }
+
+        return true;
+    }
+
+    @Override
+    public boolean isEmpty() {
+        return isInventoryEmpty();
+    }
+
     /**
      * Get the itemstack in slot defined.
      *
@@ -96,7 +110,7 @@ public abstract class AbstractTileContainer extends AbstractTile implements ISid
         if (this.slots[slot] != null) {
             ItemStack itemstack;
 
-            if (this.slots[slot].stackSize <= amount) {
+            if (this.slots[slot].getCount() <= amount) {
                 itemstack = this.slots[slot];
                 this.slots[slot] = null;
                 return itemstack;
@@ -104,7 +118,7 @@ public abstract class AbstractTileContainer extends AbstractTile implements ISid
             else {
                 itemstack = this.slots[slot].splitStack(amount);
 
-                if (this.slots[slot].stackSize == 0) this.slots[slot] = null;
+                if (this.slots[slot].getCount() == 0) this.slots[slot] = null;
                 return itemstack;
             }
         }
@@ -114,11 +128,12 @@ public abstract class AbstractTileContainer extends AbstractTile implements ISid
     @Override
     public void setInventorySlotContents(int slot, ItemStack stack) {
         this.slots[slot] = stack;
-        if (stack != null && stack.stackSize > this.getInventoryStackLimit()) stack.stackSize = this.getInventoryStackLimit();
+        if (stack != null && stack.getCount() > this.getInventoryStackLimit())
+            stack.setCount(this.getInventoryStackLimit());
     }
 
     @Override
-    public boolean isUseableByPlayer(EntityPlayer player) {
+    public boolean isUsableByPlayer(EntityPlayer player) {
         return true;
     }
 
@@ -211,7 +226,7 @@ public abstract class AbstractTileContainer extends AbstractTile implements ISid
             byte b0 = temp.getByte("Slot");
 
             if (b0 >= 0 && b0 < this.slots.length)
-                this.slots[b0] = ItemStack.loadItemStackFromNBT(temp);
+                this.slots[b0] = new ItemStack(temp);
         }
 
         if (comp.hasKey("CustomName"))

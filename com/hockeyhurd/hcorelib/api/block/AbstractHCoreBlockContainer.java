@@ -104,8 +104,8 @@ public abstract class AbstractHCoreBlockContainer extends BlockContainer impleme
     public abstract void onBlockPlacedBy(World world, BlockPos blockPos, IBlockState blockState, EntityLivingBase placer, ItemStack stack);
 
     @Override
-    public abstract boolean onBlockActivated(World world, BlockPos blockPos, IBlockState blockState, EntityPlayer player, EnumHand hand,
-            ItemStack stack, EnumFacing sideHit, float hitX, float hitY, float hitZ);
+    public abstract boolean onBlockActivated(World world, BlockPos pos, IBlockState blockState, EntityPlayer player, EnumHand hand, EnumFacing facing,
+            float hitX, float hitY, float hitZ);
 
     @Override
     public void breakBlock(World world, BlockPos blockPos, IBlockState blockState) {

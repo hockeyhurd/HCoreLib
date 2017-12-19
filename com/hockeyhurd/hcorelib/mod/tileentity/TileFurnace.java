@@ -8,16 +8,12 @@ import com.hockeyhurd.hcorelib.mod.handler.packet.PacketHandler;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.SlotFurnaceFuel;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemBlock;
-import net.minecraft.item.ItemHoe;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemSword;
-import net.minecraft.item.ItemTool;
+import net.minecraft.item.*;
 import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
@@ -153,11 +149,15 @@ public class TileFurnace extends AbstractTileContainer implements ITickable {
         if (slots[0] == null) return false;
         else {
             ItemStack itemstack = FurnaceRecipes.instance().getSmeltingResult(slots[0]);
-            if (itemstack == null) return false;
-            if (slots[2] == null) return true;
-            if (!slots[2].isItemEqual(itemstack)) return false;
-            int result = slots[2].stackSize + itemstack.stackSize;
-            return result <= getInventoryStackLimit() && result <= slots[2].getMaxStackSize(); //Forge BugFix: Make it respect stack sizes properly.
+            if (itemstack == null)
+                return false;
+            if (slots[2] == null)
+                return true;
+            if (!slots[2].isItemEqual(itemstack))
+                return false;
+
+            int result = slots[2].getCount() + itemstack.getCount();
+            return result <= getInventoryStackLimit() && result <= slots[2].getMaxStackSize(); // Forge BugFix: Make it respect stack sizes properly.
         }
     }
 
@@ -165,12 +165,14 @@ public class TileFurnace extends AbstractTileContainer implements ITickable {
         if (canSmelt()) {
             ItemStack itemstack = FurnaceRecipes.instance().getSmeltingResult(slots[0]);
 
-            if (slots[2] == null) slots[2] = itemstack.copy();
-            else if (slots[2].isItemEqual(itemstack)) slots[2].stackSize += itemstack.stackSize;
+            if (slots[2] == null)
+                slots[2] = itemstack.copy();
+            else if (slots[2].isItemEqual(itemstack))
+                slots[2].setCount(slots[2].getCount() + itemstack.getCount());
 
-            slots[0].stackSize--;
+            slots[0].setCount(slots[0].getCount() - 1);
 
-            if (slots[0].stackSize <= 0) {
+            if (slots[0].getCount() <= 0) {
                 slots[0] = null;
             }
         }
@@ -211,7 +213,7 @@ public class TileFurnace extends AbstractTileContainer implements ITickable {
 
         if (isActive()) burnTime--;
 
-        if (!worldObj.isRemote) {
+        if (!world.isRemote) {
             if (isActive() || slots[1] != null && slots[0] != null) {
                 if (!isActive() && canSmelt()) {
                     burnTime = getItemBurnTime(slots[1]);
@@ -220,8 +222,8 @@ public class TileFurnace extends AbstractTileContainer implements ITickable {
                     if (isActive()) {
                         flag1 = true;
                         if (slots[1] != null) {
-                            --slots[1].stackSize;
-                            if (slots[1].stackSize == 0) {
+                            slots[1].setCount(slots[1].getCount() - 1);
+                            if (slots[1].getCount() == 0) {
                                 slots[1] = slots[1].getItem().getContainerItem(slots[1]);
                             }
                         }
@@ -241,11 +243,12 @@ public class TileFurnace extends AbstractTileContainer implements ITickable {
                 else cookTime = 0;
             }
 
-            else if (!isActive() && cookTime > 0) cookTime = MathHelper.clamp_int(cookTime - 2, 0, currentCookTime);
+            else if (!isActive() && cookTime > 0)
+                cookTime = MathHelper.clamp(cookTime - 2, 0, currentCookTime);
 
             if (flag != isActive()) {
                 flag1 = true;
-                TestFurnace.updateState(isActive(), worldObj, pos);
+                TestFurnace.updateState(isActive(), world, pos);
             }
         }
 
@@ -297,7 +300,7 @@ public class TileFurnace extends AbstractTileContainer implements ITickable {
     @Override
     public void onDataPacket(NetworkManager manger, SPacketUpdateTileEntity packet) {
         readNBT(packet.getNbtCompound());
-        BlockUtils.markBlockForUpdate(worldObj, pos);
+        BlockUtils.markBlockForUpdate(world, pos);
     }
 
     @Override

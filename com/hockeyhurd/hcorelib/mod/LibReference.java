@@ -14,10 +14,10 @@ import com.hockeyhurd.hcorelib.api.util.AbstractReference;
 public class LibReference extends AbstractReference {
 
 	/** Current build number. */
-	public static final int BUILD = 9;
+	public static final int BUILD = 1;
 
 	/** Current Subversion */
-	public static final int SUB_VERSION = 2;
+	public static final int SUB_VERSION = 3;
 
 	/** Current major version. */
 	public static final int MAJOR_VERSION = 1;
@@ -32,10 +32,10 @@ public class LibReference extends AbstractReference {
 	public static final String MOD_NAME = "HCoreLib";
 
 	/** Not required but is available. NOTE: if not using it, set to null! */
-	public static final String MOD_URL = "https://dl.dropboxusercontent.com/u/276611945/minecraft/mods/" + MOD_NAME + "/versions/1.10.2/version.txt";
+	public static final String MOD_URL = "https://dl.dropboxusercontent.com/u/276611945/minecraft/mods/" + MOD_NAME + "/versions/1.12.2/version.txt";
 
 	/** Not required but is available. NOTE: if not using it, set to null! */
-	public static final String CHANGELOG_URL = "https://dl.dropboxusercontent.com/u/276611945/minecraft/mods/" + MOD_NAME + "/versions/1.10.2/changelog.txt";
+	public static final String CHANGELOG_URL = "https://dl.dropboxusercontent.com/u/276611945/minecraft/mods/" + MOD_NAME + "/versions/1.12.2/changelog.txt";
 
 	/**
 	 * To use this class referencing, simple extend this class with your own and plug-in your own values.
