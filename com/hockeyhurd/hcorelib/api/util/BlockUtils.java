@@ -214,7 +214,7 @@ public final class BlockUtils {
 	 * @return true if can be mined by provided player, else returns false.
 	 */
 	public static boolean canMineBlock(EntityPlayer player, int x, int y, int z) {
-		return player.worldObj.canMineBlockBody(player, createBlockPos(x, y, z));
+		return player.getEntityWorld().canMineBlockBody(player, createBlockPos(x, y, z));
 	}
 
 	/**
@@ -236,7 +236,7 @@ public final class BlockUtils {
 	 * @return true if can be mined by provided player, else returns false.
 	 */
 	public static boolean canMineBlock(EntityPlayer player, BlockPos blockPos) {
-		return player.worldObj.canMineBlockBody(player, blockPos);
+		return player.getEntityWorld().canMineBlockBody(player, blockPos);
 	}
 
 	/**
@@ -549,9 +549,10 @@ public final class BlockUtils {
 	 * @param x x-coordinate.
 	 * @param y y-coordinate.
 	 * @param z z-coordinate.
+     * @param newBlockState IBlockState.
 	 */
-	public static void markBlockForUpdate(World world, int x, int y, int z) {
-		markBlockForUpdate(world, createBlockPos(x, y, z));
+	public static void markBlockForUpdate(World world, int x, int y, int z, IBlockState newBlockState) {
+		markBlockForUpdate(world, createBlockPos(x, y, z), newBlockState);
 	}
 
 	/**
@@ -559,9 +560,10 @@ public final class BlockUtils {
 	 *
 	 * @param world World.
 	 * @param vec Block position.
+     * @param newBlockState IBlockState.
 	 */
-	public static void markBlockForUpdate(World world, Vector3<Integer> vec) {
-		markBlockForUpdate(world, createBlockPos(vec));
+	public static void markBlockForUpdate(World world, Vector3<Integer> vec, IBlockState newBlockState) {
+		markBlockForUpdate(world, createBlockPos(vec), newBlockState);
 	}
 
 	/**
@@ -569,10 +571,11 @@ public final class BlockUtils {
 	 *
 	 * @param world World.
 	 * @param blockPos Block position.
+     * @param newBlockState IBlockState.
 	 */
-	public static void markBlockForUpdate(World world, BlockPos blockPos) {
-		IBlockState blockState = getBlock(world, blockPos);
-		markBlockForUpdate(world, blockPos, blockState);
+	public static void markBlockForUpdate(World world, BlockPos blockPos, IBlockState newBlockState) {
+		IBlockState oldBlockState = getBlock(world, blockPos);
+		markBlockForUpdate(world, blockPos, oldBlockState, newBlockState);
 	}
 
 	/**
@@ -580,10 +583,12 @@ public final class BlockUtils {
 	 *
 	 * @param world World.
 	 * @param blockPos Block position.
-	 * @param blockState IBlockState.
+	 * @param oldBlockState IBlockState.
+     * @param oldBlockState IBlockState.
 	 */
-	private static void markBlockForUpdate(World world, BlockPos blockPos, IBlockState blockState) {
-		world.notifyBlockOfStateChange(blockPos, blockState.getBlock());
+	private static void markBlockForUpdate(World world, BlockPos blockPos, IBlockState oldBlockState, IBlockState newBlockState) {
+		// world.notifyBlockOfStateChange(blockPos, oldBlockState.getBlock());
+		world.notifyBlockUpdate(blockPos, oldBlockState, newBlockState, 3);
 	}
 
 	/**
@@ -627,7 +632,7 @@ public final class BlockUtils {
 	 * @param blockState IBlockState.
 	 */
 	private static void notifyNeighborsOfBlockUpdate(World world, BlockPos blockPos, IBlockState blockState) {
-		world.notifyNeighborsOfStateChange(blockPos, blockState.getBlock());
+		world.notifyNeighborsOfStateChange(blockPos, blockState.getBlock(), true);
 	}
 
 	/**

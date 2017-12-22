@@ -71,7 +71,7 @@ public class DrawBlockSelectionHandler {
             final int radii = drawable.getRadii();
             double xp, yp, zp;
 
-            final IBlockState blockLookingAt = BlockUtils.getBlock(player.worldObj, rayTrace.getBlockPos());
+            final IBlockState blockLookingAt = BlockUtils.getBlock(player.getEntityWorld(), rayTrace.getBlockPos());
             IBlockState currentBlock;
             BlockPos blockPos;
 
@@ -82,7 +82,7 @@ public class DrawBlockSelectionHandler {
                         blockPos = BlockUtils.createBlockPos(rayTrace.getBlockPos().getX() + i,
                                 rayTrace.getBlockPos().getY(), rayTrace.getBlockPos().getZ() + j);
 
-                        currentBlock = BlockUtils.getBlock(player.worldObj, blockPos);
+                        currentBlock = BlockUtils.getBlock(player.getEntityWorld(), blockPos);
 
                         if (currentBlock.getBlock() == Blocks.AIR || blockLookingAt.getBlock() != currentBlock.getBlock())
                             continue;
@@ -100,7 +100,7 @@ public class DrawBlockSelectionHandler {
                     else if (rayTrace.sideHit == EnumFacing.NORTH || rayTrace.sideHit == EnumFacing.SOUTH) {
                         blockPos = BlockUtils
                                 .createBlockPos(rayTrace.getBlockPos().getX() + i, rayTrace.getBlockPos().getY() + j, rayTrace.getBlockPos().getZ());
-                        currentBlock = BlockUtils.getBlock(player.worldObj, blockPos);
+                        currentBlock = BlockUtils.getBlock(player.getEntityWorld(), blockPos);
 
                         if (currentBlock.getBlock() == Blocks.AIR || blockLookingAt.getBlock() != currentBlock.getBlock())
                             continue;
@@ -118,7 +118,7 @@ public class DrawBlockSelectionHandler {
                     else {
                         blockPos = BlockUtils
                                 .createBlockPos(rayTrace.getBlockPos().getX(), rayTrace.getBlockPos().getY() + j, rayTrace.getBlockPos().getZ() + i);
-                        currentBlock = BlockUtils.getBlock(player.worldObj, blockPos);
+                        currentBlock = BlockUtils.getBlock(player.getEntityWorld(), blockPos);
 
                         if (currentBlock.getBlock() == Blocks.AIR || blockLookingAt.getBlock() != currentBlock.getBlock())
                             continue;

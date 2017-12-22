@@ -26,7 +26,7 @@ public class LibReference extends AbstractReference {
 	public static final String VERSION = "v" + MAJOR_VERSION + '.' + SUB_VERSION + '.' + BUILD;
 
 	/** Current Minecraft version. */
-	public static final String MINECRAFT_VERSION = "[1.10.2]";
+	public static final String MINECRAFT_VERSION = "[1.12]";
 
 	/** Current mod name. */
 	public static final String MOD_NAME = "HCoreLib";

@@ -79,12 +79,12 @@ public abstract class HCommand extends CommandBase {
     }
 
     @Override
-    public String getCommandName() {
+    public String getName() {
         return commandName;
     }
 
     @Override
-    public String getCommandUsage(ICommandSender sender) {
+    public String getUsage(ICommandSender sender) {
         return '/' + commandName + ' ' + getConcatArgs();
     }
 

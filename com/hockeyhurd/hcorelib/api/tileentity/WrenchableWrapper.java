@@ -86,7 +86,7 @@ public class WrenchableWrapper implements IWrenchable {
                 byte b0 = temp.getByte("Slot");
 
                 if (b0 >= 0 && b0 < inv.getSizeInventory())
-                    inv.setInventorySlotContents(b0, ItemStack.loadItemStackFromNBT(temp));
+                    inv.setInventorySlotContents(b0, new ItemStack(temp));
             }
         }
     }

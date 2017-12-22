@@ -26,7 +26,8 @@ public final class ItemCalculator extends AbstractHCoreItem implements ICraftabl
     }
 
     @Override
-    public ActionResult<ItemStack> onItemRightClick(ItemStack stack, World world, EntityPlayer player, EnumHand hand) {
+    public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
+        // final ItemStack stack = player.getHeldItem(hand);
 
         // Client side only item!
         if (world.isRemote) {
@@ -37,7 +38,7 @@ public final class ItemCalculator extends AbstractHCoreItem implements ICraftabl
             player.openGui(HCoreLibMain.instance, -1, world, x, y, z);
         }
 
-        return super.onItemRightClick(stack, world, player, hand);
+        return super.onItemRightClick(world, player, hand);
     }
 
     @Override

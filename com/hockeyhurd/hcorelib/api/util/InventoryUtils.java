@@ -82,14 +82,14 @@ public final class InventoryUtils {
      * @return int quantity of itemstacks.
      */
     public static int getQuantityOfStack(Container container, ItemStack itemStack) {
-        if (container == null || itemStack == null || itemStack.stackSize < 1) return 0;
+        if (container == null || itemStack == null || itemStack.getCount() < 1) return 0;
 
         int sum = 0;
 
         for (Object obj : container.inventoryItemStacks) {
             if (obj instanceof ItemStack) {
                 ItemStack stack = (ItemStack) obj;
-                if (stack.isItemEqual(itemStack)) sum += stack.stackSize;
+                if (stack.isItemEqual(itemStack)) sum += stack.getCount();
             }
         }
 
@@ -126,7 +126,8 @@ public final class InventoryUtils {
      * @return HashMap of current container.
      */
     public static Map<Integer, ItemStack> getMapOfItemStacks(Container container, final ItemStack itemStack) {
-        if (container == null || itemStack == null || itemStack.stackSize < 1) return null;
+        if (container == null || itemStack == null || itemStack.getCount() < 1)
+            return null;
 
         HashMap<Integer, ItemStack> map = new HashMap<Integer, ItemStack>(container.inventorySlots.size() << 1);
 
@@ -147,7 +148,8 @@ public final class InventoryUtils {
      * @return Mapping result.
      */
     public static Map<ItemStack, HashMap<Integer, ItemStack>> getMapOfItemStacks(Container container, final ItemStack... stacks) {
-        if (container == null || stacks == null || stacks.length == 0) return null;
+        if (container == null || stacks == null || stacks.length == 0)
+            return null;
 
         final int capacity = container.inventorySlots.size() << 1;
         Map<ItemStack, HashMap<Integer, ItemStack>> map = new HashMap<ItemStack, HashMap<Integer, ItemStack>>(capacity);
@@ -157,7 +159,8 @@ public final class InventoryUtils {
                 final ItemStack stack = slot.getStack();
 
                 for (ItemStack searchStack : stacks) {
-                    if (searchStack == null || searchStack.stackSize == 0) continue;
+                    if (searchStack == null || searchStack.getCount() == 0)
+                        continue;
 
                     if (searchStack.isItemEqual(stack)) {
                         HashMap<Integer, ItemStack> innerMap;
@@ -184,10 +187,11 @@ public final class InventoryUtils {
      * @return int displaced after attempt.
      */
     public static int addByStack(Container container, ItemStack addStack, boolean mergeFirst) {
-        if (container == null || addStack == null || addStack.stackSize < 1) return 0;
+        if (container == null || addStack == null || addStack.getCount() < 1)
+            return 0;
 
         final int invSize = getSizeInventory(container);
-        final int startSize = addStack.stackSize;
+        final int startSize = addStack.getCount();
         int amountLeft = startSize;
 
         // If allowed to merge:
@@ -199,13 +203,13 @@ public final class InventoryUtils {
                 if (amountLeft <= 0) break;
 
                 ItemStack currentStack = entry.getValue();
-                int stackSize = currentStack.stackSize;
+                int stackSize = currentStack.getCount();
 
                 if (stackSize < currentStack.getMaxStackSize()) {
                     final int dif = currentStack.getMaxStackSize() - stackSize;
                     amountLeft -= dif;
                     stackSize += dif;
-                    currentStack.stackSize = stackSize;
+                    currentStack.setCount(stackSize);
 
                     container.putStackInSlot(entry.getKey(), currentStack);
                 }
@@ -217,7 +221,7 @@ public final class InventoryUtils {
             Slot slot = container.inventorySlots.get(i);
 
             if (!slot.getHasStack()) {
-                addStack.stackSize = amountLeft;
+                addStack.setCount(amountLeft);
                 amountLeft = 0;
                 container.putStackInSlot(i, addStack);
                 break;
@@ -256,17 +260,18 @@ public final class InventoryUtils {
      * @return int number of items/block removed.
      */
     public static int removeByStack(Container container, ItemStack stackToRemove) {
-        if (container == null || stackToRemove == null || stackToRemove.stackSize < 1) return 0;
+        if (container == null || stackToRemove == null || stackToRemove.getCount() < 1)
+            return 0;
 
         Map<Integer, ItemStack> map = getMapOfItemStacks(container, stackToRemove);
 
-        final int itemsAtStart = stackToRemove.stackSize;
+        final int itemsAtStart = stackToRemove.getCount();
         int itemsLeft = itemsAtStart;
 
         for (Entry<Integer, ItemStack> entry : map.entrySet()) {
             if (itemsLeft <= 0) break;
 
-            int stackSize = entry.getValue().stackSize;
+            int stackSize = entry.getValue().getCount();
 
             if (itemsLeft >= stackSize) {
                 container.putStackInSlot(entry.getKey(), null);
@@ -277,7 +282,7 @@ public final class InventoryUtils {
                 stackSize -= itemsLeft;
                 itemsLeft = 0;
 
-                entry.getValue().stackSize = stackSize;
+                entry.getValue().setCount(stackSize);
                 container.putStackInSlot(entry.getKey(), entry.getValue());
             }
         }

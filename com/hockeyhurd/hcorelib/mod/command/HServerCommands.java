@@ -18,10 +18,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.DimensionManager;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
+import javax.annotation.Nullable;
+import java.util.*;
 
 /**
  * Server commands for HCoreLib.
@@ -42,7 +40,7 @@ public final class HServerCommands extends HCommand {
 	@Override
 	public void execute(MinecraftServer server, ICommandSender sender, String[] args) {
 		if (args.length == 0)
-			sender.addChatMessage(ChatUtils.createComponent(getCommandUsage(sender)));
+			sender.sendMessage(ChatUtils.createComponent(getUsage(sender)));
 		else if (args[0].equalsIgnoreCase(commandArgs[0])) {
 			if (args.length == 1 || args[1].equals(SERVER_TAG)) {
 				if (/*HCoreLibMain.proxy.isClient() &&*/ !(sender instanceof MinecraftServer)) {
@@ -58,13 +56,13 @@ public final class HServerCommands extends HCommand {
 
 					if (player != null) {
 						for (String str : textToSend) {
-							player.addChatComponentMessage(ChatUtils.createComponent(str));
+							player.sendMessage(ChatUtils.createComponent(str));
 						}
 					}
 
 					else {
 						for (String str : textToSend) {
-							server.addChatMessage(ChatUtils.createComponent(str));
+							server.sendMessage(ChatUtils.createComponent(str));
 						}
 					}
 				}
@@ -76,11 +74,11 @@ public final class HServerCommands extends HCommand {
 				String[] textToSend = SystemInfo.instance().getTPSDetails(dim);
 
 				for (String str : textToSend) {
-					sender.addChatMessage(ChatUtils.createComponent(str));
+					sender.sendMessage(ChatUtils.createComponent(str));
 				}
 			}
 
-			else sender.addChatMessage(ChatUtils.createComponent(getCommandUsage(sender)));
+			else sender.sendMessage(ChatUtils.createComponent(getUsage(sender)));
 		}
 
 		else if (args[0].equalsIgnoreCase(commandArgs[1])) {
@@ -94,21 +92,21 @@ public final class HServerCommands extends HCommand {
 					EntityPlayerMP player = args.length == 3 ? server.getPlayerList().getPlayerByUsername(args[2]) : null;
 
 					if (player != null) {
-						player.addChatComponentMessage(ChatUtils.createComponent(SystemInfo.instance().getSystemUpTime()));
+						player.sendMessage(ChatUtils.createComponent(SystemInfo.instance().getSystemUpTime()));
 					}
 
 					else {
-						server.addChatMessage(ChatUtils.createComponent(SystemInfo.instance().getSystemUpTime()));
+						server.sendMessage(ChatUtils.createComponent(SystemInfo.instance().getSystemUpTime()));
 					}
 				}
 			}
 
-			else sender.addChatMessage(ChatUtils.createComponent(getCommandUsage(sender)));
+			else sender.sendMessage(ChatUtils.createComponent(getUsage(sender)));
 		}
 
 		else if (args[0].equalsIgnoreCase(commandArgs[2])) {
 			if (args.length == 1)
-				sender.addChatMessage(ChatUtils.createComponent(getCommandUsage(sender)));
+				sender.sendMessage(ChatUtils.createComponent(getUsage(sender)));
 			else {
 				StringBuilder builder = new StringBuilder(0x20);
 
@@ -118,7 +116,7 @@ public final class HServerCommands extends HCommand {
 				Interpreter interpreter = new Interpreter();
 				InterpreterResult result = interpreter.processExpressionString(new Expression(builder.toString()), 0);
 
-				sender.addChatMessage(ChatUtils.createComponent("Result:", result.getExpressionString()));
+				sender.sendMessage(ChatUtils.createComponent("Result:", result.getExpressionString()));
 			}
 		}
 
@@ -135,18 +133,18 @@ public final class HServerCommands extends HCommand {
 
 					if (player != null) {
 						for (String str : output)
-							player.addChatComponentMessage(ChatUtils.createComponent(str));
+							player.sendMessage(ChatUtils.createComponent(str));
 					}
 
 					else {
 						for (String str : output)
-							server.addChatMessage(ChatUtils.createComponent(str));
+							server.sendMessage(ChatUtils.createComponent(str));
 					}
 
 				}
 			}
 
-			else sender.addChatMessage(ChatUtils.createComponent(getCommandUsage(sender)));
+			else sender.sendMessage(ChatUtils.createComponent(getUsage(sender)));
 		}
 
 		else if (args[0].equalsIgnoreCase(commandArgs[4])) {
@@ -196,26 +194,26 @@ public final class HServerCommands extends HCommand {
                         final EntityPlayerMP player = args.length == 3 ? server.getPlayerList().getPlayerByUsername(args[2]) : null;
 
                         if (player == null)
-                            sender.addChatMessage(ChatUtils.createComponent(outputString.toString()));
+                            sender.sendMessage(ChatUtils.createComponent(outputString.toString()));
                         else
-                            player.addChatMessage(ChatUtils.createComponent(outputString.toString()));
+                            player.sendMessage(ChatUtils.createComponent(outputString.toString()));
                     }
 
                     else {
                         final EntityPlayerMP player = args.length == 3 ? server.getPlayerList().getPlayerByUsername(args[2]) : null;
 
                         if (player == null)
-                            sender.addChatMessage(ChatUtils.createComponent("No mobs to kill"));
+                            sender.sendMessage(ChatUtils.createComponent("No mobs to kill"));
                         else
-                            player.addChatMessage(ChatUtils.createComponent("No mobs to kill"));
+                            player.sendMessage(ChatUtils.createComponent("No mobs to kill"));
                     }
 				}
 			}
 
-			else sender.addChatMessage(ChatUtils.createComponent(getCommandUsage(sender)));
+			else sender.sendMessage(ChatUtils.createComponent(getUsage(sender)));
 		}
 
-		else sender.addChatMessage(ChatUtils.createComponent(getCommandUsage(sender)));
+		else sender.sendMessage(ChatUtils.createComponent(getUsage(sender)));
 	}
 
 	@Override
@@ -224,14 +222,14 @@ public final class HServerCommands extends HCommand {
 	}
 
 	@Override
-	public List<String> getTabCompletionOptions(MinecraftServer server, ICommandSender sender, String[] words, BlockPos pos) {
+	public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] words, @Nullable BlockPos pos) {
 		if (words == null || words.length == 0)
-			return null;
+			return Collections.<String>emptyList();
 
 		if (words.length == 1)
 			return CommandHandler.instance().doesCommandStartWith(words[0]);
 
-		return null;
+		return Collections.<String>emptyList();
 	}
 
 }

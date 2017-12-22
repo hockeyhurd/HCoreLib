@@ -104,7 +104,7 @@ public final class ChatUtils {
         ITextComponent comp = createComponent(separateMessages, messages);
 
         comp.getStyle().setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND,
-                command.getCommandUsage(null)));
+                command.getUsage(null)));
 
         return comp;
     }

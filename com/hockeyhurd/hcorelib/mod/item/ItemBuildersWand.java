@@ -150,7 +150,8 @@ public final class ItemBuildersWand extends AbstractHCoreItem implements ICrafta
                 for (Entry<BlockPos, IBlockState> entry : blocksToPlace.entrySet()) {
                     if (!BlockUtils.blockExists(world, entry.getKey())) {
                         BlockUtils.setBlock(world, entry.getKey(), entry.getValue());
-                        world.notifyBlockOfStateChange(entry.getKey(), entry.getValue().getBlock());
+                        // world.notifyBlockOfStateChange(entry.getKey(), entry.getValue().getBlock());
+                        world.notifyBlockUpdate(entry.getKey(), BlockUtils.getBlock(world, entry.getKey()), entry.getValue(), 3);
 
                         placePositions.add(entry.getKey());
                     }
@@ -165,7 +166,8 @@ public final class ItemBuildersWand extends AbstractHCoreItem implements ICrafta
                 for (Entry<BlockPos, IBlockState> entry : blocksToPlace.entrySet()) {
                     if (!BlockUtils.blockExists(world, entry.getKey())) {
                         BlockUtils.setBlock(world, entry.getKey(), entry.getValue());
-                        world.notifyBlockOfStateChange(entry.getKey(), entry.getValue().getBlock());
+                        // world.notifyBlockOfStateChange(entry.getKey(), entry.getValue().getBlock());
+                        world.notifyBlockUpdate(entry.getKey(), BlockUtils.getBlock(world, entry.getKey()), entry.getValue(), 3);
                     }
                 }
             }

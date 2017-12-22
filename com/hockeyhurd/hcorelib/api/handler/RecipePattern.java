@@ -83,7 +83,8 @@ public class RecipePattern {
      */
     public boolean validateRecipe() {
         if (pattern == null || pattern.length != 3 || associativeMap.isEmpty() ||
-                resultStack == null || resultStack.stackSize == 0) return false;
+                resultStack == null || resultStack.getCount() == 0)
+            return false;
 
         int emptyRowCount = 0;
 
@@ -119,7 +120,8 @@ public class RecipePattern {
      * @return Recipe pattern instance.
      */
     public RecipePattern setResultStack(ItemStack stack) {
-        if (stack != null && stack.stackSize > 0) resultStack = stack.copy();
+        if (stack != null && stack.getCount() > 0)
+            resultStack = stack.copy();
 
         return this;
     }
@@ -127,7 +129,10 @@ public class RecipePattern {
     /**
      * Checks if recipe pattern is valid and registers
      * crafting pattern accordingly.
+     *
+     * @deprecated Doesn't register anything actually in 1.12.x+
      */
+    @Deprecated
     public void registerRecipe() {
         if (validateRecipe()) {
             Object[] objects = new Object[(associativeMap.size() << 1) + pattern.length];
@@ -141,23 +146,41 @@ public class RecipePattern {
                 objects[i++] = e.getValue();
             }
 
-            if (shapedRecipe)
+            /*if (shapedRecipe)
                 GameRegistry.addShapedRecipe(createShapedRecipe(resultStack, objects));
             else
-                GameRegistry.addRecipe(createShapelessRecipe(resultStack, objects));
+                GameRegistry.addRecipe(createShapelessRecipe(resultStack, objects));*/
         }
     }
 
+    /**
+     * @deprecated Doesn't register anything actually in 1.12.x+
+     *
+     * @param result
+     * @param objects
+     * @return
+     */
+    @Deprecated
     protected static ShapedOreRecipe createShapedRecipe(ItemStack result, Object... objects) {
-        if (objects == null || objects.length == 0) return null;
+        // if (objects == null || objects.length == 0) return null;
 
-        return new ShapedOreRecipe(result, objects);
+        // return new ShapedOreRecipe(result, objects);
+        return null;
     }
 
+    /**
+     * @deprecated Doesn't register anything actually in 1.12.x+
+     *
+     * @param resultStack
+     * @param objects
+     * @return
+     */
+    @Deprecated
     protected static ShapelessOreRecipe createShapelessRecipe(ItemStack resultStack, Object... objects) {
-        if (objects == null || objects.length == 0) return null;
+        // if (objects == null || objects.length == 0) return null;
 
-        return new ShapelessOreRecipe(resultStack, objects);
+        // return new ShapelessOreRecipe(resultStack, objects);
+        return null;
     }
 
 }

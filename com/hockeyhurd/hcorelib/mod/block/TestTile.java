@@ -96,7 +96,7 @@ public class TestTile extends AbstractHCoreBlockContainer implements IBlockToolt
 	}
 
 	@Override
-	public boolean onBlockActivated(World world, BlockPos blockPos, IBlockState blockState, EntityPlayer player, EnumHand hand, ItemStack stack,
+	public boolean onBlockActivated(World world, BlockPos blockPos, IBlockState blockState, EntityPlayer player, EnumHand hand,
 			EnumFacing sideHit, float hitX, float hitY, float hitZ) {
 		return false;
 	}

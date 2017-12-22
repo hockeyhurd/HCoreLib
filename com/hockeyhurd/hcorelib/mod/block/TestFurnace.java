@@ -80,7 +80,7 @@ public class TestFurnace extends AbstractHCoreBlockContainer {
     }
 
     @Override
-    public boolean onBlockActivated(World world, BlockPos blockPos, IBlockState blockState, EntityPlayer player, EnumHand hand, ItemStack stack, EnumFacing sideHit, float hitX, float hitY, float hitZ) {
+    public boolean onBlockActivated(World world, BlockPos blockPos, IBlockState blockState, EntityPlayer player, EnumHand hand, EnumFacing sideHit, float hitX, float hitY, float hitZ) {
         if (world.isRemote) return true;
 
         TileFurnace te = (TileFurnace) world.getTileEntity(blockPos);

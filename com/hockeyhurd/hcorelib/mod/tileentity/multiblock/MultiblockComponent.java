@@ -36,7 +36,7 @@ public class MultiblockComponent extends AbstractTileContainer implements IMulti
 
 	@Override
 	public boolean isItemValidForSlot(int slot, ItemStack stack) {
-		return slot == 0 && (slots[0] == null || (stack != null && slots[0].stackSize + stack.stackSize <= slots[0].getMaxStackSize() &&
+		return slot == 0 && (slots[0] == null || (stack != null && slots[0].getCount() + stack.getCount() <= slots[0].getMaxStackSize() &&
 				slots[0].isItemEqual(stack)));
 	}
 
@@ -66,7 +66,7 @@ public class MultiblockComponent extends AbstractTileContainer implements IMulti
 
 	@Override
 	public boolean canExtractItem(int slot, ItemStack stack, EnumFacing side) {
-		return slot == 0 && slots[0] != null && slots[0].stackSize > 0;
+		return slot == 0 && slots[0] != null && slots[0].getCount() > 0;
 	}
 
 	/*@Override
@@ -82,12 +82,12 @@ public class MultiblockComponent extends AbstractTileContainer implements IMulti
 		}
 
 		else if (stack.isItemEqual(slots[0])) {
-			int left = slots[0].getMaxStackSize() - slots[0].stackSize;
-			left -= stack.stackSize;
+			int left = slots[0].getMaxStackSize() - slots[0].getCount();
+			left -= stack.getCount();
 
 			if (!simulate) {
-				slots[0].stackSize += stack.stackSize;
-				internalSize = slots[0].stackSize + left;
+				slots[0].setCount(slots[0].getCount() + stack.getCount());
+				internalSize = slots[0].getCount() + left;
 			}
 
 			return true;
@@ -102,13 +102,13 @@ public class MultiblockComponent extends AbstractTileContainer implements IMulti
 
 		amount = Math.min(amount, slots[0].getMaxStackSize());
 
-		int amountToPull = Math.min(slots[0].stackSize, amount);
+		int amountToPull = Math.min(slots[0].getCount(), amount);
 		amountToPull = Math.min(amountToPull, internalSize);
 
 		if (!simulate) {
 			if (amountToPull < internalSize) {
 				internalSize -= amountToPull;
-				slots[0].stackSize = internalSize;
+				slots[0].setCount(internalSize);
 			}
 
 			else if (amountToPull == internalSize) {
@@ -120,7 +120,7 @@ public class MultiblockComponent extends AbstractTileContainer implements IMulti
 		}
 
 		// Adjust stack size according to the amount of was pulled.
-		copy.stackSize = amountToPull;
+		copy.setCount(amountToPull);
 
 		return copy;
 	}

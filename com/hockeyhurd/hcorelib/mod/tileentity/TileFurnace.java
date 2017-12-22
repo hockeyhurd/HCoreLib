@@ -300,7 +300,8 @@ public class TileFurnace extends AbstractTileContainer implements ITickable {
     @Override
     public void onDataPacket(NetworkManager manger, SPacketUpdateTileEntity packet) {
         readNBT(packet.getNbtCompound());
-        BlockUtils.markBlockForUpdate(world, pos);
+        BlockUtils.markBlockForUpdate(world, pos, BlockUtils.getBlock(world, pos));
+        // world.notifyBlockUpdate(pos, bl);
     }
 
     @Override

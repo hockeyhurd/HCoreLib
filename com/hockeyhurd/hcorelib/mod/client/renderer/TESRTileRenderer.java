@@ -19,7 +19,7 @@ public final class TESRTileRenderer extends TileEntitySpecialRenderer<TileEntity
 	public static final ResourceLocation TEXTURE = new ResourceLocation(HCoreLibMain.assetDir, "textures/blocks/tileTESRTest.png");
 
 	@Override
-	public void renderTileEntityAt(TileEntityTESRTest te, double x, double y, double z, float partialTicks, int destroyStage) {
+	public void render(TileEntityTESRTest te, double x, double y, double z, float partialTicks, int destroyStage, float alpha) {
 		RenderHelper.setupPreRender(TEXTURE, x, y, z);
 
 		drawCuboid(te, x, y, z);

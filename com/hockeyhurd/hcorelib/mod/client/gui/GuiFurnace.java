@@ -34,7 +34,7 @@ public class GuiFurnace extends GuiContainer {
     public void drawGuiContainerForegroundLayer(int x, int y) {
         stringToDraw = !this.te.hasCustomInventoryName() ? this.te.getInventoryName() : I18n.format(this.te.getInventoryName(), new Object[0]);
 
-        this.fontRendererObj.drawString(stringToDraw, (this.xSize >> 1) - (this.fontRendererObj.getStringWidth(stringToDraw) >> 1), 6, 4210752);
+        this.fontRenderer.drawString(stringToDraw, (this.xSize >> 1) - (this.fontRenderer.getStringWidth(stringToDraw) >> 1), 6, 4210752);
     }
 
     @Override

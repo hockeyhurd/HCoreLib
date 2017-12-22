@@ -6,6 +6,7 @@ import net.minecraftforge.fml.client.IModGuiFactory;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import java.util.Collections;
 import java.util.Set;
 
 /**
@@ -26,7 +27,12 @@ public abstract class AbstractGuiFactory implements IModGuiFactory {
 
     @Override
     public Set<RuntimeOptionCategoryElement> runtimeGuiCategories() {
-        return null;
+        return Collections.emptySet();
+    }
+
+    @Override
+    public boolean hasConfigGui() {
+        return true;
     }
 
 }

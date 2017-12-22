@@ -1,6 +1,7 @@
 package com.hockeyhurd.hcorelib.mod.client.gui;
 
 import com.hockeyhurd.hcorelib.api.client.gui.AbstractGuiFactory;
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -14,8 +15,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public final class HGuiFactory extends AbstractGuiFactory {
 
     @Override
-    public Class<? extends HGuiConfig> mainConfigGuiClass() {
-        return HGuiConfig.class;
+    public GuiScreen createConfigGui(GuiScreen parentScreen) {
+        return new HGuiConfig(parentScreen);
     }
 
 }

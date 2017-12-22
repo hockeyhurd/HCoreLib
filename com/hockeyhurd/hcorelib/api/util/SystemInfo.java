@@ -228,7 +228,7 @@ public final class SystemInfo {
     public String[] getTPSDetails(final int dimension) {
         List<String> list = new ArrayList<String>(0x10);
 
-        WorldServer world = FMLServerHandler.instance().getServer().worldServerForDimension(dimension);
+        WorldServer world = FMLServerHandler.instance().getServer().getWorld(dimension);
         List<Entity> entities = world.getLoadedEntityList();
 
         list.add("Uptime: " + NumberFormatter.millisecondsAsString((long) timeLapse.getEffectiveTimeSince()));

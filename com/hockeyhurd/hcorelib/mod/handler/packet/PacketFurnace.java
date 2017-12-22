@@ -66,7 +66,7 @@ public class PacketFurnace implements IMessage, IMessageHandler<PacketFurnace, I
     @Override
     public IMessage onMessage(PacketFurnace message, MessageContext ctx) {
         if (ctx.side == Side.CLIENT && message.pos != null) {
-            final TileFurnace tileFurnace = (TileFurnace) FMLClientHandler.instance().getClient().theWorld.
+            final TileFurnace tileFurnace = (TileFurnace) FMLClientHandler.instance().getClient().world.
                     getTileEntity(VectorHelper.toBlockPos((message.pos)));
 
             if (tileFurnace == null) return null;

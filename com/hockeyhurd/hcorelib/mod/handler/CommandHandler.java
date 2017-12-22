@@ -60,11 +60,11 @@ public final class CommandHandler {
             return;
         }
 
-        if (command != null && !commandMap.containsKey(command.getCommandName())) {
-            commandMap.put(command.getCommandName(), command);
+        if (command != null && !commandMap.containsKey(command.getName())) {
+            commandMap.put(command.getName(), command);
 
             if (HCoreLibMain.configHandler.isDebugMode())
-                HCoreLibMain.logHelper.info("Command:", command.getCommandName(), "was added to internal mapping!");
+                HCoreLibMain.logHelper.info("Command:", command.getName(), "was added to internal mapping!");
         }
     }
 

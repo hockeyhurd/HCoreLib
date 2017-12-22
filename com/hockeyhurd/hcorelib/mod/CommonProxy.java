@@ -56,10 +56,10 @@ public class CommonProxy implements IProxy {
 		GameRegistry.register(HCoreLibMain.testBlock);
 		GameRegistry.register(HCoreLibMain.testBlock.getItemBlock().setRegistryName(HCoreLibMain.testBlock.getRegistryName()));
 
-		for (RecipePattern pattern : ((ICraftableRecipe) HCoreLibMain.testBlock).getRecipePatterns()) {
+		/*for (RecipePattern pattern : ((ICraftableRecipe) HCoreLibMain.testBlock).getRecipePatterns()) {
 			if (pattern != null)
 				pattern.registerRecipe();
-		}
+		}*/
 
 		GameRegistry.register(HCoreLibMain.testTile);
 		GameRegistry.register(HCoreLibMain.testTESRTile);

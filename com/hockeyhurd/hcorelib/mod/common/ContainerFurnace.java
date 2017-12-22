@@ -70,11 +70,14 @@ public class ContainerFurnace extends Container {
                 if (!this.getSlot(0).isItemValid(slotStack) || !this.mergeItemStack(slotStack, 0, tileFurnace.getSizeInventory(), false)) return null;
             }
 
-            if (slotStack.stackSize == 0) slot.putStack(null);
-            else slot.onSlotChanged();
+            if (slotStack.getCount() == 0)
+                slot.putStack(null);
+            else
+                slot.onSlotChanged();
 
-            if (slotStack.stackSize == stack.stackSize) return null;
-            slot.onPickupFromSlot(player, slotStack);
+            if (slotStack.getCount() == stack.getCount())
+                return null;
+            slot.onTake(player, slotStack);
         }
 
         return stack;

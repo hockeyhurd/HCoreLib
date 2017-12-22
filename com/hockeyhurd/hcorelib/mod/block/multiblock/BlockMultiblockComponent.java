@@ -52,15 +52,15 @@ public class BlockMultiblockComponent extends AbstractHCoreBlockContainer implem
 				final ItemStack contStack = comp.getStackInSlot(0);
 
 				if (contStack != null) {
-					HCoreLibMain.logHelper.info("Before:", contStack.stackSize, stack.stackSize);
-					contStack.stackSize += stack.stackSize;
+					HCoreLibMain.logHelper.info("Before:", contStack.getCount(), stack.getCount());
+					contStack.setCount(contStack.getCount() + stack.getCount());
 					comp.setInventorySlotContents(0, contStack);
-					HCoreLibMain.logHelper.info("After:", contStack.stackSize);
+					HCoreLibMain.logHelper.info("After:", contStack.getCount());
 				}
 
 				else {
 					comp.setInventorySlotContents(0, stack.copy());
-					HCoreLibMain.logHelper.info("Set stack:", stack.getDisplayName(), stack.stackSize);
+					HCoreLibMain.logHelper.info("Set stack:", stack.getDisplayName(), stack.getCount());
 				}
 			}
 		}
@@ -134,7 +134,7 @@ public class BlockMultiblockComponent extends AbstractHCoreBlockContainer implem
 
 	// Right click on block.
 	@Override
-	public boolean onBlockActivated(World world, BlockPos blockPos, IBlockState blockState, EntityPlayer player, EnumHand hand, ItemStack stack,
+	public boolean onBlockActivated(World world, BlockPos blockPos, IBlockState blockState, EntityPlayer player, EnumHand hand,
 			EnumFacing sideHit, float hitX, float hitY, float hitZ) {
 
 		if (!world.isRemote) {
@@ -169,7 +169,9 @@ public class BlockMultiblockComponent extends AbstractHCoreBlockContainer implem
 			}*/
 
 			else {
-				if (stack != null && stack.stackSize > 0) {
+				final ItemStack stack = player.getHeldItem(hand);
+
+				if (stack != null && stack.getCount() > 0) {
 					// HCoreLibMain.logHelper.info("Here!", stack, stack.stackSize);
 					component.pushStack(stack, false);
 					// HCoreLibMain.logHelper.info("After put stack:", component.getStackInSlot(0));

@@ -1,11 +1,13 @@
 package com.hockeyhurd.hcorelib.mod.client.gui;
 
+import com.hockeyhurd.hcorelib.api.client.util.ModelRegistry;
 import com.hockeyhurd.hcorelib.api.math.expressions.Expression;
 import com.hockeyhurd.hcorelib.api.math.expressions.GlobalConstants;
 import com.hockeyhurd.hcorelib.api.math.expressions.Interpreter;
 import com.hockeyhurd.hcorelib.api.math.expressions.InterpreterResult;
 import com.hockeyhurd.hcorelib.mod.ClientProxy;
 import com.hockeyhurd.hcorelib.mod.HCoreLibMain;
+import com.hockeyhurd.hcorelib.mod.block.ModRegistry;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
@@ -61,8 +63,8 @@ public final class GuiCalculator extends GuiScreen {
     public void initGui() {
         super.initGui();
 
-        final ItemStack calcStack = mc.thePlayer.getHeldItem(EnumHand.MAIN_HAND);
-        if (calcStack != null && calcStack.stackSize > 0 && calcStack.getItem() == HCoreLibMain.itemCalculator) {
+        final ItemStack calcStack = mc.player.getHeldItem(EnumHand.MAIN_HAND);
+        if (calcStack != null && calcStack.getCount() > 0 && calcStack.getItem() == ModRegistry.ModItems.itemCalculator.getItem().getItem()) {
             NBTTagCompound comp = calcStack.getTagCompound();
             if (comp != null) {
                 drawString = comp.getString("CalculatorInput");
@@ -102,40 +104,40 @@ public final class GuiCalculator extends GuiScreen {
             }
         }
 
-        numPad[9] = new GuiButton(9, numPad[6].xPosition, numPad[6].yPosition + bh + 4, bw, bh, "(");
-        numPad[10] = new GuiButton(10, numPad[7].xPosition, numPad[7].yPosition + bh + 4, bw, bh, Integer.toString(0));
-        numPad[11] = new GuiButton(11, numPad[8].xPosition, numPad[8].yPosition + bh + 4, bw, bh, ")");
+        numPad[9] = new GuiButton(9, numPad[6].x, numPad[6].y + bh + 4, bw, bh, "(");
+        numPad[10] = new GuiButton(10, numPad[7].x, numPad[7].y + bh + 4, bw, bh, Integer.toString(0));
+        numPad[11] = new GuiButton(11, numPad[8].x, numPad[8].y + bh + 4, bw, bh, ")");
 
         buttonList.add(numPad[9]);
         buttonList.add(numPad[10]);
         buttonList.add(numPad[11]);
 
-        clearButton = new GuiButton(buttonList.size(), numPad[0].xPosition - bw - 4, numPad[4].yPosition, bw, bh, "C");
+        clearButton = new GuiButton(buttonList.size(), numPad[0].x - bw - 4, numPad[4].y, bw, bh, "C");
         buttonList.add(clearButton);
-        deleteButton = new GuiButton(buttonList.size(), clearButton.xPosition, numPad[1].yPosition, bw, bh, "<-");
+        deleteButton = new GuiButton(buttonList.size(), clearButton.x, numPad[1].y, bw, bh, "<-");
         buttonList.add(deleteButton);
 
         GuiButton bufferButton;
 
         // equalsButtons = new GuiButton(buttonList.size(), numPad[11].xPosition + bw + 4, numPad[11].yPosition, bw, bh, "=");
         // buttonList.add(equalsButtons);
-        buttonMap.put("=", new GuiButton(buttonList.size(), clearButton.xPosition, numPad[7].yPosition, bw, bh, "="));
-        buttonMap.put(".", new GuiButton(buttonList.size(), clearButton.xPosition, numPad[11].yPosition, bw, bh, "."));
-        buttonMap.put("+", new GuiButton(buttonList.size(), numPad[11].xPosition + bw + 4, numPad[11].yPosition, bw, bh, "+"));
-        buttonMap.put("-", new GuiButton(buttonList.size(), numPad[8].xPosition + bw + 4, numPad[8].yPosition, bw, bh, "-"));
-        buttonMap.put("*", new GuiButton(buttonList.size(), numPad[5].xPosition + bw + 4, numPad[5].yPosition, bw, bh, "*"));
-        buttonMap.put("/", new GuiButton(buttonList.size(), numPad[2].xPosition + bw + 4, numPad[2].yPosition, bw, bh, "/"));
-        buttonMap.put("M+", bufferButton = new GuiButton(buttonList.size(), numPad[11].xPosition + (bw + 4 << 1), numPad[11].yPosition, bw, bh, "M+"));
-        buttonMap.put("M-", new GuiButton(buttonList.size(), numPad[8].xPosition + (bw + 4 << 1), numPad[8].yPosition, bw, bh, "M-"));
-        buttonMap.put("M*", new GuiButton(buttonList.size(), numPad[5].xPosition + (bw + 4 << 1), numPad[5].yPosition, bw, bh, "M*"));
-        buttonMap.put("M/", new GuiButton(buttonList.size(), numPad[2].xPosition + (bw + 4 << 1), numPad[2].yPosition, bw, bh, "M/"));
-        buttonMap.put("MC", new GuiButton(buttonList.size(), numPad[0].xPosition, numPad[0].yPosition - bh - 4, bw, bh, "MC"));
-        buttonMap.put("MR", new GuiButton(buttonList.size(), numPad[1].xPosition, numPad[1].yPosition - bh - 4, bw, bh, "MR"));
-        buttonMap.put("MS", new GuiButton(buttonList.size(), numPad[2].xPosition, numPad[2].yPosition - bh - 4, bw, bh, "MS"));
-        buttonMap.put("^", new GuiButton(buttonList.size(), numPad[2].xPosition + bw + 4, numPad[2].yPosition - bh - 4, bw, bh, "^"));
-        buttonMap.put("" + GlobalConstants.SQ_ROOT_CHAR, new GuiButton(buttonList.size(), numPad[2].xPosition + (bw + 4 << 1), numPad[2].yPosition - bh - 4, bw, bh, "" + GlobalConstants.SQ_ROOT_CHAR));
-        buttonMap.put("e", bufferButton = new GuiButton(buttonList.size(), bufferButton.xPosition + bw + 4, numPad[11].yPosition, bw, bh, "e"));
-        buttonMap.put("" + GlobalConstants.PI_CHAR, new GuiButton(buttonList.size(), bufferButton.xPosition, numPad[8].yPosition, bw, bh, "" + GlobalConstants.PI_CHAR));
+        buttonMap.put("=", new GuiButton(buttonList.size(), clearButton.x, numPad[7].y, bw, bh, "="));
+        buttonMap.put(".", new GuiButton(buttonList.size(), clearButton.x, numPad[11].y, bw, bh, "."));
+        buttonMap.put("+", new GuiButton(buttonList.size(), numPad[11].x + bw + 4, numPad[11].y, bw, bh, "+"));
+        buttonMap.put("-", new GuiButton(buttonList.size(), numPad[8].x + bw + 4, numPad[8].y, bw, bh, "-"));
+        buttonMap.put("*", new GuiButton(buttonList.size(), numPad[5].x + bw + 4, numPad[5].y, bw, bh, "*"));
+        buttonMap.put("/", new GuiButton(buttonList.size(), numPad[2].x + bw + 4, numPad[2].y, bw, bh, "/"));
+        buttonMap.put("M+", bufferButton = new GuiButton(buttonList.size(), numPad[11].x + (bw + 4 << 1), numPad[11].y, bw, bh, "M+"));
+        buttonMap.put("M-", new GuiButton(buttonList.size(), numPad[8].x + (bw + 4 << 1), numPad[8].y, bw, bh, "M-"));
+        buttonMap.put("M*", new GuiButton(buttonList.size(), numPad[5].x + (bw + 4 << 1), numPad[5].y, bw, bh, "M*"));
+        buttonMap.put("M/", new GuiButton(buttonList.size(), numPad[2].x + (bw + 4 << 1), numPad[2].y, bw, bh, "M/"));
+        buttonMap.put("MC", new GuiButton(buttonList.size(), numPad[0].x, numPad[0].y - bh - 4, bw, bh, "MC"));
+        buttonMap.put("MR", new GuiButton(buttonList.size(), numPad[1].x, numPad[1].y - bh - 4, bw, bh, "MR"));
+        buttonMap.put("MS", new GuiButton(buttonList.size(), numPad[2].x, numPad[2].y - bh - 4, bw, bh, "MS"));
+        buttonMap.put("^", new GuiButton(buttonList.size(), numPad[2].x + bw + 4, numPad[2].y - bh - 4, bw, bh, "^"));
+        buttonMap.put("" + GlobalConstants.SQ_ROOT_CHAR, new GuiButton(buttonList.size(), numPad[2].x + (bw + 4 << 1), numPad[2].y - bh - 4, bw, bh, "" + GlobalConstants.SQ_ROOT_CHAR));
+        buttonMap.put("e", bufferButton = new GuiButton(buttonList.size(), bufferButton.x + bw + 4, numPad[11].y, bw, bh, "e"));
+        buttonMap.put("" + GlobalConstants.PI_CHAR, new GuiButton(buttonList.size(), bufferButton.x, numPad[8].y, bw, bh, "" + GlobalConstants.PI_CHAR));
 
         for (GuiButton button : buttonMap.values()) {
             button.id = buttonList.size();
@@ -148,8 +150,8 @@ public final class GuiCalculator extends GuiScreen {
     public void onGuiClosed() {
         super.onGuiClosed();
 
-        final ItemStack calcStack = mc.thePlayer.getHeldItem(EnumHand.MAIN_HAND);
-        if (calcStack != null && calcStack.stackSize > 0 && calcStack.getItem() == HCoreLibMain.itemCalculator) {
+        final ItemStack calcStack = mc.player.getHeldItem(EnumHand.MAIN_HAND);
+        if (calcStack != null && calcStack.getCount() > 0 && calcStack.getItem() == ModRegistry.ModItems.itemCalculator.getItem().getItem()) {
             NBTTagCompound comp = calcStack.getTagCompound();
             if (comp == null) calcStack.setTagCompound((comp = new NBTTagCompound()));
 
@@ -171,7 +173,7 @@ public final class GuiCalculator extends GuiScreen {
 
     public void drawGuiContainerForegroundLayer(int x, int y) {
         // fontRendererObj.drawString(drawString, xSize - (width >> 1) - 8, guiTop, 0xffffffff);
-        fontRendererObj.drawString(drawString, (xSize >> 3) - (fontRendererObj.getStringWidth("00") >> 1), (ySize >> 3), 0xffffffff);
+        fontRenderer.drawString(drawString, (xSize >> 3) - (fontRenderer.getStringWidth("00") >> 1), (ySize >> 3), 0xffffffff);
     }
 
     public void drawGuiContainerBackgroundLayer(float f, int x, int y) {

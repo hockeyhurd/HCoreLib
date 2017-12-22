@@ -42,7 +42,7 @@ public class OreDictParser {
 
 			for (ItemStack stack : list) {
 				buffer = stack.copy();
-				buffer.stackSize = 1;
+				buffer.setCount(1);
 
 				putList.add(buffer);
 			}
@@ -58,7 +58,7 @@ public class OreDictParser {
 	 * @param value oredictionaried string value.
 	 */
 	private static void pushItemStackToMap(ItemStack key, String value) {
-		if (key != null && key.stackSize > 0 && LogicHelper.nullCheckString(value)) internalMapByStack.put(key, value);
+		if (key != null && key.getCount() > 0 && LogicHelper.nullCheckString(value)) internalMapByStack.put(key, value);
 	}
 
 	/**
@@ -106,7 +106,8 @@ public class OreDictParser {
 			}
 
 			// If not found, return nothing.
-			if (!flag) return (ItemStack) null;
+			if (!flag)
+				return null;
 			// Else, let's get some more information before returning.
 			else {
 				Block block = null;
@@ -122,7 +123,7 @@ public class OreDictParser {
 				/*
 				 * Attempts to apply requested stack size. But first, let's make sure we know what type it is i.e. item or block. Create ItemStack object, temp, and spit out our findings.
 				 */
-				temp.stackSize = block != null && item == null ? 2 : (block == null && item != null ? 1 : 1);
+				temp.setCount(block != null && item == null ? 2 : (block == null && item != null ? 1 : 1));
 
 				return flag && temp != null ? temp : null;
 			}
@@ -169,7 +170,7 @@ public class OreDictParser {
 
 				for (ItemStack stack : retList) {
 					buffer = stack.copy();
-					buffer.stackSize = size;
+					buffer.setCount(size);
 
 					list.add(buffer);
 				}
@@ -188,12 +189,15 @@ public class OreDictParser {
 	 * @return ore dict name if found, else returns empty string.
 	 */
 	public static String getOreDictName(final ItemStack stack) {
-		if (stack == null || stack.stackSize == 0) return "";
+		if (stack == null || stack.getCount() == 0)
+		    return "";
 
-		if (internalMapByStack.containsKey(stack)) return internalMapByStack.get(stack);
+		if (internalMapByStack.containsKey(stack))
+		    return internalMapByStack.get(stack);
 		else {
 			String ret = OreDictionary.getOreIDs(stack).length > 0 ? OreDictionary.getOreName(OreDictionary.getOreIDs(stack)[0]) : "";
-			if (ret.length() > 0) pushItemStackToMap(stack, ret);
+			if (ret.length() > 0)
+			    pushItemStackToMap(stack, ret);
 
 			return ret;
 		}

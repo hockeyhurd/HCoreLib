@@ -41,7 +41,7 @@ public class ItemWrench extends AbstractHCoreItem implements ICraftableRecipe, I
     }
 
     @Override
-    public EnumActionResult onItemUseFirst(ItemStack stack, EntityPlayer player, World world, BlockPos blockPos,
+    public EnumActionResult onItemUseFirst(EntityPlayer player, World world, BlockPos blockPos,
         EnumFacing side, float hitX, float hitY, float hitZ, EnumHand hand) {
 
         player.swingArm(hand);
@@ -50,6 +50,7 @@ public class ItemWrench extends AbstractHCoreItem implements ICraftableRecipe, I
             if (world.isRemote)
                 return EnumActionResult.PASS;
 
+            final ItemStack stack = player.getHeldItem(hand);
             final TileEntity tileEntity = world.getTileEntity(blockPos);
             IWrenchable wrenchable = tileEntity instanceof IWrenchable ? (IWrenchable) tileEntity : null;
 

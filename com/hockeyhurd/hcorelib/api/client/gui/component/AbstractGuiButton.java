@@ -63,7 +63,7 @@ public abstract class AbstractGuiButton extends GuiButton implements IGuiButton 
 
     @Override
     public Vector2<Integer> getPos() {
-        return new Vector2<Integer>(xPosition, yPosition);
+        return new Vector2<Integer>(x, y);
     }
 
     @Override

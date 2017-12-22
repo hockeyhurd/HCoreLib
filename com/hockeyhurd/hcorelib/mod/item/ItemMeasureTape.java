@@ -54,7 +54,7 @@ public final class ItemMeasureTape extends AbstractHCoreItem implements ICraftab
 
         if (!world.isRemote) {
             final Vector3<Integer> vec = VectorHelper.toVector3i(pos);
-            player.addChatComponentMessage(ChatUtils.createComponent("Set: " + vec.toString()));
+            player.sendMessage(ChatUtils.createComponent("Set: " + vec.toString()));
 
             NBTTagCompound comp = null;
 
@@ -74,7 +74,7 @@ public final class ItemMeasureTape extends AbstractHCoreItem implements ICraftab
                 savedVec.y = comp.getInteger("tapePosY");
                 savedVec.z = comp.getInteger("tapePosZ");
 
-                player.addChatComponentMessage(ChatUtils.createComponent(true, "Euclidian distance: " +
+                player.sendMessage(ChatUtils.createComponent(true, "Euclidian distance: " +
                         NumberFormatter.format((Mathd.round(vec.getNetDifference(savedVec)))),
                         "Manhattan distance:" + vec.getDifference(savedVec).toString()));
 

@@ -78,19 +78,19 @@ public class NotifyPlayerOnJoinHandler {
 				}
 
 				// Output info to joining player.
-				player.addChatComponentMessage(createComponent(GREEN + "[" + name + "] " +
+				player.sendMessage(createComponent(GREEN + "[" + name + "] " +
 						GRAY + "Found an update! Latest build: " + build));
-				player.addChatComponentMessage(createURLComponent(false, updateUrl, DEFAULT_URL_MASK,
+				player.sendMessage(createURLComponent(false, updateUrl, DEFAULT_URL_MASK,
 						GRAY + "You can get this at:" + WHITE));
 
 				// grab changelog info.
 				String[] changelogArray = instance.getChangelogInfo();
 				if (changelogArray != null && changelogArray.length > 0) {
-					player.addChatComponentMessage(createComponent(GREEN + "Change log:"));
+					player.sendMessage(createComponent(GREEN + "Change log:"));
 
 					for (String s : changelogArray) {
 						if (s != null) {
-							player.addChatComponentMessage(createComponent(WHITE + s));
+							player.sendMessage(createComponent(WHITE + s));
 						}
 					}
 				}
