@@ -1,6 +1,5 @@
 package com.hockeyhurd.hcorelib.mod;
 
-import com.hockeyhurd.hcorelib.api.client.util.ModelRegistry;
 import com.hockeyhurd.hcorelib.api.handler.client.DrawBlockSelectionHandler;
 import com.hockeyhurd.hcorelib.api.handler.config.ConfigChangedEventHandler;
 import com.hockeyhurd.hcorelib.api.handler.tooltip.ItemTooltipEventHandler;
@@ -20,7 +19,7 @@ public class ClientProxy extends CommonProxy {
 	public ClientProxy() {
 	}
 
-	@Override
+	/*@Override
 	protected void registerBlocks() {
 		super.registerBlocks();
 
@@ -36,9 +35,9 @@ public class ClientProxy extends CommonProxy {
 			ModelRegistry.registerBlock(HCoreLibMain.multiblockController);
 			ModelRegistry.registerBlock(HCoreLibMain.multiblockComponent);
 		}
-	}
+	}*/
 
-	@Override
+	/*@Override
 	protected void registerItems() {
 		super.registerItems();
 
@@ -52,7 +51,7 @@ public class ClientProxy extends CommonProxy {
 			ModelRegistry.registerItem(HCoreLibMain.testItem);
 			ModelRegistry.registerItem(HCoreLibMain.testMetaItem);
 		}
-	}
+	}*/
 
 	@Override
 	protected void registerMCForgeEventHandlers() {
@@ -69,7 +68,7 @@ public class ClientProxy extends CommonProxy {
 		// Below is an example of how to create, initialize, and register a KeyInputHandler from this API.
 		// KeyBindingHandler handler = new KeyBindingHandler(new TestKeyBinding("Test", Keyboard.KEY_F4, LibReference.MOD_NAME));
 		// FMLCommonHandler.instance().bus().register(handler);
-		FMLCommonHandler.instance().bus().register(new ConfigChangedEventHandler(HCoreLibMain.modID, HCoreLibMain.configHandler));
+		FMLCommonHandler.instance().bus().register(new ConfigChangedEventHandler(LibReference.MOD_ID, HCoreLibMain.configHandler));
 	}
 
 	private void registerSpecialRenderers() {

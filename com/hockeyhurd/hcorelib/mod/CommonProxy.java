@@ -1,9 +1,7 @@
 package com.hockeyhurd.hcorelib.mod;
 
 import com.hockeyhurd.hcorelib.api.handler.NotifyPlayerOnJoinHandler;
-import com.hockeyhurd.hcorelib.api.handler.RecipePattern;
 import com.hockeyhurd.hcorelib.api.handler.UpdateHandler;
-import com.hockeyhurd.hcorelib.api.util.interfaces.ICraftableRecipe;
 import com.hockeyhurd.hcorelib.api.util.interfaces.IProxy;
 import com.hockeyhurd.hcorelib.mod.handler.GuiHandler;
 import com.hockeyhurd.hcorelib.mod.tileentity.TileEntityTESRTest;
@@ -38,9 +36,9 @@ public class CommonProxy implements IProxy {
 	@Override
 	public void init() {
 		registerMCForgeEventHandlers();
-		registerBlocks();
+		// registerBlocks();
 		registerTileEntities();
-		registerItems();
+		// registerItems();
 		registerGuiHandler();
 		registerEventHandlers();
 	}
@@ -48,7 +46,7 @@ public class CommonProxy implements IProxy {
 	protected void registerMCForgeEventHandlers() {
 	}
 	
-	protected void registerBlocks() {
+	/*protected void registerBlocks() {
 		// GameRegistry.registerBlock(HCoreLibMain.white, "HiddenWhite");
 		if (!HCoreLibMain.configHandler.isDebugMode())
 			return;
@@ -56,10 +54,10 @@ public class CommonProxy implements IProxy {
 		GameRegistry.register(HCoreLibMain.testBlock);
 		GameRegistry.register(HCoreLibMain.testBlock.getItemBlock().setRegistryName(HCoreLibMain.testBlock.getRegistryName()));
 
-		/*for (RecipePattern pattern : ((ICraftableRecipe) HCoreLibMain.testBlock).getRecipePatterns()) {
+		*//*for (RecipePattern pattern : ((ICraftableRecipe) HCoreLibMain.testBlock).getRecipePatterns()) {
 			if (pattern != null)
 				pattern.registerRecipe();
-		}*/
+		}*//*
 
 		GameRegistry.register(HCoreLibMain.testTile);
 		GameRegistry.register(HCoreLibMain.testTESRTile);
@@ -71,7 +69,7 @@ public class CommonProxy implements IProxy {
 		GameRegistry.register(HCoreLibMain.multiblockController.getItemBlock().setRegistryName(HCoreLibMain.multiblockController.getRegistryName()));
 		GameRegistry.register(HCoreLibMain.multiblockComponent);
 		GameRegistry.register(HCoreLibMain.multiblockComponent.getItemBlock().setRegistryName(HCoreLibMain.multiblockComponent.getRegistryName()));
-	}
+	}*/
 
 	protected void registerTileEntities() {
 		if (!HCoreLibMain.configHandler.isDebugMode())
@@ -84,7 +82,7 @@ public class CommonProxy implements IProxy {
 		GameRegistry.registerTileEntity(MultiblockComponent.class, "multiblockComponent");
 	}
 
-	protected void registerItems() {
+	/*protected void registerItems() {
 		GameRegistry.register(HCoreLibMain.itemCalculator);
 		GameRegistry.register(HCoreLibMain.itemMeasureTape);
 		// GameRegistry.register(HCoreLibMain.buildersWand);
@@ -122,7 +120,7 @@ public class CommonProxy implements IProxy {
                     pattern.registerRecipe();
             }
 		}
-	}
+	}*/
 
 	protected void registerGuiHandler() {
 		if (guiHandler != null) NetworkRegistry.INSTANCE.registerGuiHandler(HCoreLibMain.instance, guiHandler);

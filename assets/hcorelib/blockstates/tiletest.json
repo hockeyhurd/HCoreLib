@@ -2,13 +2,13 @@
   "forge_marker": 1,
   "defaults": {
     "textures": {
-      "up": "hcorelib:blocks/sideU",
-      "down": "hcorelib:blocks/sideD",
-      "north": "hcorelib:blocks/sideN",
-      "east": "hcorelib:blocks/sideE",
-      "west": "hcorelib:blocks/sideW",
-      "south": "hcorelib:blocks/sideS",
-      "particle": "hcorelib:blocks/sideN"
+      "up": "hcorelib:blocks/sideu",
+      "down": "hcorelib:blocks/sided",
+      "north": "hcorelib:blocks/siden",
+      "east": "hcorelib:blocks/sidee",
+      "west": "hcorelib:blocks/sidew",
+      "south": "hcorelib:blocks/sides",
+      "particle": "hcorelib:blocks/siden"
     },
     "model": "minecraft:cube",
     "transform": "forge:default-block"
@@ -36,7 +36,7 @@
     "working": {
       "true": {
         "textures": {
-          "north": "hcorelib:blocks/sideNOn"
+          "north": "hcorelib:blocks/sidenon"
         }
       },
       "false": {

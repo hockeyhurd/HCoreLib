@@ -1,66 +1,40 @@
 package com.hockeyhurd.hcorelib.mod;
 
-import com.hockeyhurd.hcorelib.api.block.AbstractHCoreBlock;
-import com.hockeyhurd.hcorelib.api.block.AbstractHCoreBlockContainer;
 import com.hockeyhurd.hcorelib.api.creativetab.AbstractCreativeTab;
-import com.hockeyhurd.hcorelib.api.item.AbstractHCoreItem;
 import com.hockeyhurd.hcorelib.api.math.TimeLapse;
 import com.hockeyhurd.hcorelib.api.util.LogHelper;
 import com.hockeyhurd.hcorelib.api.util.McModInfoDataInjector;
 import com.hockeyhurd.hcorelib.api.util.ModsLoadedHelper;
 import com.hockeyhurd.hcorelib.api.util.SystemInfo;
-import com.hockeyhurd.hcorelib.api.util.enums.EnumArmorType;
 import com.hockeyhurd.hcorelib.api.util.exceptions.InCompatibleJavaException.JavaCompatibility;
 import com.hockeyhurd.hcorelib.api.util.interfaces.IForgeMod;
-import com.hockeyhurd.hcorelib.mod.block.TestBlock;
-import com.hockeyhurd.hcorelib.mod.block.TestFurnace;
-import com.hockeyhurd.hcorelib.mod.block.TestTESRTile;
-import com.hockeyhurd.hcorelib.mod.block.TestTile;
-import com.hockeyhurd.hcorelib.mod.block.multiblock.BlockMultiblockComponent;
-import com.hockeyhurd.hcorelib.mod.block.multiblock.BlockMultiblockController;
 import com.hockeyhurd.hcorelib.mod.creativetab.ModCreativeTab;
 import com.hockeyhurd.hcorelib.mod.handler.CommandHandler;
 import com.hockeyhurd.hcorelib.mod.handler.config.ConfigHandler;
-import com.hockeyhurd.hcorelib.mod.item.ItemBuildersWand;
-import com.hockeyhurd.hcorelib.mod.item.ItemCalculator;
-import com.hockeyhurd.hcorelib.mod.item.ItemMeasureTape;
-import com.hockeyhurd.hcorelib.mod.item.ItemWitchHat;
-import com.hockeyhurd.hcorelib.mod.item.ItemWrench;
-import com.hockeyhurd.hcorelib.mod.item.TestItem;
-import com.hockeyhurd.hcorelib.mod.item.TestMetaItem;
-import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.init.SoundEvents;
-import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
 import net.minecraftforge.fml.common.SidedProxy;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLServerStartedEvent;
-import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
+import net.minecraftforge.fml.common.event.*;
 import net.minecraftforge.fml.relauncher.Side;
 import org.apache.commons.lang3.JavaVersion;
 
-@Mod(modid = LibReference.MOD_NAME, name = LibReference.MOD_NAME, version = LibReference.VERSION,
+@Mod(modid = LibReference.MOD_ID, name = LibReference.MOD_NAME, version = LibReference.VERSION,
         acceptedMinecraftVersions = LibReference.MINECRAFT_VERSION,
-        guiFactory = "com.hockeyhurd.hcorelib.mod.client.gui.HGuiFactory") public final class HCoreLibMain implements IForgeMod {
+        guiFactory = "com.hockeyhurd.hcorelib.mod.client.gui.HGuiFactory")
+public final class HCoreLibMain implements IForgeMod {
 
     @SidedProxy(clientSide = "com.hockeyhurd.hcorelib.mod.ClientProxy", serverSide = "com.hockeyhurd.hcorelib.mod.CommonProxy")
     public static CommonProxy proxy;
 
-    @Instance(LibReference.MOD_NAME)
+    @Instance(LibReference.MOD_ID)
     public static HCoreLibMain instance;
     public static LogHelper logHelper;
 
-    // Same thing as Mod Name.
-    public static final String modID = LibReference.MOD_NAME;
-
     // Mod name in lowercase
-    public static final String assetDir = modID.toLowerCase(); // + ':';
+    public static final String assetDir = LibReference.MOD_ID; // + ':';
     private static TimeLapse tl;
 
     public static ConfigHandler configHandler;
@@ -70,14 +44,14 @@ import org.apache.commons.lang3.JavaVersion;
     @Override
     public void preInit(FMLPreInitializationEvent event) {
         tl = new TimeLapse();
-        logHelper = new LogHelper(modID);
+        logHelper = new LogHelper(LibReference.MOD_ID);
 
         final boolean result = JavaCompatibility.runCheck(JavaVersion.JAVA_1_7);
         if (result)
             logHelper.info("Java version is compatible!");
 
         logHelper.info("Pre-init started, looking for config info!");
-        configHandler = new ConfigHandler(event, modID);
+        configHandler = new ConfigHandler(event, LibReference.MOD_ID);
         configHandler.handleConfiguration();
         logHelper.info("Config info handled successfully! Applying changes now!");
 
@@ -86,7 +60,7 @@ import org.apache.commons.lang3.JavaVersion;
             logHelper.info("Attempting to inject data to mcmod.info file!");
 
             final McModInfoDataInjector mcModInfoDataInjector = new McModInfoDataInjector(event, logHelper);
-            mcModInfoDataInjector.injectData(false, new String[] { "hockeyhurd" }, modID, LibReference.VERSION, LibReference.MOD_URL, null,
+            mcModInfoDataInjector.injectData(false, new String[] { "hockeyhurd" }, LibReference.MOD_ID, LibReference.VERSION, LibReference.MOD_URL, null,
                     "A simple library for all of hockeyhurd's mods and anyone who wishes to use this as well.");
 
             if (mcModInfoDataInjector.getResult())

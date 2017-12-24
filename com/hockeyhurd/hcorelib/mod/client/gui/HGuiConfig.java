@@ -2,6 +2,7 @@ package com.hockeyhurd.hcorelib.mod.client.gui;
 
 import com.hockeyhurd.hcorelib.api.client.gui.ModGuiConfig;
 import com.hockeyhurd.hcorelib.mod.HCoreLibMain;
+import com.hockeyhurd.hcorelib.mod.LibReference;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -16,7 +17,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public final class HGuiConfig extends ModGuiConfig {
 
     public HGuiConfig(GuiScreen parent) {
-        super(parent, HCoreLibMain.configHandler, HCoreLibMain.modID, HCoreLibMain.modID + " config");
+        super(parent, HCoreLibMain.configHandler, LibReference.MOD_ID, LibReference.MOD_ID + " config");
     }
 
 }

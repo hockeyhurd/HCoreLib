@@ -1,6 +1,6 @@
 {
     "parent": "item/generated",
     "textures": {
-        "layer0": "hcorelib:items/testItem"
+        "layer0": "hcorelib:items/builderswand"
     }
 }

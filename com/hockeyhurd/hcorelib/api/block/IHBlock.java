@@ -1,5 +1,6 @@
 package com.hockeyhurd.hcorelib.api.block;
 
+import com.hockeyhurd.hcorelib.api.tileentity.AbstractTile;
 import com.hockeyhurd.hcorelib.api.util.enums.EnumHarvestLevel;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemBlock;
@@ -61,5 +62,9 @@ public interface IHBlock {
 	 * @return EnumHarvestLevel data.
 	 */
 	EnumHarvestLevel getHarvestLevel();
+
+    default AbstractTile getTileEntity() {
+        return null;
+    }
 
 }

@@ -8,7 +8,7 @@ import com.hockeyhurd.hcorelib.api.util.AbstractReference;
  * DO NOT: use this!
  * DO: Make your own reference class
  * WELCOMED: to copy this layout as an example.
- * 
+ *
  * @author hockeyhurd
  */
 public class LibReference extends AbstractReference {
@@ -30,6 +30,9 @@ public class LibReference extends AbstractReference {
 
 	/** Current mod name. */
 	public static final String MOD_NAME = "HCoreLib";
+
+	/** Current mod id. */
+	public static final String MOD_ID = "hcorelib";
 
 	/** Not required but is available. NOTE: if not using it, set to null! */
 	public static final String MOD_URL = "https://dl.dropboxusercontent.com/u/276611945/minecraft/mods/" + MOD_NAME + "/versions/1.12.2/version.txt";

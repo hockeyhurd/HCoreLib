@@ -1,13 +1,12 @@
 package com.hockeyhurd.hcorelib.mod.client.gui;
 
-import com.hockeyhurd.hcorelib.api.client.util.ModelRegistry;
 import com.hockeyhurd.hcorelib.api.math.expressions.Expression;
 import com.hockeyhurd.hcorelib.api.math.expressions.GlobalConstants;
 import com.hockeyhurd.hcorelib.api.math.expressions.Interpreter;
 import com.hockeyhurd.hcorelib.api.math.expressions.InterpreterResult;
 import com.hockeyhurd.hcorelib.mod.ClientProxy;
 import com.hockeyhurd.hcorelib.mod.HCoreLibMain;
-import com.hockeyhurd.hcorelib.mod.block.ModRegistry;
+import com.hockeyhurd.hcorelib.mod.common.ModRegistry;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;

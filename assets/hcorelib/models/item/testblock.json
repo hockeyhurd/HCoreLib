@@ -1,5 +1,5 @@
 {
-  "parent":"hcorelib:block/tileTest",
+  "parent":"hcorelib:block/testblock",
   "display": {
     "thirdperson": {
       "rotation": [ 10, -45, 170 ],

@@ -1,6 +1,7 @@
 package com.hockeyhurd.hcorelib.api.util;
 
 import com.hockeyhurd.hcorelib.mod.HCoreLibMain;
+import com.hockeyhurd.hcorelib.mod.LibReference;
 import net.minecraftforge.fml.common.FMLLog;
 import org.apache.logging.log4j.Level;
 
@@ -17,7 +18,7 @@ public class LogHelper {
 	public LogHelper(String modName) {
 		this.modName = modName;
 
-		if (!modName.equalsIgnoreCase(HCoreLibMain.modID))
+		if (!modName.equalsIgnoreCase(LibReference.MOD_ID))
 			HCoreLibMain.logHelper.info("Registered", modName, "logger!");
 	}
 	

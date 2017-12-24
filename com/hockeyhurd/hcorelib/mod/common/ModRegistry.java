@@ -1,13 +1,15 @@
-package com.hockeyhurd.hcorelib.mod.block;
+package com.hockeyhurd.hcorelib.mod.common;
 
-import com.google.common.base.Preconditions;
-import com.hockeyhurd.hcorelib.api.block.AbstractHCoreBlock;
 import com.hockeyhurd.hcorelib.api.block.AbstractHCoreBlockContainer;
 import com.hockeyhurd.hcorelib.api.block.IHBlock;
-import com.hockeyhurd.hcorelib.api.item.AbstractHCoreItem;
 import com.hockeyhurd.hcorelib.api.item.IHItem;
 import com.hockeyhurd.hcorelib.api.util.enums.EnumArmorType;
 import com.hockeyhurd.hcorelib.mod.HCoreLibMain;
+import com.hockeyhurd.hcorelib.mod.LibReference;
+import com.hockeyhurd.hcorelib.mod.block.TestBlock;
+import com.hockeyhurd.hcorelib.mod.block.TestFurnace;
+import com.hockeyhurd.hcorelib.mod.block.TestTESRTile;
+import com.hockeyhurd.hcorelib.mod.block.TestTile;
 import com.hockeyhurd.hcorelib.mod.block.multiblock.BlockMultiblockComponent;
 import com.hockeyhurd.hcorelib.mod.block.multiblock.BlockMultiblockController;
 import com.hockeyhurd.hcorelib.mod.item.*;
@@ -15,7 +17,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemBlock;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.event.RegistryEvent;
@@ -35,7 +37,7 @@ public final class ModRegistry {
 
     // Blocks:
 
-    @GameRegistry.ObjectHolder(HCoreLibMain.modID)
+    // @GameRegistry.ObjectHolder(HCoreLibMain.modID)
     public enum ModBlocks {
         // public static Block white;
         testBlock(new TestBlock(), false),
@@ -66,16 +68,16 @@ public final class ModRegistry {
             for (ModBlocks modBlock : values()) {
                 registry.register(modBlock.getBlock().getBlock());
 
-                if (modBlock.isTE()) {
-                    GameRegistry.registerTileEntity(((AbstractHCoreBlockContainer) modBlock.getBlock()).getTileEntity().getClass(),
-                            modBlock.getBlock().getName());
-                }
+                /*if (modBlock.isTE()) {
+                    GameRegistry.registerTileEntity(((TileEntity) modBlock.getBlock().getTileEntity()).getClass(),
+                            modBlock.getBlock().getResourceLocation().toString());
+                }*/
             }
         }
 
         public static void registerItemBlocks(final IForgeRegistry<Item> registry) {
             for (ModBlocks modBlock : values()) {
-                final Block block = modBlock.getBlock().getBlock();
+                // final Block block = modBlock.getBlock().getBlock();
                 final ResourceLocation registryName = modBlock.getBlock().getResourceLocation();
 
                 registry.register(modBlock.getBlock().getItemBlock().setRegistryName(registryName));
@@ -85,7 +87,7 @@ public final class ModRegistry {
 
     // Items:
 
-    @GameRegistry.ObjectHolder(HCoreLibMain.modID)
+    // @GameRegistry.ObjectHolder(HCoreLibMain.modID)
     public enum ModItems {
         testItem(new TestItem()),
         testMetaItem(new TestMetaItem("testMetaItem")),
@@ -108,11 +110,15 @@ public final class ModRegistry {
         }
 
         public static void register(final IForgeRegistry<Item> registry) {
+            for (ModItems modItems : values()) {
+                // final ResourceLocation registryName = modItems.getItem().getResourceLocation(0);
 
+                registry.register(modItems.getItem().getItem());
+            }
         }
     }
 
-    @Mod.EventBusSubscriber(modid = HCoreLibMain.modID)
+    @Mod.EventBusSubscriber(modid = LibReference.MOD_ID)
     public static class RegistrationHandler {
 
         private RegistrationHandler() {
