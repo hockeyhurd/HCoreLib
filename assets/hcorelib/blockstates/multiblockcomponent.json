@@ -2,7 +2,7 @@
   "forge_marker": 1,
   "defaults": {
     "textures": {
-      "all": "hcorelib:blocks/multiblockComponent"
+      "all": "hcorelib:blocks/multiblockcomponent"
     },
     "model": "minecraft:cube_all",
     "transform": "forge:default-block"
@@ -16,12 +16,12 @@
     "multiblock": {
       "true": {
         "textures": {
-          "all": "hcorelib:blocks/multiblockComponent_on"
+          "all": "hcorelib:blocks/multiblockcomponent_on"
         }
       },
       "false": {
         "textures": {
-          "all": "hcorelib:blocks/multiblockComponent"
+          "all": "hcorelib:blocks/multiblockcomponent"
         }
       }
     }

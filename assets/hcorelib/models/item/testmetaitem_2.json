@@ -1,6 +1,6 @@
 {
     "parent": "item/generated",
     "textures": {
-        "layer0": "hcorelib:items/testMetaItem_2"
+        "layer0": "hcorelib:items/testmetaitem_2"
     }
 }

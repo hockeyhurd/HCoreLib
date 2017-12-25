@@ -16,7 +16,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public final class TESRTileRenderer extends TileEntitySpecialRenderer<TileEntityTESRTest> {
 
-	public static final ResourceLocation TEXTURE = new ResourceLocation(HCoreLibMain.assetDir, "textures/blocks/tileTESRTest.png");
+	public static final ResourceLocation TEXTURE = new ResourceLocation(HCoreLibMain.assetDir, "textures/blocks/tiletesrtest.png");
 
 	@Override
 	public void render(TileEntityTESRTest te, double x, double y, double z, float partialTicks, int destroyStage, float alpha) {

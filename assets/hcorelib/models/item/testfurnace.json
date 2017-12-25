@@ -1,5 +1,5 @@
 {
-  "parent":"hcorelib:block/multiblockController",
+  "parent":"hcorelib:block/testfurnace",
   "display": {
     "thirdperson": {
       "rotation": [ 10, -45, 170 ],

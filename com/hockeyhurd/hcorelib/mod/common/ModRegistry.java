@@ -13,6 +13,7 @@ import com.hockeyhurd.hcorelib.mod.block.TestTile;
 import com.hockeyhurd.hcorelib.mod.block.multiblock.BlockMultiblockComponent;
 import com.hockeyhurd.hcorelib.mod.block.multiblock.BlockMultiblockController;
 import com.hockeyhurd.hcorelib.mod.item.*;
+import com.hockeyhurd.hcorelib.mod.tileentity.TileEntityTest;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.SoundEvents;
@@ -70,7 +71,7 @@ public final class ModRegistry {
 
                 /*if (modBlock.isTE()) {
                     GameRegistry.registerTileEntity(((TileEntity) modBlock.getBlock().getTileEntity()).getClass(),
-                            modBlock.getBlock().getResourceLocation().toString());
+                            modBlock.getBlock().getName());
                 }*/
             }
         }

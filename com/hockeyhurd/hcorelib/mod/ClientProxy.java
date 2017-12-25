@@ -19,40 +19,6 @@ public class ClientProxy extends CommonProxy {
 	public ClientProxy() {
 	}
 
-	/*@Override
-	protected void registerBlocks() {
-		super.registerBlocks();
-
-		// ModelBakery.registerItemVariants(ItemUtils.getItem(HCoreLibMain.testBlock), HCoreLibMain.testBlock.getResourceLocation());
-		// minecraft.getRenderItem().getItemModelMesher().register(ItemUtils.getItem(HCoreLibMain.testBlock), 0,
-		//  		new ModelResourceLocation(HCoreLibMain.testBlock.getResourceLocation(), "inventory"));
-
-		if (HCoreLibMain.configHandler.isDebugMode()) {
-			ModelRegistry.registerBlock(HCoreLibMain.testBlock);
-			ModelRegistry.registerBlock(HCoreLibMain.testTile);
-			ModelRegistry.registerBlock(HCoreLibMain.testTESRTile);
-			ModelRegistry.registerBlock(HCoreLibMain.testFurnace);
-			ModelRegistry.registerBlock(HCoreLibMain.multiblockController);
-			ModelRegistry.registerBlock(HCoreLibMain.multiblockComponent);
-		}
-	}*/
-
-	/*@Override
-	protected void registerItems() {
-		super.registerItems();
-
-		ModelRegistry.registerItem(HCoreLibMain.itemCalculator);
-		ModelRegistry.registerItem(HCoreLibMain.itemMeasureTape);
-		ModelRegistry.registerItem(HCoreLibMain.buildersWand);
-		ModelRegistry.registerItem(HCoreLibMain.wrench);
-		ModelRegistry.registerItem(HCoreLibMain.witchHat);
-
-		if (HCoreLibMain.configHandler.isDebugMode()) {
-			ModelRegistry.registerItem(HCoreLibMain.testItem);
-			ModelRegistry.registerItem(HCoreLibMain.testMetaItem);
-		}
-	}*/
-
 	@Override
 	protected void registerMCForgeEventHandlers() {
 		super.registerMCForgeEventHandlers();
@@ -72,10 +38,6 @@ public class ClientProxy extends CommonProxy {
 	}
 
 	private void registerSpecialRenderers() {
-		// hiddenBlockRenderType = RenderingRegistry.getNextAvailableRenderId();
-		// RenderingRegistry.registerBlockHandler(new WhiteBlockRenderer(hiddenBlockRenderType, Blocks.gold_block.getBlockTextureFromSide(0), new Color4i(0, 127, 255)));
-		// MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(HCoreLibMain.white), new ItemRendererHiddenWhite(HCoreLibMain.white.getBlockTextureFromSide(0)));
-
 		MinecraftForge.EVENT_BUS.register(new DrawBlockSelectionHandler());
 
 		if (HCoreLibMain.configHandler.isDebugMode()) {

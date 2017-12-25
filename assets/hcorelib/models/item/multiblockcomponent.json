@@ -1,5 +1,5 @@
 {
-  "parent":"hcorelib:block/multiblockComponent",
+  "parent":"hcorelib:block/multiblockcomponent",
   "display": {
     "thirdperson": {
       "rotation": [ 10, -45, 170 ],
