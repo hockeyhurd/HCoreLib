@@ -1,0 +1,18 @@
+{
+  "group": "hcorelib:testblock",
+  "key": {
+    "x": {
+      "item": "minecraft:stone"
+    }
+  },
+  "pattern": [
+    "xxx",
+    "xxx",
+    "xxx"
+  ],
+  "result": {
+    "count": 1,
+    "item": "hcorelib:testblock"
+  },
+  "type": "minecraft:crafting_shaped"
+}

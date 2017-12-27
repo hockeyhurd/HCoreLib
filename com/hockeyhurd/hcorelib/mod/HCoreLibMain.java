@@ -34,7 +34,7 @@ public final class HCoreLibMain implements IForgeMod {
     public static LogHelper logHelper;
 
     // Mod name in lowercase
-    public static final String assetDir = LibReference.MOD_ID; // + ':';
+    public static final String assetDir = LibReference.MOD_ID;
     private static TimeLapse tl;
 
     public static ConfigHandler configHandler;
@@ -46,7 +46,7 @@ public final class HCoreLibMain implements IForgeMod {
         tl = new TimeLapse();
         logHelper = new LogHelper(LibReference.MOD_ID);
 
-        final boolean result = JavaCompatibility.runCheck(JavaVersion.JAVA_1_7);
+        final boolean result = JavaCompatibility.runCheck(JavaVersion.JAVA_1_8);
         if (result)
             logHelper.info("Java version is compatible!");
 
@@ -73,9 +73,9 @@ public final class HCoreLibMain implements IForgeMod {
         // loadObj();
         // logHelper.info("Done!");
 
-        logHelper.info("Initializing proxy");
+        /*logHelper.info("Initializing proxy");
         proxy.init();
-        logHelper.info("Done!");
+        logHelper.info("Done!");*/
 
         logHelper.info("Pre-init finished successfully after", tl.getEffectiveTimeSince(), "ms!");
     }
@@ -90,8 +90,11 @@ public final class HCoreLibMain implements IForgeMod {
         ModsLoadedHelper.getInstance().init();
         logHelper.info("... Complete! Here are the results", ModsLoadedHelper.getInstance().toString());
 
+        logHelper.info("Initializing proxy");
+        proxy.init();
+        logHelper.info("Done!");
+
         // loadObj();
-        // proxy.init();
         logHelper.info("Registering render information");
         proxy.registerRenderInformation();
         logHelper.info("Done!");

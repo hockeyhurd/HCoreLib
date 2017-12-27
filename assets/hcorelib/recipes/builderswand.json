@@ -1,0 +1,23 @@
+{
+  "group": "hcorelib:builderswand",
+  "key": {
+    "d": {
+      "ore": "gemDiamond",
+      "type": "forge:ore_dict"
+    },
+    "s": {
+      "ore": "stickWood",
+      "type": "forge:ore_dict"
+    }
+  },
+  "pattern": [
+    " dd",
+    " sd",
+    "s  "
+  ],
+  "result": {
+    "count": 1,
+    "item": "hcorelib:builderswand"
+  },
+  "type": "minecraft:crafting_shaped"
+}

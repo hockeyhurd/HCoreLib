@@ -1,0 +1,25 @@
+{
+  "group": "hcorelib:witchhathelmet",
+  "key": {
+    "l": {
+      "item": "minecraft:leather"
+    },
+    "n": {
+      "ore": "nuggetGold",
+      "type": "forge:ore_dict"
+    },
+    "s": {
+      "item": "minecraft:string"
+    }
+  },
+  "pattern": [
+    "sls",
+    "l l",
+    "sns"
+  ],
+  "result": {
+    "count": 1,
+    "item": "hcorelib:witchhathelmet"
+  },
+  "type": "minecraft:crafting_shaped"
+}

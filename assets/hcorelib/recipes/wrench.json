@@ -1,0 +1,19 @@
+{
+  "group": "hcorelib:wrench",
+  "key": {
+    "i": {
+      "ore": "ingotIron",
+      "type": "forge:ore_dict"
+    }
+  },
+  "pattern": [
+    "i i",
+    "iii",
+    " i "
+  ],
+  "result": {
+    "count": 1,
+    "item": "hcorelib:wrench"
+  },
+  "type": "minecraft:crafting_shaped"
+}

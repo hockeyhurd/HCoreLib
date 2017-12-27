@@ -1,0 +1,26 @@
+{
+  "group": "hcorelib:itemcalculator",
+  "key": {
+    "i": {
+      "ore": "ingotIron",
+      "type": "forge:ore_dict"
+    },
+    "l": {
+      "ore": "dyeBlue",
+      "type": "forge:ore_dict"
+    },
+    "r": {
+      "item": "minecraft:redstone"
+    }
+  },
+  "pattern": [
+    "ili",
+    "iri",
+    "ili"
+  ],
+  "result": {
+    "count": 1,
+    "item": "hcorelib:itemcalculator"
+  },
+  "type": "minecraft:crafting_shaped"
+}

@@ -1,0 +1,26 @@
+{
+  "group": "hcorelib:itemmeasuretape",
+  "key": {
+    "i": {
+      "ore": "ingotIron",
+      "type": "forge:ore_dict"
+    },
+    "s": {
+      "item": "minecraft:string"
+    },
+    "y": {
+      "ore": "dyeYellow",
+      "type": "forge:ore_dict"
+    }
+  },
+  "pattern": [
+    "iyi",
+    "ysy",
+    "iyi"
+  ],
+  "result": {
+    "count": 1,
+    "item": "hcorelib:itemmeasuretape"
+  },
+  "type": "minecraft:crafting_shaped"
+}

@@ -1,8 +1,13 @@
 package com.hockeyhurd.hcorelib.mod;
 
+import com.hockeyhurd.hcorelib.api.client.util.ModelRegistry;
 import com.hockeyhurd.hcorelib.api.handler.NotifyPlayerOnJoinHandler;
+import com.hockeyhurd.hcorelib.api.handler.RecipeGen;
+import com.hockeyhurd.hcorelib.api.handler.RecipePattern;
 import com.hockeyhurd.hcorelib.api.handler.UpdateHandler;
+import com.hockeyhurd.hcorelib.api.util.interfaces.ICraftableRecipe;
 import com.hockeyhurd.hcorelib.api.util.interfaces.IProxy;
+import com.hockeyhurd.hcorelib.mod.common.ModRegistry;
 import com.hockeyhurd.hcorelib.mod.handler.GuiHandler;
 import com.hockeyhurd.hcorelib.mod.tileentity.TileEntityTESRTest;
 import com.hockeyhurd.hcorelib.mod.tileentity.TileEntityTest;
@@ -12,6 +17,7 @@ import com.hockeyhurd.hcorelib.mod.tileentity.multiblock.MultiblockController;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import scala.actors.migration.pattern;
 
 import java.util.HashMap;
 
@@ -20,9 +26,11 @@ public class CommonProxy implements IProxy {
 	protected UpdateHandler updateHandler;
 	protected HashMap<String, String> updateMap;
 	protected static GuiHandler guiHandler;
+	protected RecipeGen recipeGen;
 	public boolean updateFlag;
 	
 	public CommonProxy() {
+        recipeGen = new RecipeGen(LibReference.MOD_ID);
 	}
 
 	@Override
@@ -36,7 +44,7 @@ public class CommonProxy implements IProxy {
 	@Override
 	public void init() {
 		registerMCForgeEventHandlers();
-		// registerBlocks();
+		registerBlocks();
 		registerTileEntities();
 		// registerItems();
 		registerGuiHandler();
@@ -46,30 +54,16 @@ public class CommonProxy implements IProxy {
 	protected void registerMCForgeEventHandlers() {
 	}
 	
-	/*protected void registerBlocks() {
+	protected void registerBlocks() {
 		// GameRegistry.registerBlock(HCoreLibMain.white, "HiddenWhite");
 		if (!HCoreLibMain.configHandler.isDebugMode())
 			return;
 
-		GameRegistry.register(HCoreLibMain.testBlock);
-		GameRegistry.register(HCoreLibMain.testBlock.getItemBlock().setRegistryName(HCoreLibMain.testBlock.getRegistryName()));
-
-		*//*for (RecipePattern pattern : ((ICraftableRecipe) HCoreLibMain.testBlock).getRecipePatterns()) {
+		for (RecipePattern pattern : ((ICraftableRecipe) ModRegistry.ModBlocks.testBlock.getBlock()).getRecipePatterns()) {
 			if (pattern != null)
-				pattern.registerRecipe();
-		}*//*
-
-		GameRegistry.register(HCoreLibMain.testTile);
-		GameRegistry.register(HCoreLibMain.testTESRTile);
-		GameRegistry.register(HCoreLibMain.testFurnace);
-		GameRegistry.register(HCoreLibMain.testTile.getItemBlock().setRegistryName(HCoreLibMain.testTile.getRegistryName()));
-		GameRegistry.register(HCoreLibMain.testTESRTile.getItemBlock().setRegistryName(HCoreLibMain.testTESRTile.getRegistryName()));
-		GameRegistry.register(HCoreLibMain.testFurnace.getItemBlock().setRegistryName(HCoreLibMain.testFurnace.getRegistryName()));
-		GameRegistry.register(HCoreLibMain.multiblockController);
-		GameRegistry.register(HCoreLibMain.multiblockController.getItemBlock().setRegistryName(HCoreLibMain.multiblockController.getRegistryName()));
-		GameRegistry.register(HCoreLibMain.multiblockComponent);
-		GameRegistry.register(HCoreLibMain.multiblockComponent.getItemBlock().setRegistryName(HCoreLibMain.multiblockComponent.getRegistryName()));
-	}*/
+				pattern.registerRecipe(recipeGen);
+		}
+	}
 
 	protected void registerTileEntities() {
 		if (!HCoreLibMain.configHandler.isDebugMode())
@@ -82,45 +76,34 @@ public class CommonProxy implements IProxy {
 		GameRegistry.registerTileEntity(MultiblockComponent.class, "multiblockComponent");
 	}
 
-	/*protected void registerItems() {
-		GameRegistry.register(HCoreLibMain.itemCalculator);
-		GameRegistry.register(HCoreLibMain.itemMeasureTape);
-		// GameRegistry.register(HCoreLibMain.buildersWand);
-        GameRegistry.register(HCoreLibMain.wrench);
-		GameRegistry.register(HCoreLibMain.witchHat);
-
-		for (RecipePattern pattern : ((ICraftableRecipe) HCoreLibMain.itemCalculator).getRecipePatterns()) {
+	protected void registerItems() {
+		for (RecipePattern pattern : ((ICraftableRecipe) ModRegistry.ModItems.itemCalculator.getItem()).getRecipePatterns()) {
 			if (pattern != null)
-				pattern.registerRecipe();
+				pattern.registerRecipe(recipeGen);
 		}
 
-		for (RecipePattern pattern : ((ICraftableRecipe) HCoreLibMain.itemMeasureTape).getRecipePatterns()) {
+		for (RecipePattern pattern : ((ICraftableRecipe) ModRegistry.ModItems.itemMeasureTape.getItem()).getRecipePatterns()) {
 			if (pattern != null)
-				pattern.registerRecipe();
+				pattern.registerRecipe(recipeGen);
 		}
 
-        for (RecipePattern pattern : ((ICraftableRecipe) HCoreLibMain.wrench).getRecipePatterns()) {
+        for (RecipePattern pattern : ((ICraftableRecipe) ModRegistry.ModItems.wrench.getItem()).getRecipePatterns()) {
             if (pattern != null)
-                pattern.registerRecipe();
+                pattern.registerRecipe(recipeGen);
         }
 
-		for (RecipePattern pattern : ((ICraftableRecipe) HCoreLibMain.witchHat).getRecipePatterns()) {
+		for (RecipePattern pattern : ((ICraftableRecipe) ModRegistry.ModItems.witchHat.getItem()).getRecipePatterns()) {
 			if (pattern != null)
-				pattern.registerRecipe();
+				pattern.registerRecipe(recipeGen);
 		}
 
 		if (HCoreLibMain.configHandler.isDebugMode()) {
-			GameRegistry.register(HCoreLibMain.testItem);
-			GameRegistry.register(HCoreLibMain.testMetaItem);
-
-            GameRegistry.register(HCoreLibMain.buildersWand);
-
-            for (RecipePattern pattern : ((ICraftableRecipe) HCoreLibMain.buildersWand).getRecipePatterns()) {
+            for (RecipePattern pattern : ((ICraftableRecipe) ModRegistry.ModItems.buildersWand.getItem()).getRecipePatterns()) {
                 if (pattern != null)
-                    pattern.registerRecipe();
+                    pattern.registerRecipe(recipeGen);
             }
 		}
-	}*/
+	}
 
 	protected void registerGuiHandler() {
 		if (guiHandler != null) NetworkRegistry.INSTANCE.registerGuiHandler(HCoreLibMain.instance, guiHandler);

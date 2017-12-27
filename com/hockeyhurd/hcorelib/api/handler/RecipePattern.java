@@ -3,7 +3,6 @@ package com.hockeyhurd.hcorelib.api.handler;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 
@@ -20,10 +19,11 @@ import java.util.TreeMap;
 public class RecipePattern {
 
     public static final String EMPTY_ROW = "   ";
-    protected boolean shapedRecipe;
-    protected ItemStack resultStack;
-    protected String[] pattern;
-    protected Map<Character, Object> associativeMap;
+
+    private boolean shapedRecipe;
+    private ItemStack resultStack;
+    private String[] pattern;
+    private Map<Character, Object> associativeMap;
 
     protected RecipePattern() {
         shapedRecipe = true;
@@ -74,6 +74,22 @@ public class RecipePattern {
      */
     public RecipePattern copy() {
         return new RecipePattern(this);
+    }
+
+    public boolean isShapedRecipe() {
+        return shapedRecipe;
+    }
+
+    public ItemStack getResultStack() {
+        return resultStack;
+    }
+
+    public String[] getPattern() {
+        return pattern;
+    }
+
+    public Map<Character, Object> getAssociativeMap() {
+        return associativeMap;
     }
 
     /**
@@ -129,11 +145,8 @@ public class RecipePattern {
     /**
      * Checks if recipe pattern is valid and registers
      * crafting pattern accordingly.
-     *
-     * @deprecated Doesn't register anything actually in 1.12.x+
      */
-    @Deprecated
-    public void registerRecipe() {
+    public void registerRecipe(RecipeGen recipeGen) {
         if (validateRecipe()) {
             Object[] objects = new Object[(associativeMap.size() << 1) + pattern.length];
 
@@ -146,10 +159,10 @@ public class RecipePattern {
                 objects[i++] = e.getValue();
             }
 
-            /*if (shapedRecipe)
-                GameRegistry.addShapedRecipe(createShapedRecipe(resultStack, objects));
+            if (shapedRecipe)
+                recipeGen.addShapedRecipe(this);
             else
-                GameRegistry.addRecipe(createShapelessRecipe(resultStack, objects));*/
+                recipeGen.addShapelessRecipe(this);
         }
     }
 
