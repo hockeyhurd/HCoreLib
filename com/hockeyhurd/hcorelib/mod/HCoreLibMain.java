@@ -23,7 +23,8 @@ import org.apache.commons.lang3.JavaVersion;
 
 @Mod(modid = LibReference.MOD_ID, name = LibReference.MOD_NAME, version = LibReference.VERSION,
         acceptedMinecraftVersions = LibReference.MINECRAFT_VERSION,
-        guiFactory = "com.hockeyhurd.hcorelib.mod.client.gui.HGuiFactory")
+        guiFactory = "com.hockeyhurd.hcorelib.mod.client.gui.HGuiFactory"/*,
+        updateJSON = "https://www.dropbox.com/s/10qf3pey2gfj7ep/update.json?dl=0"*/)
 public final class HCoreLibMain implements IForgeMod {
 
     @SidedProxy(clientSide = "com.hockeyhurd.hcorelib.mod.ClientProxy", serverSide = "com.hockeyhurd.hcorelib.mod.CommonProxy")
@@ -60,7 +61,7 @@ public final class HCoreLibMain implements IForgeMod {
             logHelper.info("Attempting to inject data to mcmod.info file!");
 
             final McModInfoDataInjector mcModInfoDataInjector = new McModInfoDataInjector(event, logHelper);
-            mcModInfoDataInjector.injectData(false, new String[] { "hockeyhurd" }, LibReference.MOD_ID, LibReference.VERSION, LibReference.MOD_URL, null,
+            mcModInfoDataInjector.injectData(false, new String[] { "hockeyhurd" }, LibReference.MOD_ID, LibReference.VERSION, LibReference.HOMEPAGE_URL, null,
                     "A simple library for all of hockeyhurd's mods and anyone who wishes to use this as well.");
 
             if (mcModInfoDataInjector.getResult())
@@ -69,13 +70,7 @@ public final class HCoreLibMain implements IForgeMod {
                 logHelper.warn("Injection was un-successful! mcmod.info is a liar!");
         }
 
-        // logHelper.info("Loading mod objects");
-        // loadObj();
-        // logHelper.info("Done!");
-
-        /*logHelper.info("Initializing proxy");
-        proxy.init();
-        logHelper.info("Done!");*/
+        proxy.preInit();
 
         logHelper.info("Pre-init finished successfully after", tl.getEffectiveTimeSince(), "ms!");
     }
@@ -94,41 +89,8 @@ public final class HCoreLibMain implements IForgeMod {
         proxy.init();
         logHelper.info("Done!");
 
-        // loadObj();
-        logHelper.info("Registering render information");
-        proxy.registerRenderInformation();
-        logHelper.info("Done!");
-
-        logHelper.info("Registering input handlers");
-        proxy.registerInputHandlers();
-        logHelper.info("Done!");
-
         logHelper.info("Init finished successfully after", tl.getEffectiveTimeSince(), "ms!");
     }
-
-	/*private static void loadObj() {
-
-		// Blocks:
-		// white = new BlockWhiteHidden(Material.ROCK, "HiddenWhite");
-		testBlock = new TestBlock();
-		testTile = new TestTile();
-		testTESRTile = new TestTESRTile();
-		testFurnace = new TestFurnace();
-		multiblockController = new BlockMultiblockController(Material.ROCK, "multiblockController");
-		multiblockComponent = new BlockMultiblockComponent(Material.ROCK, "multiblockComponent");
-
-		// Items:
-		testItem = new TestItem();
-		testMetaItem = new TestMetaItem("testMetaItem");
-		itemCalculator = new ItemCalculator("itemCalculator");
-		itemMeasureTape = new ItemMeasureTape("itemMeasureTape");
-		buildersWand = new ItemBuildersWand("buildersWand");
-		wrench = new ItemWrench("wrench");
-
-		witchHat = new ItemWitchHat(EnumHelper.addArmorMaterial("witchHat", assetDir + ":" + ItemWitchHat.NAME, 100,
-				new int[] { 1, 1, 1, 1}, 1, SoundEvents.ITEM_ARMOR_EQUIP_IRON, 1.0f), 0, EnumArmorType.HELMET,
-				HCoreLibMain.assetDir);
-	}*/
 
     @EventHandler
     @Override
@@ -136,17 +98,7 @@ public final class HCoreLibMain implements IForgeMod {
         tl.resetStartTime();
         logHelper.info("Post-init started, looking for config info!");
 
-        if (configHandler.allowUpdating()) {
-            logHelper.info("Checking for updates!");
-            proxy.registerUpdateHandler();
-            if (!proxy.updateFlag)
-                logHelper.warn("Found an update!");
-            else
-                logHelper.info("Everything is UP to date!");
-        }
-
-        else
-            logHelper.warn("Skipping checking for updates. WARNING: bugs may exist!");
+        proxy.postInit();
 
         logHelper.info("Post-init finished successfully after", tl.getEffectiveTimeSince(), "ms!");
     }

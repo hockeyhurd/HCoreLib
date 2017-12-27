@@ -20,11 +20,6 @@ public class ClientProxy extends CommonProxy {
 	}
 
 	@Override
-	protected void registerMCForgeEventHandlers() {
-		super.registerMCForgeEventHandlers();
-	}
-
-	@Override
 	public void registerRenderInformation() {
 		registerSpecialRenderers();
 	}

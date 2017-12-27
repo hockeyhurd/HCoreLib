@@ -2,7 +2,8 @@
   "group": "hcorelib:testblock",
   "key": {
     "x": {
-      "item": "minecraft:stone"
+      "ore": "stone",
+      "type": "forge:ore_dict"
     }
   },
   "pattern": [

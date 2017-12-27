@@ -1,10 +1,6 @@
 package com.hockeyhurd.hcorelib.mod;
 
-import com.hockeyhurd.hcorelib.api.client.util.ModelRegistry;
-import com.hockeyhurd.hcorelib.api.handler.NotifyPlayerOnJoinHandler;
-import com.hockeyhurd.hcorelib.api.handler.RecipeGen;
-import com.hockeyhurd.hcorelib.api.handler.RecipePattern;
-import com.hockeyhurd.hcorelib.api.handler.UpdateHandler;
+import com.hockeyhurd.hcorelib.api.handler.*;
 import com.hockeyhurd.hcorelib.api.util.interfaces.ICraftableRecipe;
 import com.hockeyhurd.hcorelib.api.util.interfaces.IProxy;
 import com.hockeyhurd.hcorelib.mod.common.ModRegistry;
@@ -17,7 +13,6 @@ import com.hockeyhurd.hcorelib.mod.tileentity.multiblock.MultiblockController;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
-import scala.actors.migration.pattern;
 
 import java.util.HashMap;
 
@@ -42,20 +37,42 @@ public class CommonProxy implements IProxy {
 	}
 
 	@Override
+    public void preInit() {
+        // registerBlocks(); // un-comment to regen crafting recipes to recipe output folder.
+        // registerItems();  // un-comment to regen crafting recipes to recipe output folder.
+        registerTileEntities();
+    }
+
+	@Override
 	public void init() {
-		registerMCForgeEventHandlers();
-		registerBlocks();
-		registerTileEntities();
-		// registerItems();
 		registerGuiHandler();
 		registerEventHandlers();
+        registerInputHandlers();
+
+        HCoreLibMain.logHelper.info("Registering render information");
+        registerRenderInformation();
+        HCoreLibMain.logHelper.info("Done!");
+
+        HCoreLibMain.logHelper.info("Registering input handlers");
+        registerInputHandlers();
+        HCoreLibMain.logHelper.info("Done!");
 	}
-	
-	protected void registerMCForgeEventHandlers() {
-	}
+
+    @Override
+    public void postInit() {
+        registerUpdateHandler();
+
+        /*final VersionGen versionGen = new VersionGen(LibReference.MOD_ID);
+        final VersionGen.VersionData latestVersion = new VersionGen.VersionData(LibReference.MAJOR_VERSION, LibReference.SUB_VERSION, LibReference.BUILD,
+                "https://github.com/hockeyhurd/HCoreLib/releases/1.3.2", "First build for 1.12.2!");
+
+        final VersionGen.VersionData recommendedVersion = new VersionGen.VersionData(LibReference.MAJOR_VERSION, LibReference.SUB_VERSION, LibReference.BUILD + 1,
+                "https://github.com/hockeyhurd/HCoreLib/releases/1.3.1", "Fake build");
+
+        versionGen.generateVersion(latestVersion, recommendedVersion, LibReference.HOMEPAGE_URL);*/
+    }
 	
 	protected void registerBlocks() {
-		// GameRegistry.registerBlock(HCoreLibMain.white, "HiddenWhite");
 		if (!HCoreLibMain.configHandler.isDebugMode())
 			return;
 
@@ -106,30 +123,41 @@ public class CommonProxy implements IProxy {
 	}
 
 	protected void registerGuiHandler() {
-		if (guiHandler != null) NetworkRegistry.INSTANCE.registerGuiHandler(HCoreLibMain.instance, guiHandler);
+		if (guiHandler != null)
+		    NetworkRegistry.INSTANCE.registerGuiHandler(HCoreLibMain.instance, guiHandler);
 		else {
 			guiHandler = new GuiHandler();
 			NetworkRegistry.INSTANCE.registerGuiHandler(HCoreLibMain.instance, guiHandler);
 		}
 	}
 
-	public void registerCraftingRecipes() {
-
-	}
-
 	@Override
 	public void registerUpdateHandler() {
-		updateHandler = new UpdateHandler(LibReference.MOD_NAME, LibReference.VERSION, LibReference.MOD_URL, LibReference.CHANGELOG_URL);
-		updateHandler.check();
-		updateMap = updateHandler.getMap();
-		updateFlag = updateHandler.getUpToDate();
-		
-		MinecraftForge.EVENT_BUS.register(new NotifyPlayerOnJoinHandler(updateHandler, updateMap, LibReference.MOD_NAME, updateFlag, true,
-				HCoreLibMain.configHandler.allowUpdating()));
+        updateHandler = new UpdateHandler(LibReference.MOD_NAME, LibReference.VERSION, LibReference.MOD_URL, LibReference.CHANGELOG_URL);
+
+        if (HCoreLibMain.configHandler.allowUpdating()) {
+            HCoreLibMain.logHelper.info("Checking for updates!");
+
+            updateHandler.check();
+            updateMap = updateHandler.getMap();
+            updateFlag = updateHandler.getUpToDate();
+
+            if (!HCoreLibMain.proxy.updateFlag)
+                HCoreLibMain.logHelper.warn("Found an update!");
+            else
+                HCoreLibMain.logHelper.info("Everything is UP to date!");
+        }
+
+        else
+            HCoreLibMain.logHelper.warn("Skipping checking for updates. WARNING: bugs may exist!");
+
+        MinecraftForge.EVENT_BUS.register(new NotifyPlayerOnJoinHandler(updateHandler, updateMap, LibReference.MOD_NAME, updateFlag, true,
+                HCoreLibMain.configHandler.allowUpdating()));
 	}
 
 	@Override
 	public void registerEventHandlers() {
+
 	}
 
 	@Override

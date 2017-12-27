@@ -35,10 +35,12 @@ public class LibReference extends AbstractReference {
 	public static final String MOD_ID = "hcorelib";
 
 	/** Not required but is available. NOTE: if not using it, set to null! */
-	public static final String MOD_URL = "https://dl.dropboxusercontent.com/u/276611945/minecraft/mods/" + MOD_NAME + "/versions/1.12.2/version.txt";
+	public static final String MOD_URL = "http://73.60.228.8:8080/res/hcorelib/version.txt";
 
 	/** Not required but is available. NOTE: if not using it, set to null! */
-	public static final String CHANGELOG_URL = "https://dl.dropboxusercontent.com/u/276611945/minecraft/mods/" + MOD_NAME + "/versions/1.12.2/changelog.txt";
+	public static final String CHANGELOG_URL = "http://73.60.228.8:8080/res/hcorelib/changelog.txt";
+
+	public static final String HOMEPAGE_URL = "https://minecraft.curseforge.com/projects/hcorelib";
 
 	/**
 	 * To use this class referencing, simple extend this class with your own and plug-in your own values.

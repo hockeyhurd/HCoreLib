@@ -9,9 +9,19 @@ package com.hockeyhurd.hcorelib.api.util.interfaces;
 public interface IProxy {
 
     /**
+     * Pre-init method.
+     */
+    void preInit();
+
+    /**
      * Main init method.
      */
     void init();
+
+    /**
+     * Pre-init method.
+     */
+    void postInit();
 
     /**
      * Registers input handlers.

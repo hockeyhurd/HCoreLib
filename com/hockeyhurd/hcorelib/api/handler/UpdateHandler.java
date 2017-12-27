@@ -11,253 +11,265 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * Class for handling mod updates.
+ *
+ * @deprecated as of 12/27/17 use forge version checker!
+ */
+@Deprecated
 public class UpdateHandler {
 
-	private static final String REGEX = "[.]";
-	private final String modName;
-	private String latestBuild;
-	private int[] cachedVersioning;
-	private boolean upToDate = true;
-	
-	// NOTE: Just add build number + .jar
-	private final String url;
-	private String latestUrl = "";
-	private String changelogUrl;
-	private List<String> changelogList;
+    private static final String REGEX = "[.]";
+    private final String modName;
+    private String latestBuild;
+    private int[] cachedVersioning;
+    private boolean upToDate = true;
 
-	/**
-	 * From created reference class, get data needed and store into memory.
-	 *
-	 * @param modName String mod name.
-	 * @param version String mod version.
-	 * @param versionURL String version URL.
-	 * @param changelogUrl String changlelog URL.
-	 */
-	public UpdateHandler(String modName, String version, String versionURL, String changelogUrl) {
-		this.modName = modName;
-		this.url = versionURL;
-		this.changelogUrl = changelogUrl;
+    // NOTE: Just add build number + .jar
+    private final String url;
+    private String latestUrl = "";
+    private String changelogUrl;
+    private List<String> changelogList;
 
-		changelogList = new ArrayList<String>();
+    /**
+     * From created reference class, get data needed and store into memory.
+     *
+     * @param modName      String mod name.
+     * @param version      String mod version.
+     * @param versionURL   String version URL.
+     * @param changelogUrl String changlelog URL.
+     */
+    public UpdateHandler(String modName, String version, String versionURL, String changelogUrl) {
+        this.modName = modName;
+        this.url = versionURL;
+        this.changelogUrl = changelogUrl;
 
-		final String[] split = version.split(REGEX);
-		split[0] = split[0].substring(1);
+        changelogList = new ArrayList<String>();
 
-		cachedVersioning = new int[split.length];
-		for (int i = 0; i < split.length; i++)
-			cachedVersioning[i] = Integer.parseInt(split[i]);
-	}
+        final String[] split = version.split(REGEX);
+        split[0] = split[0].substring(1);
 
-	/**
-	 * Call this method to check for updates.
-	 */
-	public void check() {
-		checkForLatestBuild();
-		checkForChangeLog();
-	}
+        cachedVersioning = new int[split.length];
+        for (int i = 0; i < split.length; i++)
+            cachedVersioning[i] = Integer.parseInt(split[i]);
+    }
 
-	/**
-	 * Method used to check for latest build number.
-	 */
-	private void checkForLatestBuild() {
-		if (exists(this.url)) {
-			URL link = null;
+    /**
+     * Call this method to check for updates.
+     */
+    public void check() {
+        checkForLatestBuild();
+        checkForChangeLog();
+    }
 
-			try {
-				link = new URL(this.url);
-			}
+    /**
+     * Method used to check for latest build number.
+     */
+    private void checkForLatestBuild() {
+        if (exists(this.url)) {
+            URL link = null;
 
-			catch (MalformedURLException e) {
-				e.printStackTrace();
-				HCoreLibMain.logHelper.warn("URL:", url, "doesn't exist!");
-			}
+            try {
+                link = new URL(this.url);
+            }
 
-			if (link == null) {
-				upToDate = true;
-				return;
-			}
+            catch (MalformedURLException e) {
+                e.printStackTrace();
+                HCoreLibMain.logHelper.warn("URL:", url, "doesn't exist!");
+            }
 
-			try {
-				final Scanner sc = new Scanner(link.openStream());
+            if (link == null) {
+                upToDate = true;
+                return;
+            }
 
-				latestBuild = sc.next();
+            try {
+                final Scanner sc = new Scanner(link.openStream());
 
-				final String[] segments = latestBuild.split(REGEX);
+                latestBuild = sc.next();
 
-				if (segments.length != cachedVersioning.length) {
-					upToDate = true;
-					sc.close();
-					return;
-				}
+                final String[] segments = latestBuild.split(REGEX);
 
-				segments[0] = segments[0].substring(1);
+                if (segments.length != cachedVersioning.length) {
+                    upToDate = true;
+                    sc.close();
+                    return;
+                }
 
-				final int[] segmentVersioning = new int[segments.length];
+                segments[0] = segments[0].substring(1);
 
-				for (int i = 0; i < segments.length; i++) {
-					segmentVersioning[i] = Integer.parseInt(segments[i]);
+                final int[] segmentVersioning = new int[segments.length];
 
-					if (segmentVersioning[i] > cachedVersioning[i]) {
-						upToDate = false;
-						break;
-					}
+                for (int i = 0; i < segments.length; i++) {
+                    segmentVersioning[i] = Integer.parseInt(segments[i]);
 
-					else if (segmentVersioning[i] < cachedVersioning[i]) {
-						upToDate = true;
-						break;
-					}
-				}
+                    if (segmentVersioning[i] > cachedVersioning[i]) {
+                        upToDate = false;
+                        break;
+                    }
 
-				latestUrl = getAppropriateUrl();
+                    else if (segmentVersioning[i] < cachedVersioning[i]) {
+                        upToDate = true;
+                        break;
+                    }
+                }
 
-				sc.close();
-			}
-			catch (IOException e) {
-				e.printStackTrace();
-				HCoreLibMain.logHelper.warn("Error reading file! Please ensure data in file is valid!");
-			}
-		}
+                latestUrl = getAppropriateUrl();
 
-		else {
-			HCoreLibMain.logHelper.warn("Error url doesn't exist!");
-			upToDate = true;
-		}
-	}
+                sc.close();
+            }
+            catch (IOException e) {
+                e.printStackTrace();
+                HCoreLibMain.logHelper.warn("Error reading file! Please ensure data in file is valid!");
+            }
+        }
 
-	/**
-	 * Method to check for changelog.
-	 */
-	private void checkForChangeLog() {
-		boolean exists = exists(this.changelogUrl);
+        else {
+            HCoreLibMain.logHelper.warn("Error url doesn't exist!");
+            upToDate = true;
+        }
+    }
 
-		if (!this.upToDate && exists) {
-			URL link = null;
+    /**
+     * Method to check for changelog.
+     */
+    private void checkForChangeLog() {
+        boolean exists = exists(this.changelogUrl);
 
-			try {
-				link = new URL(this.changelogUrl);
-			}
+        if (!this.upToDate && exists) {
+            URL link = null;
 
-			catch (MalformedURLException e) {
-				e.printStackTrace();
-				HCoreLibMain.logHelper.warn("URL:", this.changelogUrl, "doesn't exist!");
-			}
+            try {
+                link = new URL(this.changelogUrl);
+            }
 
-			// nothing exists, return.
-			if (link == null) return;
+            catch (MalformedURLException e) {
+                e.printStackTrace();
+                HCoreLibMain.logHelper.warn("URL:", this.changelogUrl, "doesn't exist!");
+            }
 
-			try {
-				Scanner sc = new Scanner(link.openStream());
+            // nothing exists, return.
+            if (link == null)
+                return;
 
-				while (sc.hasNext()) {
-					String line = sc.next() + sc.nextLine();
-					changelogList.add(line);
-				}
+            try {
+                Scanner sc = new Scanner(link.openStream());
 
-				sc.close();
+                while (sc.hasNext()) {
+                    String line = sc.next() + sc.nextLine();
+                    changelogList.add(line);
+                }
 
-			}
+                sc.close();
 
-			catch (IOException e) {
-				e.printStackTrace();
-				HCoreLibMain.logHelper.warn("Error reading file! Please ensure data in file is valid");
-			}
-		}
+            }
 
-		else {
-			if (!exists) HCoreLibMain.logHelper.warn("Changelog url doesn't exist or is null.");
-			else HCoreLibMain.logHelper.info("No changelog found since we are UP to date!");
-		}
-	}
-	
-	/**
-	 * @return true is UP to date, else false.
-	 */
-	public boolean getUpToDate() {
-		return upToDate;
-	}
-	
-	/**
-	 * @return latest build value.
-	 */
-	public String getLatestBuild() {
-		return latestBuild;
-	}
-	
-	/**
-	 * @return latest url.
-	 */
-	public String getLatestURL() {
-		return this.latestUrl;
-	}
+            catch (IOException e) {
+                e.printStackTrace();
+                HCoreLibMain.logHelper.warn("Error reading file! Please ensure data in file is valid");
+            }
+        }
 
-	/**
-	 * @return changelog as array of strings.
-	 */
-	public String[] getChangelogInfo() {
-		if (!upToDate && !changelogList.isEmpty()) return changelogList.toArray(new String[changelogList.size()]);
-		else return null;
-	}
+        else {
+            if (!exists)
+                HCoreLibMain.logHelper.warn("Changelog url doesn't exist or is null.");
+            else
+                HCoreLibMain.logHelper.info("No changelog found since we are UP to date!");
+        }
+    }
 
-	/**
-	 * @return gets mapping from key: build_version, value: download_link_url.
-	 */
-	public HashMap<String,String> getMap() {
-		HashMap<String, String> ent = new HashMap<String, String>();
-		ent.put(getLatestBuild(), getLatestURL());
+    /**
+     * @return true is UP to date, else false.
+     */
+    public boolean getUpToDate() {
+        return upToDate;
+    }
+
+    /**
+     * @return latest build value.
+     */
+    public String getLatestBuild() {
+        return latestBuild;
+    }
+
+    /**
+     * @return latest url.
+     */
+    public String getLatestURL() {
+        return this.latestUrl;
+    }
+
+    /**
+     * @return changelog as array of strings.
+     */
+    public String[] getChangelogInfo() {
+        if (!upToDate && !changelogList.isEmpty())
+            return changelogList.toArray(new String[changelogList.size()]);
+        else
+            return null;
+    }
+
+    /**
+     * @return gets mapping from key: build_version, value: download_link_url.
+     */
+    public HashMap<String, String> getMap() {
+        HashMap<String, String> ent = new HashMap<String, String>();
+        ent.put(getLatestBuild(), getLatestURL());
 
 		/*if (!upToDate && !changelogList.isEmpty()) {
-			for (int i = 0; i < changelogList.size(); i++) {
+            for (int i = 0; i < changelogList.size(); i++) {
 				ent.put(String.valueOf(i), changelogList.get(i));
 			}
 		}*/
 
-		return ent;
-	}
-	
-	/**
-	 * Localized method for checking is something exists in the world wide web at given url.
-	 * @param urlCheck = url to test.
-	 * @return true if exists, else false.
-	 */
-	private boolean exists(String urlCheck) {
-		try {
-			HttpURLConnection.setFollowRedirects(false);
-			// note : you may also need
-			// HttpURLConnection.setInstanceFollowRedirects(false)
-			HttpURLConnection con = (HttpURLConnection) new URL(urlCheck).openConnection();
-			con.setRequestMethod("HEAD");
-			
-			// seconds length
-			float seconds = 1.0f;
-			// Convert to ms.
-			seconds *= 1000;
-			// Convert to int.
-			int timeout = (int) seconds;
-			
-			con.setConnectTimeout(timeout);
-			con.setReadTimeout(timeout);
-			
-			boolean exists = con.getResponseCode() == HttpURLConnection.HTTP_OK;
-			
-			// Make sure we disconnect connection to server.
-			con.disconnect();
-			return exists; 
-		}
-		catch (Exception e) {
-			// e.printStackTrace();
-			HCoreLibMain.logHelper.warn("Could not find requested url!", urlCheck);
-			HCoreLibMain.logHelper.warn("Update server must be DOWN or this build has not yet been released properly!");
-			return false;
-		}
-	}
-	
-	/**
-	 * Gets the appropriate latest url.
-	 * 
-	 * @return latest url.
-	 */
-	private String getAppropriateUrl() {
-		return url.substring(0, url.lastIndexOf('/')) + "/" + modName + "-" + (latestBuild.substring(1, latestBuild.length())) + ".jar";
-	}
+        return ent;
+    }
+
+    /**
+     * Localized method for checking is something exists in the world wide web at given url.
+     *
+     * @param urlCheck = url to test.
+     * @return true if exists, else false.
+     */
+    private boolean exists(String urlCheck) {
+        try {
+            HttpURLConnection.setFollowRedirects(false);
+            // note : you may also need
+            // HttpURLConnection.setInstanceFollowRedirects(false)
+            HttpURLConnection con = (HttpURLConnection) new URL(urlCheck).openConnection();
+            con.setRequestMethod("HEAD");
+
+            // seconds length
+            float seconds = 1.0f;
+            // Convert to ms.
+            seconds *= 1000;
+            // Convert to int.
+            int timeout = (int) seconds;
+
+            con.setConnectTimeout(timeout);
+            con.setReadTimeout(timeout);
+
+            boolean exists = con.getResponseCode() == HttpURLConnection.HTTP_OK;
+
+            // Make sure we disconnect connection to server.
+            con.disconnect();
+            return exists;
+        }
+        catch (Exception e) {
+            // e.printStackTrace();
+            HCoreLibMain.logHelper.warn("Could not find requested url!", urlCheck);
+            HCoreLibMain.logHelper.warn("Update server must be DOWN or this build has not yet been released properly!");
+            return false;
+        }
+    }
+
+    /**
+     * Gets the appropriate latest url.
+     *
+     * @return latest url.
+     */
+    private String getAppropriateUrl() {
+        return url.substring(0, url.lastIndexOf('/')) + "/" + modName + "-" + (latestBuild.substring(1, latestBuild.length())) + ".jar";
+    }
 
 }

@@ -38,7 +38,7 @@ public class TestBlock extends AbstractHCoreBlock implements ICraftableRecipe {
 		if (recipePatterns == null) {
 			recipePatterns = new RecipePattern[2];
 			recipePatterns[0] = new RecipePattern("xxx", "xxx", "xxx", true).addAssociation('x',
-					Blocks.STONE).setResultStack(new ItemStack(this, 1));
+					"stone").setResultStack(new ItemStack(this, 1));
 
 			recipePatterns[1] = recipePatterns[0].copy().addAssociation('x', Blocks.SOUL_SAND).setResultStack(new ItemStack(this, 1));
 		}
