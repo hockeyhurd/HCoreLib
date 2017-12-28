@@ -5,6 +5,7 @@ import com.hockeyhurd.hcorelib.api.util.interfaces.ICraftableRecipe;
 import com.hockeyhurd.hcorelib.api.util.interfaces.IProxy;
 import com.hockeyhurd.hcorelib.mod.common.ModRegistry;
 import com.hockeyhurd.hcorelib.mod.handler.GuiHandler;
+import com.hockeyhurd.hcorelib.mod.tileentity.TileEntityRegistry;
 import com.hockeyhurd.hcorelib.mod.tileentity.TileEntityTESRTest;
 import com.hockeyhurd.hcorelib.mod.tileentity.TileEntityTest;
 import com.hockeyhurd.hcorelib.mod.tileentity.TileFurnace;
@@ -86,11 +87,19 @@ public class CommonProxy implements IProxy {
 		if (!HCoreLibMain.configHandler.isDebugMode())
 			return;
 
-		GameRegistry.registerTileEntity(TileEntityTest.class, "testTile");
-		GameRegistry.registerTileEntity(TileEntityTESRTest.class, "testTESRTile");
-		GameRegistry.registerTileEntity(TileFurnace.class, "testFurnaceTile");
-		GameRegistry.registerTileEntity(MultiblockController.class, "multiblockController");
-		GameRegistry.registerTileEntity(MultiblockComponent.class, "multiblockComponent");
+        final TileEntityRegistry inst = TileEntityRegistry.getInstance();
+
+        inst.registerTileEntity(TileEntityTest.class, "testTile");
+        inst.registerTileEntity(TileEntityTESRTest.class, "testTESRTile");
+        inst.registerTileEntity(TileFurnace.class, "testFurnaceTile");
+        inst.registerTileEntity(MultiblockController.class, "multiblockController");
+        inst.registerTileEntity(MultiblockComponent.class, "multiblockComponent");
+
+		// GameRegistry.registerTileEntity(TileEntityTest.class, "testTile");
+		// GameRegistry.registerTileEntity(TileEntityTESRTest.class, "testTESRTile");
+		// GameRegistry.registerTileEntity(TileFurnace.class, "testFurnaceTile");
+		// GameRegistry.registerTileEntity(MultiblockController.class, "multiblockController");
+		// GameRegistry.registerTileEntity(MultiblockComponent.class, "multiblockComponent");
 	}
 
 	protected void registerItems() {

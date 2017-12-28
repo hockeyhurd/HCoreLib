@@ -3,6 +3,7 @@ package com.hockeyhurd.hcorelib.mod.block;
 import com.hockeyhurd.hcorelib.api.block.AbstractHCoreBlockContainer;
 import com.hockeyhurd.hcorelib.api.util.enums.EnumHarvestLevel;
 import com.hockeyhurd.hcorelib.mod.HCoreLibMain;
+import com.hockeyhurd.hcorelib.mod.tileentity.TileEntityRegistry;
 import com.hockeyhurd.hcorelib.mod.tileentity.TileFurnace;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -83,9 +84,11 @@ public class TestFurnace extends AbstractHCoreBlockContainer {
     public boolean onBlockActivated(World world, BlockPos blockPos, IBlockState blockState, EntityPlayer player, EnumHand hand, EnumFacing sideHit, float hitX, float hitY, float hitZ) {
         if (world.isRemote) return true;
 
-        TileFurnace te = (TileFurnace) world.getTileEntity(blockPos);
+        final TileFurnace te = (TileFurnace) world.getTileEntity(blockPos);
+
         if (te != null) {
-                FMLNetworkHandler.openGui(player, HCoreLibMain.instance, 2, world, blockPos.getX(), blockPos.getY(), blockPos.getZ());
+                FMLNetworkHandler.openGui(player, HCoreLibMain.instance, TileEntityRegistry.getInstance().getTileEntityID(te.getClass()), world,
+                        blockPos.getX(), blockPos.getY(), blockPos.getZ());
         }
 
         return true;

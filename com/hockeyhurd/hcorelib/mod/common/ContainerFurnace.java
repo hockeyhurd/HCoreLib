@@ -56,27 +56,29 @@ public class ContainerFurnace extends Container {
      */
     @Override
     public ItemStack transferStackInSlot(EntityPlayer player, int index) {
-        ItemStack stack = null;
+        ItemStack stack = ItemStack.EMPTY;
         Slot slot = this.inventorySlots.get(index);
 
         if (slot != null && slot.getHasStack()) {
             ItemStack slotStack = slot.getStack();
             stack = slotStack.copy();
             if (index < tileFurnace.getSizeInventory()) {
-                if (!this.mergeItemStack(slotStack, tileFurnace.getSizeInventory(), this.inventorySlots.size(), false)) return null;
+                if (!this.mergeItemStack(slotStack, tileFurnace.getSizeInventory(), this.inventorySlots.size(), false))
+                    return ItemStack.EMPTY;
             }
 
             else {
-                if (!this.getSlot(0).isItemValid(slotStack) || !this.mergeItemStack(slotStack, 0, tileFurnace.getSizeInventory(), false)) return null;
+                if (!this.getSlot(0).isItemValid(slotStack) || !this.mergeItemStack(slotStack, 0, tileFurnace.getSizeInventory(), false))
+                    return ItemStack.EMPTY;
             }
 
             if (slotStack.getCount() == 0)
-                slot.putStack(null);
+                slot.putStack(ItemStack.EMPTY);
             else
                 slot.onSlotChanged();
 
             if (slotStack.getCount() == stack.getCount())
-                return null;
+                return ItemStack.EMPTY;
             slot.onTake(player, slotStack);
         }
 

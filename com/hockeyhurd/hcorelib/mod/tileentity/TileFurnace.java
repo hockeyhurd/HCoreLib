@@ -8,7 +8,6 @@ import com.hockeyhurd.hcorelib.mod.handler.packet.PacketHandler;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.IInventory;
@@ -59,14 +58,11 @@ public class TileFurnace extends AbstractTileContainer implements ITickable {
 
     @Override
     protected void initSlotsArray() {
-        this.slotTop = new int[]{
-                0
+        this.slotTop = new int[] { 0
         };
-        this.slotRight = new int[]{
-                1
+        this.slotRight = new int[] { 1
         };
-        this.slotBottom = new int[]{
-                2
+        this.slotBottom = new int[] { 2
         };
     }
 
@@ -77,12 +73,14 @@ public class TileFurnace extends AbstractTileContainer implements ITickable {
 
     @Override
     public boolean isItemValidForSlot(int slot, ItemStack stack) {
-        if (slot == 2) return false;
-        else if (slot != 1) return true;
+        if (slot == 2)
+            return false;
+        else if (slot != 1)
+            return true;
 
         else {
             final ItemStack itemStack = slots[1];
-            return isItemFuel(stack) || SlotFurnaceFuel.isBucket(stack) && (itemStack == null || itemStack.getItem() != Items.BUCKET);
+            return isItemFuel(stack) || SlotFurnaceFuel.isBucket(stack) && (itemStack == ItemStack.EMPTY || itemStack.getItem() != Items.BUCKET);
         }
     }
 
@@ -146,12 +144,13 @@ public class TileFurnace extends AbstractTileContainer implements ITickable {
     }
 
     private boolean canSmelt() {
-        if (slots[0] == null) return false;
+        if (slots[0] == ItemStack.EMPTY)
+            return false;
         else {
             ItemStack itemstack = FurnaceRecipes.instance().getSmeltingResult(slots[0]);
-            if (itemstack == null)
+            if (itemstack == ItemStack.EMPTY)
                 return false;
-            if (slots[2] == null)
+            if (slots[2] == ItemStack.EMPTY)
                 return true;
             if (!slots[2].isItemEqual(itemstack))
                 return false;
@@ -165,7 +164,7 @@ public class TileFurnace extends AbstractTileContainer implements ITickable {
         if (canSmelt()) {
             ItemStack itemstack = FurnaceRecipes.instance().getSmeltingResult(slots[0]);
 
-            if (slots[2] == null)
+            if (slots[2] == ItemStack.EMPTY)
                 slots[2] = itemstack.copy();
             else if (slots[2].isItemEqual(itemstack))
                 slots[2].setCount(slots[2].getCount() + itemstack.getCount());
@@ -173,15 +172,16 @@ public class TileFurnace extends AbstractTileContainer implements ITickable {
             slots[0].setCount(slots[0].getCount() - 1);
 
             if (slots[0].getCount() <= 0) {
-                slots[0] = null;
+                slots[0] = ItemStack.EMPTY;
             }
         }
     }
 
     public static int getItemBurnTime(ItemStack stack) {
-        if (stack == null) {
+        if (stack == ItemStack.EMPTY) {
             return 0;
-        } else {
+        }
+        else {
             Item item = stack.getItem();
             if (item instanceof ItemBlock && Block.getBlockFromItem(item) != Blocks.AIR) {
                 Block block = Block.getBlockFromItem(item);
@@ -198,7 +198,21 @@ public class TileFurnace extends AbstractTileContainer implements ITickable {
                 }
             }
 
-            return item instanceof ItemTool && "WOOD".equals(((ItemTool) item).getToolMaterialName()) ? 200 : (item instanceof ItemSword && "WOOD".equals(((ItemSword) item).getToolMaterialName()) ? 200 : (item instanceof ItemHoe && "WOOD".equals(((ItemHoe) item).getMaterialName()) ? 200 : (item == Items.STICK ? 100 : (item == Items.COAL ? 1600 : (item == Items.LAVA_BUCKET ? 20000 : (item == Item.getItemFromBlock(Blocks.SAPLING) ? 100 : (item == Items.BLAZE_ROD ? 2400 : GameRegistry.getFuelValue(stack))))))));
+            return item instanceof ItemTool && "WOOD".equals(((ItemTool) item).getToolMaterialName()) ?
+                    200 :
+                    (item instanceof ItemSword && "WOOD".equals(((ItemSword) item).getToolMaterialName()) ?
+                            200 :
+                            (item instanceof ItemHoe && "WOOD".equals(((ItemHoe) item).getMaterialName()) ?
+                                    200 :
+                                    (item == Items.STICK ?
+                                            100 :
+                                            (item == Items.COAL ?
+                                                    1600 :
+                                                    (item == Items.LAVA_BUCKET ?
+                                                            20000 :
+                                                            (item == Item.getItemFromBlock(Blocks.SAPLING) ?
+                                                                    100 :
+                                                                    (item == Items.BLAZE_ROD ? 2400 : GameRegistry.getFuelValue(stack))))))));
         }
     }
 
@@ -208,51 +222,63 @@ public class TileFurnace extends AbstractTileContainer implements ITickable {
 
     @Override
     public void update() {
-        boolean flag = this.isActive();
+        boolean flag = isActive();
         boolean flag1 = false;
 
-        if (isActive()) burnTime--;
+        if (isActive()) {
+            --burnTime;
+        }
 
         if (!world.isRemote) {
-            if (isActive() || slots[1] != null && slots[0] != null) {
+            ItemStack itemstack = slots[1];
+
+            if (isActive() || !itemstack.isEmpty() && !((ItemStack) slots[0]).isEmpty()) {
                 if (!isActive() && canSmelt()) {
-                    burnTime = getItemBurnTime(slots[1]);
+                    burnTime = getItemBurnTime(itemstack);
                     currentBurnTime = burnTime;
 
                     if (isActive()) {
                         flag1 = true;
-                        if (slots[1] != null) {
-                            slots[1].setCount(slots[1].getCount() - 1);
-                            if (slots[1].getCount() == 0) {
-                                slots[1] = slots[1].getItem().getContainerItem(slots[1]);
+
+                        if (!itemstack.isEmpty()) {
+                            Item item = itemstack.getItem();
+                            itemstack.shrink(1);
+
+                            if (itemstack.isEmpty()) {
+                                ItemStack item1 = item.getContainerItem(itemstack);
+                                slots[1] = item1;
                             }
                         }
                     }
                 }
 
                 if (isActive() && canSmelt()) {
-                    cookTime++;
-                    if (cookTime == originalScaledTime) {
+                    ++cookTime;
+
+                    if (cookTime == scaledTime) {
                         cookTime = 0;
-                        currentCookTime = originalScaledTime;
+                        currentCookTime = getCookTime();
                         smeltItem();
                         flag1 = true;
                     }
                 }
-
-                else cookTime = 0;
+                else {
+                    cookTime = 0;
+                }
             }
-
-            else if (!isActive() && cookTime > 0)
+            else if (!isActive() && cookTime > 0) {
                 cookTime = MathHelper.clamp(cookTime - 2, 0, currentCookTime);
+            }
 
             if (flag != isActive()) {
                 flag1 = true;
-                TestFurnace.updateState(isActive(), world, pos);
+                ((TestFurnace) blockType).updateState(isActive(), world, pos);
             }
         }
 
-        if (flag1) markDirty();
+        if (flag1) {
+            markDirty();
+        }
     }
 
     @Override
@@ -266,7 +292,7 @@ public class TileFurnace extends AbstractTileContainer implements ITickable {
      * @return int.
      */
     public int getCookTime() {
-        return cookTime;
+        return scaledTime; // cookTime;
     }
 
     /**

@@ -28,7 +28,8 @@ public class GuiHandler implements IGuiHandler {
     public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
         final AbstractTile tile = (AbstractTile) world.getTileEntity(new BlockPos(x, y, z));
 
-        if (tile instanceof TileFurnace) return new ContainerFurnace(player.inventory, ((TileFurnace) tile));
+        if (tile instanceof TileFurnace)
+            return new ContainerFurnace(player.inventory, ((TileFurnace) tile));
 
         return null;
     }
@@ -41,7 +42,8 @@ public class GuiHandler implements IGuiHandler {
             return new GuiCalculator();
         }
 
-        else if (tile instanceof TileFurnace) return new GuiFurnace(player.inventory, ((TileFurnace) tile));
+        else if (tile instanceof TileFurnace)
+            return new GuiFurnace(player.inventory, ((TileFurnace) tile));
 
         return null;
     }

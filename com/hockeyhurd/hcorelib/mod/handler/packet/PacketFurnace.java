@@ -69,7 +69,8 @@ public class PacketFurnace implements IMessage, IMessageHandler<PacketFurnace, I
             final TileFurnace tileFurnace = (TileFurnace) FMLClientHandler.instance().getClient().world.
                     getTileEntity(VectorHelper.toBlockPos((message.pos)));
 
-            if (tileFurnace == null) return null;
+            if (tileFurnace == null)
+                return null;
 
             for (int i = 0; i < message.container.length; i++)
                 tileFurnace.setField(i, message.container[i]);

@@ -1,11 +1,11 @@
 package com.hockeyhurd.hcorelib.mod.client.gui;
 
+import com.hockeyhurd.hcorelib.mod.common.ContainerFurnace;
 import com.hockeyhurd.hcorelib.mod.tileentity.TileFurnace;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.ContainerFurnace;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;

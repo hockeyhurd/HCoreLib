@@ -57,7 +57,15 @@ public abstract class AbstractTileContainer extends AbstractTile implements ISid
     /**
      * Method used for initializing the contents array and size of container.
      */
-    protected abstract void initContentsArray();
+    protected void initContentsArray() {
+        if (getSizeInventory() > 0) {
+            slots = new ItemStack[getSizeInventory()];
+
+            for (int i = 0; i < slots.length; i++) {
+                slots[i] = ItemStack.EMPTY;
+            }
+        }
+    }
 
     /**
      * Method used for initializing slots in the container. <br>
@@ -102,33 +110,35 @@ public abstract class AbstractTileContainer extends AbstractTile implements ISid
      */
     @Override
     public ItemStack getStackInSlot(int slot) {
-        return slot >= 0 && slot < this.slots.length ? this.slots[slot] : null;
+        return slot >= 0 && slot < this.slots.length ? this.slots[slot] : ItemStack.EMPTY;
     }
 
     @Override
     public ItemStack decrStackSize(int slot, int amount) {
         if (this.slots[slot] != null) {
-            ItemStack itemstack;
+            ItemStack itemstack = ItemStack.EMPTY;
 
             if (this.slots[slot].getCount() <= amount) {
                 itemstack = this.slots[slot];
-                this.slots[slot] = null;
+                this.slots[slot] = ItemStack.EMPTY;
                 return itemstack;
             }
             else {
                 itemstack = this.slots[slot].splitStack(amount);
 
-                if (this.slots[slot].getCount() == 0) this.slots[slot] = null;
+                if (this.slots[slot].getCount() == 0)
+                    this.slots[slot] = ItemStack.EMPTY;
+
                 return itemstack;
             }
         }
-        else return null;
+        else return ItemStack.EMPTY;
     }
 
     @Override
     public void setInventorySlotContents(int slot, ItemStack stack) {
         this.slots[slot] = stack;
-        if (stack != null && stack.getCount() > this.getInventoryStackLimit())
+        if (stack != ItemStack.EMPTY && stack.getCount() > this.getInventoryStackLimit())
             stack.setCount(this.getInventoryStackLimit());
     }
 
@@ -163,11 +173,11 @@ public abstract class AbstractTileContainer extends AbstractTile implements ISid
     public ItemStack removeStackFromSlot(int slot) {
         if (slots != null && slot >= 0 && slot < slots.length) {
             ItemStack heldStack = slots[slot];
-            slots[slot] = null;
+            slots[slot] = ItemStack.EMPTY;
             return heldStack;
         }
 
-        return null;
+        return ItemStack.EMPTY;
     }
 
     @Override
@@ -183,7 +193,7 @@ public abstract class AbstractTileContainer extends AbstractTile implements ISid
     public void clear() {
         if (slots != null) {
             for (int i = 0; i < slots.length; i++) {
-                slots[i] = null;
+                slots[i] = ItemStack.EMPTY;
             }
         }
     }
@@ -219,10 +229,15 @@ public abstract class AbstractTileContainer extends AbstractTile implements ISid
     @Override
     public void readNBT(NBTTagCompound comp) {
         this.slots = new ItemStack[getSizeInventory()];
+
+        for (int i = 0; i < slots.length; i++) {
+            slots[i] = ItemStack.EMPTY;
+        }
+
         NBTTagList tagList = comp.getTagList("Items", 10);
 
         for (int i = 0; i < tagList.tagCount(); i++) {
-            NBTTagCompound temp = (NBTTagCompound) tagList.getCompoundTagAt(i);
+            NBTTagCompound temp = tagList.getCompoundTagAt(i);
             byte b0 = temp.getByte("Slot");
 
             if (b0 >= 0 && b0 < this.slots.length)
@@ -239,7 +254,7 @@ public abstract class AbstractTileContainer extends AbstractTile implements ISid
             NBTTagList tagList = comp.getTagList("Items", 10);
 
             for (int i = 0; i < this.slots.length; i++) {
-                if (this.slots[i] != null) {
+                if (this.slots[i] != ItemStack.EMPTY) {
                     NBTTagCompound temp = new NBTTagCompound();
                     temp.setByte("Slot", (byte) i);
                     this.slots[i].writeToNBT(temp);
