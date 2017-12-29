@@ -7,6 +7,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.NonNullList;
 
 /**
  * Abstract tile entity class for containers.
@@ -19,7 +20,7 @@ public abstract class AbstractTileContainer extends AbstractTile implements ISid
     /**
      * Include only slots in the UI and specifically not the player's inventory.
      */
-    protected ItemStack[] slots;
+    protected NonNullList<ItemStack> slots;
 
     /**
      * Initializes custom name to provided String.
@@ -59,11 +60,7 @@ public abstract class AbstractTileContainer extends AbstractTile implements ISid
      */
     protected void initContentsArray() {
         if (getSizeInventory() > 0) {
-            slots = new ItemStack[getSizeInventory()];
-
-            for (int i = 0; i < slots.length; i++) {
-                slots[i] = ItemStack.EMPTY;
-            }
+            slots = NonNullList.<ItemStack>withSize(getSizeInventory(), ItemStack.EMPTY);
         }
     }
 
@@ -85,7 +82,7 @@ public abstract class AbstractTileContainer extends AbstractTile implements ISid
      */
     @Override
     public int getSizeInventory() {
-        return slots != null ? slots.length : 0;
+        return slots != null ? slots.size() : 0;
     }
 
     protected boolean isInventoryEmpty() {
@@ -110,24 +107,24 @@ public abstract class AbstractTileContainer extends AbstractTile implements ISid
      */
     @Override
     public ItemStack getStackInSlot(int slot) {
-        return slot >= 0 && slot < this.slots.length ? this.slots[slot] : ItemStack.EMPTY;
+        return slot >= 0 && slot < this.slots.size() ? this.slots.get(slot) : ItemStack.EMPTY;
     }
 
     @Override
     public ItemStack decrStackSize(int slot, int amount) {
-        if (this.slots[slot] != null) {
+        if (this.slots.get(slot) != ItemStack.EMPTY) {
             ItemStack itemstack = ItemStack.EMPTY;
 
-            if (this.slots[slot].getCount() <= amount) {
-                itemstack = this.slots[slot];
-                this.slots[slot] = ItemStack.EMPTY;
+            if (this.slots.get(slot).getCount() <= amount) {
+                itemstack = this.slots.get(slot);
+                this.slots.set(slot, ItemStack.EMPTY);
                 return itemstack;
             }
             else {
-                itemstack = this.slots[slot].splitStack(amount);
+                itemstack = this.slots.get(slot).splitStack(amount);
 
-                if (this.slots[slot].getCount() == 0)
-                    this.slots[slot] = ItemStack.EMPTY;
+                if (this.slots.get(slot).getCount() == 0)
+                    this.slots.set(slot, ItemStack.EMPTY);
 
                 return itemstack;
             }
@@ -137,7 +134,8 @@ public abstract class AbstractTileContainer extends AbstractTile implements ISid
 
     @Override
     public void setInventorySlotContents(int slot, ItemStack stack) {
-        this.slots[slot] = stack;
+        this.slots.set(slot, stack);
+
         if (stack != ItemStack.EMPTY && stack.getCount() > this.getInventoryStackLimit())
             stack.setCount(this.getInventoryStackLimit());
     }
@@ -171,9 +169,10 @@ public abstract class AbstractTileContainer extends AbstractTile implements ISid
 
     @Override
     public ItemStack removeStackFromSlot(int slot) {
-        if (slots != null && slot >= 0 && slot < slots.length) {
-            ItemStack heldStack = slots[slot];
-            slots[slot] = ItemStack.EMPTY;
+        if (slots != null && slot >= 0 && slot < slots.size()) {
+            final ItemStack heldStack = slots.get(slot);
+            slots.set(slot, ItemStack.EMPTY);
+
             return heldStack;
         }
 
@@ -192,8 +191,8 @@ public abstract class AbstractTileContainer extends AbstractTile implements ISid
     @Override
     public void clear() {
         if (slots != null) {
-            for (int i = 0; i < slots.length; i++) {
-                slots[i] = ItemStack.EMPTY;
+            for (int i = 0; i < slots.size(); i++) {
+                slots.set(i, ItemStack.EMPTY);
             }
         }
     }
@@ -228,10 +227,12 @@ public abstract class AbstractTileContainer extends AbstractTile implements ISid
 
     @Override
     public void readNBT(NBTTagCompound comp) {
-        this.slots = new ItemStack[getSizeInventory()];
+        // this.slots = new ItemStack[getSizeInventory()];
+        slots = NonNullList.<ItemStack>withSize(getSizeInventory(), ItemStack.EMPTY);
 
-        for (int i = 0; i < slots.length; i++) {
-            slots[i] = ItemStack.EMPTY;
+        for (int i = 0; i < slots.size(); i++) {
+            // slots[i] = ItemStack.EMPTY;
+            slots.set(i, ItemStack.EMPTY);
         }
 
         NBTTagList tagList = comp.getTagList("Items", 10);
@@ -240,8 +241,8 @@ public abstract class AbstractTileContainer extends AbstractTile implements ISid
             NBTTagCompound temp = tagList.getCompoundTagAt(i);
             byte b0 = temp.getByte("Slot");
 
-            if (b0 >= 0 && b0 < this.slots.length)
-                this.slots[b0] = new ItemStack(temp);
+            if (b0 >= 0 && b0 < slots.size())
+                slots.set(b0, new ItemStack(temp));
         }
 
         if (comp.hasKey("CustomName"))
@@ -250,14 +251,14 @@ public abstract class AbstractTileContainer extends AbstractTile implements ISid
 
     @Override
     public void saveNBT(NBTTagCompound comp) {
-        if (this.slots != null && this.slots.length > 0) {
+        if (slots != null && !slots.isEmpty()) {
             NBTTagList tagList = comp.getTagList("Items", 10);
 
-            for (int i = 0; i < this.slots.length; i++) {
-                if (this.slots[i] != ItemStack.EMPTY) {
+            for (int i = 0; i < slots.size(); i++) {
+                if (slots.get(i) != ItemStack.EMPTY) {
                     NBTTagCompound temp = new NBTTagCompound();
                     temp.setByte("Slot", (byte) i);
-                    this.slots[i].writeToNBT(temp);
+                    slots.get(i).writeToNBT(temp);
                     tagList.appendTag(temp);
                 }
             }
@@ -265,7 +266,7 @@ public abstract class AbstractTileContainer extends AbstractTile implements ISid
             comp.setTag("Items", tagList);
         }
 
-        if (this.hasCustomInventoryName())
+        if (hasCustomInventoryName())
             comp.setString("CustomName", this.customName);
     }
 

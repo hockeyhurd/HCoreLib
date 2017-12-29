@@ -40,7 +40,7 @@ public class CommonProxy implements IProxy {
 	@Override
     public void preInit() {
         // registerBlocks(); // un-comment to regen crafting recipes to recipe output folder.
-        // registerItems();  // un-comment to regen crafting recipes to recipe output folder.
+        registerItems();  // un-comment to regen crafting recipes to recipe output folder.
         registerTileEntities();
     }
 
@@ -117,6 +117,11 @@ public class CommonProxy implements IProxy {
             if (pattern != null)
                 pattern.registerRecipe(recipeGen);
         }
+
+		for (RecipePattern pattern : ((ICraftableRecipe) ModRegistry.ModItems.hammer.getItem()).getRecipePatterns()) {
+			if (pattern != null)
+				pattern.registerRecipe(recipeGen);
+		}
 
 		for (RecipePattern pattern : ((ICraftableRecipe) ModRegistry.ModItems.witchHat.getItem()).getRecipePatterns()) {
 			if (pattern != null)

@@ -19,6 +19,7 @@ import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
@@ -53,7 +54,7 @@ public class TileFurnace extends AbstractTileContainer implements ITickable {
 
     @Override
     protected void initContentsArray() {
-        this.slots = new ItemStack[3];
+        slots = NonNullList.<ItemStack>withSize(3, ItemStack.EMPTY);
     }
 
     @Override
@@ -79,7 +80,7 @@ public class TileFurnace extends AbstractTileContainer implements ITickable {
             return true;
 
         else {
-            final ItemStack itemStack = slots[1];
+            final ItemStack itemStack = slots.get(1);
             return isItemFuel(stack) || SlotFurnaceFuel.isBucket(stack) && (itemStack == ItemStack.EMPTY || itemStack.getItem() != Items.BUCKET);
         }
     }
@@ -134,7 +135,7 @@ public class TileFurnace extends AbstractTileContainer implements ITickable {
 
     @Override
     public boolean canExtractItem(int slot, ItemStack stack, EnumFacing side) {
-        return slot > 0 && slot < slots.length;
+        return slot > 0 && slot < slots.size();
     }
 
     @SideOnly(Side.CLIENT)
@@ -144,35 +145,35 @@ public class TileFurnace extends AbstractTileContainer implements ITickable {
     }
 
     private boolean canSmelt() {
-        if (slots[0] == ItemStack.EMPTY)
+        if (slots.get(0) == ItemStack.EMPTY)
             return false;
         else {
-            ItemStack itemstack = FurnaceRecipes.instance().getSmeltingResult(slots[0]);
+            ItemStack itemstack = FurnaceRecipes.instance().getSmeltingResult(slots.get(0));
             if (itemstack == ItemStack.EMPTY)
                 return false;
-            if (slots[2] == ItemStack.EMPTY)
+            if (slots.get(2) == ItemStack.EMPTY)
                 return true;
-            if (!slots[2].isItemEqual(itemstack))
+            if (!slots.get(2).isItemEqual(itemstack))
                 return false;
 
-            int result = slots[2].getCount() + itemstack.getCount();
-            return result <= getInventoryStackLimit() && result <= slots[2].getMaxStackSize(); // Forge BugFix: Make it respect stack sizes properly.
+            int result = slots.get(2).getCount() + itemstack.getCount();
+            return result <= getInventoryStackLimit() && result <= slots.get(2).getMaxStackSize(); // Forge BugFix: Make it respect stack sizes properly.
         }
     }
 
     private void smeltItem() {
         if (canSmelt()) {
-            ItemStack itemstack = FurnaceRecipes.instance().getSmeltingResult(slots[0]);
+            ItemStack itemstack = FurnaceRecipes.instance().getSmeltingResult(slots.get(0));
 
-            if (slots[2] == ItemStack.EMPTY)
-                slots[2] = itemstack.copy();
-            else if (slots[2].isItemEqual(itemstack))
-                slots[2].setCount(slots[2].getCount() + itemstack.getCount());
+            if (slots.get(2) == ItemStack.EMPTY)
+                slots.set(2, itemstack.copy());
+            else if (slots.get(2).isItemEqual(itemstack))
+                slots.get(2).setCount(slots.get(2).getCount() + itemstack.getCount());
 
-            slots[0].setCount(slots[0].getCount() - 1);
+            slots.get(0).setCount(slots.get(0).getCount() - 1);
 
-            if (slots[0].getCount() <= 0) {
-                slots[0] = ItemStack.EMPTY;
+            if (slots.get(0).getCount() <= 0) {
+                slots.set(0, ItemStack.EMPTY);
             }
         }
     }
@@ -230,9 +231,9 @@ public class TileFurnace extends AbstractTileContainer implements ITickable {
         }
 
         if (!world.isRemote) {
-            ItemStack itemstack = slots[1];
+            ItemStack itemstack = slots.get(1);
 
-            if (isActive() || !itemstack.isEmpty() && !((ItemStack) slots[0]).isEmpty()) {
+            if (isActive() || !itemstack.isEmpty() && !((ItemStack) slots.get(0)).isEmpty()) {
                 if (!isActive() && canSmelt()) {
                     burnTime = getItemBurnTime(itemstack);
                     currentBurnTime = burnTime;
@@ -246,7 +247,7 @@ public class TileFurnace extends AbstractTileContainer implements ITickable {
 
                             if (itemstack.isEmpty()) {
                                 ItemStack item1 = item.getContainerItem(itemstack);
-                                slots[1] = item1;
+                                slots.set(1, item1);
                             }
                         }
                     }

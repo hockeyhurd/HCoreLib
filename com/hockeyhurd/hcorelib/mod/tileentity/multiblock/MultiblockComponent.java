@@ -1,11 +1,19 @@
 package com.hockeyhurd.hcorelib.mod.tileentity.multiblock;
 
-import com.hockeyhurd.hcorelib.api.block.multiblock.IMultiblockManager;
-import com.hockeyhurd.hcorelib.api.block.multiblock.IMultiblockable;
+import com.hockeyhurd.hcorelib.api.math.Vector3;
+import com.hockeyhurd.hcorelib.api.math.VectorHelper;
 import com.hockeyhurd.hcorelib.api.tileentity.AbstractTileContainer;
+import com.hockeyhurd.hcorelib.api.tileentity.multiblock.EnumMultiblockState;
+import com.hockeyhurd.hcorelib.api.tileentity.multiblock.IMasterBlock;
+import com.hockeyhurd.hcorelib.api.tileentity.multiblock.IMultiblockable;
+import com.hockeyhurd.hcorelib.api.util.BlockUtils;
+import com.hockeyhurd.hcorelib.mod.block.multiblock.BlockMultiblockComponent;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.NonNullList;
 
 /**
  * @author hockeyhurd
@@ -13,8 +21,7 @@ import net.minecraft.util.EnumFacing;
  */
 public class MultiblockComponent extends AbstractTileContainer implements IMultiblockable<MultiblockComponent> {
 
-	private IMultiblockManager multiblockManager;
-	private int internalSize;
+	private IMasterBlock<MultiblockController> masterBlock;
 
 	public MultiblockComponent() {
 		super("multiblockComponent");
@@ -22,11 +29,12 @@ public class MultiblockComponent extends AbstractTileContainer implements IMulti
 
 	@Override
 	protected void initContentsArray() {
+        slots = NonNullList.<ItemStack>withSize(1, ItemStack.EMPTY);
 	}
 
 	@Override
 	protected void initSlotsArray() {
-		slots = new ItemStack[1];
+
 	}
 
 	@Override
@@ -36,8 +44,8 @@ public class MultiblockComponent extends AbstractTileContainer implements IMulti
 
 	@Override
 	public boolean isItemValidForSlot(int slot, ItemStack stack) {
-		return slot == 0 && (slots[0] == null || (stack != null && slots[0].getCount() + stack.getCount() <= slots[0].getMaxStackSize() &&
-				slots[0].isItemEqual(stack)));
+		return slot == 0 && (slots.get(0) == ItemStack.EMPTY || (stack != ItemStack.EMPTY && slots.get(0).getCount() + stack.getCount() <= slots.get(0).getMaxStackSize()
+                && slots.get(0).isItemEqual(stack)));
 	}
 
 	@Override
@@ -66,90 +74,48 @@ public class MultiblockComponent extends AbstractTileContainer implements IMulti
 
 	@Override
 	public boolean canExtractItem(int slot, ItemStack stack, EnumFacing side) {
-		return slot == 0 && slots[0] != null && slots[0].getCount() > 0;
-	}
-
-	/*@Override
-	public ItemStack getStackInSlot(int slot) {
-		return slot == 0 ? slots[0] : null;
-	}*/
-
-	public boolean pushStack(ItemStack stack, boolean simulate) {
-		if (stack == null || !canInsertItem(0, stack, EnumFacing.UP)) return false;
-		if (slots[0] == null) {
-			slots[0] = stack.copy();
-			return true;
-		}
-
-		else if (stack.isItemEqual(slots[0])) {
-			int left = slots[0].getMaxStackSize() - slots[0].getCount();
-			left -= stack.getCount();
-
-			if (!simulate) {
-				slots[0].setCount(slots[0].getCount() + stack.getCount());
-				internalSize = slots[0].getCount() + left;
-			}
-
-			return true;
-		}
-
-		return false;
-	}
-
-	public ItemStack pullStack(int amount, boolean simulate) {
-		if (amount < 0 || slots[0] == null) return null;
-		final ItemStack copy = slots[0].copy();
-
-		amount = Math.min(amount, slots[0].getMaxStackSize());
-
-		int amountToPull = Math.min(slots[0].getCount(), amount);
-		amountToPull = Math.min(amountToPull, internalSize);
-
-		if (!simulate) {
-			if (amountToPull < internalSize) {
-				internalSize -= amountToPull;
-				slots[0].setCount(internalSize);
-			}
-
-			else if (amountToPull == internalSize) {
-				internalSize = 0;
-				slots[0] = null;
-			}
-
-			else return null; // Error should have occurred if this is reached!
-		}
-
-		// Adjust stack size according to the amount of was pulled.
-		copy.setCount(amountToPull);
-
-		return copy;
-	}
-
-	public int size() {
-		return internalSize;
+		return slot == 0 && slots.get(0) != ItemStack.EMPTY && slots.get(0).getCount() > 0;
 	}
 
 	@Override
 	public void readNBT(NBTTagCompound comp) {
 		super.readNBT(comp);
 
+		final boolean hasMaster = comp.getBoolean("HasMaster");
 
+		if (hasMaster) {
+            final Vector3<Integer> vec = getMaster().getTile().worldVec();
+
+            vec.x = comp.getInteger("MasterX");
+            vec.y = comp.getInteger("MasterY");
+            vec.z = comp.getInteger("MasterZ");
+
+            final TileEntity tileEntity = world.getTileEntity(VectorHelper.toBlockPos(vec));
+
+            if (tileEntity != null && tileEntity instanceof IMasterBlock<?>)
+                setMaster((IMasterBlock<MultiblockController>) tileEntity);
+        }
 	}
+
+	@Override
+    public void saveNBT(NBTTagCompound comp) {
+	    super.saveNBT(comp);
+
+	    final boolean hasMaster = getMaster() != null;
+	    comp.setBoolean("HasMaster", hasMaster);
+
+	    if (hasMaster) {
+	        final Vector3<Integer> vec = getMaster().getTile().worldVec();
+
+	        comp.setInteger("MasterX", vec.x);
+            comp.setInteger("MasterY", vec.y);
+            comp.setInteger("MasterZ", vec.z);
+        }
+    }
 
 	@Override
 	public MultiblockComponent getTile() {
 		return this;
-	}
-
-	@Override
-	public IMultiblockManager getManager() {
-		return multiblockManager;
-	}
-
-	@Override
-	public boolean setManager(IMultiblockManager manager) {
-		this.multiblockManager = manager;
-		return manager != null;
 	}
 
 	@Override
@@ -162,17 +128,28 @@ public class MultiblockComponent extends AbstractTileContainer implements IMulti
 		return false;
 	}
 
-	@Override
-	public void setMaster(IMultiblockable<MultiblockComponent> tile) {
+    @Override
+    @SuppressWarnings("unchecked")
+	public void setMaster(IMasterBlock<?> tile) {
+	    masterBlock = (IMasterBlock<MultiblockController>) tile;
 	}
 
 	@Override
-	public IMultiblockable getMaster() {
-		return multiblockManager != null ? multiblockManager.getMasterTile() : null;
+    @SuppressWarnings("unchecked")
+	public IMasterBlock<MultiblockController> getMaster() {
+		return masterBlock;
 	}
 
 	@Override
 	public int getRequiredAmount() {
-		return -1;
+		return 8;
 	}
+
+    @Override
+    public void updateState(EnumMultiblockState multiblockState) {
+        final IBlockState blockState = BlockUtils.getBlock(world, pos);
+
+        ((BlockMultiblockComponent) blockState.getBlock()).updateState(this, world, worldVec(), multiblockState == EnumMultiblockState.COMPLETE);
+    }
+
 }
