@@ -15,35 +15,36 @@ import net.minecraftforge.fml.relauncher.Side;
  */
 public final class PacketHandler {
 
-	public static final SimpleNetworkWrapper NETWORK_WRAPPER = NetworkRegistry.INSTANCE.newSimpleChannel(LibReference.MOD_NAME);
-	private static int id = 0;
+    public static final SimpleNetworkWrapper NETWORK_WRAPPER = NetworkRegistry.INSTANCE.newSimpleChannel(LibReference.MOD_NAME);
+    private static int id = 0;
 
-	private static final PacketHandler clazzInstance = new PacketHandler();
+    private static final PacketHandler clazzInstance = new PacketHandler();
 
-	private PacketHandler() {
-	}
+    private PacketHandler() {
+    }
 
-	/**
-	 * Instance of this class.
-	 *
-	 * @return PacketHandler instance.
-	 */
-	public static PacketHandler getInstance() {
-		return clazzInstance;
-	}
+    /**
+     * Instance of this class.
+     *
+     * @return PacketHandler instance.
+     */
+    public static PacketHandler getInstance() {
+        return clazzInstance;
+    }
 
-	public void init() {
-		registerMessageHandler(PacketFurnace.class, PacketFurnace.class, getNextID(), Side.CLIENT);
-	}
+    public void init() {
+        registerMessageHandler(PacketFurnace.class, PacketFurnace.class, getNextID(), Side.CLIENT);
+        registerMessageHandler(PacketController.class, PacketController.class, getNextID(), Side.CLIENT);
+    }
 
-	private static <REQ extends IMessage, REPLY extends IMessage> void registerMessageHandler(Class<? extends IMessageHandler<REQ, REPLY>> messageHandler,
-			Class<REQ> requestMessageType, int discriminator, Side side) {
+    private static <REQ extends IMessage, REPLY extends IMessage> void registerMessageHandler(
+            Class<? extends IMessageHandler<REQ, REPLY>> messageHandler, Class<REQ> requestMessageType, int discriminator, Side side) {
 
-		NETWORK_WRAPPER.registerMessage(messageHandler, requestMessageType, discriminator, side);
-	}
+        NETWORK_WRAPPER.registerMessage(messageHandler, requestMessageType, discriminator, side);
+    }
 
-	private static int getNextID() {
-		return id++;
-	}
+    private static int getNextID() {
+        return id++;
+    }
 
 }

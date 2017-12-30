@@ -21,69 +21,70 @@ import net.minecraft.util.NonNullList;
  */
 public class MultiblockComponent extends AbstractTileContainer implements IMultiblockable<MultiblockComponent> {
 
-	private IMasterBlock<MultiblockController> masterBlock;
+    private IMasterBlock<MultiblockController> masterBlock;
 
-	public MultiblockComponent() {
-		super("multiblockComponent");
-	}
+    public MultiblockComponent() {
+        super("multiblockComponent");
+    }
 
-	@Override
-	protected void initContentsArray() {
+    @Override
+    protected void initContentsArray() {
         slots = NonNullList.<ItemStack>withSize(1, ItemStack.EMPTY);
-	}
+    }
 
-	@Override
-	protected void initSlotsArray() {
+    @Override
+    protected void initSlotsArray() {
 
-	}
+    }
 
-	@Override
-	public int getInventoryStackLimit() {
-		return 0x40;
-	}
+    @Override
+    public int getInventoryStackLimit() {
+        return 0x40;
+    }
 
-	@Override
-	public boolean isItemValidForSlot(int slot, ItemStack stack) {
-		return slot == 0 && (slots.get(0) == ItemStack.EMPTY || (stack != ItemStack.EMPTY && slots.get(0).getCount() + stack.getCount() <= slots.get(0).getMaxStackSize()
-                && slots.get(0).isItemEqual(stack)));
-	}
+    @Override
+    public boolean isItemValidForSlot(int slot, ItemStack stack) {
+        return slot == 0 && (slots.get(0) == ItemStack.EMPTY || (stack != ItemStack.EMPTY && slots.get(0).getCount() + stack.getCount() <= slots
+                .get(0).getMaxStackSize() && slots.get(0).isItemEqual(stack)));
+    }
 
-	@Override
-	public int getField(int id) {
-		return 0;
-	}
+    @Override
+    public int getField(int id) {
+        return 0;
+    }
 
-	@Override
-	public void setField(int id, int value) {
-	}
+    @Override
+    public void setField(int id, int value) {
+    }
 
-	@Override
-	public int getFieldCount() {
-		return 0;
-	}
+    @Override
+    public int getFieldCount() {
+        return 0;
+    }
 
-	@Override
-	public int[] getSlotsForFace(EnumFacing side) {
-		return new int[0];
-	}
+    @Override
+    public int[] getSlotsForFace(EnumFacing side) {
+        return new int[0];
+    }
 
-	@Override
-	public boolean canInsertItem(int slot, ItemStack stack, EnumFacing side) {
-		return isItemValidForSlot(slot, stack);
-	}
+    @Override
+    public boolean canInsertItem(int slot, ItemStack stack, EnumFacing side) {
+        return isItemValidForSlot(slot, stack);
+    }
 
-	@Override
-	public boolean canExtractItem(int slot, ItemStack stack, EnumFacing side) {
-		return slot == 0 && slots.get(0) != ItemStack.EMPTY && slots.get(0).getCount() > 0;
-	}
+    @Override
+    public boolean canExtractItem(int slot, ItemStack stack, EnumFacing side) {
+        return slot == 0 && slots.get(0) != ItemStack.EMPTY && slots.get(0).getCount() > 0;
+    }
 
-	@Override
-	public void readNBT(NBTTagCompound comp) {
-		super.readNBT(comp);
+    @Override
+    @SuppressWarnings("unchecked")
+    public void readNBT(NBTTagCompound comp) {
+        super.readNBT(comp);
 
-		final boolean hasMaster = comp.getBoolean("HasMaster");
+        final boolean hasMaster = comp.getBoolean("HasMaster");
 
-		if (hasMaster) {
+        if (hasMaster) {
             final Vector3<Integer> vec = getMaster().getTile().worldVec();
 
             vec.x = comp.getInteger("MasterX");
@@ -92,58 +93,61 @@ public class MultiblockComponent extends AbstractTileContainer implements IMulti
 
             final TileEntity tileEntity = world.getTileEntity(VectorHelper.toBlockPos(vec));
 
-            if (tileEntity != null && tileEntity instanceof IMasterBlock<?>)
+            if (tileEntity != null && tileEntity instanceof IMasterBlock<?>) {
                 setMaster((IMasterBlock<MultiblockController>) tileEntity);
+                ((IMasterBlock<MultiblockController>) tileEntity).addChild(this);
+            }
         }
-	}
+    }
 
-	@Override
+    @Override
+    @SuppressWarnings("unchecked")
     public void saveNBT(NBTTagCompound comp) {
-	    super.saveNBT(comp);
+        super.saveNBT(comp);
 
-	    final boolean hasMaster = getMaster() != null;
-	    comp.setBoolean("HasMaster", hasMaster);
+        final boolean hasMaster = getMaster() != null;
+        comp.setBoolean("HasMaster", hasMaster);
 
-	    if (hasMaster) {
-	        final Vector3<Integer> vec = getMaster().getTile().worldVec();
+        if (hasMaster) {
+            final Vector3<Integer> vec = getMaster().getTile().worldVec();
 
-	        comp.setInteger("MasterX", vec.x);
+            comp.setInteger("MasterX", vec.x);
             comp.setInteger("MasterY", vec.y);
             comp.setInteger("MasterZ", vec.z);
         }
     }
 
-	@Override
-	public MultiblockComponent getTile() {
-		return this;
-	}
+    @Override
+    public MultiblockComponent getTile() {
+        return this;
+    }
 
-	@Override
-	public boolean canBeMaster() {
-		return false;
-	}
+    @Override
+    public boolean canBeMaster() {
+        return false;
+    }
 
-	@Override
-	public boolean isMaster() {
-		return false;
-	}
+    @Override
+    public boolean isMaster() {
+        return false;
+    }
 
     @Override
     @SuppressWarnings("unchecked")
-	public void setMaster(IMasterBlock<?> tile) {
-	    masterBlock = (IMasterBlock<MultiblockController>) tile;
-	}
+    public void setMaster(IMasterBlock<?> tile) {
+        masterBlock = (IMasterBlock<MultiblockController>) tile;
+    }
 
-	@Override
+    @Override
     @SuppressWarnings("unchecked")
-	public IMasterBlock<MultiblockController> getMaster() {
-		return masterBlock;
-	}
+    public IMasterBlock<MultiblockController> getMaster() {
+        return masterBlock;
+    }
 
-	@Override
-	public int getRequiredAmount() {
-		return 8;
-	}
+    @Override
+    public int getRequiredAmount() {
+        return 8;
+    }
 
     @Override
     public void updateState(EnumMultiblockState multiblockState) {

@@ -5,9 +5,7 @@ import com.hockeyhurd.hcorelib.api.math.Vector3;
 import com.hockeyhurd.hcorelib.api.math.VectorHelper;
 import com.hockeyhurd.hcorelib.api.tileentity.AbstractTile;
 import com.hockeyhurd.hcorelib.api.tileentity.multiblock.EnumMultiblockState;
-import com.hockeyhurd.hcorelib.api.tileentity.multiblock.IMultiblockable;
 import com.hockeyhurd.hcorelib.api.util.BlockUtils;
-import com.hockeyhurd.hcorelib.api.util.WorldUtils;
 import com.hockeyhurd.hcorelib.api.util.enums.EnumHarvestLevel;
 import com.hockeyhurd.hcorelib.api.util.interfaces.IStateUpdate;
 import com.hockeyhurd.hcorelib.mod.HCoreLibMain;
@@ -92,14 +90,6 @@ public class BlockMultiblockComponent extends AbstractHCoreBlockContainer implem
 
 	@Override
 	protected void onBlockDestroyed(World world, AbstractTile tileEntity, BlockPos blockPos, IBlockState blockState) {
-		if (!world.isRemote && tileEntity instanceof MultiblockComponent) {
-			final MultiblockComponent tile = (MultiblockComponent) tileEntity;
-
-			if (tile.getMaster() != null) {
-
-            }
-		}
-
 		super.onBlockDestroyedByPlayer(world, blockPos, blockState);
 	}
 
@@ -107,18 +97,6 @@ public class BlockMultiblockComponent extends AbstractHCoreBlockContainer implem
 	@Override
 	public boolean onBlockActivated(World world, BlockPos blockPos, IBlockState blockState, EntityPlayer player, EnumHand hand,
 			EnumFacing sideHit, float hitX, float hitY, float hitZ) {
-
-		if (!world.isRemote) {
-			// HCoreLibMain.logHelper.info("Hand:", hand.name());
-
-			// final MultiblockComponent component = (MultiblockComponent) world.getTileEntity(blockPos);
-			// if (component == null)
-			    // return false;
-
-			// blockState = blockState.withProperty(IS_MULTIBLOCK, hasManager && component.getManager().isCompleteMultiblock());
-			// BlockUtils.setBlock(world, blockPos, blockState);
-			// BlockUtils.updateAndNotifyNeighborsOfBlockUpdate(world, blockPos);
-		}
 
 		return true;
 	}

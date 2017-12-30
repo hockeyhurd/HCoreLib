@@ -1,0 +1,23 @@
+{
+  "group": "hcorelib:forginghammer",
+  "key": {
+    "i": {
+      "ore": "ingotIron",
+      "type": "forge:ore_dict"
+    },
+    "s": {
+      "ore": "stick",
+      "type": "forge:ore_dict"
+    }
+  },
+  "pattern": [
+    "iii",
+    "isi",
+    " s "
+  ],
+  "result": {
+    "count": 1,
+    "item": "hcorelib:forginghammer"
+  },
+  "type": "minecraft:crafting_shaped"
+}

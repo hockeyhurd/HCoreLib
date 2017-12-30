@@ -92,7 +92,7 @@ public final class ModRegistry {
         itemMeasureTape(new ItemMeasureTape("itemMeasureTape")),
         buildersWand(new ItemBuildersWand("buildersWand")),
         wrench(new ItemWrench("wrench")),
-        hammer(new ItemHammer("hammer")),
+        forgingHammer(new ItemHammer("forgingHammer")),
 
         witchHat(new ItemWitchHat(EnumHelper.addArmorMaterial("witchHat", HCoreLibMain.assetDir + ":" + ItemWitchHat.NAME, 100,
                 new int[] { 1, 1, 1, 1 }, 1, SoundEvents.ITEM_ARMOR_EQUIP_IRON, 1.0f), 0, EnumArmorType.HELMET, HCoreLibMain.assetDir));
