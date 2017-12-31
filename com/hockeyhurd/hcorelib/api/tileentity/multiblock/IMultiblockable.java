@@ -6,6 +6,8 @@ import com.hockeyhurd.hcorelib.mod.tileentity.multiblock.MultiblockController;
 /**
  * Interfacing for multiblockable tileentities.
  *
+ * @see AbstractTile
+ *
  * @author hockeyhurd
  * @version 7/13/2016.
  */
@@ -60,6 +62,13 @@ public interface IMultiblockable<T extends AbstractTile> {
      */
     int getRequiredAmount();
 
+    /**
+     * Used to update the state of the multiblock and delegates to the
+     * block's updateState functions.
+     *
+     * @see EnumMultiblockState
+     * @param multiblockState EnumMultiblockState.
+     */
     void updateState(EnumMultiblockState multiblockState);
 
 }

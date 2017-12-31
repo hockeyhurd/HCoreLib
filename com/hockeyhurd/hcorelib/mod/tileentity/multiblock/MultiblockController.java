@@ -27,8 +27,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.Set;
+import java.util.HashSet;
 
 /**
+ * Example implementation of a multiblock structure given a "Controller"
+ * block tile (i.e. this.).
+ *
  * @author hockeyhurd
  * @version 7/13/2016.
  */
@@ -37,11 +42,19 @@ public class MultiblockController extends AbstractTileContainer implements IMast
     private EnumMultiblockState multiblockState;
     private Map<BlockPos, IMultiblockable<?>> childrenComponents;
 
+    protected static Set<Class<? extends IMultiblockable<?>>> validComponents;
+
+    static {
+        validComponents = new HashSet<>();
+
+        validComponents.add(MultiblockComponent.class);
+    }
+
 	public MultiblockController() {
 		super("multiblockController");
 
         multiblockState = EnumMultiblockState.IN_COMPLETE;
-        childrenComponents = new TreeMap<BlockPos, IMultiblockable<?>>();
+        childrenComponents = new TreeMap<>();
 	}
 
 	@Override
@@ -128,6 +141,11 @@ public class MultiblockController extends AbstractTileContainer implements IMast
     }
 
     @Override
+    public Set<Class<? extends IMultiblockable<?>>> getValidComponents() {
+        return validComponents;
+    }
+
+    @Override
     public boolean checkIsCompleteMultiblock() {
 	    for (int x = pos.getX() - 1; x <= pos.getX() + 1; x++) {
             for (int z = pos.getZ() - 1; z <= pos.getZ() + 1; z++) {
@@ -142,8 +160,16 @@ public class MultiblockController extends AbstractTileContainer implements IMast
                     return false;
                 }
 
-                else
-                    childrenComponents.put(blockPos, (IMultiblockable<?>) tileEntity);
+                else {
+                    // childrenComponents.put(blockPos, (IMultiblockable<?>) tileEntity);
+
+                    if (validComponents.contains(tileEntity.getClass()))
+                        childrenComponents.put(blockPos, (IMultiblockable<?>) tileEntity);
+                    else {
+                        multiblockState = EnumMultiblockState.IN_COMPLETE;
+                        return false;
+                    }
+                }
             }
         }
 
@@ -191,8 +217,12 @@ public class MultiblockController extends AbstractTileContainer implements IMast
     }
 
     @Override
+    @SuppressWarnings("SuspiciousMethodCalls")
     public void addChild(IMultiblockable<?> child) {
-        childrenComponents.put(child.getTile().getPos(), child);
+        if (validComponents.contains(child.getClass()))
+            childrenComponents.put(child.getTile().getPos(), child);
+        else
+            HCoreLibMain.logHelper.severe("Attempted to add a child who isn't a valid component!");
     }
 
     @Override

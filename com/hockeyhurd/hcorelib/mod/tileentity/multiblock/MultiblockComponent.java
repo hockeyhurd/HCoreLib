@@ -16,6 +16,9 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.NonNullList;
 
 /**
+ * Example implementation of implementing a child component used in a multiblock
+ * structure in conjointment with a multiblock controller.
+ *
  * @author hockeyhurd
  * @version 8/4/2016.
  */
