@@ -23,6 +23,8 @@ public final class ItemCalculator extends AbstractHCoreItem implements ICraftabl
 
     public ItemCalculator(String name) {
         super(HCoreLibMain.myCreativeTab, HCoreLibMain.assetDir, name);
+
+        setMaxStackSize(1);
     }
 
     @Override

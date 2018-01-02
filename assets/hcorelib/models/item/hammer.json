@@ -1,6 +1,6 @@
 {
     "parent": "item/generated",
     "textures": {
-        "layer0": "hcorelib:items/forginghammer"
+        "layer0": "hcorelib:items/hammer"
     }
 }

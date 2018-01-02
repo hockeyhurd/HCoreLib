@@ -27,18 +27,28 @@ public final class ModModelRegistry {
         // minecraft.getRenderItem().getItemModelMesher().register(ItemUtils.getItem(HCoreLibMain.testBlock), 0,
         //  		new ModelResourceLocation(HCoreLibMain.testBlock.getResourceLocation(), "inventory"));
 
-        if (HCoreLibMain.configHandler.isDebugMode()) {
+        for (ModRegistry.ModBlocks modBlocks : ModRegistry.ModBlocks.values()) {
+            if (!modBlocks.isDebugOnly() || (modBlocks.isDebugOnly() && HCoreLibMain.configHandler.isDebugMode()))
+                ModelRegistry.registerBlock(modBlocks.getBlock());
+        }
+
+        /*if (HCoreLibMain.configHandler.isDebugMode()) {
             ModelRegistry.registerBlock(ModRegistry.ModBlocks.testBlock.getBlock());
             ModelRegistry.registerBlock(ModRegistry.ModBlocks.testTile.getBlock());
             ModelRegistry.registerBlock(ModRegistry.ModBlocks.testTESRTile.getBlock());
             ModelRegistry.registerBlock(ModRegistry.ModBlocks.testFurnace.getBlock());
             ModelRegistry.registerBlock(ModRegistry.ModBlocks.multiblockController.getBlock());
             ModelRegistry.registerBlock(ModRegistry.ModBlocks.multiblockComponent.getBlock());
-        }
+        }*/
     }
 
     private static void registerItems() {
-        ModelRegistry.registerItem(ModRegistry.ModItems.itemCalculator.getItem());
+        for (ModRegistry.ModItems modItems : ModRegistry.ModItems.values()) {
+            if (!modItems.isDebugOnly() || (modItems.isDebugOnly() && HCoreLibMain.configHandler.isDebugMode()))
+                ModelRegistry.registerItem(modItems.getItem());
+        }
+
+        /*ModelRegistry.registerItem(ModRegistry.ModItems.itemCalculator.getItem());
         ModelRegistry.registerItem(ModRegistry.ModItems.itemMeasureTape.getItem());
         ModelRegistry.registerItem(ModRegistry.ModItems.buildersWand.getItem());
         ModelRegistry.registerItem(ModRegistry.ModItems.wrench.getItem());
@@ -47,7 +57,7 @@ public final class ModModelRegistry {
         if (HCoreLibMain.configHandler.isDebugMode()) {
             ModelRegistry.registerItem(ModRegistry.ModItems.testItem.getItem());
             ModelRegistry.registerItem(ModRegistry.ModItems.testMetaItem.getItem());
-        }
+        }*/
     }
 
 }

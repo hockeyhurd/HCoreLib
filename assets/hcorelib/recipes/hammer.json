@@ -1,5 +1,5 @@
 {
-  "group": "hcorelib:forginghammer",
+  "group": "hcorelib:hammer",
   "key": {
     "i": {
       "ore": "ingotIron",
@@ -17,7 +17,7 @@
   ],
   "result": {
     "count": 1,
-    "item": "hcorelib:forginghammer"
+    "item": "hcorelib:hammer"
   },
   "type": "minecraft:crafting_shaped"
 }

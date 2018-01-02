@@ -1,6 +1,7 @@
 package com.hockeyhurd.hcorelib.mod.item;
 
 import com.hockeyhurd.hcorelib.api.handler.RecipePattern;
+import com.hockeyhurd.hcorelib.api.handler.tooltip.ITooltip;
 import com.hockeyhurd.hcorelib.api.item.AbstractHCoreItem;
 import com.hockeyhurd.hcorelib.api.tileentity.multiblock.IMasterBlock;
 import com.hockeyhurd.hcorelib.api.util.BlockUtils;
@@ -15,13 +16,16 @@ import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
+
+import java.util.List;
 
 /**
  * @author hockeyhurd
  * @version 12/28/2017.
  */
-public class ItemHammer extends AbstractHCoreItem implements ICraftableRecipe {
+public class ItemHammer extends AbstractHCoreItem implements ICraftableRecipe, ITooltip<ItemHammer> {
 
     private static RecipePattern[] recipePatterns;
 
@@ -68,5 +72,45 @@ public class ItemHammer extends AbstractHCoreItem implements ICraftableRecipe {
         }
 
         return recipePatterns;
+    }
+
+    @Override
+    public ItemHammer getType() {
+        return this;
+    }
+
+    @Override
+    public boolean isBlock() {
+        return false;
+    }
+
+    @Override
+    public boolean isItem() {
+        return true;
+    }
+
+    @Override
+    public boolean hasShiftInformation() {
+        return true;
+    }
+
+    @Override
+    public boolean hasControlInformation() {
+        return true;
+    }
+
+    @Override
+    public void addInformation(List<String> list, ItemStack itemStack) {
+        list.add(TextFormatting.GREEN + "Hammers multiblocks into order!");
+    }
+
+    @Override
+    public void addShiftInformation(List<String> list, ItemStack itemStack) {
+        list.add(TextFormatting.AQUA + "Stop!!...");
+    }
+
+    @Override
+    public void addControlInformation(List<String> list, ItemStack itemStack) {
+        list.add(TextFormatting.DARK_AQUA +"Hammer time!!");
     }
 }

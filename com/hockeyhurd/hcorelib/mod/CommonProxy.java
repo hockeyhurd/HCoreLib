@@ -118,7 +118,7 @@ public class CommonProxy implements IProxy {
                 pattern.registerRecipe(recipeGen);
         }
 
-        for (RecipePattern pattern : ((ICraftableRecipe) ModRegistry.ModItems.forgingHammer.getItem()).getRecipePatterns()) {
+        for (RecipePattern pattern : ((ICraftableRecipe) ModRegistry.ModItems.hammer.getItem()).getRecipePatterns()) {
             if (pattern != null)
                 pattern.registerRecipe(recipeGen);
         }
