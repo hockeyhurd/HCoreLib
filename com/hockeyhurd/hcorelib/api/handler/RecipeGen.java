@@ -4,12 +4,15 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.hockeyhurd.hcorelib.mod.HCoreLibMain;
 import net.minecraft.block.Block;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
@@ -36,6 +39,9 @@ public class RecipeGen {
             if(!result)
                 throw new IllegalStateException("Cannot create recipe output dir!");
         }
+
+        /*addShapelessRecipe(new RecipePattern("xy", "", "", false).addAssociation('x', "ingotIron").addAssociation('y', "ingotGold").setResultStack(
+                new ItemStack(Items.DIAMOND, 1)));*/
     }
 
     public void addShapedRecipe(final RecipePattern pattern) {
@@ -72,7 +78,34 @@ public class RecipeGen {
     }
 
     public void addShapelessRecipe(final RecipePattern pattern) {
+        final Map<String, Object> json = new TreeMap<>();
 
+        json.put("type", "minecraft:crafting_shapeless");
+
+        // fill ingredients section.
+        getIngredientsList(pattern.getAssociativeMap(), json);
+
+        // fill result section.
+        getResultMap(pattern.getResultStack(), json);
+
+        final String suffix = pattern.getResultStack().getItem().getHasSubtypes() ? "_" + pattern.getResultStack().getItemDamage() : "";
+        String fileName = pattern.getResultStack().getItem().getRegistryName().getResourcePath() + suffix + ".json";
+        File outputJsonFile = new File(RECIPE_DIRECTORY, fileName);
+        // File outputJsonFile;
+
+        while (outputJsonFile.exists()) {
+            // fileName += "_alt";
+            fileName = fileName.substring(0, fileName.length() - ".json".length()) + "_alt.json";
+            outputJsonFile = new File(RECIPE_DIRECTORY, fileName);
+        }
+
+        try (FileWriter fileWriter = new FileWriter(outputJsonFile)) {
+            GSON_BUILDER.toJson(json, fileWriter);
+        }
+
+        catch (IOException e) {
+            HCoreLibMain.logHelper.severe("Failed to write JSON", e);
+        }
     }
 
     private static Map<String, Object> getKeyMap(Map<Character, Object> associativeMap, Map<String, Object> json) {
@@ -111,11 +144,49 @@ public class RecipeGen {
         return keyMap;
     }
 
+    private static List<Map<String, Object>> getIngredientsList(Map<Character, Object> associativeMap, Map<String, Object> json) {
+        final List<Map<String, Object>> ingredients = new ArrayList<>();
+
+        for (Entry<Character, Object> entry : associativeMap.entrySet()) {
+            final Map<String, Object> innerMapping = new TreeMap<String, Object>();
+
+            // Is ore dictionary.
+            if (entry.getValue() instanceof String) {
+                innerMapping.put("type", "forge:ore_dict");
+                innerMapping.put("ore", entry.getValue());
+            }
+
+            // Is block.
+            else if (entry.getValue() instanceof Block) {
+                innerMapping.put("item", ((Block) entry.getValue()).getRegistryName().toString());
+            }
+
+            // Is item.
+            else if (entry.getValue() instanceof Item) {
+                innerMapping.put("item", ((Item) entry.getValue()).getRegistryName().toString());
+            }
+
+            // Else can't figure out what it is!!
+            else {
+                HCoreLibMain.logHelper.severe("Can't inject data into keymap!", entry.getValue() != null ? entry.getValue() : "<null>");
+                return null;
+            }
+
+            ingredients.add(innerMapping);
+        }
+
+        json.put("ingredients", ingredients);
+
+        return ingredients;
+    }
+
     private static Map<String, Object> getResultMap(ItemStack resultStack, Map<String, Object> json) {
         final Map<String, Object> resultMap = new TreeMap<String, Object>();
 
         resultMap.put("item", resultStack.getItem().getRegistryName().toString());
         resultMap.put("count", resultStack.getCount());
+        resultMap.put("data", resultStack.getMetadata());
+
         json.put("result", resultMap);
 
         return resultMap;

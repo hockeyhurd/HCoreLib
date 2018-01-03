@@ -14,7 +14,7 @@ import com.hockeyhurd.hcorelib.api.util.AbstractReference;
 public class LibReference extends AbstractReference {
 
 	/** Current build number. */
-	public static final int BUILD = 2;
+	public static final int BUILD = 3;
 
 	/** Current Subversion */
 	public static final int SUB_VERSION = 3;
@@ -26,7 +26,7 @@ public class LibReference extends AbstractReference {
 	public static final String VERSION = "v" + MAJOR_VERSION + '.' + SUB_VERSION + '.' + BUILD;
 
 	/** Current Minecraft version. */
-	public static final String MINECRAFT_VERSION = "[1.12]";
+	public static final String MINECRAFT_VERSION = "[1.12.2]";
 
 	/** Current mod name. */
 	public static final String MOD_NAME = "HCoreLib";
