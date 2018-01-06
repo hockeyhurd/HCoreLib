@@ -6,6 +6,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 
+import javax.annotation.Nonnull;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
@@ -23,12 +24,12 @@ public class RecipePattern {
     private boolean shapedRecipe;
     private ItemStack resultStack;
     private String[] pattern;
-    private Map<Character, Object> associativeMap;
+    private Map<Character, PatternObject> associativeMap;
 
     protected RecipePattern() {
         shapedRecipe = true;
         pattern = new String[3];
-        associativeMap = new TreeMap<Character, Object>();
+        associativeMap = new TreeMap<Character, PatternObject>();
     }
 
     /**
@@ -48,7 +49,7 @@ public class RecipePattern {
         pattern[1] = middle != null ? middle : EMPTY_ROW;
         pattern[2] = bottom != null ? bottom : EMPTY_ROW;
 
-        associativeMap = new TreeMap<Character, Object>();
+        associativeMap = new TreeMap<Character, PatternObject>();
     }
 
     /**
@@ -64,7 +65,7 @@ public class RecipePattern {
         for (int i = 0; i < pattern.length; i++)
             pattern[i] = other.pattern[i];
 
-        associativeMap = new TreeMap<Character, Object>();
+        associativeMap = new TreeMap<Character, PatternObject>();
     }
 
     /**
@@ -88,7 +89,7 @@ public class RecipePattern {
         return pattern;
     }
 
-    public Map<Character, Object> getAssociativeMap() {
+    public Map<Character, PatternObject> getAssociativeMap() {
         return associativeMap;
     }
 
@@ -122,9 +123,38 @@ public class RecipePattern {
      * @param obj Object (Item or Block).
      * @return Recipe pattern instance.
      */
-    public RecipePattern addAssociation(char c, Object obj) {
-        if (obj instanceof String || obj instanceof Item || obj instanceof Block)
-            associativeMap.put(c, obj);
+    public RecipePattern addAssociation(char c, PatternObject obj) {
+        associativeMap.put(c, obj);
+
+        return this;
+    }
+
+    public RecipePattern addAssociation(char c, String obj) {
+        return addAssociation(c, obj, 1, 0);
+    }
+
+    public RecipePattern addAssociation(char c, String obj, int count, int metadata) {
+        associativeMap.put(c, new PatternObject(PatternObject.ObjectType.ORE_DICT, obj, count, metadata));
+
+        return this;
+    }
+
+    public RecipePattern addAssociation(char c, Block block) {
+        return addAssociation(c, block, 1, 0);
+    }
+
+    public RecipePattern addAssociation(char c, Block block, int count, int metadata) {
+        associativeMap.put(c, new PatternObject(PatternObject.ObjectType.BLOCK, block, count, metadata));
+
+        return this;
+    }
+
+    public RecipePattern addAssociation(char c, Item item) {
+        return addAssociation(c, item, 1, 0);
+    }
+
+    public RecipePattern addAssociation(char c, Item item, int count, int metadata) {
+        associativeMap.put(c, new PatternObject(PatternObject.ObjectType.ITEM, item, count, metadata));
 
         return this;
     }
@@ -148,17 +178,6 @@ public class RecipePattern {
      */
     public void registerRecipe(RecipeGen recipeGen) {
         if (validateRecipe()) {
-            Object[] objects = new Object[(associativeMap.size() << 1) + pattern.length];
-
-            int i;
-            for (i = 0; i < pattern.length; i++)
-                objects[i] = pattern[i];
-
-            for (Entry<Character, Object> e : associativeMap.entrySet()) {
-                objects[i++] = e.getKey();
-                objects[i++] = e.getValue();
-            }
-
             if (shapedRecipe)
                 recipeGen.addShapedRecipe(this);
             else
@@ -194,6 +213,60 @@ public class RecipePattern {
 
         // return new ShapelessOreRecipe(resultStack, objects);
         return null;
+    }
+
+    public static class PatternObject {
+
+        public enum ObjectType {
+            INVALID, BLOCK, ITEM, ORE_DICT;
+
+            public static ObjectType decodeType(@Nonnull final Object object) {
+                if (object instanceof String)
+                    return ORE_DICT;
+                else if (object instanceof Block)
+                    return BLOCK;
+                else if (object instanceof Item)
+                    return ITEM;
+
+                return INVALID;
+            }
+        }
+
+        private ObjectType objectType;
+        private Object object;
+        private int count;
+        private int metadata;
+
+        public PatternObject(@Nonnull Object object, int count, int metadata) {
+            this.object = object;
+            this.count = count;
+            this.metadata = metadata;
+
+            this.objectType = ObjectType.decodeType(object);
+        }
+
+        protected PatternObject(ObjectType objectType, Object object, int count, int metadata) {
+            this.objectType = objectType;
+            this.object = object;
+            this.count = count;
+            this.metadata = metadata;
+        }
+
+        public ObjectType getObjectType() {
+            return objectType;
+        }
+
+        public Object getObject() {
+            return object;
+        }
+
+        public int getCount() {
+            return count;
+        }
+
+        public int getMetadata() {
+            return metadata;
+        }
     }
 
 }

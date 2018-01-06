@@ -1,10 +1,11 @@
 package com.hockeyhurd.hcorelib.api.handler;
 
+import static com.hockeyhurd.hcorelib.api.handler.RecipePattern.PatternObject;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.hockeyhurd.hcorelib.mod.HCoreLibMain;
 import net.minecraft.block.Block;
-import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
@@ -108,33 +109,36 @@ public class RecipeGen {
         }
     }
 
-    private static Map<String, Object> getKeyMap(Map<Character, Object> associativeMap, Map<String, Object> json) {
+    private static Map<String, Object> getKeyMap(Map<Character, PatternObject> associativeMap, Map<String, Object> json) {
         final Map<String, Object> keyMap = new TreeMap<String, Object>();
 
-        for (Entry<Character, Object> entry : associativeMap.entrySet()) {
+        for (Entry<Character, PatternObject> entry : associativeMap.entrySet()) {
             final Map<String, Object> innerMapping = new TreeMap<String, Object>();
+            final PatternObject patternObject = entry.getValue();
 
-            // Is ore dictionary.
-            if (entry.getValue() instanceof String) {
-                innerMapping.put("type", "forge:ore_dict");
-                innerMapping.put("ore", entry.getValue());
+            switch (patternObject.getObjectType()) {
+                case BLOCK:
+                    innerMapping.put("item", ((Block) patternObject.getObject()).getRegistryName().toString());
+                    break;
+
+                case ITEM:
+                    innerMapping.put("item", ((Item) patternObject.getObject()).getRegistryName().toString());
+                    break;
+
+                case ORE_DICT:
+                    innerMapping.put("type", "forge:ore_dict");
+                    innerMapping.put("ore", (String) patternObject.getObject());
+                    break;
+
+                default:
+                    HCoreLibMain.logHelper.severe("Can't inject data into keymap!", patternObject != null ? patternObject : "<null>");
+                    return null;
             }
 
-            // Is block.
-            else if (entry.getValue() instanceof Block) {
-                innerMapping.put("item", ((Block) entry.getValue()).getRegistryName().toString());
-            }
-
-            // Is item.
-            else if (entry.getValue() instanceof Item) {
-                innerMapping.put("item", ((Item) entry.getValue()).getRegistryName().toString());
-            }
-
-            // Else can't figure out what it is!!
-            else {
-                HCoreLibMain.logHelper.severe("Can't inject data into keymap!", entry.getValue() != null ? entry.getValue() : "<null>");
-                return null;
-            }
+            if (patternObject.getCount() > 1)
+                innerMapping.put("count", patternObject.getCount());
+            if (patternObject.getMetadata() > 0)
+                innerMapping.put("data", patternObject.getMetadata());
 
             keyMap.put(entry.getKey().toString(), innerMapping);
         }
@@ -144,33 +148,36 @@ public class RecipeGen {
         return keyMap;
     }
 
-    private static List<Map<String, Object>> getIngredientsList(Map<Character, Object> associativeMap, Map<String, Object> json) {
+    private static List<Map<String, Object>> getIngredientsList(Map<Character, PatternObject> associativeMap, Map<String, Object> json) {
         final List<Map<String, Object>> ingredients = new ArrayList<>();
 
-        for (Entry<Character, Object> entry : associativeMap.entrySet()) {
+        for (Entry<Character, PatternObject> entry : associativeMap.entrySet()) {
             final Map<String, Object> innerMapping = new TreeMap<String, Object>();
+            final PatternObject patternObject = entry.getValue();
 
-            // Is ore dictionary.
-            if (entry.getValue() instanceof String) {
-                innerMapping.put("type", "forge:ore_dict");
-                innerMapping.put("ore", entry.getValue());
+            switch (patternObject.getObjectType()) {
+                case BLOCK:
+                    innerMapping.put("item", ((Block) patternObject.getObject()).getRegistryName().toString());
+                    break;
+
+                case ITEM:
+                    innerMapping.put("item", ((Item) patternObject.getObject()).getRegistryName().toString());
+                    break;
+
+                case ORE_DICT:
+                    innerMapping.put("type", "forge:ore_dict");
+                    innerMapping.put("ore", (String) patternObject.getObject());
+                    break;
+
+                default:
+                    HCoreLibMain.logHelper.severe("Can't inject data into keymap!", patternObject != null ? patternObject : "<null>");
+                    return null;
             }
 
-            // Is block.
-            else if (entry.getValue() instanceof Block) {
-                innerMapping.put("item", ((Block) entry.getValue()).getRegistryName().toString());
-            }
-
-            // Is item.
-            else if (entry.getValue() instanceof Item) {
-                innerMapping.put("item", ((Item) entry.getValue()).getRegistryName().toString());
-            }
-
-            // Else can't figure out what it is!!
-            else {
-                HCoreLibMain.logHelper.severe("Can't inject data into keymap!", entry.getValue() != null ? entry.getValue() : "<null>");
-                return null;
-            }
+            if (patternObject.getCount() > 1)
+                innerMapping.put("count", patternObject.getCount());
+            if (patternObject.getMetadata() > 0)
+                innerMapping.put("data", patternObject.getMetadata());
 
             ingredients.add(innerMapping);
         }
