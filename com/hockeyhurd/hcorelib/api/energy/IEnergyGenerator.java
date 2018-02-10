@@ -12,7 +12,7 @@ public interface IEnergyGenerator extends IEnergyContainer {
     void defineSource();
 
     /** Getter function for getting the source of power defined. */
-    Source getSource();
+    PowerSource getSource();
 
     /** Method used for power generation */
     void generatePower();

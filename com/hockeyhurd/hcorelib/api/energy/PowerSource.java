@@ -6,7 +6,7 @@ package com.hockeyhurd.hcorelib.api.energy;
  * @author hockeyhurd
  * @version Oct 19, 2014
  */
-public class Source {
+public class PowerSource {
 
     private EnumType type;
     private int packetSize;
@@ -17,7 +17,7 @@ public class Source {
      * @param type = type of energy source.
      * @param modifier =
      */
-    public Source(EnumType type, float modifier) {
+    public PowerSource(EnumType type, float modifier) {
         this.type = type;
         this.modifier = modifier;
         this.packetSize = (int) Math.round(type.getSize() * modifier);
@@ -27,7 +27,7 @@ public class Source {
      * Alternative constructor with no modifier.
      * @param type = type of energy source.
      */
-    public Source(EnumType type) {
+    public PowerSource(EnumType type) {
         this.type = type;
         this.packetSize = type.getSize();
         this.modifier = 1.0f;
@@ -39,7 +39,7 @@ public class Source {
      * @param size = size of said source per tick.
      * @param modifier = modifier value if applicable.
      */
-    public Source(String sourceName, int size, float modifier) {
+    public PowerSource(String sourceName, int size, float modifier) {
         this.type = EnumType.OTHER;
         this.modifier = modifier;
         this.type.setName(sourceName);
@@ -53,7 +53,7 @@ public class Source {
      * @param sourceName = name of source.
      * @param size = size of said source per tick.
      */
-    public Source(String sourceName, int size) {
+    public PowerSource(String sourceName, int size) {
         this(sourceName, size, 1.0f);
     }
 
