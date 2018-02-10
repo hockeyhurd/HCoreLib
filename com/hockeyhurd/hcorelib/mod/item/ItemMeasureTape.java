@@ -49,7 +49,7 @@ public final class ItemMeasureTape extends AbstractHCoreItem implements ICraftab
     /**
      * Called when a Block is right-clicked with this Item
      */
-    public EnumActionResult onItemUse(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumHand hand,
+    public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand,
                                       EnumFacing facing, float hitX, float hitY, float hitZ) {
 
         if (!world.isRemote) {
@@ -57,6 +57,7 @@ public final class ItemMeasureTape extends AbstractHCoreItem implements ICraftab
             player.sendMessage(ChatUtils.createComponent("Set: " + vec.toString()));
 
             NBTTagCompound comp = null;
+            final ItemStack stack = player.getHeldItem(hand);
 
             if (!stack.hasTagCompound()) {
                 comp = new NBTTagCompound();
