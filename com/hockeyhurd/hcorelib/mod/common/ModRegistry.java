@@ -5,13 +5,21 @@ import com.hockeyhurd.hcorelib.api.item.IHItem;
 import com.hockeyhurd.hcorelib.api.util.enums.EnumArmorType;
 import com.hockeyhurd.hcorelib.mod.HCoreLibMain;
 import com.hockeyhurd.hcorelib.mod.LibReference;
+import com.hockeyhurd.hcorelib.mod.block.BlockAndGate;
 import com.hockeyhurd.hcorelib.mod.block.TestBlock;
 import com.hockeyhurd.hcorelib.mod.block.TestFurnace;
 import com.hockeyhurd.hcorelib.mod.block.TestTESRTile;
 import com.hockeyhurd.hcorelib.mod.block.TestTile;
 import com.hockeyhurd.hcorelib.mod.block.multiblock.BlockMultiblockComponent;
 import com.hockeyhurd.hcorelib.mod.block.multiblock.BlockMultiblockController;
-import com.hockeyhurd.hcorelib.mod.item.*;
+import com.hockeyhurd.hcorelib.mod.item.ItemBuildersWand;
+import com.hockeyhurd.hcorelib.mod.item.ItemCalculator;
+import com.hockeyhurd.hcorelib.mod.item.ItemHammer;
+import com.hockeyhurd.hcorelib.mod.item.ItemMeasureTape;
+import com.hockeyhurd.hcorelib.mod.item.ItemWitchHat;
+import com.hockeyhurd.hcorelib.mod.item.ItemWrench;
+import com.hockeyhurd.hcorelib.mod.item.TestItem;
+import com.hockeyhurd.hcorelib.mod.item.TestMetaItem;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.SoundEvents;
@@ -43,7 +51,8 @@ public final class ModRegistry {
         testTESRTile(new TestTESRTile(), true, true),
         testFurnace(new TestFurnace(), true, true),
         multiblockController(new BlockMultiblockController(Material.ROCK, "multiblockController"), true),
-        multiblockComponent(new BlockMultiblockComponent(Material.ROCK, "multiblockComponent"), true);
+        multiblockComponent(new BlockMultiblockComponent(Material.ROCK, "multiblockComponent"), true),
+        andGateTile(new BlockAndGate(Material.CIRCUITS, "andGate"), true, true);
 
         private IHBlock block;
         private boolean isTE;

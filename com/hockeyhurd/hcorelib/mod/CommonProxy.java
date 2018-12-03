@@ -1,11 +1,15 @@
 package com.hockeyhurd.hcorelib.mod;
 
-import com.hockeyhurd.hcorelib.api.handler.*;
+import com.hockeyhurd.hcorelib.api.handler.NotifyPlayerOnJoinHandler;
+import com.hockeyhurd.hcorelib.api.handler.RecipeGen;
+import com.hockeyhurd.hcorelib.api.handler.RecipePattern;
+import com.hockeyhurd.hcorelib.api.handler.UpdateHandler;
 import com.hockeyhurd.hcorelib.api.util.interfaces.ICraftableRecipe;
 import com.hockeyhurd.hcorelib.api.util.interfaces.IProxy;
 import com.hockeyhurd.hcorelib.mod.common.ModRegistry;
 import com.hockeyhurd.hcorelib.mod.handler.GuiHandler;
 import com.hockeyhurd.hcorelib.mod.handler.packet.PacketHandler;
+import com.hockeyhurd.hcorelib.mod.tileentity.TileAndGate;
 import com.hockeyhurd.hcorelib.mod.tileentity.TileEntityRegistry;
 import com.hockeyhurd.hcorelib.mod.tileentity.TileEntityTESRTest;
 import com.hockeyhurd.hcorelib.mod.tileentity.TileEntityTest;
@@ -94,6 +98,7 @@ public class CommonProxy implements IProxy {
         inst.registerTileEntity(TileFurnace.class, "testFurnaceTile");
         inst.registerTileEntity(MultiblockController.class, "multiblockController");
         inst.registerTileEntity(MultiblockComponent.class, "multiblockComponent");
+        inst.registerTileEntity(TileAndGate.class, "gateAnd");
 
         // GameRegistry.registerTileEntity(TileEntityTest.class, "testTile");
         // GameRegistry.registerTileEntity(TileEntityTESRTest.class, "testTESRTile");

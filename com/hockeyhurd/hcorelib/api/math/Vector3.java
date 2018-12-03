@@ -101,6 +101,70 @@ public class Vector3<N> {
 		
 		return this;
 	}
+
+	/*public <T extends Number> T getMagnitude() {
+		double xx = ((Number) x).doubleValue();
+		double yy = ((Number) y).doubleValue();
+		double zz = ((Number) z).doubleValue();
+
+		return (T) Math.sqrt(xx * xx + yy * yy + zz * zz);
+	}*/
+
+	public Vector3<Integer> getNormalInteger(final Vector3<Integer> other) {
+		int xx = ((Number) x).intValue();
+		int yy = ((Number) y).intValue();
+		int zz = ((Number) z).intValue();
+
+		int xx2 = ((Number) other.x).intValue();
+		int yy2 = ((Number) other.y).intValue();
+		int zz2 = ((Number) other.z).intValue();
+
+		Vector3<Integer> ret = new Vector3<Integer>(yy - zz2 - yy2 * zz, -(xx * zz2 - xx2 * zz), xx * yy2 - xx2 * yy);
+
+		return ret;
+	}
+
+	public Vector3<Long> getNormalLong(final Vector3<Long> other) {
+		long xx = ((Number) x).longValue();
+		long yy = ((Number) y).longValue();
+		long zz = ((Number) z).longValue();
+
+		long xx2 = ((Number) other.x).longValue();
+		long yy2 = ((Number) other.y).longValue();
+		long zz2 = ((Number) other.z).longValue();
+
+		Vector3<Long> ret = new Vector3<Long>(yy - zz2 - yy2 * zz, -(xx * zz2 - xx2 * zz), xx * yy2 - xx2 * yy);
+
+		return ret;
+	}
+
+	public Vector3<Float> getNormalFloat(final Vector3<Float> other) {
+		float xx = ((Number) x).floatValue();
+		float yy = ((Number) y).floatValue();
+		float zz = ((Number) z).floatValue();
+
+		float xx2 = ((Number) other.x).floatValue();
+		float yy2 = ((Number) other.y).floatValue();
+		float zz2 = ((Number) other.z).floatValue();
+
+		Vector3<Float> ret = new Vector3<Float>(yy - zz2 - yy2 * zz, -(xx * zz2 - xx2 * zz), xx * yy2 - xx2 * yy);
+
+		return ret;
+	}
+
+	public Vector3<Double> getNormalDouble(final Vector3<Double> other) {
+		double xx = ((Number) x).doubleValue();
+		double yy = ((Number) y).doubleValue();
+		double zz = ((Number) z).doubleValue();
+
+		double xx2 = ((Number) other.x).doubleValue();
+		double yy2 = ((Number) other.y).doubleValue();
+		double zz2 = ((Number) other.z).doubleValue();
+
+		Vector3<Double> ret = new Vector3<Double>(yy - zz2 - yy2 * zz, -(xx * zz2 - xx2 * zz), xx * yy2 - xx2 * yy);
+
+		return ret;
+	}
 	
 	/**
 	 * Gets the difference net difference of each individual element.
